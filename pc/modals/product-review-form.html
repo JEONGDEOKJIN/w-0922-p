@@ -1,0 +1,177 @@
+<div class="product-review-form-modal__content">
+    <div class="product-review-form" shopby-layer-modal-helper-key="product-review-form">
+        <div class="board-form">
+            <product-review-form>
+                <script type="text/x-handlebars-template">
+                    <div class='board-form__container'>
+                        <div class='thumb-item board-form__product-item-witch-button' shopby-product-no='{{productNo}}' slot='productNo'>
+                            {{#if productNo}}
+                                <div class='board-form__product-item'>
+                                    <div class='product-item__image'>
+                                        {{img imageUrl 100 100 productName}}
+                                    </div>
+
+                                    <div class='product-item__info'>
+                                        <p class='font-noto product-item__name'>
+                                            {{productName}}
+                                        </p>
+                                        <section class='product-item__option'>
+                                            {{#if orderedOption}}
+                                                {{#if orderedOption.optionUsed}}
+                                                    <span>
+                                                        {{orderedOption.optionName}}:{{orderedOption.optionValue}}
+                                                    </span>
+                                                {{/if}}
+                                            {{else}}
+                                                {{#ifEqOne true optionUsed usesOption}}
+                                                    <span>
+                                                        {{optionName}}:{{optionValue}}
+                                                    </span>
+                                                {{/ifEqOne}}
+                                            {{/if}}
+                                        </section>
+
+                                        <div class='board-form__product-select-btn-box'>
+                                            <span class='font-noto product-info__order-status'>
+                                                {{orderStatusLabel orderStatusType}}
+                                            </span>
+                                            {{#if useSelectOrderProduct}}
+                                                <button
+                                                    type='button'
+                                                    class='btn btn--fill-dark btn--sm board-form__product-select-btn'
+                                                    shopby-action='SELECT_ORDER_PRODUCT'
+                                                >다른 상품 선택</button>
+                                            {{/if}}
+                                        </div>
+                                    </div>
+                                </div>
+                            {{else}}
+                                <label class='board-form__product-select-label'>
+                                    후기를 작성할 상품을 선택해 주세요.
+                                </label>
+                                <button type='button' class='btn btn--fill-dark btn--sm board-form__product-select-btn' shopby-action='SELECT_ORDER_PRODUCT'>상품
+                                    선택
+                                </button>
+                            {{/if}}
+                        </div>
+
+                        <div>
+                            <div class='board-form__rate'>
+                                <label class='board-form__rate-label'>
+                                    상품은 마음에 드셨나요?
+                                </label>
+                                <button class='rating-star' shopby-on:click='MODIFY_RATING_STAR'>
+                                    <div class="star">
+                                        <span class="board-form__score-star" slot="starSet">
+                                        {{#each starSet}}
+                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20" class="crema_product_reviews_score_star_wrapper__star">
+                                            <linearGradient id="gradient-star">
+                                                <stop class="gradient__star-secondary" offset="73%" />
+                                                <stop class="gradient__star" offset="73%" />
+                                            </linearGradient>
+                                            <defs>
+                                                <path id="star-full" d="M9.53834 1.60996C9.70914 1.19932 10.2909 1.19932 10.4617 1.60996L12.5278 6.57744C12.5998 6.75056 12.7626 6.86885 12.9495 6.88383L18.3123 7.31376C18.7556 7.3493 18.9354 7.90256 18.5976 8.19189L14.5117 11.6919C14.3693 11.8139 14.3071 12.0053 14.3506 12.1876L15.5989 17.4208C15.7021 17.8534 15.2315 18.1954 14.8519 17.9635L10.2606 15.1592C10.1006 15.0615 9.89938 15.0615 9.73937 15.1592L5.14806 17.9635C4.76851 18.1954 4.29788 17.8534 4.40108 17.4208L5.64939 12.1876C5.69289 12.0053 5.6307 11.8139 5.48831 11.6919L1.40241 8.19189C1.06464 7.90256 1.24441 7.3493 1.68773 7.31376L7.05054 6.88383C7.23744 6.86885 7.40024 6.75056 7.47225 6.57744L9.53834 1.60996Z" />
+                                                <path id="star-half" fill="url(#gradient-star)" d="M9.53834 1.60996C9.70914 1.19932 10.2909 1.19932 10.4617 1.60996L12.5278 6.57744C12.5998 6.75056 12.7626 6.86885 12.9495 6.88383L18.3123 7.31376C18.7556 7.3493 18.9354 7.90256 18.5976 8.19189L14.5117 11.6919C14.3693 11.8139 14.3071 12.0053 14.3506 12.1876L15.5989 17.4208C15.7021 17.8534 15.2315 18.1954 14.8519 17.9635L10.2606 15.1592C10.1006 15.0615 9.89938 15.0615 9.73937 15.1592L5.14806 17.9635C4.76851 18.1954 4.29788 17.8534 4.40108 17.4208L5.64939 12.1876C5.69289 12.0053 5.6307 11.8139 5.48831 11.6919L1.40241 8.19189C1.06464 7.90256 1.24441 7.3493 1.68773 7.31376L7.05054 6.88383C7.23744 6.86885 7.40024 6.75056 7.47225 6.57744L9.53834 1.60996Z" />
+                                            </defs>
+                                            <path id="star-empty" d="M9.53834 1.60996C9.70914 1.19932 10.2909 1.19932 10.4617 1.60996L12.5278 6.57744C12.5998 6.75056 12.7626 6.86885 12.9495 6.88383L18.3123 7.31376C18.7556 7.3493 18.9354 7.90256 18.5976 8.19189L14.5117 11.6919C14.3693 11.8139 14.3071 12.0053 14.3506 12.1876L15.5989 17.4208C15.7021 17.8534 15.2315 18.1954 14.8519 17.9635L10.2606 15.1592C10.1006 15.0615 9.89938 15.0615 9.73937 15.1592L5.14806 17.9635C4.76851 18.1954 4.29788 17.8534 4.40108 17.4208L5.64939 12.1876C5.69289 12.0053 5.6307 11.8139 5.48831 11.6919L1.40241 8.19189C1.06464 7.90256 1.24441 7.3493 1.68773 7.31376L7.05054 6.88383C7.23744 6.86885 7.40024 6.75056 7.47225 6.57744L9.53834 1.60996Z" fill="#EAECF0" />
+                                            <use xlink:href="#star-{{.}}"></use>
+                                        </svg>
+                                        {{/each}}
+                                        </span>
+                                    </div>
+                                </button>
+                            </div>
+                            <div class='character-counter'>
+                                <textarea
+                                    class='text-area'
+                                    name='content'
+                                    cols='30'
+                                    rows='10'
+                                    maxlength='1000'
+                                    shopby-max='1000'
+                                    placeholder='상품후기를 작성해주세요.'
+                                    shopby-on:input='CHANGE_MY_PRODUCT_REVIEW_CONTENT'
+                                >{{{content}}}</textarea>
+                                <span class='character-counter__status character-counter__status--character'>
+                                    <span class='character-counter__count' slot='content'>
+                                        {{convertToKoreanCurrency content.length}}
+                                    </span>
+                                    <span class='character-counter__limit-count'>
+                                        / 1,000
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </script>
+            </product-review-form>
+
+            <file-attach>
+                <script type="text/x-handlebars-template">
+                    <div>
+                        <div slot='usesAttachment'>
+                            <ul class='article-form article-form__attachments' slot='imagesList'>
+                                {{#each imagesList}}
+                                    <li class='article-form__attachment' shopby-image-url='{{imageUrl}}'>
+                                        {{img imageUrl 92 92 originName '' ''}}
+                                        <button class='btn btn--sm article-form__delete' shopby-action='DELETE_IMAGE_IN_LIST'></button>
+                                    </li>
+                                {{/each}}
+                                <input type='file' hidden multiple accept='image/*' shopby-attach-input='ATTACH_INPUT' shopby-on:change='ATTACH_IMAGE' />
+                                {{#if usesAttachment}}
+                                    <button
+                                        type='button'
+                                        class='btn btn--line-dark btn--sm article-form__attachment-input'
+                                        shopby-on:click='ATTACH_IMAGE'
+                                    ></button>
+                                {{/if}}
+                            </ul>
+                            {{#if usesAttachment}}
+                                <p class='board-form__notice-text'>
+                                    업로드 용량은 5MB 이하로만 가능 합니다.
+                                </p>
+                            {{/if}}
+                        </div>
+                    </div>
+                </script>
+            </file-attach>
+
+            <board-form-button-group>
+                <script type="text/x-handlebars-template">
+                    <div>
+                        <div class='l-btn-group l-btn-group__gap' slot='formBtnGroups'>
+                            <button type='button' class='btn btn--line-dark btn--lg board-form__btn' shopby-action='CANCEL'>
+                                취소
+                            </button>
+                            {{#if isModify}}
+                                <button type='button' class='btn btn--fill-point btn--lg board-form__btn' shopby-action='MODIFY'>
+                                    수정
+                                </button>
+                            {{else}}
+                                <button type='button' class='btn btn--fill-point btn--lg board-form__btn' shopby-action='SUBMIT'>
+                                    등록
+                                </button>
+                            {{/if}}
+                        </div>
+                    </div>
+                </script>
+            </board-form-button-group>
+
+            <product-review-form-notice>
+                <section class="review-accumulation">
+                    <span class="ico ico--p-circle"></span>
+                
+
+                    {{#if boardConfig.expandedReviewConfig.writingReviewNoticeText}}
+                    <dl class="review-accumulation__note">
+                        <dt class="board-form__note-title">유의사항</dt>
+                        <dd class="board-form__note-text">{{boardConfig.expandedReviewConfig.writingReviewNoticeText}}</dd>
+                    </dl>
+                    {{/if}}
+                </section>
+            </product-review-form-notice>
+        </div>
+    </div>
+</div>
+<script src="/modals/product-review-form.js"></script>
+<layer-modal-area type="title" name="select-order-product" src="@modals/select-order-product.html"></layer-modal-area>

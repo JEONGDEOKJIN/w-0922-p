@@ -1,0 +1,173 @@
+<div shopby-layer-modal-helper-key="apply-coupon">
+    <coupon-modal>
+        <div class="coupon-modal">
+            <p class="coupon-modal__top-desc">보유하신 쿠폰 중 적용가능한 쿠폰만 표시됩니다.</p>
+
+            <div class="coupon-modal__details">
+                <div class="coupon-modal__coupon-details">
+                    <section class="coupon-modal__coupon-section">
+                        <div class="coupon-modal__coupon-title">
+                            <p class="coupon-modal__coupon-type">상품 쿠폰</p>
+                            <span class="coupon-modal__coupon-desc">상품쿠폰은 상품당 한 쿠폰만 적용됩니다.</span>
+                        </div>
+
+                        <div slot="products" class="coupon-modal__coupon-wrap">
+                            <div class="coupon-modal__product-coupon-header">
+                                <span>상품명</span>
+                                <span>쿠폰명</span>
+                                <span>할인금액</span>
+                                <span>사용기한</span>
+                            </div>
+                            {{#each products}}
+                            <div class="coupon-modal__coupon-item-row">
+                                <p class="coupon-modal__product-name">{{productName}}</p>
+
+                                <div>
+                                    <label class="form-check form-check--md coupon-modal__controller-item">
+                                        <input
+                                            name="coupon-controller-{{productNo}}"
+                                            type="radio"
+                                            value="0"
+                                            shopby-type="PRODUCT"
+                                            shopby-on:change="CHANGE_RADIO_COUPON"
+                                            shopby-product-no="{{productNo}}"
+                                            shopby-product-issue-no="{{productNo}}-0"
+                                        />
+                                        <span class="form-check__label">선택 없음</span>
+                                    </label>
+
+                                    {{#each productCoupons}}
+                                    <div class="coupon-modal__item-row">
+                                        <label class="form-check form-check--md coupon-modal__controller-item">
+                                            <input
+                                                name="coupon-controller-{{../productNo}}"
+                                                type="radio"
+                                                value="{{couponIssueNo}}"
+                                                shopby-type="PRODUCT"
+                                                shopby-product-no="{{../productNo}}"
+                                                shopby-product-issue-no="{{../productNo}}-{{couponIssueNo}}"
+                                                shopby-on:change="CHANGE_RADIO_COUPON"
+                                            />
+
+                                            <p>
+                                                <span class="form-check__label coupon-modal__product-form-check-label"
+                                                    >{{couponName}} {{#ifCouponWarningNeeded cartCouponUsable skipsAccumulation}}
+                                                    <button
+                                                        type="button"
+                                                        class="coupon-modal__coupon-warning-btn"
+                                                        shopby-cart-coupon-usable="{{cartCouponUsable}}"
+                                                        shopby-skips-accumulation="{{skipsAccumulation}}"
+                                                        shopby-action="SHOW_PRODUCT_COUPON_WARNING_MESSAGE"
+                                                    ></button>
+                                                    {{/ifCouponWarningNeeded}}
+                                                </span>
+
+                                                {{#if displayCouponName}}<br /><span class="coupon-modal__display-coupon-name">{{displayCouponName}}</span
+                                                >{{/if}}
+                                            </p>
+                                        </label>
+
+                                        <strong class="coupon-modal__coupon-amount font-montserrat">- {{convertToKoreanCurrency couponDiscountAmt}}</strong>
+                                        <span class="coupon-modal__date font-montserrat">~{{formatUseByDate useEndYmdt}}</span>
+                                    </div>
+                                    {{/each}}
+                                </div>
+                            </div>
+                            {{/each}}
+                        </div>
+                    </section>
+                    <section class="coupon-modal__coupon-section">
+                        <div class="coupon-modal__coupon-title">
+                            <p class="coupon-modal__coupon-type">장바구니 쿠폰</p>
+                            <span class="coupon-modal__coupon-desc">쿠폰불가 상품 구매 시 사용이 불가합니다. (배송비 제외)</span>
+                        </div>
+
+                        <div class="coupon-modal__coupon-wrap">
+                            <div class="coupon-modal__cart-coupon-header">
+                                <span>쿠폰명</span>
+                                <span>할인금액</span>
+                                <span>사용기한</span>
+                            </div>
+
+                            <div slot="cartCoupons" class="coupon-modal__controller">
+                                <div class="coupon-modal__item-row">
+                                    <label class="form-check form-check--md coupon-modal__controller-item">
+                                        <input
+                                            name="coupon-controller-cart"
+                                            type="radio"
+                                            value="0"
+                                            shopby-type="CART"
+                                            shopby-cart-issue-no="0"
+                                            shopby-on:change="CHANGE_RADIO_COUPON"
+                                        />
+                                        <span class="form-check__label">선택 없음</span>
+                                    </label>
+                                </div>
+                                <div class="coupon-modal__item-row">
+                                    {{#each cartCoupons}}
+                                    <label class="form-check form-check--md coupon-modal__controller-item">
+                                        <input
+                                            name="coupon-controller-cart"
+                                            type="radio"
+                                            value="{{couponIssueNo}}"
+                                            shopby-cart-issue-no="{{couponIssueNo}}"
+                                            shopby-type="CART"
+                                            shopby-on:change="CHANGE_RADIO_COUPON"
+                                        />
+                                        <span class="form-check__label coupon-modal__cart-form-check-label"
+                                            >{{couponName}} {{#ifCouponWarningNeeded productCouponUsable skipsAccumulation}}
+                                            <button
+                                                type="button"
+                                                class="coupon-modal__coupon-warning-btn"
+                                                shopby-product-coupon-usable="{{productCouponUsable}}"
+                                                shopby-skips-accumulation="{{skipsAccumulation}}"
+                                                shopby-action="SHOW_CART_COUPON_WARNING_MESSAGE"
+                                            ></button>
+                                            {{/ifCouponWarningNeeded}}{{#if displayCouponName}}<br />{{displayCouponName}}{{/if}}
+                                        </span>
+                                    </label>
+                                    <strong class="coupon-modal__coupon-amount font-montserrat">- {{convertToKoreanCurrency couponDiscountAmt}}</strong>
+                                    <span class="coupon-modal__date font-montserrat">~{{formatUseByDate useEndYmdt}}</span>
+                                    {{/each}}
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div class="coupon-modal__summary">
+                        <div class="coupon-modal__summary-item">
+                            <p>상품 쿠폰</p>
+                            <p>
+                                <strong class="font-montserrat" slot="productCouponDiscountAmt">{{convertToKoreanCurrency productCouponDiscountAmt}}</strong> 원
+                            </p>
+                        </div>
+                        <span class="aurora__formula-symbol">+</span>
+                        <div class="coupon-modal__summary-item">
+                            <p>장바구니 쿠폰</p>
+                            <p><strong class="font-montserrat" slot="cartCouponDiscountAmt">{{convertToKoreanCurrency cartCouponDiscountAmt}}</strong> 원</p>
+                        </div>
+                        <span class="aurora__formula-symbol">=</span>
+                        <div class="coupon-modal__summary-item">
+                            <p>할인금액 합계</p>
+                            <p><strong class="font-montserrat highlight" slot="allCouponAmt">{{convertToKoreanCurrency allCouponAmt}}</strong> 원</p>
+                        </div>
+                    </div>
+
+                    <div class="coupon-modal__button-wrapper">
+                        <button type="button" class="btn btn--line-dark btn--lg" shopby-action="CLICK_APPLY_COUPON_CANCEL">취소</button>
+                        <button type="button" class="btn btn--fill-point btn--lg" shopby-action="CLICK_APPLY_COUPON_BTN_FOR_ORDER_SHEET">쿠폰 적용</button>
+                    </div>
+
+                    <h3 class="coupon-modal__caution-list-title">쿠폰할인 유의사항</h3>
+                    <ul class="coupon-modal__caution-list">
+                        <li>상품 쿠폰과 장바구니 쿠폰은 함께 사용할 수 있습니다. 단, 일부 상품은 중복사용이 제외 됩니다.</li>
+                        <li>쿠폰 사용불가 상품은 쿠폰할인 적용이 불가합니다.</li>
+                        <li slot="accumulationName">쿠폰할인 시 구매 {{accumulationName}} 적립이 불가합니다.</li>
+                        <li>PAYCO 전용 쿠폰은 PAYCO 결제만 가능합니다.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </coupon-modal>
+</div>
+<script src="/modals/apply-coupon.js"></script>

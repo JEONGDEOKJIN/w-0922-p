@@ -1,0 +1,132 @@
+<div class="search-zip-code__content" shopby-layer-modal-helper-key="search-zip-code-form">
+    <search-field shopby-module-key="search-field">
+        <script type="text/x-handlebars-template">
+            <div>
+                <div class='search-zip-code__search'>
+                    <span class='search-field'>
+                        <span class='text-field'>
+                            <input
+                                type='text'
+                                placeholder='도로명 + 건물번호, 건물명, 지번'
+                                slot='keyword'
+                                value='{{keyword}}'
+                                shopby-on:change='CHANGE_SEARCH_FIELD_KEYWORD'
+                                shopby-on:keydown='KEYPRESS_SEARCH_FIELD_KEYWORD'
+                            />
+                            <button type='button' class='sprite-image clear-btn' shopby-on:click='CLEAR_INPUT_VALUE'></button>
+                        </span>
+                        <button type='button' class='sprite-image search-btn' shopby-on:click='SEARCH'></button>
+                    </span>
+                    <p class='search-zip-code__search-tip'>
+                        도로명, 건물명, 지번에 대해 통합검색이 가능합니다.
+                    </p>
+                </div>
+                <div class='search-zip-code__items' slot='isSearched'>
+                    {{#unless isSearched}}
+                        <p class='search-zip-code__tip-tit'>
+                            <em class='highlight'>
+                                TIP!
+                            </em>
+                            &nbsp;이렇게 검색해보세요.
+                        </p>
+                        <div>
+                            <ul class='notice notice--align-start'>
+                                <li class='dot dot--l-dark'>
+                                    <span class='notice__content'>
+                                        도로명 + 건물번호
+                                    </span>
+                                    (예: 월드컵로 10길 9)
+                                </li>
+                                <li class='dot dot--l-dark'>
+                                    <span class='notice__content'>지역명 + (동/읍/면/리) + 지번</span>
+                                    (예: 서교동 476-25)
+                                </li>
+                                <li class='dot dot--l-dark'>
+                                    <span class='notice__content'>건물명(아파트명)</span>
+                                    (예: 반포자이아파트)
+                                </li>
+                            </ul>
+                        </div>
+                    {{/unless}}
+                </div>
+            </div>
+        </script>
+    </search-field>
+    <address-list page-number="1" page-size="20" scroll-intro-view="true">
+        <script type="text/x-handlebars-template">
+            <div>
+                <div class='search-zip-code__items' slot="isSearched">
+                    {{#if isSearched}}
+                        <p class='search-zip-code__tip-tit'>
+                            전체 검색 결과&nbsp;
+                            <em class='highlight font-montserrat'>
+                                {{totalCount}}
+                            </em>
+                        </p>
+                        {{#if totalCount}}
+                            <div class='addresses'>
+                                {{#each items}}
+                                    <div class='address' slot='address'>
+                                        <p class='address__zip-code font-montserrat'>
+                                            {{zipCode}}
+                                        </p>
+                                        <dl>
+                                            <div class='address__row'>
+                                                <dt class='address__label'>
+                                                    도로명
+                                                </dt>
+                                                <dd class='address__detail'>
+                                                    {{roadAddress}}
+                                                </dd>
+                                            </div>
+                                            <div class='address__row'>
+                                                <dt class='address__label'>
+                                                    지번
+                                                </dt>
+                                                <dd class='address__detail'>
+                                                    {{jibunAddress}}
+                                                </dd>
+                                            </div>
+                                        </dl>
+                                        <button class='address__btn' shopby-zip-code='{{zipCode}}' shopby-address='{{address}}' shopby-on:click='SELECT_ADDRESS'></button>
+                                    </div>
+                                {{/each}}
+                            </div>
+
+                            <!-- 페이지네이션 -->
+                            <div class='pagination' slot='pagination'>
+                                <button class='sprite-image pagination__btn pagination__btn--double-lt' shopby-pagination="1" shopby-on:click="HANDLE_PAGINATION_CLICK">
+                                </button>
+                                <button class='sprite-image pagination__btn pagination__btn--lt' shopby-pagination="PREV" shopby-on:click="HANDLE_PAGINATION_CLICK">
+                                </button>
+                                {{#each pagination.pages}}
+                                    <button class='pagination__link {{#if isCurrentPage}}is-current{{/if}}' shopby-pagination='{{page}}' shopby-on:click="HANDLE_PAGINATION_CLICK">{{page}}
+                                    </button>
+                                {{/each}}
+                                <button class='sprite-image pagination__btn pagination__btn--rt' shopby-pagination="NEXT" shopby-on:click="HANDLE_PAGINATION_CLICK">
+                                </button>
+                                <button class='sprite-image pagination__btn pagination__btn--double-rt' shopby-pagination="{{pagination.totalPages}}" shopby-on:click="HANDLE_PAGINATION_CLICK">
+                                </button>
+                            </div>
+                            <!-- 페이지네이션 -->
+                        {{else}}
+                        <div slot="isLoading">
+                            {{#if isLoading}}
+                            <div class="loader loader--lg loader--full">
+                                <span class="spinner"></span>
+                            </div>
+                            {{else}}
+                            <div class="notice notice--full">
+                                <span class="sprite-image notice--warning"></span>
+                                <em class="notice__description--center">검색된 결과가 없습니다.<br />검색어에 잘못된 철자가 없는지, 정확한 주소인지 다시 한번 확인해 주세요.</em>
+                            </div>
+                            {{/if}}
+                        </div>
+                        {{/if}}
+                    {{/if}}
+                </div>
+            </div>
+        </script>
+    </address-list>
+</div>
+<script src="/modals/zip-code.js"></script>

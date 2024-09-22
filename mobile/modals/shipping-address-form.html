@@ -1,0 +1,140 @@
+<form class="address-form__content" shopby-layer-modal-helper-key="shipping-address-form">
+    <!-- 배송지 기본정보 -->
+    <my-shipping-address-basic-information>
+        <script type="text/x-handlebars-template">
+            <fieldset class='address-form__fieldset'>
+                <label class='address-form__field-label'>배송지 이름</label>
+                <span class='input-field input-field--sm'>
+                    <input type='text' slot='addressName' value='{{addressName}}' shopby-on:change='CHANGE_ADDRESS_NAME' shopby-max='50' maxlength='50' />
+                </span>
+                <label class='address-form__field-label dot dot--r-must'>받으시는 분</label>
+                <span class='input-field input-field--sm'>
+                    <input
+                        type='text'
+                        slot='receiverName'
+                        value='{{receiverName}}'
+                        shopby-focus-field='receiverName'
+                        shopby-on:change='CHANGE_RECEIVER_NAME'
+                        shopby-max='20'
+                        maxlength='20'
+                    />
+                </span>
+            </fieldset>
+        </script>
+    </my-shipping-address-basic-information>
+    <!-- 배송지 기본정보 -->
+
+    <!-- 배송지 주소 -->
+    <my-shipping-address-address-information>
+        <script type="text/x-handlebars-template">
+            <fieldset class='address-form__fieldset'>
+                <label class='address-form__field-label dot dot--r-must'>
+                    주소
+                </label>
+                <span class='address-form__address-detail'>
+                    <span class='address-form__zip-code-box'>
+                        <span class='input-field input-field--sm is-disabled'>
+                            <input type='text' class='font-montserrat' disabled slot='zipCodeInfo' value='{{zipCode}}' />
+                        </span>
+                        <button
+                            type='button'
+                            class='btn btn--line-dark btn--sm'
+                            shopby-focus-field='zipCode'
+                            shopby-action='SEARCH_SHIPPING_ADDRESS_FORM_ZIP_CODE'
+                        >우편번호 찾기</button>
+                    </span>
+                    <span class='input-field input-field--sm is-disabled'>
+                        <input type='text' disabled slot='zipCodeInfo' value='{{address}}' />
+                    </span>
+                    <span class='input-field input-field--sm address-detail'>
+                        <input
+                            type='text'
+                            slot='detailAddress'
+                            value='{{detailAddress}}'
+                            maxlength='100'
+                            shopby-max='100'
+                            shopby-focus-field='detailAddress'
+                            shopby-on:change='CHANGE_RECEIVER_DETAIL_ADDRESS'
+                        />
+                    </span>
+                </span>
+            </fieldset>
+        </script>
+    </my-shipping-address-address-information>
+    <!-- 배송지 주소 -->
+
+    <!-- 연락처 -->
+    <my-shipping-address-contact-information>
+        <script type="text/x-handlebars-template">
+            <fieldset class='address-form__fieldset'>
+                <label class='address-form__field-label dot dot--r-must'> 휴대폰 번호 </label>
+                <span class='input-field input-field--sm'>
+                    <input
+                        type='text'
+                        placeholder='휴대폰 번호 - 없이 입력'
+                        slot='mobileNumber'
+                        shopby-focus-field='mobileNumber'
+                        value='{{mobileNumber}}'
+                        class='font-montserrat'
+                        shopby-on:input='HANDLE_MOBILE_NO_CHANGE'
+                        shopby-max='11'
+                        maxlength='11'
+                    />
+                </span>
+                <label class='address-form__field-label'> 전화번호 </label>
+                <span class='input-field input-field--sm'>
+                    <input
+                        type='text'
+                        placeholder='전화번호 - 없이 입력'
+                        slot='phoneNumber'
+                        shopby-focus-field='phoneNumber'
+                        value='{{phoneNumber}}'
+                        class='font-montserrat'
+                        shopby-on:input='HANDLE_PHONE_NO_CHANGE'
+                        shopby-max='11'
+                        maxlength='11'
+                    />
+                </span>
+            </fieldset>
+        </script>
+    </my-shipping-address-contact-information>
+    <!-- 연락처 -->
+
+    <!-- 추가정보 -->
+    <my-shipping-address-extra-information>
+        <script type="text/x-handlebars-template">
+            <fieldset class='address-form__fieldset'>
+                <label class='address-form__field-label form-check form-check--sm default-checkbox'>
+                    <input type='checkbox' name='save-as-default' shopby-on:click='SAVE_AS_DEFAULT_ADDRESS' slot='willBeSavedAsDefaultAddress' />
+                    <span class='form-check__label'>기본 배송지로 지정</span>
+                </label>
+            </fieldset>
+        </script>
+    </my-shipping-address-extra-information>
+    <!-- 추가정보 -->
+
+    <my-shipping-address-form-btns>
+        <script type="text/x-handlebars-template">
+            <div class='btn-group'>
+                <button type='button' class='btn btn--line-dark' shopby-action='CANCEL'>
+                    취소
+                </button>
+                {{#if isRegisterMode}}
+                    <button type='submit' class='btn btn--fill-point' shopby-action='SUBMIT'>
+                        등록
+                    </button>
+                {{else}}
+                    <button type='submit' class='btn btn--fill-point' shopby-action='MODIFY'>
+                        수정
+                    </button>
+                {{/if}}
+            </div>
+        </script>
+    </my-shipping-address-form-btns>
+</form>
+
+<!-- 우편번호 찾기 모달 -->
+<layer-modal-area type="title" name="shipping-address-form-zip-code" src="@modals/zip-code.html" title="주소찾기"></layer-modal-area>
+<!-- 우편번호 찾기 모달 -->
+
+<script src="/modals/shipping-address-form.js"></script>

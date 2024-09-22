@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="/shopby-skin-pc.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/sign-up/sign-up-method.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-pc.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+    <body>
+        <!-- 디자인팝업 -->
+        <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+        <!-- 상단 레이아웃 -->
+        <template class="shopby-header" shopby-partials="@partials/common-header.html" shopby-partials-js="@partials/common-header.js"></template>
+        <main class="l-page">
+            <section class="page-content-top">
+                <ol class="page-content-top__path page-content-top__location">
+                    <li><a href="/">HOME</a></li>
+                    &gt;
+                    <li>회원가입</li>
+                    &gt;
+                    <li>가입방법 선택</li>
+                </ol>
+            </section>
+            <div class="sign-up-method" shopby-helper-key="sign-up-method">
+                <p class="sign-up-method__title">회원가입</p>
+                <div class="sign-up-method__link-normal">
+                    <a class="btn btn--fill-point btn--md" href="/pages/sign-up/sign-up-form.html">쇼핑몰 회원가입</a>
+                </div>
+                <open-id-sign-in>
+                    <script type="text/x-handlebars-template">
+                        <div>
+                            <div class='open-id-sign-up' slot='usableProvider'>
+                                {{#if usableProvider}}
+                                    <p class='open-id-sign-up__title'>
+                                        <span>
+                                            간편 회원가입
+                                        </span>
+                                    </p>
+                                    <ul class='open-id-sign-up__list'>
+                                        {{#each usableProvider}}
+                                            <li class='open-id-sign-up__item type-{{this.provider}}'>
+                                                <button
+                                                    class='open-id-sign-up__item--link btn btn--lg'
+                                                    shopby-provider='{{this.provider}}'
+                                                    shopby-action='OPEN_ID_CLICK'
+                                                >
+                                                    <span class='ico ico--{{this.provider}}-28'></span>
+                                                    <span>
+                                                        <strong>{{upperCase this.label}}</strong>
+                                                        아이디로 회원가입
+                                                    </span>
+                                                </button>
+                                            </li>
+                                        {{/each}}
+                                    </ul>
+                                {{/if}}
+                            </div>
+                        </div>
+                    </script>
+                </open-id-sign-in>
+            </div>
+        </main>
+        <!-- 퀵메뉴 (최상단 이동 + 최근 본 상품) -->
+        <template shopby-partials="@partials/quick-menu.html"></template>
+        <!-- 최근 본 상품(오프캔버스) -->
+        <template shopby-partials="@partials/recent-product.html"></template>
+        <!-- 하단 레이아웃 -->
+        <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js"></template>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/pages/sign-up/sign-up-method.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/libs/naver-marketing-config.js"></script>
+    </body>
+</html>

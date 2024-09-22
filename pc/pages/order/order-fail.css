@@ -1,0 +1,21 @@
+@charset "UTF-8";
+/*  결제실패 페이지 스타일 파일입니다. */
+.order-fail__message {
+  margin-top: 68px;
+  line-height: normal;
+}
+.order-fail__message h1 {
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--color-base-black);
+  margin-bottom: 40px;
+}
+.order-fail__message-fail {
+  margin: 20px 0 16px;
+}
+.order-fail__message-fail em {
+  font-size: 20px;
+}
+.order-fail .l-btn-group .btn {
+  width: 248px;
+}

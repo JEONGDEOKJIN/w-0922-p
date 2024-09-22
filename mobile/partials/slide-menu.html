@@ -1,0 +1,178 @@
+<slide-menu>
+    <script type="text/x-handlebars-template">
+        <section class='slide-menu category-nav'>
+            <!-- 슬라이드메뉴 헤더 -->
+            <div class='slide-menu__login-header'>
+                <p slot='offcanvas-header'>
+                    {{#if isSignedIn}}
+                        <a class='slide-menu__login-header-link' href='/pages/my/my-page.html'> MY PAGE </a>
+                        <span class='slide-menu__divide-bar--vertical'></span>
+                        <button class='slide-menu__login-header-link' shopby-action='SIGN_OUT'>LOG OUT</button>
+                    {{else}}
+                        <a class='slide-menu__login-header-link' href='/pages/sign-in/sign-in.html'> LOGIN </a>
+                        <span class='slide-menu__divide-bar--vertical'></span>
+                        <a class='slide-menu__login-header-link' href='/pages/sign-up/sign-up-method.html'> JOIN </a>
+                    {{/if}}
+                </p>
+
+                <button class='category-nav-sign-in__close' shopby-action='CLOSE_SLIDE_MENU'>
+                    <span class='ico ico--x-white-24'></span>
+                </button>
+            </div>
+
+            <div class='category-nav-content'>
+                <!-- 카테고리 -->
+                <div>
+                    <div class='slide-menu__nav-header'>
+                        <em class='slide-menu__nav-heading'>CATEGORY</em>
+                    </div>
+
+                    <nav class='slide-menu__nav-content' slot='offcanvas-product-categories'>
+                        <ul>
+                            {{#each multiLevelCategories}}
+                                <!-- 1차 카테고리 -->
+                                <li class='slide-menu__nav-category-item-wrap'>
+                                    <div
+                                        shopby-category-no='{{categoryNo}}'
+                                        class='slide-menu__nav-category-label-wrap'
+                                        shopby-action='TOGGLE_SLIDE_MENU_CHILD_CATEGORY'
+                                    >
+                                        <a
+                                            class='slide-menu__nav-category-label slide-menu__nav-category-label--one-depth'
+                                            href='/pages/product/product-list.html?categoryNo={{categoryNo}}&depth=1'
+                                        >
+                                            {{label}}
+                                        </a>
+
+                                        {{#if children}}
+                                            <button class='slide-menu__nav-category-open-btn'>
+                                                <span class='ico ico--angle-down-black-24'></span>
+                                            </button>
+                                        {{/if}}
+                                    </div>
+
+                                    {{#if children}}
+                                        <!-- 2차 카테고리 -->
+                                        <ul class='slide-menu__nav-category-wrap' shopby-category-wrap='{{categoryNo}}'>
+                                            {{#each children}}
+                                                <li class='slide-menu__nav-category-item-wrap'>
+                                                    <div
+                                                        shopby-category-no='{{categoryNo}}'
+                                                        class='slide-menu__nav-category-label-wrap'
+                                                        shopby-action='TOGGLE_SLIDE_MENU_CHILD_CATEGORY'
+                                                    >
+                                                        <a
+                                                            class='slide-menu__nav-category-label slide-menu__nav-category-label--two-depth'
+                                                            href='/pages/product/product-list.html?categoryNo={{categoryNo}}&depth=1'
+                                                        >
+                                                            {{label}}
+                                                        </a>
+
+                                                        {{#if children}}
+                                                            <button class='slide-menu__nav-category-open-btn'>
+                                                                <span class='ico ico--angle-down-black-24'></span>
+                                                            </button>
+                                                        {{/if}}
+                                                    </div>
+
+                                                    <!-- 3차 카테고리 -->
+                                                    <ul class='slide-menu__nav-category-wrap' shopby-category-wrap='{{categoryNo}}'>
+                                                        {{#each children}}
+                                                            <li class='slide-menu__nav-category-item-wrap'>
+                                                                <a
+                                                                    href='/pages/product/product-list.html?categoryNo={{categoryNo}}&depth=3'
+                                                                    class='slide-menu__nav-category-label slide-menu__nav-category-label--three-depth'
+                                                                >
+                                                                    <span> {{label}} </span>
+                                                                </a>
+                                                            </li>
+                                                        {{/each}}
+                                                    </ul>
+                                                </li>
+                                            {{/each}}
+                                        </ul>
+                                    {{/if}}
+                                </li>
+                            {{/each}}
+                        </ul>
+                    </nav>
+                </div>
+                <!-- 기획전 -->
+                <div slot='event'>
+                    {{#if hasEvents}}
+                        <div class='slide-menu__nav-header'>
+                            <a class='slide-menu__nav-category-label' href='/pages/event/event-list.html' style='padding: unset;'>
+                                <em class='slide-menu__nav-heading'>
+                                    기획전
+                                </em>
+                            </a>
+                        </div>
+                    {{/if}}
+                </div>
+                <!-- 커뮤니티 -->
+                <div>
+                    <div class='slide-menu__nav-header'>
+                        <em class='slide-menu__nav-heading'> COMMUNITY </em>
+                    </div>
+
+                    <nav slot='offcanvas-cs'>
+                        <ul>
+                            {{#if allBoardConfig.inquiryConfig.used}}
+                                <li class='slide-menu__nav-category-item-wrap'>
+                                    <a
+                                        shopby-action='GO_MY_MENU'
+                                        class='slide-menu__nav-category-label slide-menu__nav-category-label--one-depth'
+                                        href='/pages/my/inquiry-list.html'
+                                    >
+                                        {{{allBoardConfig.inquiryConfig.name}}}
+                                    </a>
+                                </li>
+                            {{/if}}
+                            {{#if allBoardConfig.productInquiryConfig.used}}
+                                <li class='slide-menu__nav-category-item-wrap'>
+                                    <a
+                                        shopby-action='GO_MY_MENU'
+                                        class='slide-menu__nav-category-label slide-menu__nav-category-label--one-depth'
+                                        href='/pages/my/product-inquiry-list.html'
+                                    >
+                                        {{{allBoardConfig.productInquiryConfig.name}}}
+                                    </a>
+                                </li>
+                            {{/if}}
+                            {{#if allBoardConfig.productReviewConfig.used}}
+                                <li class='slide-menu__nav-category-item-wrap'>
+                                    <a
+                                        shopby-action='GO_MY_MENU'
+                                        class='slide-menu__nav-category-label slide-menu__nav-category-label--one-depth'
+                                        href='/pages/my/product-review-list.html'
+                                    >
+                                        {{{allBoardConfig.productReviewConfig.name}}}
+                                    </a>
+                                </li>
+                            {{/if}}
+                            {{#each boardsCategories}}
+                                <li class='slide-menu__nav-category-item-wrap'>
+                                    {{#if boardId}}
+                                        <a
+                                            class='slide-menu__nav-category-label slide-menu__nav-category-label--one-depth'
+                                            href='/pages/board/post-list.html?boardId={{boardId}}'
+                                        >
+                                            {{boardName}}
+                                        </a>
+                                    {{else}}
+                                        <a
+                                            class='slide-menu__nav-category-label slide-menu__nav-category-label--one-depth'
+                                            href='/pages/board/post-list.html?boardNo={{boardNo}}'
+                                        >
+                                            {{boardName}}
+                                        </a>
+                                    {{/if}}
+                                </li>
+                            {{/each}}
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </section>
+    </script>
+</slide-menu>

@@ -1,0 +1,36 @@
+<div shopby-layer-modal-helper-key="dormant-sign-in" class="dormant-sign-in">
+    <div class="notice">
+        <span class="sprite-image notice--warning"></span>
+    </div>
+    <p class="dormant-sign-in__title">장기 미 접속으로 인해 <br />휴면회원 전환 상태입니다.</p>
+    <dormant-sign-in>
+        <div>
+            <div class="dormant-sign-in__callout" slot="dormantMemberInformation">
+                <p>
+                    <span>최초 가입일</span>
+                    {{#ifNe (convertDateFormat dormantMemberInformation.signUpDateTime) ''}}{{convertDateFormat
+                    dormantMemberInformation.signUpDateTime}}{{else}}-{{/ifNe}}
+                </p>
+                <p>
+                    <span>최종 접속일</span>
+                    {{#ifNe (convertDateFormat dormantMemberInformation.lastLoginDateTime) ''}}{{convertDateFormat
+                    dormantMemberInformation.lastLoginDateTime}}{{else}}-{{/ifNe}}
+                </p>
+                <p>
+                    <span>휴면 처리일</span>
+                    {{#ifNe (convertDateFormat dormantMemberInformation.dormantDateTime) ''}}{{convertDateFormat
+                    dormantMemberInformation.dormantDateTime}}{{else}}-{{/ifNe}}
+                </p>
+            </div>
+        </div>
+    </dormant-sign-in>
+    <div class="dormant-sign-in__description">
+        <p>정보통신망법 이용촉진 및 정보보호 등에 관한 법률에 의거하여,<br />장기간 접속하지 않으신 회원님들의 개인정보가 휴면처리 상태입니다.</p>
+        <p>휴면 처리 해제를 원하실 경우 아래 휴면 해제하기 버튼을 클릭해 해제하시기 바랍니다.</p>
+    </div>
+    <div class="dormant-sign-in__button-wrapper">
+        <button class="btn btn--line-dark btn--lg" shopby-action="CANCEL">취소</button>
+        <button class="btn btn--fill-point btn--lg" shopby-action="DORMANT_SIGN_IN">휴면 해제하기</button>
+    </div>
+</div>
+<script src="/modals/dormant-sign-in.js"></script>

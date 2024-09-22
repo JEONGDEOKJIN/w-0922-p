@@ -1,0 +1,63 @@
+<skin-banner>
+    <script type="text/x-handlebars-template">
+        <div>
+            <article shopby-banner-wrap class="skin-banner">
+                <!-- 스켈레톤 -->
+                <div slot="skeleton">
+                    {{#unless isLoaded}}
+                    <div class="skeleton">
+                        <div class="skeleton__media"></div>
+                    </div>
+                    {{/unless}}
+                </div>
+                <!--  -->
+
+                <!-- 슬라이드 배너 -->
+                <div slot="sliderBanner">
+                    {{#if visible}} {{#if isSlider}}
+                    <div shopby-slider class="swiper skin-banner--hero">
+                        <div class="swiper-wrapper">
+                            {{#each images}}
+                            <div class="swiper-slide">
+                                {{#if landingUrl}}
+                                <a
+                                    href="{{landingUrl}}"
+                                    rel="noreferrer"
+                                    target="{{#ifEq openLocationType 'NEW'}}_blank{{else}}_self{{/ifEq}}"
+                                >
+                                    <img loading="lazy" src={{imageUrl}} alt={{description}} class="skin-banner__img" width={{../imageSize.width}} height={{../imageSize.height}} style="width: {{../imageSize.width}}; height: {{../imageSize.height}};" fetchpriority='high'>
+                                </a>
+                                {{else}}
+                                    <img loading="lazy" src={{imageUrl}} alt={{description}} class="skin-banner__img" width={{../imageSize.width}} height={{../imageSize.height}} style="width: {{../imageSize.width}}; height: {{../imageSize.height}};" fetchpriority='high'>
+                                {{/if}}
+                            </div>
+                            {{/each}}
+                        </div>
+
+                        <div shopby-slider-pagination class="swiper-pagination"></div>
+
+                        {{#if slider.usableSlideButton}}
+                        <button shopby-slider-nav-prev class="swiper-button-prev"></button>
+                        <button shopby-slider-nav-next class="swiper-button-next"></button>
+                        {{/if}}
+                    </div>
+
+                    {{/if}} {{/if}}
+                </div>
+
+                <!-- 이미지 배너 -->
+                <div slot="banner">
+                    {{#if visible}} {{#unless isSlider}}
+                    {{#with images.[0]}} {{#if landingUrl}}
+                    <a href="{{landingUrl}}" rel="noreferrer" target="{{#ifEq openLocationType 'NEW'}}_blank{{else}}_self{{/ifEq}}">
+                        {{img imageUrl '' '' description 'skin-banner__img' (append 'width: ' ../imageSize.width ';' 'height: ' ../imageSize.height ';')}}
+                    </a>
+                    {{else}}
+                        {{img imageUrl '' '' description 'skin-banner__img' (append 'width: ' ../imageSize.width ';' 'height: ' ../imageSize.height ';')}}
+                    {{/if}} {{/with}} {{/unless}} {{/if}}
+                </div>
+                <!--  -->
+            </article>
+        </div>
+    </script>
+</skin-banner>

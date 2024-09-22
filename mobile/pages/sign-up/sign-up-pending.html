@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <!-- A2HS -->
+        <link rel="manifest" shopby-manifest-placeholder href="/manifest.json" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+
+        <link rel="apple-touch-icon" href="https://rlyfaazj0.toastcdn.net/20211220/141125.985487000/app_icon(144).png" />
+        <!-- A2HS -->
+
+        <link rel="stylesheet" href="/shopby-skin-mobile.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/sign-up/sign-up-pending.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-mobile.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+    <body>
+        <div shopby-skin-container>
+            <!-- 디자인팝업 -->
+            <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+            <!-- 상단 레이아웃 -->
+            <template
+                class="l-header"
+                shopby-partials="@partials/common-header.html"
+                shopby-partials-js="@partials/common-header.js"
+                shopby-sub-title="회원가입 승인대기"
+                shopby-using-button="hamburger,back"
+                shopby-visible-logo="true"
+            ></template>
+            <main class="l-content">
+                <mall-information>
+                    <script type="text/x-handlebars-template">
+                        <div class='sign-up-pending'>
+                            <div class='notice'>
+                                <span class='sprite-image notice--waiting'></span>
+                            </div>
+                            <p class='sign-up-pending__notice-confirm'>회원가입 승인이 대기 되었습니다.</p>
+                            <span slot='mallInfo' class='sign-up-pending__notice-description'>
+                                {{mallInfo.mall.mallName}}은 회원가입 승인이 필요합니다.<br />
+                                빠른 시일 내에 처리될 수 있도록 노력하겠습니다.<br />
+                                회원탈퇴를 원하실 경우 고객센터로<br />
+                                문의하여 주시기 바랍니다.
+                            </span>
+                            <div class='sign-up-pending__btn-wrap'>
+                                <a class='btn btn--fill-dark btn--lg' href='/'>확인</a>
+                            </div>
+                        </div>
+                    </script>
+                </mall-information>
+            </main>
+            <!-- 하단 레이아웃 -->
+            <template shopby-partials="@partials/slide-menu.html" shopby-partials-js="@partials/slide-menu.js"></template>
+            <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js"></template>
+        </div>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/pages/sign-up/sign-up-pending.js"></script>
+        <script src="/libs/naver-marketing-config.js"></script>
+    </body>
+</html>

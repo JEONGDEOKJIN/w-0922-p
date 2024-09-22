@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <!-- A2HS -->
+        <link rel="manifest" shopby-manifest-placeholder href="/manifest.json" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+
+        <link rel="apple-touch-icon" href="https://rlyfaazj0.toastcdn.net/20211220/141125.985487000/app_icon(144).png" />
+        <!-- A2HS -->
+
+        <link rel="stylesheet" href="/shopby-skin-mobile.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/my/accumulation-list.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-mobile.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+    <body>
+        <div shopby-skin-container>
+            <!-- 디자인팝업 -->
+            <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+            <!-- 상단 레이아웃 -->
+            <template
+                class="l-header"
+                shopby-partials="@partials/common-header.html"
+                shopby-partials-js="@partials/common-header.js"
+                shopby-sub-title="적립금"
+                shopby-using-button="hamburger,back"
+                shopby-visible-logo="false"
+            ></template>
+
+            <main class="l-content">
+                <div class="my-page-accumulation">
+                    <date-type-selector start-ymd:query="startYmd" date-type:query="dateType" shopby-default-type="7d">
+                        <script type="text/x-handlebars-template">
+                            <div class='select select--sm start-ymd-selector my-page-accumulation__period-select'>
+                                <select shopby-on:change='CHANGE_DATE'>
+                                    <option value='td'>
+                                        오늘
+                                    </option>
+                                    <option value='7d'>
+                                        7일
+                                    </option>
+                                    <option value='1m'>
+                                        1개월
+                                    </option>
+                                    <option value='3m'>
+                                        3개월
+                                    </option>
+                                    <option value='1y'>
+                                        1년
+                                    </option>
+                                </select>
+                            </div>
+                        </script>
+                    </date-type-selector>
+
+                    <my-accumulation>
+                        <script type="text/x-handlebars-template">
+                            <div>
+                                <summary class='l-title my-page-accumulation__summary'>
+                                    <span slot='accumulationName'>
+                                        {{accumulationConfig.accumulationName}}
+                                    </span>
+                                    <span class='highlight bold' slot='totalAvailableAmt'>
+                                        {{convertToKoreanCurrency profileAccumulationSummary.totalAvailableAmt}}
+                                    </span>
+                                    <span slot='accumulationUnit'>
+                                        {{#if accumulationConfig.accumulationUnit}}
+                                            {{accumulationConfig.accumulationUnit}}
+                                        {{else}}
+                                            p
+                                        {{/if}}
+                                    </span>
+                                </summary>
+                            </div>
+                        </script>
+                    </my-accumulation>
+
+                    <my-accumulation-list
+                        pair-key="ACCUMULATION_MORE_VIEW_BUTTON"
+                        start-ymd:query="startYmd"
+                        page-size:query="pageSize"
+                        default-page-size="20"
+                        uses-more-button
+                    >
+                        <script type="text/x-handlebars-template">
+                                <div>
+                                    <div slot="accumulationList">
+                                        {{#if totalCount}}
+                                        <ul class="my-page-accumulation__list">
+                                            {{#each items}}
+                                            <li class="my-page-accumulation__item">
+                                                <div class="my-page-accumulation__item-wrap">
+                                                    <span class="font-noto bold">{{reasonDetail}}</span>
+                                                    <span class="my-page-accumulation__accumulation-amount">
+                                                        <span class="bold {{#ifEq accumulationStatusGroupType 'PAYMENT'}}give{{else}}subtraction{{/ifEq}}">
+                                                            {{#ifEq accumulationStatusGroupType 'PAYMENT'}}+{{else}}-{{/ifEq}} {{convertToKoreanCurrency accumulationAmt}}
+                                                        </span>
+                                                        <span class="my-page-accumulation__accumulation-unit">
+                                                            {{#if ../accumulationConfig.accumulationUnit}} {{../accumulationConfig.accumulationUnit}} {{else}} p {{/if}}
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                                <div>
+                                                    <p class="my-page-accumulation__date">
+                                                        {{#ifEq accumulationStatusGroupType 'PAYMENT'}}지급{{else}}차감{{/ifEq}} 일시 : {{registerYmdt}}
+                                                    </p>
+                                                    {{#if expireYmdt}}
+
+
+                                                    <p class="my-page-accumulation__date">
+                                                        <span>{{startYmdt}}</span> ~
+                                                        <span>
+                                                            {{#if isNoExpirationDate}}
+                                                            제한없음
+                                                            {{else}}
+                                                                {{expireYmdt}}
+                                                            {{/if}}
+                                                        </span>
+                                                    </p>
+                                                    {{/if}}
+                                                </div>
+                                            </li>
+                                            {{/each}}
+                                        </ul>
+                                        {{else}}
+                                        <div class="notice notice--full">
+                                            <span class="sprite-image notice--warning"></span>
+                                            <em>{{accumulationConfig.accumulationName}} 조회내역이 없습니다.</em>
+                                        </div>
+                                        {{/if}}
+                                </div>
+                            </div>
+                        </script>
+                    </my-accumulation-list>
+
+                    <more-view-button pair-key="ACCUMULATION_MORE_VIEW_BUTTON">
+                        <script type="text/x-handlebars-template">
+                            <div>
+                                <div slot='hasMoreViewButton'>
+                                    {{#if hasMoreViewButton}}
+                                        <button class='btn btn--line-gray more-view-button' shopby-on:click='MORE_VIEW_BUTTON_CLICK'>
+                                            더보기
+                                        </button>
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </script>
+                    </more-view-button>
+                </div>
+            </main>
+
+            <!-- 하단 레이아웃 -->
+            <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js"></template>
+
+            <!-- 하단바 -->
+            <template shopby-partials="@partials/common-nav.html"></template>
+        </div>
+        <!-- 오프캔버스 -->
+        <template shopby-partials="@partials/slide-menu.html" shopby-partials-js="@partials/slide-menu.js"></template>
+        <!-- 최근 검색 -->
+        <layer-modal-area type="custom" name="search-keyword" src="@modals/search-keyword.html"></layer-modal-area>
+        <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+        <template shopby-partials="@partials/modal.html"></template>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/libs/naver-marketing-config.js"></script>
+    </body>
+</html>

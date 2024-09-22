@@ -1,0 +1,17 @@
+<quick-menu>
+    <script type="text/x-handlebars-template">
+        <div>
+            <div shopby-quick-menu class='quick-menu__container'>
+                <div class='quick-menu' shopby-on:click='OPEN_RECENT_PRODUCT'>
+                    <button class='fab fab--md' slot='recentProductCount'>
+                        <span class='ico ico--clock-rewind-24'></span>
+                        <span class='badge badge--round badge--fill-point quick-menu__link-basket-badge'>{{recentProductCount}}</span>
+                    </button>
+                    <button class='fab fab--md' shopby-on:click='SCROLL_TO_TOP'>
+                        <span class='ico ico--arrow-narrow-up-white-24'></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </script>
+</quick-menu>

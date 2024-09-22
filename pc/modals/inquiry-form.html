@@ -1,0 +1,144 @@
+<div class="personal-inquiry-form-modal__content">
+    <div shopby-layer-modal-helper-key="personal-inquiry-form" class="personal-inquiry-form">
+        <div class="board-form board-form--registration personal-inquiry-form">
+            <p class="font-noto personal-inquiry-form__title">문의유형</p>
+
+            <inquiry-form>
+                <script type="text/x-handlebars-template">
+                    <div class='board-form__container personal-inquiry-form__container'>
+                        <span class='select select--md'>
+                            <select shopby-on:change='SELECT_INQUIRY_TYPE_OPTION' shopby-disabled='{{disabled}}' slot='inquiryTypeSelectOption'>
+                                {{#each inquiryTypeSelectOption.options}}
+                                    <option value='{{value}}'>
+                                        {{label}}
+                                    </option>
+                                {{/each}}
+                            </select>
+                        </span>
+                        <div class='board-form__top' slot='inquiryDetail'>
+                            <div class='character-counter'>
+                                <span class='input-field input-field--md board-form__title'>
+                                    <input
+                                        type='text'
+                                        placeholder='제목을 작성해주세요.'
+                                        shopby-max='50'
+                                        value='{{inquiryDetail.inquiryTitle}}'
+                                        shopby-on:input='CHANGE_PERSONAL_INQUIRY_TITLE'
+                                    />
+                                </span>
+                                <span class='character-counter__status character-counter__status--character'>
+                                    <span class='character-counter__count' slot='inquiryTitleCount'>
+                                        {{convertToKoreanCurrency inquiryTitleCount}}
+                                    </span>
+                                    <span class='character-counter__limit-count'>
+                                        / 50
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class='character-counter' slot='inquiryDetail'>
+                            <textarea
+                                class='text-area'
+                                shopby-max='1000'
+                                placeholder='내용을 작성해주세요.'
+                                shopby-on:input='CHANGE_PERSONAL_INQUIRY_CONTENT'
+                            >{{inquiryDetail.inquiryContent}}</textarea>
+                            <span class='character-counter__status character-counter__status--character'>
+                                <span class='character-counter__count' slot='inquiryContentCount'>
+                                    {{convertToKoreanCurrency inquiryContentCount}}
+                                </span>
+                                <span class='character-counter__limit-count'>
+                                    / 1,000
+                                </span>
+                            </span>
+                            <p class='board-form__notice-text'>해당 글은 비밀글로만 작성이 됩니다.</p>
+                        </div>
+                    </div>
+                </script>
+            </inquiry-form>
+
+            <file-attach>
+                <script type="text/x-handlebars-template">
+                    <div>
+                        <div slot='usesAttachment'>
+                            <ul class='article-form article-form__attachments' slot='imagesList'>
+                                {{#each imagesList}}
+                                    <li class='article-form__attachment' shopby-image-url='{{imageUrl}}'>
+                                        {{img imageUrl 92 92 originName '' ''}}
+                                        <button type='button' class='btn btn--sm article-form__delete' shopby-action='DELETE_IMAGE_IN_LIST'></button>
+                                    </li>
+                                {{/each}}
+                                <input type='file' hidden multiple accept='image/*' shopby-attach-input='ATTACH_INPUT' shopby-on:change='ATTACH_IMAGE' />
+                                {{#if usesAttachment}}
+                                    <button
+                                        type='button'
+                                        class='btn btn--line-dark btn--sm article-form__attachment-input'
+                                        shopby-on:click='ATTACH_IMAGE'
+                                    ></button>
+                                {{/if}}
+                            </ul>
+                            {{#if usesAttachment}}
+                                <p class='board-form__notice-text'>
+                                    업로드 용량은 5MB 이하로만 가능 합니다.
+                                </p>
+                            {{/if}}
+                        </div>
+                    </div>
+                </script>
+            </file-attach>
+
+            <board-notice-reply>
+                <script type="text/x-handlebars-template">
+                    <div>
+                        <div slot='inquiryConfiguration'>
+                            {{#if hasAnswerNotifications}}
+                                <div class='board-form__notice-reply-box'>
+                                    <span>답변등록 알림</span>
+                                    <div class='board-form__notice-reply-checkbox'>
+                                        {{#if hasSmsNotification}}
+                                            <label class='form-check form-check--md'>
+                                                <input type='checkbox' name='sms' shopby-on:change='CHANGE_CHECKBOX_SMS_SEND' />
+                                                <span class='form-check__label'>SMS수신</span>
+                                            </label>
+                                        {{/if}}
+
+                                        {{#if hasEmailNotification}}
+                                            <label class='form-check form-check--md'>
+                                                <input type='checkbox' name='email' shopby-on:change='CHANGE_CHECKBOX_EMAIL_SEND' />
+                                                <span class='form-check__label'>이메일수신</span>
+                                            </label>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                                <p class='board-form__notice-text'>답변등록 시 회원정보에 등록한 휴대폰 번호/이메일로 안내가 발송됩니다.</p>
+
+                            {{/if}}
+                        </div>
+                    </div>
+                </script>
+            </board-notice-reply>
+
+            <board-form-button-group>
+                <script type="text/x-handlebars-template">
+                    <div>
+                        <div class='l-btn-group l-btn-group__gap' slot='formBtnGroups'>
+                            <button type='button' class='btn btn--line-dark btn--lg board-form__btn' shopby-action='CANCEL'>
+                                취소
+                            </button>
+                            {{#if isModify}}
+                                <button type='button' class='btn btn--fill-point btn--lg board-form__btn' shopby-action='MODIFY'>
+                                    수정
+                                </button>
+                            {{else}}
+                                <button type='button' class='btn btn--fill-point btn--lg board-form__btn' shopby-action='SUBMIT'>
+                                    등록
+                                </button>
+                            {{/if}}
+                        </div>
+                    </div>
+                </script>
+            </board-form-button-group>
+        </div>
+    </div>
+</div>
+<script src="/modals/inquiry-form.js"></script>

@@ -1,0 +1,21 @@
+<div shopby-layer-modal-helper-key="product-review-photos">
+    <board-reviews-photos>
+        <script type="text/x-handlebars-template">
+            <div>
+                <div slot='images'>
+                    <div class='product-review-photos'>
+                        {{#each images}}
+                            <div class='product-review-photos__img-box' shopby-review-product-no='{{productNo}}' shopby-review-no='{{reviewNo}}'>
+                                <img src='{{getFirstImageWithDefault urls}}' alt='image' loading='lazy' shopby-action='REVIEW_DETAIL_POPUP' />
+                                {{#ifGt attachedFileCount 1}}
+                                    <span class='product-review-photos__attached-file-count'>{{attachedFileCount}}</span>
+                                {{/ifGt}}
+                            </div>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        </script>
+    </board-reviews-photos>
+</div>
+<script src="/modals/product-review-photos.js"></script>

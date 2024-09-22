@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="/shopby-skin-pc.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/intro/member-only.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-pc.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+    <body>
+        <member-only>
+            <script type="text/x-handlebars-template">
+                <main class='l-page member-only'>
+                    <span class='member-only__img'></span>
+                    <p class='font-noto bold member-only__text'>회원 전용으로 운영되는 쇼핑몰입니다.</p>
+                    <p class='font-noto member-only__description'>로그인/회원가입 후 이용이 가능합니다.</p>
+
+                    {{#unless (isSignedIn)}}
+                        <div class='sign-in-form'>
+                            <template shopby-partials='@partials/sign-in-form.html' shopby-partials-js='@partials/sign-in-form.js'></template>
+                            <template shopby-partials='@partials/open-id-sign-in.html' shopby-partials-js='@partials/open-id-sign-in.js'> </template>
+                        </div>
+                    {{/unless}}
+                </main>
+            </script>
+        </member-only>
+        <script src="/pages/intro/member-only.js"></script>
+    </body>
+</html>

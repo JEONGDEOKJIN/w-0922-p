@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
+        <link rel="stylesheet" href="/shopby-skin-pc.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/my/previous-order-list.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-pc.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+
+    <body>
+        <!-- 디자인팝업 -->
+        <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+        <!-- 상단 레이아웃 -->
+        <template class="shopby-header" shopby-partials="@partials/common-header.html" shopby-partials-js="@partials/common-header.js"></template>
+
+        <main class="l-my-page previous-order-list" shopby-helper-key="previous-order-list-helper-key">
+            <section class="page-content-top">
+                <ol class="page-content-top__path page-content-top__location">
+                    <li><a href="/">HOME</a></li>
+                    &gt;
+                    <li><a href="/pages/my/my-page.html">마이페이지</a></li>
+                    &gt;
+                    <li>이전 주문목록</li>
+                </ol>
+            </section>
+
+            <div class="my-page-box">
+                <template class="l-my-page-menu" shopby-partials="@partials/my-menu.html" shopby-menu-title="이전 주문목록"></template>
+
+                <div class="right-box">
+                    <div class="right-box__container">
+                        <p class="right-box__head">
+                            <span class="right-box__title">이전 주문목록</span>
+                        </p>
+
+                        <!-- 날짜 검색 -->
+                        <date-search start-ymd:query="startYmd" end-ymd:query="endYmd" date-type:query="dateType" shopby-default-type="7d">
+                            <script type="text/x-handlebars-template">
+                                <div class='date-selector'>
+                                    <div class='date-selector__button_box' shopby-date-selector='shopby-date-selector' shopby-on:click='CLICK_DATE'>
+                                        <button class='btn date-selector__select-btn' value='td'>오늘</button>
+                                        <button class='btn date-selector__select-btn' value='7d'>7일</button>
+                                        <button class='btn date-selector__select-btn' value='15d'>15일</button>
+                                        <button class='btn date-selector__select-btn' value='1m'>1개월</button>
+                                        <button class='btn date-selector__select-btn' value='3m'>3개월</button>
+                                    </div>
+                                    <div class='date-selector__date-picker-wrap'>
+                                        <div class='date-selector__date-picker tui-datepicker-input tui-datetime-input tui-has-focus'>
+                                            <input class='font-montserrat' type='text' name='startDate' readonly='readonly' aria-label='Date-Time' />
+                                            <span class='tui-ico-date'></span>
+                                            <div class='start-date-picker'></div>
+                                        </div>
+                                        ~
+                                        <div class='date-selector__date-picker tui-datepicker-input tui-datetime-input tui-has-focus'>
+                                            <input class='font-montserrat' type='text' name='endDate' readonly='readonly' aria-label='Date-Time' />
+                                            <span class='tui-ico-date'></span>
+                                            <div class='end-date-picker'></div>
+                                        </div>
+                                        <button type='button' class='btn btn--fill-dark btn--sm date-picker__search' shopby-action='SEARCH_ORDERS'>조회</button>
+                                    </div>
+                                </div>
+                            </script>
+                        </date-search>
+                        <!-- 날짜 검색 -->
+
+                        <previous-orders-total-count>
+                            <script type="text/x-handlebars-template">
+                                <div class='l-title l-title__align-end right-box__no-end-line'>
+                                    <span class='total-count total-count--md' slot='totalCount'>총&nbsp;<em class='highlight'>{{totalCount}}</em>건</span>
+                                </div>
+                            </script>
+                        </previous-orders-total-count>
+
+                        <!-- 테이블 영역 -->
+                        <previous-orders
+                            default-page-size="20"
+                            page-size:query="pageSize"
+                            page-number:query="pageNumber"
+                            start-ymd:query="startYmd"
+                            end-ymd:query="endYmd"
+                            date-type:query="dateType"
+                        >
+                            <script type="text/x-handlebars-template">
+                                <div>
+                                    <div class="right-box__table" slot="previousOrders">
+                                        <table class="l-table">
+                                            <colgroup>
+                                            <!-- 주문일자(주문번호) -->
+                                            <col width="20%" />
+                                            <!-- 상품 정보 -->
+                                            <col />
+                                            <!-- 주문금액 -->
+                                            <col width="12%" />
+                                            <!-- 상품합계 -->
+                                            <col width="12%" />
+                                            </colgroup>
+
+                                            <thead>
+                                                <tr>
+                                                    <th>주문일자(주문번호)</th>
+                                                    <th>상품 정보</th>
+                                                    <th>주문금액</th>
+                                                    <th>상품합계</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                {{#if contents}}
+                                                    {{#each contents}}
+                                                    <tr class="previous-order">
+                                                        <td>
+                                                            <span class="order-date">{{formatUseByDate orderOptions.0.orderYmdt}}</span>
+                                                            <span class="order-number"><a href="/pages/my/previous-order-detail.html?orderNo={{orderNo}}">{{orderNo}}</a></span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="product-name">{{orderOptions.0.productName}}{{#if orderOptions}}외 {{subtract orderOptions.length 1}}건{{/if}}</span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="currency"><em>{{convertToKoreanCurrency purchasePrice}}</em>원</span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="currency"><em>{{convertToKoreanCurrency salePrice}}</em>원</span>
+                                                        </td>
+                                                    </tr>
+                                                    {{/each}}
+                                                    {{else}}
+                                                    <tr slot="isLoading">
+                                                        <td colspan='4'>
+                                                            {{#if isLoading}}
+                                                            <div class="loader loader--lg loader--full">
+                                                                <span class="spinner"></span>
+                                                            </div>
+                                                            {{else}}
+                                                            <div class='notice notice--full'>
+                                                                <span class='sprite-image notice--warning'>
+                                                                </span>
+                                                                <em>이전 주문 내역이 없습니다.</em>
+                                                            </div>
+                                                            {{/if}}
+                                                        </td>
+                                                    </tr>
+                                                {{/if}}
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <!-- 페이지네이션 -->
+                                    {{#if contents}}
+                                    <div class="pagination" slot="pagination">
+                                        <a href="?{{pagination.firstPage}}">
+                                            <button class="sprite-image pagination__btn pagination__btn--double-lt">
+                                            </button>
+                                        </a>
+                                        <a href="?{{pagination.prevPage}}">
+                                            <button class="sprite-image pagination__btn pagination__btn--lt">
+                                            </button>
+                                        </a>
+                                        {{#each pagination.pages}}
+                                        <a class="pagination__link {{#if isCurrentPage}}is-current{{/if}}" href="?{{param}}">{{page}}</a>
+                                        {{/each}}
+                                        <a href="?{{pagination.nextPage}}">
+                                            <button class="sprite-image pagination__btn pagination__btn--rt">
+                                            </button>
+                                        </a>
+                                        <a href="?{{pagination.lastPage}}">
+                                            <button class="sprite-image pagination__btn pagination__btn--double-rt">
+                                            </button>
+                                        </a>
+                                    </div>
+                                    {{/if}}
+                                    <!-- 페이지네이션 -->
+                                </div>
+                            </script>
+                        </previous-orders>
+                        <!-- 테이블 영역 -->
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 퀵메뉴 (최상단 이동 + 최근 본 상품) -->
+        <template shopby-partials="@partials/quick-menu.html"></template>
+        <!-- 최근 본 상품(오프캔버스) -->
+        <template shopby-partials="@partials/recent-product.html"></template>
+
+        <!-- 하단 레이아웃 -->
+        <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js"></template>
+
+        <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+        <template shopby-partials="@partials/modal.html"></template>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/pages/my/previous-order-list.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/libs/naver-marketing-config.js"></script>
+    </body>
+</html>

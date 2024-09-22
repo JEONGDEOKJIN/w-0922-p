@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="/shopby-skin-pc.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/service/company-introduce.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-pc.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+    <body>
+        <!-- 디자인팝업 -->
+        <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+        <!-- 상단 레이아웃 -->
+        <template class="shopby-header" shopby-partials="@partials/common-header.html" shopby-partials-js="@partials/common-header.js"></template>
+
+        <main class="l-panel">
+            <section class="page-content-top">
+                <ol class="page-content-top__path page-content-top__location">
+                    <li><a href="/">HOME</a></li>
+                    &gt;
+                    <li>회사소개</li>
+                </ol>
+            </section>
+
+            <terms-detail terms-type="MALL_INTRODUCTION">
+                <script type="text/x-handlebars-template">
+                    <div class='agreement'>
+                        <p class='agreement__title'>회사소개</p>
+                        <div>
+                            <div class='editor agreement__content' slot='content'>
+                                {{{termsDetail.contents}}}
+                            </div>
+                        </div>
+
+                        <div slot='companyMap'>
+                            {{#if isShowCompanyMap}}
+                                <p class='agreement__title'>위치안내</p>
+                                <div shopby-company-map style='width: 100%; height: 40vh'></div>
+                            {{/if}}
+                        </div>
+                    </div>
+                </script>
+            </terms-detail>
+        </main>
+
+        <!-- 퀵메뉴 (최상단 이동 + 최근 본 상품) -->
+        <template shopby-partials="@partials/quick-menu.html"></template>
+        <!-- 최근 본 상품(오프캔버스) -->
+        <template shopby-partials="@partials/recent-product.html"></template>
+        <!-- 하단 레이아웃 -->
+        <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js"></template>
+
+        <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+        <template shopby-partials="@partials/modal.html"></template>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/libs/naver-marketing-config.js"></script>
+    </body>
+</html>

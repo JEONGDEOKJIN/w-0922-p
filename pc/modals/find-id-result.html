@@ -1,0 +1,42 @@
+<div class="title-modal">
+    <div class="title-modal__header">
+        <h2 class="title-modal__title">아이디 찾기 결과</h2>
+        <button class="title-modal__close-btn" shopby-on:click="CLOSE_TITLE_MODAL">
+            <span class="ico ico--x-black-24"></span>
+        </button>
+    </div>
+    <div class="title-modal__content">
+        <div class="find-id-result" shopby-layer-modal-helper-key="find-id-result">
+            <find-id-result>
+                <script type="text/x-handlebars-template">
+                    <div>
+                        <div class='notice'>
+                            <span class='sprite-image notice--success'></span>
+                        </div>
+                        <p slot='memberInformation' class='find-id-result__title'>
+                            {{memberInformation.0.memberName}}
+                            회원님의 아이디입니다.
+                        </p>
+                        <div slot='memberInformation' class='find-id-result__id-wrap'>
+                            {{#each memberInformation}}
+                                <p>
+                                    {{this.id}}
+                                    {{#ifEqOne this.status 'DORMANT' 'FREEZE'}}
+                                        <span class='find-id-result__dormant-text'>
+                                            (휴면)
+                                        </span>
+                                    {{/ifEqOne}}
+                                </p>
+                            {{/each}}
+                        </div>
+                    </div>
+                </script>
+            </find-id-result>
+            <div class="find-id-result__link-wrap">
+                <a href="/pages/find/find-password.html" class="btn btn--fill-dark btn--md">비밀번호 찾기</a>
+                <a href="/pages/sign-in/sign-in.html" class="btn btn--fill-point btn--md">로그인 하기</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/modals/find-id-result.js"></script>

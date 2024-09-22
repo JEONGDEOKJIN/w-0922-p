@@ -1,0 +1,54 @@
+@charset "UTF-8";
+/*  취소/반품/교환 내역 페이지 스타일 파일입니다. */
+.claim-list .tab {
+  width: 100%;
+}
+.claim-list .tab .tab__btn {
+  width: 25%;
+  text-align: center;
+}
+.claim-list .l-title {
+  margin-top: 40px;
+  font-weight: 500;
+  font-size: 16px;
+}
+.claim-list__group-by-order-no {
+  margin-bottom: 18px;
+}
+.claim-list__identifier {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  border-bottom: 1px solid var(--gray200);
+  padding: 18px 0;
+  font-weight: 500;
+}
+.claim-list__order-no {
+  color: var(--gray400);
+}
+.claim-list .thumb-item__media {
+  width: 105px;
+  height: auto;
+  flex: none;
+}
+.claim-list .thumb-item__info {
+  margin: 0;
+}
+.claim-list .product-option-info__detail {
+  padding: 18px 0 10px;
+  border-top: 0;
+}
+.claim-list .btn {
+  width: 100%;
+}
+.claim-list__claim-status {
+  color: var(--color-tertiary);
+  text-decoration: underline;
+}
+.claim-list .notice {
+  margin: 60px 0;
+}
+.claim-list__more-btn {
+  margin: 40px 0 100px;
+}

@@ -1,0 +1,41 @@
+@charset "UTF-8";
+/*  상품목록 페이지 스타일 파일입니다. */
+.product-list__breadcrumb {
+  height: 24px;
+}
+.product-list__search-keyword-wrap {
+  font-weight: 700;
+  font-size: 24px;
+  padding-block-start: 20px;
+  padding-block-end: 40px;
+  border-block-end: 2px solid var(--color-base-black);
+}
+.product-list__search-keyword {
+  font-style: normal;
+  color: var(--color-point);
+}
+.product-list :where(.l-title) {
+  font-size: 24px;
+  border-bottom: unset;
+  padding: unset;
+  margin-block: 20px;
+}
+.product-list .page-content-top {
+  min-height: 100px;
+}
+.product-list .page-content-top__location {
+  color: var(--gray500);
+}
+.product-list .page-content-top__location a {
+  display: block;
+}
+.product-list .page-content-top__breadcrumb-category-label::after {
+  opacity: 0.6;
+}
+.product-list .notice {
+  height: 50dvh;
+}
+.product-list .thumb-item__info {
+  padding: 0;
+  padding-block: 10px;
+}

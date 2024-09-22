@@ -1,0 +1,103 @@
+<div shopby-layer-modal-helper-key="select-product">
+    <div class="select-product">
+        <select-product-search-field>
+            <div class="select-product__search-box">
+                <div class="select-product__select-category" slot="selectData">
+                    {{#each selectData}}
+                    <span class="select select--md">
+                        <select
+                            shopby-category-select="shopby-category-select"
+                            shopby-category-idx="{{@index}}"
+                            shopby-category-depth="{{depth}}"
+                            shopby-selected-category-value="{{selectedCategoryNo}}"
+                            shopby-on:change="SELECT_CATEGORY_OPTION"
+                        >
+                            <option value="">카테고리</option>
+                            {{#each categories}} {{option categoryNo label ../selectedCategoryNo ''}} {{/each}}
+                        </select>
+                    </span>
+                    {{/each}}
+                </div>
+                <span class="search-field">
+                    <span class="select select--md search-field__select-box">
+                        <select shopby-on:change="CHANGE_SEARCH_TYPE">
+                            <option value="PRODUCT_NAME">상품명</option>
+                            <option value="PRODUCT_NO">상품번호</option>
+                        </select>
+                    </span>
+                    <span class="search-field__input">
+                        <span class="input-field input-field--md">
+                            <input type="text" placeholder="검색어를 입력해주세요." shopby-on:change="CHANGE_SEARCH_FIELD_KEYWORD" />
+                        </span>
+                    </span>
+                    <button type="button" class="btn btn--fill-dark btn--sm" shopby-action="SEARCH">조회</button>
+                </span>
+            </div>
+        </select-product-search-field>
+
+        <select-product-total-count>
+            <summary class="l-title">
+                <span class="my-page__count">
+                    상품
+                    <span class="highlight" slot="totalCount">{{totalCount}}</span>
+                    건
+                </span>
+            </summary>
+        </select-product-total-count>
+
+        <select-product-list>
+            <script type="text/x-handlebars-template">
+                <div>
+                    <div class='select-product__table title-row'>
+                        <span class='select-product__table cell'>상품명</span>
+                        <span class='select-product__table cell'>상품금액</span>
+                        <span class='select-product__table cell'>선택</span>
+                    </div>
+                    <div class="select-product__table-box">
+                        <div class='select-product__table table' slot='items'>
+                            {{#each items}}
+                                <div class='select-product__table row'>
+                                    <span class='select-product__table cell text-cell'>
+                                        {{#ifEq imageUrlInfo.[0].type 'VIDEO_URL'}}
+                                            <video width='80px' src='{{imageUrlInfo.[0].url}}'></video>
+                                        {{else}}
+                                            {{img imageUrlInfo.[0].url 80 80 productName 'middle' ''}}
+                                        {{/ifEq}}
+                                        {{productName}}
+                                    </span>
+                                    <span class='select-product__table cell'>{{convertToKoreanCurrency salePrice}}원</span>
+                                    <span class='select-product__table cell'>
+                                        <button type="button" class="btn btn--line-gray btn--xs " shopby-product-no='{{productNo}}' shopby-action="SELECT_PRODUCT">선택</button>
+                                    </span>
+                                </div>
+                            {{else}}
+                                <div class='notice empty-list'>
+                                    <span class='sprite-image notice--warning'></span>
+                                    <em class='notice__description--center'>검색된 상품이 없습니다.</em>
+                                </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                    <div slot="totalCount">
+                        {{#if totalCount}}
+                        <div class="pagination" slot="pagination">
+                            <button class="sprite-image pagination__btn pagination__btn--double-lt select-product__pagination-btn" shopby-on:click="MOVE_TO_FIRST_PAGE">
+                            </button>
+                            <button class="sprite-image pagination__btn pagination__btn--lt select-product__pagination-btn" shopby-on:click="MOVE_TO_PREV_PAGE">
+                            </button>
+                            {{#each pagination.pages}}
+                            <button class="pagination__link {{#if isCurrentPage}}is-current{{/if}} select-product__pagination-btn" shopby-on:click="MOVE_TO_PAGE" shopby-page="{{page}}">{{page}}</button>
+                            {{/each}}
+                            <button class="sprite-image pagination__btn pagination__btn--rt select-product__pagination-btn" shopby-on:click="MOVE_TO_NEXT_PAGE">
+                            </button>
+                            <button class="sprite-image pagination__btn pagination__btn--double-rt select-product__pagination-btn" shopby-on:click="MOVE_TO_LAST_PAGE">
+                            </button>
+                        </div>
+                        {{/if}}
+                    </div>
+                </div>
+            </script>
+        </select-product-list>
+    </div>
+</div>
+<script src="/modals/select-product.js"></script>

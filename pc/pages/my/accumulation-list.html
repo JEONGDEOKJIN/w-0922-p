@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
+        <link rel="stylesheet" href="/shopby-skin-pc.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/my/accumulation-list.css" />
+
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+
+        <!-- 스킨 스크립트 -->
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-pc.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+    <body>
+        <!-- 디자인팝업 -->
+        <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+        <!-- 상단 레이아웃 -->
+        <template class="shopby-header" shopby-partials="@partials/common-header.html" shopby-partials-js="@partials/common-header.js"></template>
+        <main class="l-my-page">
+            <section class="page-content-top">
+                <ol class="page-content-top__path page-content-top__location">
+                    <li><a href="/">HOME</a></li>
+                    &gt;
+                    <li><a href="/pages/my/my-page.html">마이페이지</a></li>
+                    &gt;
+                    <li>적립금</li>
+                </ol>
+            </section>
+            <div class="my-page-box">
+                <template class="l-my-page-menu" shopby-partials="@partials/my-menu.html" shopby-menu-title="적립금"></template>
+
+                <div class="right-box">
+                    <div class="right-box__container">
+                        <my-accumulation>
+                            <script type="text/x-handlebars-template">
+                                <p class='right-box__head'>
+                                    <span class='font-noto right-box__title' slot='accumulationName'>{{accumulationConfig.accumulationName}}</span>
+                                </p>
+                            </script>
+                        </my-accumulation>
+
+                        <date-search start-ymd:query="startYmd" end-ymd:query="endYmd" date-type:query="dateType" shopby-default-type="7d">
+                            <script type="text/x-handlebars-template">
+                                <div class='date-selector'>
+                                    <div class='date-selector__button_box' shopby-date-selector='shopby-date-selector' shopby-on:click='CLICK_DATE'>
+                                        <button class='font-noto btn date-selector__select-btn' value='td'>오늘</button>
+                                        <button class='font-noto btn date-selector__select-btn' value='7d'>7일</button>
+                                        <button class='font-noto btn date-selector__select-btn' value='15d'>15일</button>
+                                        <button class='font-noto btn date-selector__select-btn' value='1m'>1개월</button>
+                                        <button class='font-noto btn date-selector__select-btn' value='3m'>3개월</button>
+                                        <button class='font-noto btn date-selector__select-btn' value='1y'>1년</button>
+                                    </div>
+                                    <div class='date-selector__date-picker-wrap'>
+                                        <div class='date-selector__date-picker tui-datepicker-input tui-datetime-input tui-has-focus'>
+                                            <input type='text' name='startDate' readonly='readonly' aria-label='Date-Time' />
+                                            <span class='tui-ico-date'></span>
+                                            <div class='start-date-picker'></div>
+                                        </div>
+                                        ~
+                                        <div class='date-selector__date-picker tui-datepicker-input tui-datetime-input tui-has-focus'>
+                                            <input type='text' name='endDate' readonly='readonly' aria-label='Date-Time' />
+                                            <span class='tui-ico-date'></span>
+                                            <div class='end-date-picker'></div>
+                                        </div>
+                                        <button
+                                            type='button'
+                                            class='btn btn--fill-dark btn--sm date-picker__search'
+                                            shopby-action='SEARCH_ACCUMULATION'
+                                        >조회</button>
+                                    </div>
+                                </div>
+                            </script>
+                        </date-search>
+
+                        <my-accumulation-list
+                            start-ymd:query="startYmd"
+                            page-size:query="pageSize"
+                            page-number:query="pageNumber"
+                            default-page-size="20"
+                            uses-pagination
+                        >
+                            <script type="text/x-handlebars-template">
+                                <div>
+                                    <div class="my-page-accumulation" slot='accumulationList'>
+                                        <table class='l-table'>
+                                            <colgroup>
+                                                <col style='width:120px' />
+                                                <col />
+                                                <col style='width:140px' />
+                                                <col style='width:140px' />
+                                                <col style='width:140px' />
+                                            </colgroup>
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        일시
+                                                    </th>
+                                                    <th>
+                                                        내용
+                                                    </th>
+                                                    <th>
+                                                        지급
+                                                    </th>
+                                                    <th>
+                                                        차감
+                                                    </th>
+                                                    <th>
+                                                        유효기간
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {{#each items}}
+                                                    <tr>
+                                                        <td>
+                                                            <span class="font-montserrat my-page-accumulation__date">
+                                                                {{registerYmdt}}
+                                                            </span>
+                                                        </td>
+                                                        <td class='td_left'>
+                                                            <span class="font-noto my-page-accumulation__reason-detail">
+                                                                {{reasonDetail}}
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="my-page-accumulation__accumulation-amount">
+                                                                {{#ifEq accumulationStatusGroupType 'PAYMENT'}}
+                                                                    <span class="font-montserrat bold highlight">
+                                                                        +{{convertToKoreanCurrency accumulationAmt}}
+                                                                    </span>
+                                                                    <span class="my-page-accumulation__accumulation-unit">
+                                                                        {{#if ../accumulationConfig.accumulationUnit}} {{../accumulationConfig.accumulationUnit}} {{else}} p {{/if}}
+                                                                    </span>
+
+                                                                {{else}}
+                                                                    -
+                                                                {{/ifEq}}
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="my-page-accumulation__accumulation-amount">
+                                                                {{#ifNe accumulationStatusGroupType 'PAYMENT'}}
+                                                                    <span class="font-montserrat bold my-page-accumulation__accumulation-amount subtraction">
+                                                                        -{{convertToKoreanCurrency accumulationAmt}}
+                                                                    </span>
+                                                                    <span class="my-page-accumulation__accumulation-unit">
+                                                                        {{#if ../accumulationConfig.accumulationUnit}} {{../accumulationConfig.accumulationUnit}} {{else}} p {{/if}}
+                                                                    </span>
+                                                                {{else}}
+                                                                    -
+                                                                {{/ifNe}}
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            {{#if expireYmdt}}
+                                                                <span class="font-montserrat my-page-accumulation__date">
+                                                                    <span>{{startYmdt}}</span>
+                                                                    ~
+                                                                    <span>
+                                                                        {{#if isNoExpirationDate}}
+                                                                        제한없음
+                                                                        {{else}}
+                                                                            {{expireYmdt}}
+                                                                        {{/if}}
+                                                                    </span>
+                                                                </span>
+                                                            {{else}}
+                                                                -
+                                                            {{/if}}
+                                                        </td>
+                                                    </tr>
+                                                {{/each}}
+                                            </tbody>
+                                        </table>
+                                        <div slot="totalCount">
+                                            {{#ifEq totalCount 0 }}
+                                            <div slot="isLoading">
+                                                {{#if isLoading}}
+                                                <div class="loader loader--lg loader--full">
+                                                        <span class="spinner"></span>
+                                                </div>
+                                                {{else}}
+                                                <div class='notice empty-list'>
+                                                        <div class='notice notice--full'>
+                                                            <span class='sprite-image notice--warning'></span>
+                                                            <em class='notice__description--center'>
+                                                                조회내역이 없습니다.
+                                                            </em>
+                                                        </div>
+                                                </div>
+                                                {{/if}}
+                                            </div>
+                                            {{/ifEq}}
+                                        </div>
+                                    </div>
+                                    <div slot="totalCount">
+                                        {{#ifGt totalCount 0 }}
+                                        <div class="pagination" slot="pagination">
+                                            <a href="?{{pagination.firstPage}}">
+                                                <button class="sprite-image pagination__btn pagination__btn--double-lt">
+                                                </button>
+                                            </a>
+                                            <a href="?{{pagination.prevPage}}">
+                                                <button class="sprite-image pagination__btn pagination__btn--lt">
+                                                </button>
+                                            </a>
+                                            {{#each pagination.pages}}
+                                            <a class="pagination__link {{#if isCurrentPage}}is-current{{/if}}" href="?{{param}}">{{page}}</a>
+                                            {{/each}}
+                                            <a href="?{{pagination.nextPage}}">
+                                                <button class="sprite-image pagination__btn pagination__btn--rt">
+                                                </button>
+                                            </a>
+                                            <a href="?{{pagination.lastPage}}">
+                                                <button class="sprite-image pagination__btn pagination__btn--double-rt">
+                                                </button>
+                                            </a>
+                                        </div>
+                                        {{/ifGt}}
+                                    </div>
+                                </div>
+                            </script>
+                        </my-accumulation-list>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/pages/my/accmulation-list.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/libs/naver-marketing-config.js"></script>
+
+        <!-- 퀵메뉴 (최상단 이동 + 최근 본 상품) -->
+        <template shopby-partials="@partials/quick-menu.html"></template>
+        <!-- 최근 본 상품(오프캔버스) -->
+        <template shopby-partials="@partials/recent-product.html"></template>
+        <!-- 하단 레이아웃 -->
+        <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js"></template>
+
+        <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+        <template shopby-partials="@partials/modal.html"></template>
+    </body>
+</html>

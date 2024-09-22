@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <!-- A2HS -->
+        <link rel="manifest" shopby-manifest-placeholder href="/manifest.json" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+
+        <link rel="apple-touch-icon" href="https://rlyfaazj0.toastcdn.net/20211220/141125.985487000/app_icon(144).png" />
+        <!-- A2HS -->
+
+        <link rel="stylesheet" href="/shopby-skin-mobile.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/my/product-inquiry-list.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-mobile.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+    <body>
+        <div shopby-skin-container>
+            <!-- 디자인팝업 -->
+            <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+            <!-- 상단 레이아웃 -->
+            <template
+                class="l-header"
+                shopby-partials="@partials/common-header.html"
+                shopby-partials-js="@partials/common-header.js"
+                shopby-sub-title="상품문의 관리"
+                shopby-using-button="hamburger,back"
+                shopby-visible-logo="false"
+            ></template>
+
+            <main class="l-content">
+                <div>
+                    <search-field shopby-module-key="product-inquiry-list-search-field">
+                        <script type="text/x-handlebars-template">
+                            <span class='search-field'>
+                                <span class='search-field__input'>
+                                    <span class='input-field input-field--sm search-field__text-input'>
+                                        <input
+                                            type='text'
+                                            value='{{keyword}}'
+                                            placeholder='검색어를 입력해주세요.'
+                                            shopby-on:change='CHANGE_SEARCH_FIELD_KEYWORD'
+                                            shopby-on:keydown='KEYPRESS_SEARCH_FIELD_KEYWORD'
+                                        />
+
+                                    </span>
+                                    <button type='button' class='search-field__search-btn' shopby-on:click='SEARCH'>
+                                        <span class='ico ico--magnet-black-24'></span>
+                                    </button>
+                                </span>
+                            </span>
+                        </script>
+                    </search-field>
+
+                    <product-inquiry-total-count>
+                        <script type="text/x-handlebars-template">
+                            <summary class='l-title l-title__align-end'>
+                                <p class='my-page__total-count'>
+                                    전체 문의
+                                    <span class='my-page__count' slot='totalCount'>
+                                        <span>
+                                            {{totalCount}}
+                                        </span>
+                                        건
+                                    </span>
+                                </p>
+                                <button type='button' class='btn btn--fill-point btn--sm' shopby-action='REGISTER'>상품문의 등록</button>
+                            </summary>
+                        </script>
+                    </product-inquiry-total-count>
+
+                    <product-inquiry-list
+                        pair-key="PRODUCT_INQUIRY_MORE_VIEW_BUTTON"
+                        default-page-size="20"
+                        page-size:query="pageSize"
+                        page-number:query="pageNumber"
+                        search-type:query="searchType"
+                        search-keyword:query="searchKeyword"
+                        uses-more-button
+                    >
+                        <script type="text/x-handlebars-template">
+                            <div>
+                                <div slot='productInquiryList'>
+                                    {{#each items}}
+                                        <div class='product-inquiry-list' shopby-product-no='{{productNo}}' shopby-inquiry-no='{{inquiryNo}}'>
+                                            <div class='inquiry-item' shopby-skin-inquiry-item='shopby-inquiry-item'>
+                                                <div class='inquiry-item__top'>
+                                                    {{#if hasBeenReplied}}
+                                                        <span class='badge badge--line-dark'>답변완료</span>
+                                                    {{else}}
+                                                        <span class='badge badge--line-point'>답변대기</span>
+                                                    {{/if}}
+                                                    <div class='inquiry-item__top-writer'>
+                                                        <span class='inquiry-item__name'>{{registerName}}</span>
+                                                        <span class='inquiry-item__date'>{{formatUseByDate registerYmdt}}</span>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <a
+                                                        class='inquiry-item__bottom'
+                                                        href='/pages/my/product-inquiry-detail.html?productNo={{productNo}}&inquiryNo={{inquiryNo}}'
+                                                    >
+                                                        {{img imageUrl 80 80 productName '' ''}}
+                                                        <div class='inquiry-item__inquiry-info'>
+                                                            <p class='font-noto inquiry-item__inquiry-info-name'>문의유형 - {{productInquiryDisplayType}}</p>
+                                                            <p class='inquiry-item__inquiry-info-title'>
+                                                                {{#if isSecreted}}
+                                                                    <span class='ico ico--lock-black-16'></span>
+                                                                {{/if}}
+                                                                <span class='font-noto inquiry-item__title'>
+                                                                    {{title}}
+                                                                </span>
+                                                            </p>
+                                                            <p class='font-noto inquiry-item__product-name'>{{productName}}</p>
+                                                        </div>
+
+                                                        <div class='inquiry-item__content'>
+                                                            <button
+                                                                type='button'
+                                                                class='btn btn--default angle-top-down inquiry-item__angle-top-dow'
+                                                                shopby-skin-top-down-button='shopby-skin-top-down-button'
+                                                                shopby-on:click='VIEW_PRODUCT_INQUIRY_ANSWER'
+                                                            >
+                                                                <svg viewBox='0 0 80 80' fill='transparent' xmlns='http://www.w3.org/2000/svg'>
+                                                                    <path d='m30 18 22 22-22 22' stroke='gray' stroke-width='6' stroke-linejoin='round'></path>
+                                                                </svg>
+                                                            </button>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {{else}}
+                                        <div class='notice notice--full'>
+                                            <span class='sprite-image notice--warning'></span>
+                                            <em>
+                                                작성된 상품문의가 없습니다.
+                                            </em>
+                                        </div>
+                                    {{/each}}
+                                </div>
+                            </div>
+                        </script>
+                    </product-inquiry-list>
+
+                    <more-view-button pair-key="PRODUCT_INQUIRY_MORE_VIEW_BUTTON">
+                        <script type="text/x-handlebars-template">
+                            <div>
+                                <div slot='hasMoreViewButton'>
+                                    {{#if hasMoreViewButton}}
+                                        <button class='btn btn--line-gray btn--lg-wide' shopby-on:click='MORE_VIEW_BUTTON_CLICK'>
+                                            더보기
+                                        </button>
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </script>
+                    </more-view-button>
+                </div>
+            </main>
+            <layer-modal-area type="title" name="product-inquiry-form" src="@modals/product-inquiry-form.html"></layer-modal-area>
+
+            <!-- 하단 레이아웃 -->
+            <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js"></template>
+
+            <!-- 하단바 -->
+            <template shopby-partials="@partials/common-nav.html"></template>
+        </div>
+        <!-- 오프캔버스 -->
+        <template shopby-partials="@partials/slide-menu.html" shopby-partials-js="@partials/slide-menu.js"></template>
+        <!-- 최근 검색 -->
+        <layer-modal-area type="custom" name="search-keyword" src="@modals/search-keyword.html"></layer-modal-area>
+        <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+        <template shopby-partials="@partials/modal.html"></template>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/pages/my/product-inquiry-list.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/libs/naver-marketing-config.js"></script>
+    </body>
+</html>

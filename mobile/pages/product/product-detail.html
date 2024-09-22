@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js" shopby-page-type="PRODUCT_DETAIL"></template>
+
+        <!-- A2HS -->
+        <link rel="manifest" shopby-manifest-placeholder href="/manifest.json" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+
+        <link rel="apple-touch-icon" href="https://rlyfaazj0.toastcdn.net/20211220/141125.985487000/app_icon(144).png" />
+        <!-- A2HS -->
+
+        <link rel="stylesheet" href="/shopby-skin-mobile.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/product/product-detail.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="/libs/naver-pay.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-mobile.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+    <body>
+        <div shopby-skin-container>
+            <!-- 디자인팝업 -->
+            <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+            <!-- 상단 레이아웃 -->
+            <template
+                class="l-header"
+                shopby-partials="@partials/common-header.html"
+                shopby-partials-js="@partials/common-header.js"
+                shopby-sub-title="상품 상세"
+                shopby-using-button="hamburger,back"
+            ></template>
+
+            <div>
+                <div class="product-detail">
+                    <!-- 이미지 슬라이더 영역 -->
+                    <image-slider>
+                        <script type="text/x-handlebars-template">
+                            <div>
+                                <!-- 스켈레톤 -->
+                                <div slot='isLoaded'>
+                                    {{#unless isLoaded}}
+                                        <div class='skeleton'>
+                                            <div class='skeleton__media'></div>
+                                        </div>
+                                    {{/unless}}
+                                </div>
+
+                                <div slot='images'>
+                                    <div class='swiper product-image-slider' shopby-slider-id='product-main-image-slider'>
+                                        <div class='swiper-wrapper'>
+                                            {{#each images}}
+                                                <div class='swiper-slide'>
+                                                    <div class='thumb-item'>
+                                                        <div class='thumb-item__media'>
+                                                            <span class='thumb-item__img'>
+                                                                {{#ifEq type 'VIDEO_URL'}}
+                                                                    <div class='video-wrapper'>
+                                                                        <iframe class='thumb' src='{{src}}' width='100%' height='60%' frameborder='0'></iframe>
+                                                                    </div>
+                                                                {{else}}
+                                                                    <img src='{{src}}' alt='{{alt}}' fetchpriority='high' />
+                                                                {{/ifEq}}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {{/each}}
+                                        </div>
+                                        <div class='swiper-pagination' shopby-slider-pagination='product-main-image-slider'></div>
+                                    </div>
+                                </div>
+
+                                <div class='swiper hidden' shopby-slider-id='product-sub-image-slider'></div>
+                            </div>
+                        </script>
+                    </image-slider>
+                    <!-- 이미지 슬라이더 영역 END -->
+
+                    <product-summary>
+                        <script type="text/x-handlebars-template">
+                            <div class='product-summary'>
+                                <div slot='isLoaded'>
+                                    {{#unless isLoaded}}
+                                        <div class='skeleton skeleton--product-summary'>
+                                            <div class='skeleton__line skeleton__line--product-summary__brand-name'></div>
+                                            <div class='skeleton__line skeleton__line--product-summary__title'></div>
+                                            <div class='skeleton__line skeleton__line--product-summary__promotion-text'></div>
+                                            <div class='skeleton__line skeleton__line--product-summary__price'></div>
+                                        </div>
+                                    {{/unless}}
+                                </div>
+
+                                <!-- <span class='product-summary__sns-btn'>
+                                            <button class='sns-btn'>
+                                                <span class='ico ico--share-node'></span>
+                                            </button>
+                                        </span> -->
+
+                                <div class='l-content'>
+                                    <div class='product-summary-box'>
+                                        <p class='product-summary__brand-name' slot='summary'>
+                                            {{summary.brandName}}
+                                        </p>
+                                        <h2 class='product-summary__title' slot='summary'>
+                                            {{summary.productName}}
+                                        </h2>
+
+                                        <!-- 홍보문구 -->
+                                        <div class='product-summary__promotion-text' slot='baseInfo'>
+                                            {{baseInfo.promotionText}}
+                                        </div>
+
+                                        <div class='product-summary__price-detail font-montserrat' slot='summary'>
+                                            {{#if useContentsIfPausing}}
+                                                <span class='product-summary__price'>
+                                                    {{contentsIfPausing}}
+                                                </span>
+                                            {{else}}
+                                                {{#ifGt summary.discountRate 0}}
+                                                    <span class='product-summary__off-percent'>
+                                                        {{summary.discountRate}}%
+                                                    </span>
+                                                {{/ifGt}}
+
+                                                {{#if isLoaded}}
+                                                    <span class='product-summary__price'>
+                                                        {{convertToKoreanCurrency summary.discountedPrice}}원
+                                                    </span>
+                                                {{/if}}
+                                                {{#ifGt summary.discountRate 0}}
+                                                    <s class='product-summary__original-price'>
+                                                        {{convertToKoreanCurrency summary.originalPrice}}원
+                                                        <span class='help-wrap'>
+                                                            <button class='help-btn'>
+                                                                <span class='ico ico--help-circle-14' shopby-action='DISCOUNT_DETAIL'></span>
+                                                            </button>
+                                                        </span>
+                                                    </s>
+                                                {{/ifGt}}
+                                            {{/if}}
+                                        </div>
+                                    </div>
+
+                                    <div class='product-summary__info'>
+                                        <div slot='visibleReservationInfo'>
+                                            {{#if visibleReservationInfo}}
+                                                <dl>
+                                                    <dt>예약판매기간</dt>
+                                                    <dd>{{dateFormat reservationData.reservationStartYmdt 'yyyy-mm-dd HH:MM'}}
+                                                        ~
+                                                        {{dateFormat reservationData.reservationEndYmdt 'yyyy-mm-dd HH:MM'}}
+                                                        &nbsp;[{{dateFormat reservationData.reservationDeliveryYmdt 'mm/dd'}}
+                                                        예약배송]
+                                                    </dd>
+                                                </dl>
+                                            {{/if}}
+                                        </div>
+                                        <div slot='summary'>
+                                            {{#if summary.accumulationUseYn}}
+                                                {{#ifGt summary.accumulation.accumulatedAmount 0}}
+                                                    <dl class='product-summary__info-accumulate'>
+                                                        <dt slot='accumulationConfig'>
+                                                            {{accumulationConfig.accumulationName}}
+                                                        </dt>
+                                                        <dd>
+                                                            <span class='font-montserrat'>
+                                                                +{{convertToKoreanCurrency summary.accumulation.accumulatedAmount}}
+                                                            </span>
+                                                            <span slot='accumulationConfigUnit'>
+                                                                {{accumulationConfigUnit}}
+                                                            </span>
+                                                            적립
+                                                            <span slot='accumulationConfig'>
+                                                                {{#getSignUpAccumulationLabel accumulationConfig}}
+                                                                    (로그인 시 적립 가능)
+                                                                {{/getSignUpAccumulationLabel}}
+                                                            </span>
+                                                        </dd>
+                                                    </dl>
+                                                {{/ifGt}}
+                                            {{/if}}
+                                        </div>
+                                        <div slot='coupon'>
+                                            {{#if coupon.enableCouponDownloadBtn}}
+                                                <dl class='product-summary__info-coupon'>
+                                                    <dt>
+                                                        쿠폰
+                                                    </dt>
+                                                    <dd>
+                                                        {{#if coupon.couponRate}}
+                                                            <span class='discount'>
+                                                                {{coupon.couponRate}}%
+                                                            </span>
+                                                        {{/if}}
+
+                                                        {{#if coupon.couponDiscountAmt}}
+                                                            {{convertToKoreanCurrency coupon.couponDiscountAmt}}원
+                                                        {{/if}}
+                                                        <div class='coupon-download__btn-wrap'>
+                                                            <button class='btn btn--fill-dark btn--sm' shopby-action='COUPON_DOWNLOAD'>쿠폰받기<span
+                                                                    class='ico ico--download-white-12'
+                                                                    shopby-action='COUPON_DOWNLOAD'
+                                                                ></span></button>
+                                                        </div>
+                                                    </dd>
+                                                </dl>
+                                            {{/if}}
+                                        </div>
+                                        <dl class='product-summary__freight'>
+                                            <dt>
+                                                배송비
+                                            </dt>
+                                            <dd slot='freight'>
+                                                {{#with freight}}
+                                                    {{#if shippingInfo.shippingAvailable}}
+                                                        {{#with summary.freight}}
+                                                            {{#ifEq areaType 'PARTNER_SHIPPING_AREA'}}
+                                                                <strong>
+                                                                    {{partnerCompanyName}}
+                                                                </strong>
+                                                                배송
+                                                            {{/ifEq}}
+
+                                                            {{#ifEq conditionType 'FREE'}}
+                                                                무료배송
+                                                            {{/ifEq}}
+
+                                                            {{#ifEq conditionType 'FIXED_FEE'}}
+                                                                {{convertToKoreanCurrency fee}}원
+                                                            {{else}}
+                                                                {{#ifNe conditionType 'FREE'}}
+                                                                    {{convertToKoreanCurrency fee}}원
+                                                                {{/ifNe}}
+                                                            {{/ifEq}}
+
+                                                            {{#ifEq conditionType 'QUANTITY_PROPOSITIONAL_FEE'}}
+                                                                ({{perOrderCnt}}개마다 부과)
+                                                            {{/ifEq}}
+
+                                                            {{#ifGt aboveDeliveryAmt 0}}
+                                                                <em>
+                                                                    ({{convertToKoreanCurrency aboveDeliveryAmt}}원 이상 구매 시 무료)
+                                                                </em>
+                                                            {{/ifGt}}
+                                                            <br />
+                                                            <em>
+                                                                {{#ifEq deliveryType 'PARCEL_DELIVERY'}}택배/등기/소포{{else}}직접배송{{/ifEq}}
+                                                                /
+                                                                {{#if deliveryPrePayment}}선결제{{else}}착불{{/if}}
+                                                            </em>
+                                                        {{/with}}
+                                                    {{else}}
+                                                        배송불가 상품
+                                                    {{/if}}
+                                                {{/with}}
+                                            </dd>
+                                        </dl>
+
+                                        <div slot='purchaseQuantityLimited'>
+                                            {{#with purchaseQuantityLimited}}
+                                                {{#if visible}}
+                                                    <dl class='product-summary__purchase-quantity-limit'>
+                                                        <dt>
+                                                            구매수량제한
+                                                        </dt>
+                                                        <dd>
+                                                            {{#if minCount}}
+                                                                최소
+                                                                {{minCount}}개
+                                                            {{/if}}{{#if useBoth}}
+                                                                ,&nbsp;
+                                                            {{/if}}{{#if maxCount}}
+                                                                최대
+                                                                {{maxCount}}개 (
+                                                                {{#ifEq maxBuyCountType 'PERSON'}}
+                                                                    1인
+                                                                {{/ifEq}}{{#ifEq maxBuyCountType 'TIME'}}
+                                                                    1회
+                                                                {{/ifEq}}{{#ifEq maxBuyCountType 'PERIOD'}}
+                                                                    {{maxBuyDays}}일 동안
+                                                                {{/ifEq}}
+                                                                )
+                                                            {{/if}}
+                                                        </dd>
+                                                    </dl>
+                                                {{/if}}
+                                            {{/with}}
+                                        </div>
+
+                                        <dl class='product-summary__product-number'>
+                                            <dt>
+                                                상품번호
+                                            </dt>
+                                            <dd slot='productNo'>
+                                                {{productNo}}
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div>
+                        </script>
+                    </product-summary>
+
+                    <product-detail-banners>
+                        <script type="text/x-handlebars-template">
+                            <div>
+                                <div class="center" slot="banners">
+                                    {{#each banners}} {{#if landingUrl}}
+                                    <a href="{{landingUrl}}" rel="noreferrer" target="{{target}}">
+                                        {{/if}}
+                                        <img src="{{imageUrl}}" alt="{{alt}}" loading="lazy" width="{{width}}" height="{{height}}" />
+                                        {{#if landingUrl}}
+                                    </a>
+                                    {{/if}} {{/each}}
+                                </div>
+                            </div>
+                        </script>
+                    </product-detail-banners>
+
+                    <section class="l-panel product-content">
+                        <product-detail-tabs>
+                            <script type="text/x-handlebars-template">
+                                <div class="tabs-wrap">
+                                    <ul class="tab" slot="tabs">
+                                        {{#unless isLoading}}
+                                        <li>
+                                            <button class="tab__btn {{#ifEq currentTab 'PRODUCT_DETAIL'}}is-active{{/ifEq}}" type="button" shopby-on:click="TAB_CLICK" shopby-tab-value="PRODUCT_DETAIL">상품 상세정보</button>
+                                        </li>
+                                        {{#if hasGuide}}
+                                        <li>
+                                            <button class="tab__btn {{#ifEq currentTab 'SHIPPING_CLAIM'}}is-active{{/ifEq}}" type="button" shopby-on:click="TAB_CLICK" shopby-tab-value="SHIPPING_CLAIM">
+                                                배송/반품/교환
+                                            </button>
+                                        </li>
+                                        {{/if}}
+                                        <li>
+                                            <button class="tab__btn {{#ifEq currentTab 'PRODUCT_REVIEW'}}is-active{{/ifEq}}" type="button" shopby-on:click="TAB_CLICK" shopby-tab-value="PRODUCT_REVIEW">
+                                                상품 후기 ({{reviewCount}})
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="tab__btn {{#ifEq currentTab 'PRODUCT_INQUIRY'}}is-active{{/ifEq}}" type="button" shopby-on:click="TAB_CLICK" shopby-tab-value="PRODUCT_INQUIRY">
+                                                상품문의 ({{inquiryCount}})
+                                            </button>
+                                        </li>
+                                        {{/unless}}
+                                    </ul>
+                                </div>
+                            </script>
+                        </product-detail-tabs>
+
+                        <!-- 상품 상세정보 -->
+                        <product-detail shopby-tab-element="PRODUCT_DETAIL">
+                            <script type="text/x-handlebars-template">
+                                <div class='product-content__box'>
+                                    <div class="editor product-content__content" shopby-element="product-content">
+                                        <div class="product-content__content-box" slot="content">
+                                            <p class="product-content__title">상품상세정보</p>
+                                            <div shopby-element="product-content-detail">
+                                                <div>{{safeString content.header false}}</div>
+                                                <div>
+                                                    {{safeString content.main false}}
+                                                    {{#if showsOptionImages}}
+                                                    <p class="option-info-txt">
+                                                        <span>상품의 옵션이미지를 선택하시면 자세히 보실 수 있어요.</span>
+                                                    </p>
+                                                    <div slot="optionImages">
+                                                        {{#each optionImages}}
+                                                        <div shopby-option-no="{{optionNo}}" shopby-option-value="{{value}}" shopby-on:click="SHOW_OPTION_IMAGE">
+                                                        <div>{{value}}</div>
+                                                        <div><img data-src="{{url}}" shopby-lazy width="100%" /></div>
+                                                    </div>
+                                                        {{/each}}
+                                                    </div>
+                                                    {{/if}}
+                                                </div>
+                                                <div>{{safeString content.footer false}}</div>
+                                            </div>
+
+                                            {{#unless hasContents}}
+                                            {{#unless showsOptionImages}}
+                                            <p class="product-content__empty-content center">등록된 상품 상세 정보가 없습니다.</p>
+                                            {{/unless}}
+                                            {{/unless}}
+
+                                            <div class="information-container" slot='baseInfo'>
+                                                {{#if baseInfo.hasProductBaseInfo}}
+                                                    <details class='accordion' open>
+                                                        <summary class='section-title accordion__title'>상품 기본 정보</summary>
+                                                        <ul class='accordion__items table'>
+                                                            {{#if baseInfo.placeOriginLabel}}
+                                                                <dl class='accordion__item'>
+                                                                    <dt>원산지</dt>
+                                                                    <dd>{{baseInfo.placeOriginLabel}}
+                                                                        {{#if baseInfo.placeOriginEtcLabel}}({{baseInfo.placeOriginEtcLabel}}){{/if}}</dd>
+                                                                </dl>
+                                                            {{/if}}
+                                                            {{#if baseInfo.expirationYmdt}}
+                                                                <dl class='accordion__item'>
+                                                                    <dt>유효일자</dt>
+                                                                    <dd>{{dateFormat baseInfo.expirationYmdt 'yyyy-mm-dd'}}</dd>
+                                                                </dl>
+                                                            {{/if}}
+                                                            {{#if baseInfo.manufactureYmdt}}
+                                                                <dl class='accordion__item'>
+                                                                    <dt>제조일자</dt>
+                                                                    <dd>{{dateFormat baseInfo.manufactureYmdt 'yyyy-mm-dd'}}</dd>
+                                                                </dl>
+                                                            {{/if}}
+                                                        </ul>
+                                                    </details>
+                                                {{/if}}
+                                            </div>
+
+                                            <!-- 상품정보제공고시 -->
+                                            {{#if hasDutyInfo}}
+                                            <details class='accordion' open>
+                                                <summary class='section-title accordion__title'>상품정보제공고시</summary>
+                                                    <div class="product-content__certification product-content__certification--duty-info" slot="includesKcInDutyInfo">
+                                                        <ul class='accordion__items table'>
+                                                        {{#each dutyInfo.contents}}
+                                                        <dl>
+                                                            <dt>{{label}}</dt>
+                                                            <dd>
+                                                                {{description}}
+
+                                                                <!-- 상품정보 제공고시 내 인증정보 -->
+                                                                {{#if ../includesKcInDutyInfo }} {{#ifStartsWith label 'KC'}} {{#each ../baseInfo.certifications}}
+                                                                <div class="kc-certification">
+                                                                    <div class="kc-logo">
+                                                                        <span class="ico ico--kc"></span>
+                                                                    </div>
+                                                                    <div class="kc-info">
+                                                                        <div class="kc-description">{{type}} 안전확인 대상 품목으로 아래의 국가 통합인증 필함</div>
+                                                                        <div class="kc-code font-montserrat">
+                                                                            {{#if code}}인증 번호 : <a href="https://www.safetykorea.kr/search/searchPop?certNum={{code}}">{{code}}</a>{{/if}}
+                                                                            {{#if date}}인증 날짜 : <a href="https://rra.go.kr/ko/license/A_c_search.do">{{date}}</a>{{/if}}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                {{/each}} {{/ifStartsWith}} {{/if}}
+                                                            </dd>
+                                                        </dl>
+                                                        {{/each}}
+                                                    </ul>
+                                                </div>
+                                            </details>
+                                            {{/if}}
+
+                                            <!-- 인증정보 -->
+                                            <div class="certification-information">
+                                                {{#if showCertificationInformation}}
+                                                <details class='accordion' open slot="includesKcInDutyInfo">
+                                                    <summary class='section-title accordion__title'>인증정보</summary>
+                                                    {{#with baseInfo}}
+                                                    {{#ifEq certificationType 'DETAIL_PAGE'}}
+                                                        <div class="simple-text">
+                                                            <p>상품 상세페이지 내 별도 표기</p>
+                                                        </div>
+                                                    {{else}}
+                                                    {{#each certifications}}
+                                                    <div class="kc-certification">
+                                                        <div class="kc-logo">
+                                                            <span class="ico ico--kc"></span>
+                                                        </div>
+                                                        <div class="kc-info">
+                                                            <div class="kc-description">{{type}} 안전확인 대상 품목으로 아래의 국가 통합인증 필함</div>
+                                                            <div class="kc-code font-montserrat">
+                                                                {{#if code}}인증 번호 : <a href="https://www.safetykorea.kr/search/searchPop?certNum={{code}}">{{code}}</a>{{/if}}
+                                                                {{#if date}}인증 날짜 : <a href="https://rra.go.kr/ko/license/A_c_search.do">{{date}}</a>{{/if}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {{/each}}
+                                                    {{/ifEq}}
+                                                    {{/with}}
+                                                </details>
+                                                {{/if}}
+                                            </div>
+
+                                            <!--  -->
+                                            <div class="product-content__more-btn hidden" shopby-element="TOGGLE_SHOW_MORE">
+                                                <button shopby-action="TOGGLE_SHOW_MORE">상세정보 펼쳐보기</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </script>
+                        </product-detail>
+
+                        <!-- 상품 후기 -->
+                        <div class="product-detail-review-wrap" shopby-tab-element="PRODUCT_REVIEW">
+                            <!-- 상품후기 총 별점 -->
+                            <product-detail-review-summary>
+                                <script type="text/x-handlebars-template">
+                                    <div>
+                                        <div class='product-review-summary'>
+                                            <div class='product-review-summary__title font-montserrat'>
+                                                <span slot="boardConfig">{{#if boardConfig.name}}{{boardConfig.name}}{{else}}상품후기{{/if}}</span> <em slot="totalCount">{{totalCount}}</em>건
+                                            </div>
+                                            <div class='product-review-summary__rating'>
+                                                <div class="star" slot="starSet">
+                                                    {{#each starSet}}
+                                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20" class="crema_product_reviews_score_star_wrapper__star">
+                                                        <linearGradient id="gradient-star">
+                                                            <stop class="gradient__star-secondary" offset="50%" />
+                                                            <stop class="gradient__star" offset="50%" />
+                                                        </linearGradient>
+                                                        <defs>
+                                                            <path id="star-full" d="M9.53834 1.60996C9.70914 1.19932 10.2909 1.19932 10.4617 1.60996L12.5278 6.57744C12.5998 6.75056 12.7626 6.86885 12.9495 6.88383L18.3123 7.31376C18.7556 7.3493 18.9354 7.90256 18.5976 8.19189L14.5117 11.6919C14.3693 11.8139 14.3071 12.0053 14.3506 12.1876L15.5989 17.4208C15.7021 17.8534 15.2315 18.1954 14.8519 17.9635L10.2606 15.1592C10.1006 15.0615 9.89938 15.0615 9.73937 15.1592L5.14806 17.9635C4.76851 18.1954 4.29788 17.8534 4.40108 17.4208L5.64939 12.1876C5.69289 12.0053 5.6307 11.8139 5.48831 11.6919L1.40241 8.19189C1.06464 7.90256 1.24441 7.3493 1.68773 7.31376L7.05054 6.88383C7.23744 6.86885 7.40024 6.75056 7.47225 6.57744L9.53834 1.60996Z" />
+                                                            <path id="star-half" fill="url(#gradient-star)" d="M9.53834 1.60996C9.70914 1.19932 10.2909 1.19932 10.4617 1.60996L12.5278 6.57744C12.5998 6.75056 12.7626 6.86885 12.9495 6.88383L18.3123 7.31376C18.7556 7.3493 18.9354 7.90256 18.5976 8.19189L14.5117 11.6919C14.3693 11.8139 14.3071 12.0053 14.3506 12.1876L15.5989 17.4208C15.7021 17.8534 15.2315 18.1954 14.8519 17.9635L10.2606 15.1592C10.1006 15.0615 9.89938 15.0615 9.73937 15.1592L5.14806 17.9635C4.76851 18.1954 4.29788 17.8534 4.40108 17.4208L5.64939 12.1876C5.69289 12.0053 5.6307 11.8139 5.48831 11.6919L1.40241 8.19189C1.06464 7.90256 1.24441 7.3493 1.68773 7.31376L7.05054 6.88383C7.23744 6.86885 7.40024 6.75056 7.47225 6.57744L9.53834 1.60996Z" />
+                                                        </defs>
+                                                        <path id="star-empty" d="M9.53834 1.60996C9.70914 1.19932 10.2909 1.19932 10.4617 1.60996L12.5278 6.57744C12.5998 6.75056 12.7626 6.86885 12.9495 6.88383L18.3123 7.31376C18.7556 7.3493 18.9354 7.90256 18.5976 8.19189L14.5117 11.6919C14.3693 11.8139 14.3071 12.0053 14.3506 12.1876L15.5989 17.4208C15.7021 17.8534 15.2315 18.1954 14.8519 17.9635L10.2606 15.1592C10.1006 15.0615 9.89938 15.0615 9.73937 15.1592L5.14806 17.9635C4.76851 18.1954 4.29788 17.8534 4.40108 17.4208L5.64939 12.1876C5.69289 12.0053 5.6307 11.8139 5.48831 11.6919L1.40241 8.19189C1.06464 7.90256 1.24441 7.3493 1.68773 7.31376L7.05054 6.88383C7.23744 6.86885 7.40024 6.75056 7.47225 6.57744L9.53834 1.60996Z" fill="#EAECF0" />
+                                                        <use xlink:href="#star-{{.}}"></use>
+                                                    </svg>
+                                                    {{/each}}
+                                                </div>
+
+                                                <div class='product-review-summary__score font-montserrat' slot='score'>
+                                                    <span>{{score}}</span> / {{limitScore}}
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </script>
+                            </product-detail-review-summary>
+
+                            <!-- 상품후기 버튼 -->
+                            <product-detail-board-button product-no:query="productNo" board-type="product-review" use-init>
+                                <script type="text/x-handlebars-template">
+                                    <div>
+                                        <div class='btn-group' slot='reviewInfo'>
+                                            {{#if reviewInfo.reviewable}}
+                                                <button
+                                                    class='btn btn--fill-point btn--lg'
+                                                    shopby-action='WRITE_REVIEW'
+                                                    shopby-reviewable-count='{{reviewInfo.reviewableCount}}'
+                                                    shopby-uses-attachment='{{reviewInfo.canAttach}}'
+                                                >상품후기 등록</button>
+                                            {{/if}}
+                                            <a href='/pages/board/product-review-list.html'><button class='btn btn--line-dark btn--lg'>전체 상품후기 보기</button></a>
+                                        </div>
+                                    </div>
+                                </script>
+                            </product-detail-board-button>
+
+                            <div class="l-panel summary-bottom-line"></div>
+
+                            <!-- 포토 모아보기 -->
+                            <product-detail-review-photo-collect>
+                                <script type="text/x-handlebars-template">
+                                    <div>
+                                        <div class='product-review__photo-collect' slot='boardConfig'>
+                                            {{#if boardConfig.expandedReviewConfig.useGatheringPhotoReview}}
+                                                <div class='summary'>
+                                                    <div class='product-review__photo-collect-title' slot='totalCount'>
+                                                        <span>포토 모아보기</span>
+                                                        <em class='font-montserrat'>({{totalCount}})</em>
+                                                    </div>
+                                                    <div slot='totalCount' shopby-action='PHOTO_REVIEW_MORE'>
+                                                        {{#ifGe totalCount 4}}더보기 >{{/ifGe}}
+                                                    </div>
+                                                </div>
+
+                                                <div class='product-review__photo-collect-content'>
+                                                    <ul slot='photoCollections'>
+                                                        {{#each photoCollections}}
+                                                            {{#ifLt @index 4}}
+                                                                <li
+                                                                    class='photo-collection-item'
+                                                                    shopby-review-product-no='{{productNo}}'
+                                                                    shopby-review-no='{{reviewNo}}'
+                                                                >
+                                                                    <img src='{{imageUrl}}' alt='image' loading='lazy' shopby-action='REVIEW_DETAIL_POPUP' />
+                                                                    {{#ifGt imageCount 1}}
+                                                                        <p class='review-img-count' shopby-action='REVIEW_DETAIL_POPUP'>{{imageCount}}</p>
+                                                                    {{/ifGt}}
+                                                                </li>
+
+                                                            {{/ifLt}}
+                                                        {{/each}}
+                                                    </ul>
+                                                </div>
+                                            {{/if}}
+                                        </div>
+                                    </div>
+                                </script>
+                            </product-detail-review-photo-collect>
+
+                            <!-- 상품후기 리스트 -->
+                            <!-- 상품 후기 -->
+                            <product-detail-review-list id="PRODUCT_REVIEW" shopby-page-size="20" shopby-default-sort-type="BEST_REVIEW">
+                                <script type="text/x-handlebars-template">
+                                    <div>
+                                        <div class='product-review'>
+                                            <div class='product-content__info'>
+                                                <!-- 내용들 -->
+                                                <div class="product-review-content">
+                                                    <div class="product-review-search l-panel">
+                                                        <span class="select select--sm">
+                                                        <select shopby-action="SORT_REVIEWS">
+                                                            <option value="BEST_REVIEW">베스트순</option>
+                                                            <option value="REGISTER_YMDT">등록일순</option>
+                                                            <option value="RATING_DESC">평점높은순</option>
+                                                            <option value="RATING_ASC">평점낮은순</option>
+                                                            <option value="RECOMMEND">추천순</option>
+                                                        </select>
+                                                        </span>
+
+                                                        <div shopby-on:click="TOGGLE_PHOTO_REVIEW">
+                                                            <label class="form-check form-check--sm" slot="photoReviewsOnly">
+                                                                {{inputBox 'radio' photoReviewsOnly}}
+                                                                <span class="form-check__label">포토후기만 보기</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="product-review-list" slot="reviews">
+                                                        {{#if reviews}}
+                                                        <ul class="review-list">
+                                                            {{#each reviews}}
+                                                            <li class="review-list-item l-panel" shopby-review-no="{{reviewNo}}" shopby-board-name="{{../productReviewConfigName}}" shopby-uses-attachment='{{canAttach}}'>
+                                                                <div class="list-item__header">
+                                                                    <div class="star">
+                                                                        <span class="review-list__score-star">
+                                                                            {{#each starSet}}
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20" class="crema_product_reviews_score_star_wrapper__star">
+                                                                                <linearGradient id="gradient-star">
+                                                                                    <stop class="gradient__star-secondary" offset="73%" />
+                                                                                    <stop class="gradient__star" offset="73%" />
+                                                                                </linearGradient>
+                                                                                <defs>
+                                                                                    <path id="star-full" d="M9.53834 1.60996C9.70914 1.19932 10.2909 1.19932 10.4617 1.60996L12.5278 6.57744C12.5998 6.75056 12.7626 6.86885 12.9495 6.88383L18.3123 7.31376C18.7556 7.3493 18.9354 7.90256 18.5976 8.19189L14.5117 11.6919C14.3693 11.8139 14.3071 12.0053 14.3506 12.1876L15.5989 17.4208C15.7021 17.8534 15.2315 18.1954 14.8519 17.9635L10.2606 15.1592C10.1006 15.0615 9.89938 15.0615 9.73937 15.1592L5.14806 17.9635C4.76851 18.1954 4.29788 17.8534 4.40108 17.4208L5.64939 12.1876C5.69289 12.0053 5.6307 11.8139 5.48831 11.6919L1.40241 8.19189C1.06464 7.90256 1.24441 7.3493 1.68773 7.31376L7.05054 6.88383C7.23744 6.86885 7.40024 6.75056 7.47225 6.57744L9.53834 1.60996Z" />
+                                                                                    <path id="star-half" fill="url(#gradient-star)" d="M9.53834 1.60996C9.70914 1.19932 10.2909 1.19932 10.4617 1.60996L12.5278 6.57744C12.5998 6.75056 12.7626 6.86885 12.9495 6.88383L18.3123 7.31376C18.7556 7.3493 18.9354 7.90256 18.5976 8.19189L14.5117 11.6919C14.3693 11.8139 14.3071 12.0053 14.3506 12.1876L15.5989 17.4208C15.7021 17.8534 15.2315 18.1954 14.8519 17.9635L10.2606 15.1592C10.1006 15.0615 9.89938 15.0615 9.73937 15.1592L5.14806 17.9635C4.76851 18.1954 4.29788 17.8534 4.40108 17.4208L5.64939 12.1876C5.69289 12.0053 5.6307 11.8139 5.48831 11.6919L1.40241 8.19189C1.06464 7.90256 1.24441 7.3493 1.68773 7.31376L7.05054 6.88383C7.23744 6.86885 7.40024 6.75056 7.47225 6.57744L9.53834 1.60996Z" />
+                                                                                </defs>
+                                                                                <path id="star-empty" d="M9.53834 1.60996C9.70914 1.19932 10.2909 1.19932 10.4617 1.60996L12.5278 6.57744C12.5998 6.75056 12.7626 6.86885 12.9495 6.88383L18.3123 7.31376C18.7556 7.3493 18.9354 7.90256 18.5976 8.19189L14.5117 11.6919C14.3693 11.8139 14.3071 12.0053 14.3506 12.1876L15.5989 17.4208C15.7021 17.8534 15.2315 18.1954 14.8519 17.9635L10.2606 15.1592C10.1006 15.0615 9.89938 15.0615 9.73937 15.1592L5.14806 17.9635C4.76851 18.1954 4.29788 17.8534 4.40108 17.4208L5.64939 12.1876C5.69289 12.0053 5.6307 11.8139 5.48831 11.6919L1.40241 8.19189C1.06464 7.90256 1.24441 7.3493 1.68773 7.31376L7.05054 6.88383C7.23744 6.86885 7.40024 6.75056 7.47225 6.57744L9.53834 1.60996Z" fill="#EAECF0" />
+                                                                                <use xlink:href="#star-{{.}}"></use>
+                                                                            </svg>
+                                                                            {{/each}}
+                                                                        </span>
+                                                                        <span style="color: #DEDEDE; margin: 0 10px;">|</span>
+                                                                        <span class="review-list__score font-montserrat">{{rate}}</span>
+                                                                    </div>
+
+                                                                    <div class="review-list__date font-montserrat">{{registerYmdt}}</div>
+                                                                </div>
+
+                                                                <div class="list-item__body">
+                                                                    <div class="list-item__body-summary">
+                                                                        {{#if images}}
+                                                                        <div class="list-item__body-image" shopby-on:click="SHOW_PHOTO_DETAIL" shopby-review-no="{{reviewNo}}">
+                                                                            <img src="{{images.[0]}}" alt="상품 후기 이미지" loading="lazy" />
+                                                                            <p class="image-count">{{length images}}</p>
+                                                                        </div>
+                                                                        {{/if}}
+                                                                        <div>
+                                                                            <div class="list-item__body-user">{{registerName}}</div>
+                                                                            <div class="list-item__body-product">{{productName}}</div>
+                                                                            <div class="list-item__body-product-option">{{optionDisplayLabel}}</div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="list-item__body-content-wrap">
+                                                                        {{#ifEq bestReviewYn 'Y'}}<div class="ico-wrap"><span class="ico ico--best-24"></span></div>{{/ifEq}}
+                                                                        <div class="list-item__body-content" shopby-action="REVIEW_DETAIL">{{{convertContentLineBreak content}}}</div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="list-item__bottom {{#if openComment}}open-answer{{/if}}" shopby-element="REVIEW-ITEM-BOTTOM">
+                                                                    <div class="btn-wrap">
+                                                                        <div class="action-modify">
+                                                                            {{#if myReview}}
+                                                                            <button type="button" class="btn btn--line-gray btn--sm" shopby-action="REVIEW_MODIFY">수정</button>
+                                                                            <button type="button" class="btn btn--line-gray btn--sm" shopby-action="REVIEW_DELETE" shopby-given-accumulation="{{givenAccumulationYn}}">삭제</button>
+                                                                            {{/if}}
+                                                                        </div>
+                                                                        <div class="action-other">
+                                                                            {{#if ../useReviewRecommend}}
+                                                                            <div>
+                                                                                <span class='ico ico--thumbs-up-16'></span>
+                                                                                <span><span class="recommend" shopby-on:click="TOGGLE_REVIEW_RECOMMEND" shopby-action="RECOMMEND" shopby-review-no="{{reviewNo}}">추천해요</span> <em class="font-montserrat" shopby-element="recommend-{{reviewNo}}">{{recommendCnt}}</em></span>
+                                                                            </div>
+                                                                            {{/if}}
+                                                                            {{#ifGt commentCount 0}}
+                                                                            {{#if ../useReviewRecommend}}<span style="color: #DEDEDE; margin: 0 10px;">|</span>{{/if}}
+                                                                            <div shopby-on:click="TOGGLE_REVIEW_COMMENT" shopby-review-no="{{reviewNo}}"><span class="comment">댓글</span> <em class="font-montserrat">{{commentCount}}</em></div>
+                                                                            {{/ifGt}}
+                                                                        </div>
+                                                                    </div>
+
+                                                                    {{#ifGt commentCount 0}}
+                                                                    <div class="answer-wrap">
+                                                                        {{#each comments}}
+                                                                        <div class="answer-item">
+                                                                            <div class="answer__header">
+                                                                                <div>{{#if isAdmin}}관리자{{/if}}</div>
+                                                                                <div class="date font-montserrat">{{registerYmdt}}</div>
+                                                                            </div>
+                                                                            <div class="answer__content">{{content}}</div>
+                                                                        </div>
+                                                                        {{/each}}
+                                                                    </div>
+                                                                    {{/ifGt}}
+                                                                </div>
+                                                            </li>
+                                                            {{/each}}
+                                                        </ul>
+                                                        {{else}}
+                                                        <div class="product-review-list__empty">
+                                                            <span class="product-board-list__empty-notes">아직 작성 된 상품후기가 없어요.</span>
+                                                            <p class="product-board-list__accumulation-notes">
+                                                                구매 후 상품후기를 남겨주세요!
+                                                                <br />
+                                                                {{#if useReviewsAccumulation}}
+                                                                <span class="review-accumulation product-board-list__accumulation">
+                                                                    {{#each accumulations}}
+                                                                    <span class="review-accumulation__point">
+                                                                        {{#ifEq this.[0] 'reviewsAccumulation'}}텍스트후기{{/ifEq}}
+                                                                        {{#ifEq this.[0] 'photoReviewsAccumulation'}}포토후기{{/ifEq}}
+                                                                        <em>{{this.[1]}}</em>
+                                                                        {{../unit}}
+                                                                        {{#if @last}}적립{{else}}/{{/if}}
+                                                                    </span>
+                                                                    {{/each}}
+                                                                </span>
+                                                                {{/if}}
+                                                            </p>
+                                                        </div>
+                                                        {{/if}}
+                                                    </div>
+                                                </div>
+
+                                                <div slot="showMoreButton">
+                                                    {{#if showMoreButton}}
+                                                    <button class="btn btn--line-gray btn--lg-wide" shopby-on:click="MORE_VIEW_BUTTON_CLICK">더보기</button>
+                                                    {{/if}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </script>
+                            </product-detail-review-list>
+                        </div>
+
+                        <!-- 더보기 -->
+                        <div class="more">
+                            <more-view-button pair-key="PRODUCT_DETAIL_REVIEW_MORE_BUTTON">
+                                <script type="text/x-handlebars-template">
+                                    <div>
+                                        <div slot='hasMoreViewButton'>
+                                            {{#if hasMoreViewButton}}
+                                                <button class='btn btn--line-gray btn--lg-wide' shopby-on:click='MORE_VIEW_BUTTON_CLICK'>더보기</button>
+                                            {{/if}}
+                                        </div>
+                                    </div>
+                                </script>
+                            </more-view-button>
+                        </div>
+
+                        <!-- 상품 문의 -->
+                        <div class="product-board-summary-wrap" shopby-tab-element="PRODUCT_INQUIRY">
+                            <!-- summary -->
+                            <product-detail-inquiry-summary>
+                                <script type="text/x-handlebars-template">
+                                    <div class='product-board-summary'>
+                                        <div class='product-board-summary__title font-montserrat'><span slot='inquiryTitle'>{{inquiryTitle}}</span></div>
+                                        <div>상품에 대한 궁금하신 내용을 문의해주세요.<br />주문/배송 문의는 주문AS, 1:1문의로 문의해주세요.</div>
+                                    </div>
+                                </script>
+                            </product-detail-inquiry-summary>
+
+                            <product-detail-board-button board-type="inquiry">
+                                <script type="text/x-handlebars-template">
+                                    <div>
+                                        <div class='btn-group'>
+                                            <button
+                                                class='btn btn--fill-point btn--lg'
+                                                shopby-action='PRODUCT_INQUIRY_WRITE'
+                                                slot='inquiryGuestWriteable'
+                                                shopby-guest-writeable='{{inquiryGuestWriteable}}'
+                                                shopby-product-name='{{baseInfo.productName}}'
+                                                shopby-image-url='{{baseInfo.imageUrlInfo.0.url}}'
+                                                shopby-image-type='{{baseInfo.imageUrlInfo.0.type}}'
+                                            >
+                                                상품문의 등록
+                                            </button>
+                                        </div>
+                                    </div>
+                                </script>
+                            </product-detail-board-button>
+
+                            <div class="l-panel summary-bottom-line"></div>
+
+                            <!-- 리스트 -->
+                            <product-detail-inquiry-list inquiry-page-size:query="inquiryPageSize" inquiry-page:query="inquiryPage">
+                                <script type="text/x-handlebars-template">
+                                    <div class='personal-inquiry'>
+                                        <div class='personal-inquiry-title font-montserrat l-panel'>문의전체 <em slot='totalCount'>{{totalCount}}</em>건</div>
+
+                                        <div class='personal-inquiry-list' slot='inquiries'>
+                                            {{#unless inquiries}}
+                                                <div class='notice' style='height: 300px;'>
+                                                    <span class='sprite-image notice--warning'></span>
+                                                    <em>게시글이 존재하지 않습니다.</em>
+                                                </div>
+                                            {{/unless}}
+
+                                            {{#each inquiries}}
+                                                <div class='l-panel'>
+                                                    <!--  -->
+                                                    <div
+                                                        class='personal-inquiry-list__item'
+                                                        shopby-skin-inquiry-item='shopby-skin-inquiry-item'
+                                                        shopby-inquiry-no="{{inquiryNo}}"
+                                                        style='border-bottom: 0'
+                                                    >
+                                                        <div class='personal-inquiry-item__top'>
+                                                            {{#if isReplied}}
+                                                                <span class='badge badge--line-dark'>답변완료</span>
+                                                            {{else}}
+                                                                <span class='badge badge--line-point'>답변대기</span>
+                                                            {{/if}}
+                                                            <div class='personal-inquiry-item__top-writer'>
+                                                                <span class='font-noto bold'>{{registerName}}</span>
+                                                                <span class='font-montserrat personal-inquiry-item__date'>{{registerDate}}</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class='personal-inquiry-item__bottom'>
+                                                            <div class="personal-inquiry-item__inquiry-info-box"
+                                                                 shopby-readable='{{readable}}'>
+                                                                <div class='personal-inquiry-item__inquiry-info'>
+                                                                    {{#if typeLabel}}
+                                                                        <span class='personal-inquiry-item__inquiry-type'>{{typeLabel}}</span>
+                                                                    {{/if}}
+                                                                    <span
+                                                                        class='personal-inquiry-item__inquiry-title-box'
+
+                                                                    >
+                                                                        {{#if isSecreted}}<span class='ico ico--lock-black-16'></span>{{/if}}
+
+                                                                        <span class='personal-inquiry-item__inquiry-title'>
+                                                                            {{#if readable}}
+                                                                                {{title}}
+                                                                            {{else}}
+                                                                                비밀글입니다
+                                                                            {{/if}}
+                                                                        </span>
+                                                                    </span>
+                                                                </div>
+
+                                                                <span class='ico ico--chevron-down-24 {{#if isOpenInquiryDetail}}open{{/if}}' shopby-on:click="INQUIRY_DETAIL" shopby-action='INQUIRY_DETAIL'></span>
+                                                            </div>
+
+                                                            {{#if isOpenInquiryDetail}}
+                                                            <div class="personal-inquiry-item__reply-container">
+                                                                {{#if readable}}
+                                                                    <div class='personal-inquiry-item__reply'>
+                                                                        <strong class='reply-icon reply-icon--question'>Q</strong>
+                                                                        <div class='personal-inquiry-item__reply-content'>
+                                                                            {{{convertContentLineBreak content}}}
+                                                                        </div>
+                                                                    </div>
+                                                                {{/if}}
+
+                                                                <!-- 답변 -->
+                                                                {{#each answers}}
+                                                                    <div class='personal-inquiry-item__reply'>
+                                                                        <strong class='reply-icon reply-icon--answer'>A</strong>
+                                                                        <div class='personal-inquiry-item__reply-box'>
+                                                                            <div class='personal-inquiry-item__reply-content'>{{content}}</div>
+                                                                            <div class='personal-inquiry-item__reply-writer'>
+                                                                                <span class='font-noto personal-inquiry-item__reply-writer-name'>{{nickName}}</span>
+                                                                                <span class='font-montserrat personal-inquiry-item__reply-writer-date'>{{formatUseByDate registerYmdt}}</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                {{/each}}
+                                                            </div>
+                                                            {{/if}}
+                                                        </div>
+                                                    </div>
+
+                                                    <div class='personal-inquiry__detail-btn-group' shopby-inquiry-no='{{inquiryDetail.inquiryNo}}'>
+                                                        <div>
+                                                            {{#if myInquiry}}
+                                                                <button
+                                                                    class='btn btn--line-gray btn--md personal-inquiry__modify-btn'
+                                                                    shopby-action='INQUIRY_MODIFY'
+                                                                    shopby-inquiry-no='{{inquiryNo}}'
+                                                                >수정</button>
+                                                            {{/if}}
+                                                            {{#if canModify}}
+                                                                <button
+                                                                    class='btn btn--line-gray btn--md personal-inquiry__modify-btn'
+                                                                    shopby-action='INQUIRY_DELETE'
+                                                                    shopby-inquiry-no='{{inquiryNo}}'
+                                                                >삭제</button>
+                                                            {{/if}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {{/each}}
+                                            <!--  -->
+                                        </div>
+
+                                        <div slot='showMoreButton'>
+                                            {{#if showMoreButton}}
+                                                <button class='btn btn--line-gray btn--lg-wide' shopby-on:click='MORE_VIEW_BUTTON_CLICK'>더보기</button>
+                                            {{/if}}
+                                        </div>
+                                    </div>
+                                </script>
+                            </product-detail-inquiry-list>
+                        </div>
+
+                        <!-- 배송/교환/반품 -->
+                        <shipping-claim shopby-tab-element="SHIPPING_CLAIM">
+                            <script type="text/x-handlebars-template">
+                                <div class='shipping-claim l-content'>
+                                    <div class='shipping-claim-info' slot='guide'>
+                                        {{#if guide.freight}}
+                                            <details class='accordion' open>
+                                                <summary class='section-title accordion__title'>배송안내</summary>
+                                                <div>
+                                                    {{safeString guide.freight}}
+                                                </div>
+                                            </details>
+                                        {{/if}}
+
+                                        {{#if guide.exchange}}
+                                            <details class='accordion' open>
+                                                <summary class='section-title accordion__title'>교환 및 반품안내</summary>
+                                                <div>
+                                                    {{safeString guide.exchange}}
+                                                </div>
+                                            </details>
+                                        {{/if}}
+
+                                        {{#if guide.afterService}}
+                                            <details class='accordion' open>
+                                                <summary class='section-title accordion__title'>AS 안내</summary>
+                                                <div>
+                                                    {{safeString guide.afterService}}
+                                                </div>
+                                            </details>
+                                        {{/if}}
+
+                                        {{#if guide.refund}}
+                                            <details class='accordion' open>
+                                                <summary class='section-title accordion__title'>환불 안내</summary>
+                                                <div>
+                                                    {{safeString guide.refund}}
+                                                </div>
+                                            </details>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                            </script>
+                        </shipping-claim>
+                        <!--  -->
+
+                        <!-- 관련상품 -->
+                        <div class="product-content__box">
+                            <related-product product-no:query="productNo">
+                                <script type="text/x-handlebars-template">
+                                    <section class='product-list-items'>
+                                        <div class='thumb-SWIPER' slot="relatedProducts">
+                                            {{#if relatedProducts}}
+                                            <h2>관련 상품</h2>
+                                            <div class='swiper swiper-initialized swiper-horizontal swiper-ios swiper-backface-hidden' shopby-slider-id='related-product__slider'>
+                                                <div class='swiper-wrapper'>
+                                                    {{#each relatedProducts}}
+                                                        <div class='swiper-slide'>
+                                                            <div class='thumb-item'>
+                                                                <!-- 상품 썸네일 박스 -->
+                                                                <div class='thumb-item__media'>
+                                                                    <!-- 상품이미지 -->
+                                                                    <a class='thumb-item__img-box' href='?productNo={{productNo}}'>
+                                                                        <span class='thumb-item__img'>
+                                                                            {{#ifEq imageUrlType 'VIDEO_URL'}}
+                                                                                <div class='video-wrapper'>
+                                                                                    <div class='video-cover'></div>
+                                                                                    <iframe src='{{src}}' width='100%' height='100%' frameborder='0'></iframe>
+                                                                                </div>
+                                                                            {{else}}
+                                                                                <img src='{{src}}?220x220' alt='{{alt}}' loading='lazy' />
+                                                                            {{/ifEq}}
+                                                                        </span>
+                                                                    </a>
+
+                                                                    <!-- 좋아요 버튼 -->
+                                                                    <button
+                                                                        type='button'
+                                                                        class='btn btn--default sc-like-button thumb-fab{{#if liked}} is-active{{/if}}'
+                                                                        shopby-action='PRODUCT_LIKE'
+                                                                        shopby-product-no='{{productNo}}'
+                                                                    >
+                                                                        <svg width='40' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'>
+                                                                            <path
+                                                                                d='M52.29 19.24c-6.382 0-10.932 3.926-12.41 6.888-1.82-3.086-8.408-8.31-14.79-6.888-7.977 1.777-12.613 11.532-5.774 21.324C25.521 49.45 34.74 56.557 39.88 61c5.319-4.443 17.728-14.216 22.16-22.213 5.596-10.097-1.773-19.547-9.75-19.547Z'
+                                                                                stroke='var(--color-point)'
+                                                                                stroke-linejoin='round'
+                                                                                shopby-action='PRODUCT_LIKE'
+                                                                            ></path>
+                                                                        </svg>
+                                                                    </button>
+
+                                                                    {{#if isSoldOut}}
+                                                                    <div class="thumb-item__overlay">SOLD OUT</div>
+                                                                    {{/if}}
+                                                                </div>
+
+                                                                <div class='thumb-item__info'>
+                                                                    <p class='product-thumb-title'>{{productName}}</p>
+
+                                                                    <div class='product-thumb-price-info'>
+                                                                        <em class='product-thumb-price'>{{convertToKoreanCurrency discountedPrice}}</em>
+                                                                        <span class='product-thumb-unit'>원</span>
+                                                                    </div>
+
+                                                                    <div class='thumb-item__icon-box'>
+                                                                        {{#each stickers}}
+                                                                            {{#ifEq type 'TEXT'}}
+                                                                                <span>{{safeString label}}</span>
+                                                                            {{else}}
+                                                                                <img src='{{label}}' alt='{{name}}아이콘' />
+                                                                            {{/ifEq}}
+                                                                        {{/each}}
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    {{/each}}
+                                                </div>
+                                            </div>
+                                            {{/if}}
+                                        </div>
+                                    </section>
+                                </script>
+                            </related-product>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- 구매하기 영역 -->
+                <product-purchase>
+                    <script type="text/x-handlebars-template">
+                        <div>
+                            <div class="purchase product-detail full-width">
+                                <button type="button" class="purchase__opener {{#if openPurchase}}is-show{{/if}}" shopby-on:click="TOGGLE_PURCHASE" slot="openPurchase">
+                                    <span class="ico ico--angle-down-black-24"></span>
+                                </button>
+
+                                <div class="purchase__button-wrap" slot="unpurchasable">
+                                    {{#if unpurchasable}}
+                                        <button type="button" class="btn btn--dark btn--lg btn__buy purchase__buy-btn--unpurchasable" disabled>구매불가</button>
+                                    {{else}}
+
+                                    {{#unless openPurchase}}
+                                    <button
+                                        type="button"
+                                        class="btn btn--default sc-like-button purchase__like-btn {{#if likeStatus.isLiked}}is-active{{/if}}"
+                                        slot="likeStatus"
+                                        shopby-on:click="PRODUCT_LIKE"
+                                    >
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                fill="{{#if likeStatus.isLiked}}var(--color-point){{else}}none{{/if}}"
+                                                d="M11.9932 5.13581C9.9938 2.7984 6.65975 2.16964 4.15469 4.31001C1.64964 6.45038 1.29697 10.029 3.2642 12.5604C4.89982 14.6651 9.84977 19.1041 11.4721 20.5408C11.6536 20.7016 11.7444 20.7819 11.8502 20.8135C11.9426 20.8411 12.0437 20.8411 12.1361 20.8135C12.2419 20.7819 12.3327 20.7016 12.5142 20.5408C14.1365 19.1041 19.0865 14.6651 20.7221 12.5604C22.6893 10.029 22.3797 6.42787 19.8316 4.31001C17.2835 2.19216 13.9925 2.7984 11.9932 5.13581Z"
+                                                stroke="var(--gray500)"
+                                                stroke-width="{{#if likeStatus.isLiked}}0{{else}}2{{/if}}"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                            />
+                                        </svg>
+                                    </button>
+                                    <button type="button" class="btn btn--fill-point btn--lg btn__buy" shopby-on:click="TOGGLE_PURCHASE">구매하기</button>
+                                    {{/unless}} {{/if}}
+                                </div>
+
+                                <div class="purchase__option hidden" shopby-element="purchase-option">
+                                    <!-- SELECT BOX -->
+                                    <div slot="hasOnlyOneOption">
+                                        {{#unless hasOnlyOneOption}}
+                                        <div class="purchase__option-title">옵션 선택</div>
+                                        <div class="purchase__option-options-box" slot="selectorOptions">
+                                            {{#each selectorOptions}}
+                                            <span class="select select--sm">
+                                                <select shopby-on:change="CHANGE_OPTION" shopby-option-key="{{depthKey}}">
+                                                    {{#select depthKey}}
+                                                    <option value="" disabled>{{option.emptyOptionLabel}}</option>
+                                                    {{#each option.options}}
+                                                    <option
+                                                        value="{{optionDepthKey}}"
+                                                        shopby-selected="{{#ifEq ../option.selectedOptionDepthKey optionDepthKey}}true{{/ifEq}}"
+                                                        shopby-disabled="{{disabled}}"
+                                                    >
+                                                        {{displayLabel}}
+                                                        {{#ifGt stockCnt 0}} / 재고 : {{stockCnt}}개{{/ifGt}}
+                                                        {{#ifNe addPrice 0}}
+                                                            ({{#ifGt addPrice 0}}+{{/ifGt}}{{convertToKoreanCurrency addPrice}}원)
+                                                        {{/ifNe}}
+                                                    </option>
+                                                    {{/each}} {{/select}}
+                                                </select>
+                                            </span>
+                                            {{/each}}
+                                        </div>
+                                        {{/unless}}
+                                    </div>
+                                    <!-- SELECT BOX END -->
+
+                                    <div class="purchase__quantity-box l-panel" slot="quantities">
+                                        {{#each quantities}}
+                                        <div shopby-option-no="{{quantity.optionNo}}">
+                                            <div class="quantity{{#if ../hasOnlyOneOption}} undeletable{{/if}}">
+                                                <span>
+                                                    <span class="quantity__label">{{title}}{{#ifGt quantity.stockCnt 0}} / 재고 : {{quantity.stockCnt}}개{{/ifGt}} {{#ifGt quantity.addPrice 0}}(+{{convertToKoreanCurrency quantity.addPrice}}원){{/ifGt}}</span>
+                                                </span>
+
+                                                <div class="quantity__content">
+                                                    <span class="counter">
+                                                        <button
+                                                            class="counter__btn"
+                                                            shopby-count="{{quantity.count}}"
+                                                            shopby-selected-key="{{selectedKey}}"
+                                                            shopby-on:click="SUBTRACT_OPTION_COUNT"
+                                                        >
+                                                            -
+                                                        </button>
+                                                        <span class="counter__input">
+                                                            <input
+                                                                type="number"
+                                                                value="{{quantity.count}}"
+                                                                shopby-selected-key="{{selectedKey}}"
+                                                                shopby-on:change="CHANGE_OPTION_COUNT"
+                                                            />
+                                                        </span>
+                                                        <button
+                                                            class="counter__btn"
+                                                            shopby-count="{{quantity.count}}"
+                                                            shopby-selected-key="{{selectedKey}}"
+                                                            shopby-on:click="ADD_OPTION_COUNT"
+                                                        >
+                                                            +
+                                                        </button>
+                                                    </span>
+                                                    <em>{{convertToKoreanCurrency quantity.totalPrice}}</em>
+                                                </div>
+
+                                                <button class="quantity__del" shopby-on:click="REMOVE_OPTION">
+                                                    <span class="ico ico--x-black-24" shopby-selected-key="{{selectedKey}}"></span>
+                                                </button>
+                                            </div>
+
+                                            <!-- 텍스트 옵션 -->
+                                            {{#eachTextOptionMapByOption ../textOptionsMapByOption selectedKey}}
+                                            <div class="purchase__text-option {{#if byQuantity}}open-by-quantity{{/if}}" shopby-selected-option-key="{{../selectedKey}}" shopby-text-option-key="{{textOptionKey}}" shopby-purchase-option>
+                                                <div class="text-option">
+                                                    <label>
+                                                        <span class="{{#if required}}dot dot--r-must{{/if}}">{{inputLabel}}</span>
+                                                    </label>
+
+                                                    {{#each values}}
+                                                    <div class="{{#ifNe @index 0}}by-quantity{{/ifNe}}">
+                                                        <span class="input-field input-field--sm" style="flex: none;">
+                                                            <input
+                                                                type="text"
+                                                                shopby-selected-option-key="{{../../selectedKey}}"
+                                                                shopby-text-option-key="{{../textOptionKey}}"
+                                                                shopby-text-option-index="{{@index}}"
+                                                                placeholder="{{../inputLabel}} (을)를 입력하세요."
+                                                                value="{{this}}"
+                                                                shopby-on:change="CHANGE_TEXT_OPTION_BY_OPTION"
+                                                                shopby-on:input="INPUT_TEXT_OPTION_BY_OPTION"
+                                                                maxlength="100"
+                                                            />
+                                                        </span>
+                                                        <span class="character-counter__status character-counter__status--character">
+                                                            <span class="character-counter__count" shopby-option-length="{{../textOptionKey}}-{{@index}}">{{length this}}</span>
+                                                            <span class="character-counter__limit-count">/ 100</span>
+                                                        </span>
+                                                    </div>
+                                                    {{/each}}
+                                                </div>
+
+                                                {{#ifGt ../quantity.count 1}}
+                                                <div class="by-quantity-toggle-btn">
+                                                    <span shopby-on:click="TOGGLE_TEXT_OPTIONS_BY_QUANTITY">{{#if byQuantity}}옵션별 입력{{else}}수량별 입력{{/if}}</span>
+                                                </div>
+                                                {{/ifGt}}
+                                            </div>
+                                            {{/eachTextOptionMapByOption}}
+                                        </div>
+                                        <!-- 텍스트 옵션 END -->
+                                        {{/each}}
+
+                                        <!-- 상풉옵션 -->
+                                        {{#each textOptionsByProduct}}
+                                        <div class="text-option">
+                                            <label>
+                                                <span class="{{#if textOption.required}}dot dot--r-must{{/if}}">{{textOption.inputLabel}}</span>
+                                            </label>
+
+                                            <div class="character-counter">
+                                                <span class="input-field input-field--sm">
+                                                    <input
+                                                        type="text"
+                                                        shopby-text-option-key="{{textOptionKey}}"
+                                                        shopby-text-option-index="0"
+                                                        placeholder="{{textOption.inputLabel}} (을)를 입력하세요."
+                                                        value="{{textOption.value}}"
+                                                        shopby-on:change="CHANGE_TEXT_OPTION_BY_PRODUCT"
+                                                        shopby-on:input="INPUT_TEXT_OPTION_BY_PRODUCT"
+                                                        maxlength="100"
+                                                    />
+                                                </span>
+                                                <span class="character-counter__status character-counter__status--character">
+                                                    <span class="character-counter__count" shopby-option-length="{{textOptionKey}}-0">{{length textOption.value}}</span>
+                                                    <span class="character-counter__limit-count">/ 100</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        {{/each}}
+                                        <!-- 상풉옵션 END -->
+                                    </div>
+
+                                    <p class="purchase__total">
+                                        <span>총 상품 금액</span>
+                                        <em>
+                                            <span class="highlight bold" slot="totalPrice">{{convertToKoreanCurrency totalPrice}}</span>
+                                            원
+                                        </em>
+                                    </p>
+
+                                    <div class="purchase__btns" slot="visibleCartButton">
+                                        {{#if visibleCartButton}}
+                                        <button type="button" class="btn btn--fill-dark btn--lg" shopby-action='ADD_CART'>장바구니</button>
+                                        {{/if}}
+                                        <button type="button" class="btn btn--fill-point btn--lg" shopby-on:click="PRODUCT_ORDER">구매하기</button>
+                                    </div>
+                                    <div id="naver-pay" class="purchase__naver-pay-btn"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </script>
+                </product-purchase>
+                <!-- 구매하기 END -->
+
+                <layer-modal-area type="title" name="discount-guide" src="@modals/discount-guide.html"></layer-modal-area>
+                <layer-modal-area type="title" name="coupon-download" src="@modals/coupon-download.html"></layer-modal-area>
+                <layer-modal-area type="title" name="product-inquiry-form" src="@modals/product-inquiry-form.html"></layer-modal-area>
+                <layer-modal-area type="title" name="product-review-form" src="@modals/product-review-form.html"></layer-modal-area>
+                <layer-modal-area type="title" name="product-review-detail" src="@modals/product-review-detail.html"></layer-modal-area>
+                <layer-modal-area type="title" name="product-review-photos" src="@modals/product-review-photos.html"></layer-modal-area>
+                <layer-modal-area type="title" name="image-attachment-detail" src="@modals/image-attachment-detail.html"></layer-modal-area>
+                <layer-modal-area type="title" name="coupon-guide" src="@modals/coupon-guide.html"></layer-modal-area>
+
+                <!-- 하단 레이아웃 -->
+                <template
+                    shopby-partials="@partials/common-footer.html"
+                    shopby-partials-js="@partials/common-footer.js"
+                    shopby-has-page-script="TRUE"
+                ></template>
+            </div>
+            <!-- 오프캔버스 -->
+            <template shopby-partials="@partials/slide-menu.html" shopby-partials-js="@partials/slide-menu.js"></template>
+
+            <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+            <template shopby-partials="@partials/modal.html"></template>
+        </div>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/pages/product/product-detail.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/libs/naver-marketing-config.js" shopby-use-page-script></script>
+    </body>
+</html>

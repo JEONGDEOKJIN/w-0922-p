@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <!-- A2HS -->
+        <link rel="manifest" shopby-manifest-placeholder href="/manifest.json" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+
+        <link rel="apple-touch-icon" href="https://rlyfaazj0.toastcdn.net/20211220/141125.985487000/app_icon(144).png" />
+        <!-- A2HS -->
+
+        <link rel="stylesheet" href="/shopby-skin-mobile.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/my/order-list.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-mobile.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+    <body>
+        <div shopby-skin-container>
+            <!-- 디자인팝업 -->
+            <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+            <!-- 상단 레이아웃 -->
+            <template
+                class="l-header"
+                shopby-partials="@partials/common-header.html"
+                shopby-partials-js="@partials/common-header.js"
+                shopby-sub-title="주문목록/배송조회"
+                shopby-visible-logo="false"
+                shopby-using-button="hamburger,back"
+            ></template>
+
+            <main class="l-content">
+                <div class="order-list">
+                    <!-- 기간 선택 -->
+                    <date-type-selector start-ymd:query="startYmd" date-type:query="dateType" shopby-default-type="7d">
+                        <script type="text/x-handlebars-template">
+                            <div class='select select--sm'>
+                                <select name='changeDate' shopby-on:change='CHANGE_DATE'>
+                                    <option value='td'>
+                                        오늘
+                                    </option>
+                                    <option value='7d'>
+                                        7일
+                                    </option>
+                                    <option value='15d'>
+                                        15일
+                                    </option>
+                                    <option value='1m'>
+                                        1개월
+                                    </option>
+                                    <option value='3m'>
+                                        3개월
+                                    </option>
+                                    <option value='1y'>
+                                        1년
+                                    </option>
+                                </select>
+                            </div>
+                        </script>
+                    </date-type-selector>
+                    <!-- 주문/배송 목록 -->
+                    <my-orders
+                        start-ymd:query="startYmd"
+                        pair-key="ORDER_LIST_MORE_VIEW_BUTTON"
+                        default-page-size="20"
+                        page-size:query="pageSize"
+                        page-number:query="pageNumber"
+                    >
+                        <script type="text/x-handlebars-template">
+                            <div>
+                                <div slot="myOrdersGroupByYmd">
+                                {{#each myOrdersGroupByYmd}}
+                                <div>
+                                    <div class="l-title">{{ orderYmd }} (총 {{ordersForDay.length}}건)</div>
+                                    {{#each ordersForDay}}
+                                    <div class="order-list__group-by-order-no">
+                                        <div class="order-list__identifier">
+                                            <span>
+                                                <time datetime="{{orderYmdt}}">{{ substring orderYmdt 0 10}}</time>
+                                                <a class="order-list__order-no" href="/pages/my/order-detail.html?orderNo={{orderNo}}">{{orderNo}}</a>
+                                            </span>
+                                            {{#each nextActions}}
+                                                {{#ifEq nextActionType 'VIEW_DELIVERY'}}
+                                                    <span class="order-list__delivery-info">
+                                                        <a shopby-action="VIEW_DELIVERY" shopby-delivery-uri="{{uri}}" shopby-delivery-type="{{../delivery.deliveryType}}" >배송 조회</a>
+                                                    </span>
+                                                {{/ifEq}}
+                                            {{/each}}
+                                        </div>
+                                        {{#each orderOptions}}
+                                        <div class="thumb-LIST" shopby-order-option-count="{{../orderOptions.length}}"  shopby-order-next-action-type="{{arrayToString ../nextActions 'nextActionType'}}">
+                                            <div class="product-option-info">
+                                                <div class="product-option-info__status">
+                                                    <span class="highlight">
+                                                    {{#if claimStatusTypeLabel}}
+                                                        {{claimStatusTypeLabel}}
+                                                    {{else}}
+                                                        {{orderStatusTypeLabel}}
+                                                    {{/if}}
+                                                    </span>
+                                                    {{#if claimStatusTypeLabel}}
+                                                        <a
+                                                        class="order-list__claim-detail"
+                                                        shopby-claim-no="{{claimNo}}"
+                                                        shopby-modal-title-prefix="{{substring claimStatusTypeLabel 2}}"
+                                                        shopby-action="VIEW_CLAIM_DETAIL"
+                                                    >상세 보기</a>
+                                                    {{/if}}
+                                                    {{#each nextActions}}
+                                                        {{#ifEq nextActionType 'VIEW_DELIVERY'}}
+                                                            <div class="product-option-info__delivery-search">
+                                                                <a href="{{uri}}" target="_blank" class="font-black">배송 조회</a>
+                                                            </div>
+                                                        {{/ifEq}}
+                                                    {{/each}}
+                                                </div>
+                                                <div class="thumb-item product-option-info__detail">
+                                                    <div class="thumb-item__media">
+                                                        <a class="thumb-item__img-box" href="/pages/product/product-detail.html?productNo={{productNo}}">
+                                                            <span class="thumb-item__img">
+                                                                {{#ifEq imageUrlInfo.0.imageUrlType 'VIDEO_URL'}}
+                                                                    <div class='video-wrapper'>
+                                                                        <div class='video-cover'></div>
+                                                                        <iframe src='{{imageUrlInfo.0.url}}' width="100%" height="100%" frameborder='0'></iframe>
+                                                                    </div>
+                                                                {{else}}
+                                                                    {{img imageUrlInfo.0.url 105 105 productName 'middle' ''}}
+                                                                {{/ifEq}}
+                                                            </span>
+                                                        </a>
+                                                    </div>
+                                                    <div class="thumb-item__info">
+                                                        <p class="product-option-info__name">
+                                                            <em>
+                                                                <a href='/pages/product/product-detail.html?productNo={{productNo}}' class="font-black">{{safeString productName}}</a>
+                                                            </em>
+                                                        </p>
+                                                        <div class="product-option-info__option">
+                                                            <div>{{displayNormalOption optionName optionValue}}</div>
+                                                            {{#each inputs}}
+                                                                <div>{{inputLabel}} : {{inputValue}}</div>
+                                                            {{/each}}
+                                                        </div>
+                                                        <div>
+                                                            <em>{{convertToKoreanCurrency price.buyAmt}}</em>원 / <em>{{orderCnt}}</em>개
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="next-action-btns" shopby-order-option-no="{{orderOptionNo}}" shopby-pay-type="{{../payType}}" shopby-order-status="{{orderStatusType}}" shopby-claim-nos="{{arrayToString ../orderOptions 'claimNo'}}">
+                                                {{#ifEqOne ../payType 'VIRTUAL_ACCOUNT' 'ESCROW_VIRTUAL_ACCOUNT'}}
+                                                    {{#each nextActions}}
+                                                        {{#ifEq nextActionType 'CANCEL_ALL'}}
+                                                            <button type="button" class="btn btn--line-gray btn--md" shopby-order-no="{{../orderNo}}" shopby-action="CANCEL">취소신청</button>
+                                                        {{/ifEq}}
+                                                    {{/each}}
+                                                {{/ifEqOne}}
+                                                {{#each nextActions}}
+                                                    {{#ifEq nextActionType 'CANCEL'}}
+                                                        <button type="button" class="btn btn--line-gray btn--md" shopby-order-no="{{../orderNo}}" shopby-action="CANCEL">취소신청</button>
+                                                    {{/ifEq}}
+                                                    {{#ifEq nextActionType 'EXCHANGE'}}
+                                                        <button type="button" class="btn btn--line-gray btn--md" shopby-action="EXCHANGE" shopby-deliverable="{{#if ../deliverable}}Y{{else}}N{{/if}}">교환신청</button>
+                                                    {{/ifEq}}
+                                                    {{#ifEq nextActionType 'RETURN'}}
+                                                        <button
+                                                            type="button"
+                                                            class="btn btn--line-gray btn--md"
+                                                            shopby-action="RETURN"
+                                                            shopby-deliverable="{{#if ../deliverable}}Y{{else}}N{{/if}}"
+                                                        >
+                                                            반품신청
+                                                        </button>
+                                                    {{/ifEq}}
+                                                    {{#ifEq nextActionType 'WITHDRAW_CANCEL'}}
+                                                        <button type="button" class="btn btn--line-gray btn--md" shopby-claim-no="{{../claimNo}}" shopby-action="WITHDRAW_CANCEL">취소신청 철회</button>
+                                                    {{/ifEq}}
+                                                    {{#ifEq nextActionType 'WITHDRAW_EXCHANGE'}}
+                                                        <button type="button" class="btn btn--line-gray btn--md" shopby-claim-no="{{../claimNo}}" shopby-action="WITHDRAW_EXCHANGE">교환신청 철회</button>
+                                                    {{/ifEq}}
+                                                    {{#ifEq nextActionType 'WITHDRAW_RETURN'}}
+                                                        <button type="button" class="btn btn--line-gray btn--md" shopby-claim-no="{{../claimNo}}" shopby-action="WITHDRAW_RETURN">반품신청 철회</button>
+                                                    {{/ifEq}}
+                                                    {{#ifEq nextActionType 'CONFIRM_ORDER'}}
+                                                        <button type="button" class="btn btn--line-gray btn--md" shopby-action="CONFIRM_ORDER">구매확정</button>
+                                                    {{/ifEq}}
+                                                    {{#ifEq nextActionType 'WRITE_REVIEW'}}
+                                                        <button type="button" class="btn btn--line-gray btn--md" shopby-action="WRITE_REVIEW" shopby-product-no="{{../productNo}}" >후기작성</button>
+                                                    {{/ifEq}}
+                                                {{/each}}
+                                            </div>
+                                        </div>
+                                        {{/each}}
+                                    </div>
+                                    {{/each}}
+                                </div>
+                                {{else}}
+                                <div slot="isLoading">
+                                    {{#if isLoading}}
+                                    <div class="loader loader--lg loader--full">
+                                        <span class="spinner"></span>
+                                    </div>
+                                    {{else}}
+                                    <div class='notice notice--full'>
+                                        <span class='sprite-image notice--warning'>
+                                        </span>
+                                        <em>주문 내역이 없습니다.</em>
+                                    </div>
+                                    {{/if}}
+                                </div>
+                                {{/each}}
+                                </div>
+                            </div>
+                        </script>
+                    </my-orders>
+                    <!-- 더보기 -->
+                    <more-view-button pair-key="ORDER_LIST_MORE_VIEW_BUTTON">
+                        <script type="text/x-handlebars-template">
+                            <div class='order-list__more-btn'>
+                                <div slot='hasMoreViewButton'>
+                                    {{#if hasMoreViewButton}}
+                                        <button class='btn btn--line-gray btn--lg' shopby-on:click='MORE_VIEW_BUTTON_CLICK'>
+                                            더보기
+                                        </button>
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </script>
+                    </more-view-button>
+                </div>
+            </main>
+
+            <layer-modal-area type="title" name="product-review-form" src="@modals/product-review-form.html"></layer-modal-area>
+            <layer-modal-area type="title" name="claim-detail" src="@modals/claim-detail.html"></layer-modal-area>
+
+            <!-- 하단 레이아웃 -->
+            <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js"></template>
+
+            <!-- 하단바 -->
+            <template shopby-partials="@partials/common-nav.html"></template>
+        </div>
+        <!-- 오프캔버스 -->
+        <template shopby-partials="@partials/slide-menu.html" shopby-partials-js="@partials/slide-menu.js"></template>
+        <!-- 최근 검색 -->
+        <layer-modal-area type="custom" name="search-keyword" src="@modals/search-keyword.html"></layer-modal-area>
+        <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+        <template shopby-partials="@partials/modal.html"></template>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/pages/my/order-list.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/libs/naver-marketing-config.js"></script>
+    </body>
+</html>

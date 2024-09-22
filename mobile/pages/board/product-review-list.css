@@ -1,0 +1,244 @@
+@charset "UTF-8";
+/*  상품후기 게시판 페이지 스타일 파일입니다. */
+.board-reviews__tabs {
+  width: 100%;
+}
+.board-reviews__tabs li {
+  flex: 1 0 auto;
+}
+.board-reviews__tabs button {
+  width: 100%;
+  padding: 10px;
+}
+.board-reviews .search-field {
+  padding: 20px 0;
+}
+.board-reviews .search-field__select-box {
+  width: 120px;
+}
+.board-reviews-list {
+  border-top: 2px solid var(--color-base-black);
+}
+.board-reviews-list__search-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0;
+}
+.board-reviews-list__list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.board-reviews-list__item {
+  width: calc(50% - 5px);
+  border: 1px solid var(--gray200);
+  margin: 10px 0;
+}
+.board-reviews-list__item a {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  text-decoration: none;
+  color: var(--color-base-black);
+}
+.board-reviews-list__reviewed-item {
+  width: calc(50% - 5px);
+  border: 1px solid var(--gray200);
+  margin: 10px 0;
+}
+.board-reviews-list__reviewed-item a {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  text-decoration: none;
+  color: var(--color-base-black);
+}
+.board-reviews-item__best-post {
+  font-size: 16px;
+  line-height: 16px;
+  font-weight: 700;
+}
+.board-reviews-item__product-review-info {
+  overflow: hidden;
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: break-word;
+  font-size: 12px;
+}
+.board-reviews-item__product-review-info .product-review-info__product-name {
+  overflow: hidden;
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: break-word;
+  font-weight: 500;
+}
+.board-reviews-item__product-review-info .product-review-info__review-count {
+  color: var(--gray500);
+}
+.board-reviews-item__product-info {
+  flex: none;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.board-reviews-item__product-info img {
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--gray200);
+}
+.board-reviews-item__top {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid var(--gray200);
+}
+.board-reviews-item__top-img {
+  aspect-ratio: 1/1;
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+.board-reviews-item__top-img img {
+  width: 100%;
+  height: 100%;
+  display: inline-flex;
+}
+.board-reviews-item__top-img-cnt {
+  font-weight: 700;
+  position: absolute;
+  display: inline-block;
+  right: 0;
+  bottom: 0;
+  background-color: var(--color-base-navy);
+  width: 26px;
+  height: 26px;
+  color: var(--color-base-white);
+  text-align: center;
+  vertical-align: middle;
+  padding: 3px;
+}
+.board-reviews-item__container {
+  padding: 16px 10px;
+}
+.board-reviews-item__container section {
+  text-align: left;
+  padding: 10px 0;
+}
+.board-reviews-item__content {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  white-space: normal;
+  word-wrap: break-word;
+  padding-bottom: 10px;
+  max-height: 48px;
+  padding: 10px;
+}
+.board-reviews-item__write-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  padding: 10px;
+}
+.board-reviews-item__write span + span::before {
+  content: "|";
+  color: var(--gray200);
+}
+.board-reviews-item__bottom {
+  flex: none;
+  height: 80px;
+}
+.board-reviews .product-review-info__item {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-direction: row;
+  gap: 4px;
+}
+.board-reviews .skeleton__wrap {
+  padding-inline: 0;
+}
+
+.board-reviewed-item__top-img {
+  aspect-ratio: 1/1;
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+.board-reviewed-item__top-img img {
+  width: 100%;
+  height: 100%;
+  display: inline-flex;
+}
+.board-reviewed-item__product-review-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+}
+.board-reviewed-item__content .product-review-info__product-name {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  white-space: normal;
+  word-wrap: break-word;
+  font-size: 12px;
+  font-weight: 500;
+}
+.board-reviewed-item__content .product-review-info__product-price {
+  font-size: 14px;
+  font-weight: 700;
+}
+.board-reviewed-item__content .product-review-info__info {
+  color: var(--gray500);
+}
+.board-reviewed-item__content .product-review-info__item .star svg {
+  width: 15px;
+  height: 15px;
+}
+.board-reviewed-item__reviews {
+  flex: none;
+  padding: 10px;
+}
+.board-reviewed-item__reviews img {
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--gray200);
+}
+.board-reviewed-item__reviews .reviews-item {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  padding: 10px 0;
+  width: 100%;
+  border-top: 1px solid var(--gray200);
+}
+.board-reviewed-item__reviews .reviews-item img {
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--gray200);
+}
+.board-reviewed-item__reviews .reviews-item__content {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  white-space: normal;
+  word-wrap: break-word;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--gray600);
+}

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="/shopby-skin-mobile.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/intro/adult-certification.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-mobile.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+    <body>
+        <adult-certification>
+            <script type="text/x-handlebars-template">
+                <main class='l-content'>
+                    <div class='adult-certification'>
+                        <div class='adult-certification__adult'>
+                            <span>19</span>
+                        </div>
+                        <p class='adult-certification__title'>
+                            성인인증이 필요한
+                            <br />
+                            서비스입니다.
+                        </p>
+                        <p class='adult-certification__description'>
+                            본 상품 및 내용은
+                            <span class='caution'>
+                                청소년에게 유해한 정보를
+                                <br />
+                                포함하고있어 성인인증 절차를 거쳐야 합니다.
+                            </span>
+                            <br />
+                            본 상품 및 내용은 청소년유해매체물로서 정보통신망이용촉진 및 정보보호 등에 관한 법률 및 청소년 보호법의 규정에 의하여 19세 미만의
+                            청소년이 이용, 구매할 수 없습니다.
+                        </p>
+
+                        <div class='adult-certification__login-box'>
+                            <button type='button' class='btn btn--line-gray btn--lg adult-certification__exit-button' shopby-action='EXIT_ADULT_CERTIFICATION'>
+                                19세 미만 나가기
+                            </button>
+
+                            {{#if (isSignedIn)}}
+                                <div>
+                                    {{#unless (isAgeVerified)}}
+                                        <button
+                                            type='button'
+                                            class='btn btn--line-gray btn--lg adult-certification__exit-button'
+                                            shopby-action='SMS_AUTHENTICATION'
+                                        >
+                                            회원 성인인증
+                                        </button>
+                                    {{/unless}}
+                                </div>
+                            {{else}}
+                                <section class='member-only__login'>
+                                    <template shopby-partials='@partials/sign-in-form.html' shopby-partials-js='@partials/sign-in-form.js'></template>
+                                    <template shopby-partials='@partials/open-id-sign-in.html' shopby-partials-js='@partials/open-id-sign-in.js'>
+                                    </template>
+                                </section>
+                            {{/if}}
+                        </div>
+                    </div>
+                </main>
+            </script>
+        </adult-certification>
+
+        <layer-modal-area type="title" name="kcp-sms-authentication" src="@modals/kcp-sms-authentication.html" title="휴대폰 본인인증"></layer-modal-area>
+        <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+        <template shopby-partials="@partials/modal.html"></template>
+
+        <script src="/pages/intro/adult-certification.js"></script>
+    </body>
+</html>

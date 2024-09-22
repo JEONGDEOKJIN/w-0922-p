@@ -1,0 +1,99 @@
+<my-menu>
+  <script type="text/x-handlebars-template">
+    <div>
+        <div class='my-page-menu' slot='boardConfig'>
+            <h2 class='font-noto my-page-menu__title'>마이페이지</h2>
+
+            <ul class='my-page-menu__list'>
+                <li class='my-page-menu__list-item'>
+                    <h3 class='sub-menu__title'>쇼핑정보</h3>
+                    <ul class='sub-menu__list'>
+                        <li class="sub-menu__list-item {{#ifEq menuTitle '주문목록/배송조회'}}on{{/ifEq}}">
+                            <a href='/pages/my/order-list.html'>
+                                주문목록/배송조회
+                            </a>
+                        </li>
+                        <li class="sub-menu__list-item {{#ifEq menuTitle '취소/반품/교환 내역'}}on{{/ifEq}}">
+                            <a href='/pages/my/claim-list.html'>
+                                취소/반품/교환 내역
+                            </a>
+                        </li>
+                        <li class="sub-menu__list-item {{#ifEq menuTitle '좋아요'}}on{{/ifEq}}">
+                            <a href='/pages/my/like-product-list.html'>
+                                좋아요
+                            </a>
+                        </li>
+                        {{#if includesPreviousOrder}}
+                            <li class="sub-menu__list-item {{#ifEq menuTitle '이전 주문목록'}}on{{/ifEq}}">
+                                <a href='/pages/my/previous-order-list.html'>
+                                    이전 주문목록
+                                </a>
+                            </li>
+                        {{/if}}
+                    </ul>
+                </li>
+                <li class='my-page-menu__list-item'>
+                    <h3 class='sub-menu__title'>혜택관리</h3>
+                    <ul class='sub-menu__list'>
+                        <li class="sub-menu__list-item {{#ifEq menuTitle '쿠폰'}}on{{/ifEq}}">
+                            <a href='/pages/my/coupon-list.html'>
+                                쿠폰
+                            </a>
+                        </li>
+                        <li class="sub-menu__list-item {{#ifEq menuTitle '적립금'}}on{{/ifEq}}">
+                            <a href='/pages/my/accumulation-list.html'>
+                                {{accumulationConfig.accumulationName}}
+                            </a>
+                        </li>
+                        <li class="sub-menu__list-item {{#ifEq menuTitle '예치금'}}on{{/ifEq}}"></li>
+                            <a href='/pages/my/deposit-list.html'>
+                                예치금
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class='my-page-menu__list-item'>
+                    <h3 class='sub-menu__title'>회원정보</h3>
+                    <ul class='sub-menu__list'>
+                        <li class="sub-menu__list-item {{#ifEq menuTitle '회원정보 수정'}}on{{/ifEq}}">
+                            <a href='/pages/my/modify-member.html'>회원정보 수정</a>
+                        </li>
+                        <li class="sub-menu__list-item {{#ifEq menuTitle '회원 탈퇴'}}on{{/ifEq}}">
+                            <a href='/pages/my/withdrawal.html'>회원 탈퇴</a>
+                        </li>
+                        <li class="sub-menu__list-item {{#ifEq menuTitle '배송지 관리'}}on{{/ifEq}}">
+                            <a href='/pages/my/shipping-list.html'>배송지 관리</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class='my-page-menu__list-item'>
+                    <h3 class='sub-menu__title'>나의 게시글</h3>
+                    <ul class='sub-menu__list'>
+                        {{#if boardConfig.inquiryConfig.used}}
+                            <li class="sub-menu__list-item {{#ifEq menuTitle '1:1문의'}}on{{/ifEq}}">
+                                <a href='/pages/my/inquiry-list.html'>
+                                    {{{boardConfig.inquiryConfig.name}}}
+                                </a>
+                            </li>
+                        {{/if}}
+                        {{#if boardConfig.productInquiryConfig.used}}
+                            <li class="sub-menu__list-item {{#ifEq menuTitle '상품문의'}}on{{/ifEq}}">
+                                <a href='/pages/my/product-inquiry-list.html'>
+                                    {{{boardConfig.productInquiryConfig.name}}}
+                                </a>
+                            </li>
+                        {{/if}}
+                        {{#if boardConfig.productReviewConfig.used}}
+                            <li class="sub-menu__list-item {{#ifEq menuTitle '상품후기'}}on{{/ifEq}}">
+                                <a href='/pages/my/product-review-list.html'>
+                                    {{{boardConfig.productReviewConfig.name}}}
+                                </a>
+                            </li>
+                        {{/if}}
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+  </script>
+</my-menu>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="/shopby-skin-pc.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/my/product-review-detail.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-pc.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+
+    <body>
+        <!-- 디자인팝업 -->
+        <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+        <template
+            class="l-header"
+            shopby-partials="@partials/common-header.html"
+            shopby-partials-js="@partials/common-header.js"
+            shopby-sub-title="상품후기 관리"
+            shopby-using-button="hamburger,back"
+            shopby-visible-logo="false"
+        ></template>
+
+        <main class="l-my-page">
+            <section class="page-content-top">
+                <ol class="page-content-top__path page-content-top__location">
+                    <li><a href="/">HOME</a></li>
+                    &gt;
+                    <li><a href="/pages/my/my-page.html">마이페이지</a></li>
+                    &gt;
+                    <li>상품후기</li>
+                </ol>
+            </section>
+
+            <div class="my-page-box">
+                <template class="l-my-page-menu" shopby-partials="@partials/my-menu.html"></template>
+
+                <div class="right-box">
+                    <div class="right-box__container">
+                        <p class="right-box__head">
+                            <span class="font-noto right-box__title">상품후기 상세</span>
+                        </p>
+
+                        <product-review-detail product-no:query="productNo" review-no:query="reviewNo">
+                            <script type="text/x-handlebars-template">
+                                <div class='product-review-detail'>
+                                    <div class="product-review-detail__top">
+                                        <div class="product-review-detail__rate">
+                                            <div class="star" slot="starSet">
+                                                {{#each starSet}}
+                                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20" class="crema_product_reviews_score_star_wrapper__star">
+                                                    <linearGradient id="gradient-star">
+                                                        <stop class="gradient__star-secondary" offset="73%" />
+                                                        <stop class="gradient__star" offset="73%" />
+                                                    </linearGradient>
+                                                    <defs>
+                                                        <path id="star-full" d="M9.53834 1.60996C9.70914 1.19932 10.2909 1.19932 10.4617 1.60996L12.5278 6.57744C12.5998 6.75056 12.7626 6.86885 12.9495 6.88383L18.3123 7.31376C18.7556 7.3493 18.9354 7.90256 18.5976 8.19189L14.5117 11.6919C14.3693 11.8139 14.3071 12.0053 14.3506 12.1876L15.5989 17.4208C15.7021 17.8534 15.2315 18.1954 14.8519 17.9635L10.2606 15.1592C10.1006 15.0615 9.89938 15.0615 9.73937 15.1592L5.14806 17.9635C4.76851 18.1954 4.29788 17.8534 4.40108 17.4208L5.64939 12.1876C5.69289 12.0053 5.6307 11.8139 5.48831 11.6919L1.40241 8.19189C1.06464 7.90256 1.24441 7.3493 1.68773 7.31376L7.05054 6.88383C7.23744 6.86885 7.40024 6.75056 7.47225 6.57744L9.53834 1.60996Z" />
+                                                        <path id="star-half" fill="url(#gradient-star)" d="M9.53834 1.60996C9.70914 1.19932 10.2909 1.19932 10.4617 1.60996L12.5278 6.57744C12.5998 6.75056 12.7626 6.86885 12.9495 6.88383L18.3123 7.31376C18.7556 7.3493 18.9354 7.90256 18.5976 8.19189L14.5117 11.6919C14.3693 11.8139 14.3071 12.0053 14.3506 12.1876L15.5989 17.4208C15.7021 17.8534 15.2315 18.1954 14.8519 17.9635L10.2606 15.1592C10.1006 15.0615 9.89938 15.0615 9.73937 15.1592L5.14806 17.9635C4.76851 18.1954 4.29788 17.8534 4.40108 17.4208L5.64939 12.1876C5.69289 12.0053 5.6307 11.8139 5.48831 11.6919L1.40241 8.19189C1.06464 7.90256 1.24441 7.3493 1.68773 7.31376L7.05054 6.88383C7.23744 6.86885 7.40024 6.75056 7.47225 6.57744L9.53834 1.60996Z" />
+                                                    </defs>
+                                                    <path id="star-empty" d="M9.53834 1.60996C9.70914 1.19932 10.2909 1.19932 10.4617 1.60996L12.5278 6.57744C12.5998 6.75056 12.7626 6.86885 12.9495 6.88383L18.3123 7.31376C18.7556 7.3493 18.9354 7.90256 18.5976 8.19189L14.5117 11.6919C14.3693 11.8139 14.3071 12.0053 14.3506 12.1876L15.5989 17.4208C15.7021 17.8534 15.2315 18.1954 14.8519 17.9635L10.2606 15.1592C10.1006 15.0615 9.89938 15.0615 9.73937 15.1592L5.14806 17.9635C4.76851 18.1954 4.29788 17.8534 4.40108 17.4208L5.64939 12.1876C5.69289 12.0053 5.6307 11.8139 5.48831 11.6919L1.40241 8.19189C1.06464 7.90256 1.24441 7.3493 1.68773 7.31376L7.05054 6.88383C7.23744 6.86885 7.40024 6.75056 7.47225 6.57744L9.53834 1.60996Z" fill="#EAECF0" />
+                                                    <use xlink:href="#star-{{.}}"></use>
+                                                </svg>
+                                                {{/each}}
+                                            </div>
+                                        </div>
+                                        <div class='product-review-detail__product'>
+                                            {{img imageUrl 80 80 productName '' ''}}
+                                            <div class='product-review-detail__product-info'>
+                                                <p class='bold product-review-detail__product-title'>
+                                                    {{productName}}
+                                                </p>
+                                                {{#if orderedOption}}
+                                                    <p class='product-review-detail__product-option'>
+                                                        <span>
+                                                            {{orderedOption.optionName}}:{{orderedOption.optionValue}}
+                                                        </span>
+                                                    </p>
+                                                {{/if}}
+                                            </div>
+                                        </div>
+                                        <div class='product-review-detail__writer-info'>
+                                                <span class='product-review-detail__writer-name'>{{registerName}}</span>
+                                                <span class='product-review-detail__writer-date'>{{formatUseByDate registerYmdt}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="product-review-detail__bottom">
+                                        <div class='product-review-detail__content'>
+                                            <p>{{{convertContentLineBreak content}}}</p>
+
+                                            <div class='folding-images-by-one-row is-active'>
+                                                <ul class='folding-images-by-one-row__image-list' shopby-images='{{fileUrls}}'>
+                                                    {{#each fileUrls}}
+                                                        <li class='folding-images-by-one-row__image-item' shopby-image-idx='{{@index}}'>
+                                                            {{img this 80 80}}
+                                                            <button class='folding-images-by-one-row__image-zoom-in' shopby-on:click='ZOOM_IN_IMAGE'>
+                                                                <span class='ico ico--magnet-white-12'></span>
+                                                            </button>
+                                                        </li>
+                                                    {{/each}}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class='detail-page__btn-group' shopby-review-no='{{reviewNo}}' shopby-product-no='{{productNo}}' shopby-board-name="{{./reviewConfig.name}}" shopby-given-accumulation="{{givenAccumulationYn}}">
+                                        <div>
+                                            <button class='btn btn--line-gray btn--xs' shopby-action='MODIFY'>수정</button>
+                                            <button class='btn btn--line-gray btn--xs' shopby-action='DELETE'>삭제</button>
+                                        </div>
+                                        <button class='btn btn--line-gray btn--xs' shopby-action='LIST'>목록</button>
+                                    </div>
+                                </div>
+                            </script>
+                        </product-review-detail>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <layer-modal-area type="title" name="product-review-form" src="@modals/product-review-form.html"></layer-modal-area>
+        <layer-modal-area type="title" name="image-attachment-detail" src="@modals/image-attachment-detail.html"></layer-modal-area>
+
+        <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+        <template shopby-partials="@partials/modal.html"></template>
+
+        <!-- 퀵메뉴 (최상단 이동 + 최근 본 상품) -->
+        <template shopby-partials="@partials/quick-menu.html"></template>
+        <!-- 최근 본 상품(오프캔버스) -->
+        <template shopby-partials="@partials/recent-product.html"></template>
+
+        <!-- 하단 레이아웃 -->
+        <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js"></template>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/pages/my/product-review-detail.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/libs/naver-marketing-config.js"></script>
+    </body>
+</html>

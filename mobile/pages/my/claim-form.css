@@ -1,0 +1,187 @@
+@charset "UTF-8";
+/*  취소/반품/교환 신청 페이지 스타일 파일입니다. */
+.claim-form em {
+  font-style: unset;
+}
+.claim-form a {
+  text-decoration: unset;
+}
+.claim-form textarea {
+  font: inherit;
+}
+.claim-form__title {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-direction: row;
+  font-family: "Montserrat";
+}
+.claim-form__title.l-title {
+  margin-block-start: 0;
+}
+.claim-form__date {
+  font-weight: 500;
+  margin-right: 12px;
+  padding-inline-start: 12px;
+  font-family: "Montserrat";
+}
+.claim-form__product {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  padding-block: 12px;
+  border-bottom: 1px solid var(--gray200);
+}
+.claim-form__product .thumb-item {
+  flex: 1;
+}
+.claim-form__product .thumb-item__info span {
+  display: block;
+  color: var(--gray600);
+  font-size: 14px;
+}
+.claim-form__product .thumb-item__product-name {
+  font-size: 14px;
+  font-weight: 700;
+  padding-block-end: 4px;
+}
+.claim-form__product .thumb-item__link {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  width: 100%;
+}
+.claim-form__product .thumb-item__info {
+  flex: 1;
+}
+.claim-form__product .thumb-item__media {
+  width: 80px;
+  height: 80px;
+  flex: none;
+  border: 1px solid var(--gray200);
+}
+.claim-form__product .thumb-item__amount {
+  width: 100%;
+}
+.claim-form__product .thumb-item__amount-info {
+  display: flex;
+  justify-content: end;
+  align-items: baseline;
+  flex-direction: row;
+  font-size: 14px;
+  font-weight: 18px;
+}
+.claim-form__product .thumb-item__price {
+  font-family: "Montserrat";
+  padding-inline-end: 6px;
+}
+.claim-form__product .thumb-item__price em {
+  font-weight: 700;
+  font-family: "Montserrat";
+}
+.claim-form__product .counter {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  flex-direction: row;
+  width: 100%;
+  margin-left: auto;
+  padding-block: 8px 12px;
+  font-size: 14px;
+  max-width: unset;
+}
+.claim-form__product .counter__btn {
+  font-size: 18px;
+}
+.claim-form__info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  width: 100%;
+  gap: 14px;
+}
+.claim-form__order-option-no {
+  color: var(--gray400);
+  font-family: "Montserrat";
+}
+.claim-form__message {
+  line-height: 16px;
+  margin: 14px 0 0 14px;
+  color: var(--gray500);
+  display: block;
+}
+.claim-form__message--caution {
+  color: var(--color-caution);
+}
+.claim-form__message--notice {
+  color: var(--color-point);
+}
+.claim-form__message--right {
+  font-size: 12px;
+  display: inline-block;
+  margin: 0 0 0 auto;
+}
+.claim-form__checked-result.point {
+  margin-left: 12px;
+}
+.claim-form__identification {
+  margin-top: 0;
+  font-size: 14px;
+  font-weight: 500;
+}
+.claim-form__title {
+  margin: 20px 0 10px 0;
+  font-size: 16px;
+  line-height: 18px;
+  font-weight: 500;
+  font-family: "Noto Sans KR";
+}
+.claim-form__tracking-number, .claim-form__shipping-address {
+  margin-top: 14px;
+}
+.claim-form__collection-type {
+  display: flex;
+  justify-content: none;
+  align-items: center;
+  flex-direction: row;
+  gap: 20px;
+}
+.claim-form__return-receiver {
+  display: flex;
+  justify-content: none;
+  align-items: center;
+  flex-direction: row;
+  gap: 12px;
+}
+.claim-form__return-receiver button {
+  flex: none;
+}
+.claim-form__return-information {
+  display: grid;
+  grid-template-columns: 0.4fr 1fr;
+  row-gap: 8px;
+  padding: 20px;
+  border: 1px solid var(--gray300);
+}
+.claim-form__return-information dt {
+  color: var(--gray500);
+}
+.claim-form__return-delivery-company-type {
+  margin-block-end: 12px;
+}
+.claim-form .address-form__zip-code {
+  display: flex;
+  justify-content: start;
+  align-items: none;
+  flex-direction: row;
+  gap: 12px;
+}
+.claim-form .address-form__zip-code button {
+  flex: none;
+  margin-block-end: 12px;
+}

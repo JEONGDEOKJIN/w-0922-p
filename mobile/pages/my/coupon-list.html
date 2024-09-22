@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <!-- A2HS -->
+        <link rel="manifest" shopby-manifest-placeholder href="/manifest.json" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+
+        <link rel="apple-touch-icon" href="https://rlyfaazj0.toastcdn.net/20211220/141125.985487000/app_icon(144).png" />
+        <!-- A2HS -->
+
+        <link rel="stylesheet" href="/shopby-skin-mobile.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/my/coupon-list.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-mobile.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+    <body>
+        <div shopby-skin-container>
+            <!-- 디자인팝업 -->
+            <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+            <!-- 상단 레이아웃 -->
+            <template
+                class="l-header"
+                shopby-partials="@partials/common-header.html"
+                shopby-partials-js="@partials/common-header.js"
+                shopby-sub-title="쿠폰"
+                shopby-using-button="hamburger,back"
+                shopby-visible-logo="false"
+            ></template>
+
+            <main class="l-content">
+                <div class="my-page-coupon">
+                    <coupon-tabs>
+                        <script type="text/x-handlebars-template">
+                            <div class="tabs-wrap">
+                                <ul class="tab" slot="tabs">
+                                    <li>
+                                        <button
+                                            class="tab__btn {{#ifEq currentTab 'ISSUABLE'}}is-active{{/ifEq}}"
+                                            type="button"
+                                            shopby-on:click="TAB_CLICK"
+                                            shopby-tab-value="ISSUABLE">
+                                            사용 가능 쿠폰
+                                        </button>
+                                    </li>
+                                    <li >
+                                        <button
+                                            class="tab__btn {{#ifEq currentTab 'UNISSUABLE'}}is-active{{/ifEq}}"
+                                            type="button"
+                                            shopby-on:click="TAB_CLICK"
+                                            shopby-tab-value="UNISSUABLE">
+                                            사용 불가 쿠폰
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </script>
+                    </coupon-tabs>
+                    <div class="my-page-coupon__wrap">
+                        <coupon-total-count>
+                            <script type="text/x-handlebars-template">
+                                <div>
+                                    <summary class='l-title l-title--md-medium l-title--center my-page__summary' slot='totalCount'>
+                                        {{#ifEq currentTab 'ISSUABLE'}}
+                                            <span class='my-page__total-count'>
+                                                사용가능 쿠폰 수
+                                                <span class='my-page__count'>
+                                                    <span slot='usableCouponCnt'>
+                                                        {{usableCouponCnt}}
+                                                    </span>
+                                                    건
+                                                </span>
+                                            </span>
+                                            <button type='button' class='btn btn--fill-point btn--sm' shopby-action='REGISTER'>
+                                                쿠폰 등록
+                                            </button>
+                                        {{/ifEq}}
+                                    </summary>
+                                </div>
+                            </script>
+                        </coupon-total-count>
+
+                        <coupon-list
+                            pair-key="COUPON_MORE_VIEW_BUTTON"
+                            default-page-size="20"
+                            page-size:query="pageSize"
+                            page-number:query="pageNumber"
+                            sort-direction:query="sortDirection"
+                            start-ymd:query="startYmd"
+                            uses-more-button
+                        >
+                            <script type="text/x-handlebars-template">
+                                <div>
+                                    <div slot="couponList">
+                                        {{#if totalCount}}
+                                        <ul class="my-page-coupon__list">
+                                            {{#each items}}
+                                            <li class="my-page-coupon__list-item my-page-coupon__list-item--{{#ifEq ../currentTab 'ISSUABLE'}}issuable{{else}}unissuable{{/ifEq}}"
+                                                shopby-coupon-no='{{couponNo}}'
+                                                shopby-coupon-target-type='{{couponTargetType}}'
+                                                shopby-coupon-idx='{{@index}}'
+                                            >
+                                                <div class="my-page-coupon__box">
+                                                    <div class="my-page-coupon__coupon-info">
+
+                                                        <div class="my-page-coupon__content">
+                                                            <p class="my-page-coupon__name">{{couponName}}</p>
+
+                                                            <p class="my-page-coupon__discounted-price">
+                                                                {{convertToKoreanCurrency amount}}
+                                                                <span class="my-page-coupon__unit">{{unit}}</span>
+                                                                <span class="my-page-coupon__discount-label">{{couponTypeLabel}} 할인</span>
+                                                            </p>
+
+                                                            {{#ifGt maxAmount 0}}
+                                                            <p class="my-page-coupon__max-amount">최대 {{convertToKoreanCurrency maxAmount}}원 할인</p>
+                                                            {{/ifGt}} {{#ifGt limitSalePrice 0}}
+                                                            <p class="my-page-coupon__limit-sale-price">
+                                                                {{convertToKoreanCurrency limitSalePrice}} 원 이상 구매 시 사용가능
+                                                            </p>
+                                                            {{/ifGt}}
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="my-page-coupon__coupon-sub-info">
+                                                            <span class="my-page-coupon__date">
+                                                                {{#if used}}
+                                                                    {{formatUseByDate useEndYmdt}}
+                                                                {{else}}
+                                                                    {{#if issueYmdt}}
+                                                                        {{formatUseByDate issueYmdt}} ~ {{formatUseByDate expireYmdt}}
+                                                                    {{else}}
+                                                                        {{formatUseByDate expireYmdt}}
+                                                                    {{/if}}
+                                                                {{/if}}
+                                                            </span>
+                                                            <button type="button" class="btn my-page-coupon__coupon-limit" shopby-on:click="VIEW_CONDITION_DETAIL">사용/제한 조건</button>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            {{/each}}
+                                        </ul>
+                                        {{else}}
+                                        <div class="notice notice--full">
+                                            <span class="sprite-image notice--warning"></span>
+                                            <em>보유한 쿠폰이 없습니다.</em>
+                                        </div>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                            </script>
+                        </coupon-list>
+
+                        <more-view-button pair-key="COUPON_MORE_VIEW_BUTTON">
+                            <script type="text/x-handlebars-template">
+                                <div>
+                                    <div slot='hasMoreViewButton'>
+                                        {{#if hasMoreViewButton}}
+                                            <button class='btn btn--line-gray btn--lg-wide' shopby-on:click='MORE_VIEW_BUTTON_CLICK'>
+                                                쿠폰 더보기
+                                            </button>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                            </script>
+                        </more-view-button>
+                    </div>
+                </div>
+            </main>
+
+            <!-- 하단 레이아웃 -->
+            <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js"></template>
+
+            <!-- 하단바 -->
+            <template shopby-partials="@partials/common-nav.html"></template>
+        </div>
+        <!-- 오프캔버스 -->
+        <template shopby-partials="@partials/slide-menu.html" shopby-partials-js="@partials/slide-menu.js"></template>
+        <!-- 최근 검색 -->
+        <layer-modal-area type="custom" name="search-keyword" src="@modals/search-keyword.html"></layer-modal-area>
+        <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+        <template shopby-partials="@partials/modal.html"></template>
+
+        <layer-modal-area type="title" name="coupon-register-form" src="@modals/register-coupon.html"></layer-modal-area>
+        <layer-modal-area type="custom" name="coupon-condition" src="@modals/coupon-condition.html"></layer-modal-area>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/pages/my/coupon-list.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/libs/naver-marketing-config.js"></script>
+    </body>
+</html>

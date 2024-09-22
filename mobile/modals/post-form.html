@@ -1,0 +1,192 @@
+<div class="article-write article-write--modal" shopby-layer-modal-helper-key="article-write-form">
+    <article-form>
+        <script type="text/x-handlebars-template">
+            <div class='article-form'>
+                {{#unless isLoading}}
+                    {{#if boardConfig.canUseCategory}}
+                        <p class='article-form__category'>
+                            <label class='bold'>카테고리</label>
+                            <span class='select select--sm article-form__input'>
+                                <select shopby-on:change='CHANGE_CATEGORY_TYPE' shopby-select-category>
+                                    {{#each boardConfig.categories}}
+                                        <option value='{{categoryNo}}'>{{label}}</option>
+                                    {{/each}}
+                                </select>
+                            </span>
+                        </p>
+                    {{/if}}
+                    {{#unless isGuestMode}}
+                        <div>
+                            <label class='bold'>작성자</label>
+                            <p class='input-field input-field--md article-form__input is-disabled'>
+                                <input type='text' value='{{name}}' disabled />
+                            </p>
+                        </div>
+                        <p class='input-field input-field--md article-form__input'>
+                            <input type='text' placeholder='제목을 작성해 주세요.' value='{{title}}' shopby-max='50' shopby-on:input='TITLE' />
+                        </p>
+                    {{else}}
+                        <div>
+                            <label class='bold'>작성자</label>
+                            <p class='input-field input-field--md article-form__input'>
+                                <input type='text' value='{{name}}' shopby-max='20' shopby-on:input='NAME' placeholder='작성자를 입력해주세요.' />
+                            </p>
+                        </div>
+                        <div>
+                            <label class='bold'>비밀번호</label>
+                            <p class='input-field input-field--md article-form__input'>
+                                <input
+                                    type='password'
+                                    name='password'
+                                    value='{{password}}'
+                                    shopby-max='20'
+                                    shopby-on:input='PASSWORD'
+                                    shopby-on:change='PASSWORD'
+                                    placeholder='비밀번호를 입력해주세요.'
+                                />
+                            </p>
+                            <span slot='passwordIsValid'>
+                                {{#unless passwordIsValid}}
+                                    <span class='caution'>{{passwordErrorMessage}}</span>
+                                {{/unless}}
+                            </span>
+                        </div>
+                        <p class='input-field input-field--md'>
+                            <input type='text' placeholder='제목을 작성해 주세요.' value='{{title}}' shopby-max='50' shopby-on:input='TITLE' />
+
+                            <span slot='title' class='article-form__title'>
+                                <span class='bold highlight'>
+                                    {{title.length}}
+                                </span>
+                                / 50
+                            </span>
+                        </p>
+                    {{/unless}}
+                    <section class='article-form__content'>
+                        <textarea placeholder='내용을 입력해주세요.' shopby-max='1000' shopby-on:input='CONTENT'>{{{content}}}</textarea>
+
+                        <p class='article-form__content-sub'>
+                            {{#if secretPostingUsed}}
+                                <label class='form-check form-check--md'>
+                                    {{#if willBeSecretArticle}}
+                                        <input type='checkbox' shopby-on:change='WILL_BE_SECRET_ARTICLE' checked />
+                                    {{else}}
+                                        <input type='checkbox' shopby-on:change='WILL_BE_SECRET_ARTICLE' />
+                                    {{/if}}
+                                    <span class='form-check__label'>
+                                        <span class='check-radio__ico'>
+                                            <span class='ico ico--check-white'></span>
+                                        </span>
+                                        비밀글
+                                    </span>
+                                </label>
+                            {{/if}}
+
+                            <span slot='content'>
+                                <span class='bold highlight'>
+                                    {{content.length}}
+                                </span>
+                                / 1000
+                            </span>
+                        </p>
+                    </section>
+                {{/unless}}
+            </div>
+        </script>
+    </article-form>
+
+    <file-attach>
+        <script type="text/x-handlebars-template">
+            <div>
+                <div class='review-form__content' slot='usesAttachment'>
+                    <ul class='article-form article-form__attachments' slot='imagesList'>
+                        {{#each imagesList}}
+                            <li class='article-form__attachment'>
+                                {{img imageUrl 220 220 originName '' ''}}
+                                <button
+                                    type='button'
+                                    class='btn btn--sm article-form__delete'
+                                    shopby-image-url='{{imageUrl}}'
+                                    shopby-action='DELETE_IMAGE_IN_LIST'
+                                ></button>
+                            </li>
+                        {{/each}}
+                        <input
+                            type='file'
+                            hidden
+                            multiple
+                            accept='image/*'
+                            shopby-attach-input='ATTACH_INPUT'
+                            shopby-limit-count='5'
+                            shopby-limit-mega-bytes='5'
+                            shopby-on:change='ATTACH_IMAGE'
+                        />
+                        {{#if usesAttachment}}
+                            <button type='button' class='btn btn--line-dark article-form__attachment-input' shopby-on:click='ATTACH_IMAGE'></button>
+                        {{/if}}
+                    </ul>
+                    <!-- FILES -->
+                    <div>
+                        <ul class='article-form__attachments-files' slot='files'>
+                            {{#each files}}
+                                <li class='article-form__attachment-file'>
+                                    <span class='ico ico--clip-16 article-list__item-title-icon'></span>
+                                    {{originalFileName}}
+                                    <button
+                                        type='button'
+                                        class='btn btn--sm article-form__delete'
+                                        shopby-file-name='{{uploadedFileName}}'
+                                        shopby-action='DELETE_FILE'
+                                    ></button>
+                                </li>
+                            {{/each}}
+                        </ul>
+                    </div>
+                    {{#if usesAttachment}}
+                        <p class='board-form__notice-text'>
+                            업로드 용량은 5MB 이하로만 가능 합니다.
+                        </p>
+                    {{/if}}
+                </div>
+            </div>
+        </script>
+    </file-attach>
+
+    <article-form-terms>
+        <script type="text/x-handlebars-template">
+            <section class='article-form__terms'>
+                {{#unless (isSignedIn)}}
+                    <label class='form-check form-check--md'>
+                        <input type='checkbox' shopby-on:change='CHECK_GUEST_TERMS' />
+                        <span class='bold form-check__label'>비회원 글 작성에 대한 개인정보 수집 이용 동의 (필수)</span>
+                    </label>
+                    <ul class='article-form__terms-item' slot='contents'>
+                        {{{contents}}}
+                    </ul>
+                {{/unless}}
+            </section>
+        </script>
+    </article-form-terms>
+
+    <board-form-button-group>
+        <script type="text/x-handlebars-template">
+            <div>
+                <div class='board-form__buttons' slot='formBtnGroups'>
+                    <button type='button' class='btn btn--line-dark board-form__btn' shopby-action='CANCEL'>
+                        취소
+                    </button>
+                    {{#if isModify}}
+                        <button type='button' class='btn btn--fill-point board-form__btn' shopby-action='MODIFY'>
+                            수정
+                        </button>
+                    {{else}}
+                        <button type='button' class='btn btn--fill-point board-form__btn' shopby-action='SUBMIT'>
+                            등록
+                        </button>
+                    {{/if}}
+                </div>
+            </div>
+        </script>
+    </board-form-button-group>
+    <script src="/modals/post-form.js"></script>
+</div>

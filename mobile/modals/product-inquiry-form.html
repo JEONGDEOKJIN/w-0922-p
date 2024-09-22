@@ -1,0 +1,161 @@
+<div shopby-layer-modal-helper-key="product-inquiry-form">
+    <product-inquiry-form>
+        <script type="text/x-handlebars-template">
+            <div>
+                <div slot='inquiryDetail'>
+                    <div class='board-form board-form__container'>
+                        <label>문의유형</label>
+                        <span class='select select--sm'>
+                            <select
+                                value='{{type}}'
+                                shopby-disabled='{{disabled}}'
+                                slot='productInquiryTypes'
+                                shopby-on:change='SELECT_PRODUCT_INQUIRY_TYPE_OPTION'
+                            >
+                                {{#each types}}
+                                    <option value='{{value}}'>
+                                        {{label}}
+                                    </option>
+                                {{/each}}
+                            </select>
+                        </span>
+
+                        <div class='thumb-item board-form__product-item-witch-button' shopby-product-no='{{productNo}}'>
+                            {{#if productNo}}
+                                <div class='board-form__product-item'>
+                                    <div class='product-item__image'>
+                                        {{#ifEq imageType 'VIDEO_URL'}}
+                                            <div class='video-wrapper'>
+                                                <div class='video-cover'></div>
+                                                <iframe src='{{imageUrl}}' width='100px' frameborder='0'></iframe>
+                                            </div>
+                                        {{else}}
+                                            {{img imageUrl 100 100 productName}}
+                                        {{/ifEq}}
+                                    </div>
+                                    <div class='product-item__info'>
+                                        <em class='product-item__name'>
+                                            {{productName}}
+                                        </em>
+                                        <p class='product-item__option'>
+                                            {{#each optionValues}}
+                                                <span>
+                                                    {{inputLabel}}:{{inputValue}}
+                                                </span>
+                                            {{/each}}
+                                        </p>
+                                        {{#if useSelectProduct}}
+                                            <button
+                                                type='button'
+                                                class='btn btn--fill-dark btn--sm board-form__product-select-btn'
+                                                shopby-action='SELECT_PRODUCT'
+                                                shopby-disabled='{{disabled}}'
+                                            >다른 상품 선택</button>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                            {{else}}
+                                <label class='board-form__product-select-label'>
+                                    문의를 작성할 상품을 선택해주세요.
+                                </label>
+                                <button
+                                    type='button'
+                                    class='btn btn--fill-dark btn--sm board-form__product-select-btn'
+                                    shopby-disabled='{{disabled}}'
+                                    shopby-action='SELECT_PRODUCT'
+                                >상품 선택</button>
+                            {{/if}}
+                        </div>
+
+                        <div class='board-form__top'>
+                            <div class='character-counter'>
+                                <span class='input-field input-field--sm board-form__title'>
+                                    <input
+                                        type='text'
+                                        value='{{title}}'
+                                        placeholder='제목을 작성해주세요.'
+                                        shopby-max='50'
+                                        shopby-disabled='{{disabled}}'
+                                        shopby-on:input='INPUT_MY_INQUIRY_TITLE'
+                                    />
+                                </span>
+                                <span class='character-counter__status character-counter__status--character'>
+                                    <span class='character-counter__count' slot='title'>
+                                        {{convertToKoreanCurrency title.length}}
+                                    </span>
+                                    <span class='character-counter__limit-count'>
+                                        / 50
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class='character-counter'>
+                            <textarea
+                                class='text-area'
+                                name='content'
+                                cols='30'
+                                rows='10'
+                                maxlength='1000'
+                                shopby-max='1000'
+                                shopby-disabled='{{disabled}}'
+                                placeholder='내용을 작성해주세요.'
+                                shopby-on:input='INPUT_MY_INQUIRY_CONTENT'
+                            >{{{content}}}</textarea>
+                            <span class='character-counter__status character-counter__status--character'>
+                                <span class='character-counter__count' slot='content'>
+                                    {{convertToKoreanCurrency content.length}}
+                                </span>
+                                <span class='character-counter__limit-count'>
+                                    / 1,000
+                                </span>
+                            </span>
+                        </div>
+                        <div slot='productInquiryConfig'>
+                            {{#if productInquiryConfig.secretPostingUsed}}
+                                <div class='board-form__checkbox-group'>
+                                    <label class='form-check form-check--md'>
+                                        {{#if secreted}}
+                                            <input type='checkbox' shopby-on:change='CHECK_SECRET_MY_INQUIRY' checked />
+                                        {{else}}
+                                            <input type='checkbox' shopby-on:change='CHECK_SECRET_MY_INQUIRY' />
+                                        {{/if}}
+                                        <span class='form-check__label'>
+                                            <span class='check-radio__ico'>
+                                                <span class='ico ico--check-white'></span>
+                                            </span>
+                                            비밀글 설정
+                                        </span>
+                                    </label>
+                                    <p class='board-form__note-text'>
+                                        성격에 맞지 않는 글, 비방성글, 음란글, 욕설 등은 통보 없이 이동 또는 삭제 될 수 있습니다.
+                                    </p>
+                                </div>
+                            {{/if}}
+                        </div>
+                        <div class='board-form__button-group'>
+                            <button type='button' class='btn btn--line-dark btn--lg board-form__btn' shopby-action='CANCEL'>
+                                취소
+                            </button>
+                            {{#if isModify}}
+                                <button type='button' class='btn btn--fill-point btn--lg board-form__btn' shopby-disabled='{{disabled}}' shopby-action='MODIFY'>
+                                    수정
+                                </button>
+                            {{else}}
+                                <button
+                                    type='button'
+                                    class='btn btn--fill-point btn--lg board-form__btn'
+                                    shopby-disabled='{{disabled}}'
+                                    shopby-action='REGISTER'
+                                >
+                                    등록
+                                </button>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+    </product-inquiry-form>
+</div>
+<script src="/modals/product-inquiry-form.js"></script>
+<layer-modal-area type="title" name="select-product" src="@modals/select-product.html"></layer-modal-area>

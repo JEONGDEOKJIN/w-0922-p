@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
+        <link rel="stylesheet" href="/shopby-skin-pc.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/my/my-page.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/lib/lodash_4_17_21.min.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-pc.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+
+    <body>
+        <!-- 디자인팝업 -->
+        <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+        <!-- 상단 레이아웃 -->
+        <template class="shopby-header" shopby-partials="@partials/common-header.html" shopby-partials-js="@partials/common-header.js"></template>
+        <main class="l-my-page" shopby-helper-key="my-page-helper-key">
+            <section class="page-content-top">
+                <ol class="page-content-top__path page-content-top__location">
+                    <li><a href="/">HOME</a></li>
+                    &gt;
+                    <li>마이페이지</li>
+                </ol>
+            </section>
+            <div class="my-page-box">
+                <template class="l-my-page-menu" shopby-partials="@partials/my-menu.html"></template>
+
+                <div class="right-box">
+                    <div class="right-box__container">
+                        <profile-summary>
+                            <script type="text/x-handlebars-template">
+                                <div class='my-info'>
+                                    <article class='my-info__member'>
+                                        <div class='my-info__member-container'>
+                                            <div class='my-info__member-summary'>
+                                                <p slot='profile' class='my-info__member-greeting'>
+                                                    {{#if profile.memberName}}
+                                                        <span class='bold'>{{profile.memberName}}</span>
+                                                    {{else}}
+                                                        {{profile.memberId}}
+                                                    {{/if}}
+                                                    님은
+                                                    <span class='bold'>{{profile.memberGradeName}}</span>
+                                                    입니다.
+                                                </p>
+
+                                            </div>
+                                            <div class='my-info__member-info'>
+                                                <div class='my-info__member-type-container'>
+                                                    <span slot='profile' class='my-info__member-type'>
+                                                        {{profile.memberTypeLabel}}
+                                                        아이디 회원
+                                                    </span>
+                                                    <span slot='profileOrdersSummaryAmount'>
+                                                        구매금액
+                                                        {{convertToKoreanCurrency profileOrdersSummaryAmount.lastPayAmt}}원
+                                                    </span>
+                                                    <span slot='profileOrdersSummaryAmount'>
+                                                        구매횟수
+                                                        {{convertToKoreanCurrency profileOrdersSummaryAmount.orderCnt}}회
+                                                    </span>
+                                                </div>
+                                                <button type='button' class='btn btn--line-dark btn--md my-info__benefit-btn' shopby-action='GRADE_BENEFIT'>
+                                                    나의혜택
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class='my-benefits-status'>
+                                            <a class='my-benefits-status__link' href='/pages/my/coupon-list.html'>
+                                                <p class='my-benefits-status__item'>보유쿠폰</p>
+                                                <div class='my-benefits-status__count'>
+                                                    <em class='font-montserrat' slot='couponSummary'>
+                                                        {{convertToKoreanCurrency couponSummary.usableCouponCnt}}
+                                                    </em>
+                                                    <span>개</span>
+                                                </div>
+                                            </a>
+                                            <a class='my-benefits-status__link' href='/pages/my/accumulation-list.html' slot='accumulationConfig'>
+                                                <p class='my-benefits-status__item'>{{accumulationConfig.accumulationName}}</p>
+                                                <div class='my-benefits-status__count'>
+                                                    <em class='font-montserrat' slot='accumulationSummary'>
+                                                        {{convertToKoreanCurrency accumulationSummary.totalAvailableAmt}}
+                                                    </em>
+                                                    <span>원</span>
+                                                </div>
+                                            </a>
+                                            <a class='my-benefits-status__link' href='/pages/my/like-product-list.html'>
+                                                <p class='my-benefits-status__item'>좋아요</p>
+                                                <div class='my-benefits-status__count'>
+                                                    <em class='font-montserrat' slot='likeSummary'>
+                                                        {{convertToKoreanCurrency likeSummary}}
+                                                    </em>
+                                                    <span>개</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </article>
+                                </div>
+                            </script>
+                        </profile-summary>
+
+                        <my-order-status>
+                            <script type="text/x-handlebars-template">
+                                <div>
+                                    <div class='my-order-status'>
+                                        <summary class='my-order-status__summary'>
+                                            <span class='bold my-order-status__title'>나의 주문 현황</span>
+                                            <span class='my-order-status__description'>최근 6개월 기준</span>
+                                        </summary>
+                                        <a class='my-order-status__link' href='/pages/my/order-list.html'> 더보기 </a>
+                                    </div>
+
+                                    <div class='order-state'>
+                                        <ul class='order-state__list'>
+                                            <li class='order-state__item'>
+                                                <a class='order-state__item-link' href='/pages/my/order-list.html?orderRequestTypes=DEPOSIT_WAIT'>
+                                                    <p class='order-state__item-title'>미입금</p>
+                                                    <span class='bold order-state__item-price'>
+                                                        {{convertToKoreanCurrency depositWaitCnt}}
+                                                        <span class='order-state__item-unit'>건</span>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <button type='button' class='order-state__item-link-icon'>
+                                                <span class='ico ico--angle-down-black-24'></span>
+                                            </button>
+                                            <li class='order-state__item'>
+                                                <a
+                                                    class='order-state__item-link'
+                                                    href='/pages/my/order-list.html?orderRequestTypes=PAY_DONE,PRODUCT_PREPARE,DELIVERY_PREPARE'
+                                                >
+                                                    <p class='order-state__item-title'>출고대기</p>
+                                                    <span class='bold order-state__item-price'>
+                                                        {{convertToKoreanCurrency (sum payDoneCnt productPrepareCnt deliveryPrepareCnt)}}
+                                                        <span class='order-state__item-unit'>건</span>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <button type='button' class='order-state__item-link-icon'>
+                                                <span class='ico ico--angle-down-black-24'></span>
+                                            </button>
+                                            <li class='order-state__item'>
+                                                <a class='order-state__item-link' href='/pages/my/order-list.html?orderRequestTypes=DELIVERY_ING'>
+                                                    <p class='order-state__item-title'>배송중</p>
+                                                    <span class='bold order-state__item-price'>
+                                                        {{convertToKoreanCurrency deliveryIngCnt}}
+                                                        <span class='order-state__item-unit'>건</span>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <button type='button' class='order-state__item-link-icon'>
+                                                <span class='ico ico--angle-down-black-24'></span>
+                                            </button>
+                                            <li class='order-state__item'>
+                                                <div class='order-state__item-complete'>
+                                                    <a class='order-state__item-link' href='/pages/my/order-list.html?orderRequestTypes=DELIVERY_DONE'>
+                                                        <p class='order-state__item-title'>배송완료</p>
+                                                        <span class='bold order-state__item-price'>
+                                                            {{convertToKoreanCurrency deliveryDoneCnt}}
+                                                            <span class='order-state__item-unit'>건</span>
+                                                        </span>
+                                                    </a>
+                                                    <a class='order-state__item-link' href='/pages/my/claim-list.html'>
+                                                        <p class='order-state__item-title'>취소/반품/교환</p>
+                                                        <span class='bold order-state__item-price'>
+                                                            {{convertToKoreanCurrency
+                                                                (sum
+                                                                    cancelDoneCnt
+                                                                    cancelProcessingCnt
+                                                                    exchangeDoneCnt
+                                                                    exchangeProcessingCnt
+                                                                    returnDoneCnt
+                                                                    returnProcessingCnt
+                                                                )
+                                                            }}
+                                                            <span class='order-state__item-unit'>건</span>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </script>
+                        </my-order-status>
+
+                        <my-board-status>
+                            <script type="text/x-handlebars-template">
+                                <div class='my-board-status'>
+                                    <!-- 1:1 문의 -->
+                                    <div class='my-board-status__box'>
+                                        <div class='box__header'>
+                                            <span class='box__title'>1:1문의</span>
+                                            <button class='box__link' shopby-action='INQUIRY_REGISTER'>문의하기 ></button>
+                                        </div>
+                                        <div class='box__content'>
+                                            <div class='box__content-container'>
+                                                <span class='box__content-name'>답변 대기</span>
+                                                <span class='font-montserrat box__content-count'>
+                                                    <a class='box__content-link' href='/pages/my/inquiry-list.html'>
+                                                        {{convertToKoreanCurrency inquirySummary.progressCnt}}
+                                                    </a>
+                                                    <span class='box__content-unit'>건</span>
+                                                </span>
+                                            </div>
+                                            <div class='box__content-container'>
+                                                <span class='box__content-name'>답변 완료</span>
+                                                <span class='font-montserrat box__content-count'>
+                                                    <a class='box__content-link' href='/pages/my/inquiry-list.html'>
+                                                        {{convertToKoreanCurrency inquirySummary.answeredCnt}}
+                                                    </a>
+                                                    <span class='box__content-unit'>건</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 상품문의 -->
+                                    <div class='my-board-status__box'>
+                                        <div class='box__header'>
+                                            <span class='box__title'>상품문의</span>
+                                            <button class='box__link' shopby-action='PRODUCT_INQUIRY_REGISTER'>문의하기 ></button>
+                                        </div>
+                                        <div class='box__content'>
+                                            <div class='box__content-container'>
+                                                <span class='box__content-name'>답변 대기</span>
+                                                <span class='font-montserrat box__content-count'>
+                                                    <a class='box__content-link' href='/pages/my/product-inquiry-list.html'>
+                                                        {{convertToKoreanCurrency productInquirySummary.progressCnt}}
+                                                    </a>
+                                                    <span class='box__content-unit'>건</span>
+                                                </span>
+                                            </div>
+                                            <div class='box__content-container'>
+                                                <span class='box__content-name'>답변 완료</span>
+                                                <span class='font-montserrat box__content-count'>
+                                                    <a class='box__content-link' href='/pages/my/product-inquiry-list.html'>
+                                                        {{convertToKoreanCurrency productInquirySummary.answeredCnt}}
+                                                    </a>
+                                                    <span class='box__content-unit'>건</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 상품후기 -->
+                                    <div class='my-board-status__box'>
+                                        <div class='box__header'>
+                                            <span class='box__title'>상품후기</span>
+                                            <button class='box__link' shopby-action='PRODUCT_REVIEW_REGISTER'>작성하기 ></button>
+                                        </div>
+                                        <div class='box__content'>
+                                            <div class='box__content-container'>
+                                                <span class='box__content-name'>작성가능 후기</span>
+                                                <span class='font-montserrat box__content-count'>
+                                                    <a class='box__content-link' href='/pages/my/product-review-list.html'>
+                                                        {{convertToKoreanCurrency productReviewSummary.availableCnt}}
+                                                    </a>
+                                                    <span class='box__content-unit'>건</span>
+                                                </span>
+                                            </div>
+                                            <div class='box__content-container'>
+                                                <span class='box__content-name'>작성완료 후기</span>
+                                                <span class='font-montserrat box__content-count'>
+                                                    <a class='box__content-link' href='/pages/my/product-review-list.html'>
+                                                        {{convertToKoreanCurrency productReviewSummary.completedCnt}}
+                                                    </a>
+                                                    <span class='box__content-unit'>건</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </script>
+                        </my-board-status>
+
+                        <!-- 최근 본 상품 -->
+                        <recent-product>
+                            <script type="text/x-handlebars-template">
+                                <div class='my-recent-product'>
+                                    <summary class='my-recent-product__summary'>
+                                        <span class='bold my-recent-product__title'>최근 본 상품</span>
+                                    </summary>
+
+                                    <div class='thumb-box-wrap' slot='recentProducts'>
+                                        {{#if recentProducts}}
+                                            <div class='thumb-box'>
+                                                <div class='thumb-item'>
+                                                    <div class='swiper my-recent-product-slider' shopby-slider-id='recent-product__slider'>
+                                                        <ul class='swiper-wrapper'>
+                                                            {{#each recentProducts}}
+                                                                <li class='swiper-slide thumb-item-wrap'>
+                                                                    <a href='/pages/product/product-detail.html?productNo={{productNo}}'>
+                                                                        <div class='thumb-item__img'>
+                                                                            <img src='{{src}}' alt='{{alt}}' loading='lazy' />
+                                                                            <button
+                                                                                type="button"
+                                                                                class="btn thumb-fab thumb-fab--like{{#if liked}} is-active{{/if}}"
+                                                                                shopby-action="PRODUCT_LIKE_BTN"
+                                                                                shopby-product-no="{{productNo}}"
+                                                                            >
+                                                                            <svg
+                                                                                width="40"
+                                                                                viewBox="0 0 80 80"
+                                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                            >
+                                                                                <path
+                                                                                    d="M52.29 19.24c-6.382 0-10.932 3.926-12.41 6.888-1.82-3.086-8.408-8.31-14.79-6.888-7.977 1.777-12.613 11.532-5.774 21.324C25.521 49.45 34.74 56.557 39.88 61c5.319-4.443 17.728-14.216 22.16-22.213 5.596-10.097-1.773-19.547-9.75-19.547Z"
+                                                                                    stroke="var(--color-point)"
+                                                                                    stroke-width="5"
+                                                                                    stroke-linejoin="round"
+                                                                                ></path>
+                                                                            </svg>
+                                                                        </button>
+                                                                        </div>
+                                                                        <div class='thumb-item__info'>
+                                                                            <div class='thumb-item__info-name font-noto'>{{{productName}}}</div>
+                                                                        </div>
+                                                                        <div class='thumb-item__info-price'>
+                                                                            <div class='current-price'>
+                                                                                {{#if hasDiscount}}
+                                                                                    <span class='product-thumb__immediately-percent font-montserrat'>
+                                                                                        {{calculateDiscountRate discountedPrice originalPrice}}%</span>&nbsp;
+                                                                                {{/if}}
+                                                                                <em class='font-montserrat'>{{convertToKoreanCurrency
+                                                                                        discountedPrice
+                                                                                    }}</em><span class='font-noto'>원</span>
+                                                                            </div>
+                                                                            {{#if hasDiscount}}
+                                                                                <span class='origin-price'>
+                                                                                    <s class='font-montserrat'>{{convertToKoreanCurrency originalPrice}}</s><s
+                                                                                        class='font-noto'
+                                                                                    >원</s>
+                                                                                </span>
+                                                                            {{/if}}
+                                                                        </div>
+                                                                        <div class='thumb-item__icon-box'>
+                                                                            {{#each stickers}}
+                                                                                {{#ifEq type 'TEXT'}}
+                                                                                    <span>{{safeString label}}</span>
+                                                                                {{else}}
+                                                                                    <img class="product-thumb__sticker-img" src='{{label}}' alt='{{name}}아이콘' />
+                                                                                {{/ifEq}}
+                                                                            {{/each}}
+                                                                        </div>
+                                                                    </a>
+                                                                </li>
+                                                            {{/each}}
+                                                        </ul>
+                                                    </div>
+
+                                                    {{#ifGe recentProducts.length 4}}
+                                                    <button class='thumb-pagination-btn-prev sprite-image pagination__btn pagination__btn--lt'>
+                                                    </button>
+                                                    <button class='thumb-pagination-btn-next sprite-image pagination__btn pagination__btn--rt'>
+                                                    </button>
+                                                    {{/ifGe}}
+                                                </div>
+                                            </div>
+                                        {{else}}
+                                            <div class='notice empty-list'>
+                                                <span class='sprite-image notice--warning'></span>
+                                                <em class='notice__description--center'>최근 본 상품이 없습니다.</em>
+                                            </div>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                            </script>
+                        </recent-product>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <layer-modal-area type="title" name="grade-benefit-guide" src="@modals/grade-benefit-guide.html"></layer-modal-area>
+        <layer-modal-area type="title" name="personal-inquiry-form" src="@modals/inquiry-form.html"></layer-modal-area>
+        <layer-modal-area type="title" name="product-inquiry-form" src="@modals/product-inquiry-form.html"></layer-modal-area>
+        <layer-modal-area type="title" name="product-review-form" src="@modals/product-review-form.html"></layer-modal-area>
+
+        <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+        <template shopby-partials="@partials/modal.html"></template>
+
+        <!-- 퀵메뉴 (최상단 이동 + 최근 본 상품) -->
+        <template shopby-partials="@partials/quick-menu.html"></template>
+        <!-- 최근 본 상품(오프캔버스) -->
+        <template shopby-partials="@partials/recent-product.html"></template>
+
+        <!-- 하단 레이아웃 -->
+        <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js" shopby-has-page-script="TRUE"></template>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/pages/my/my-page.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/libs/naver-marketing-config.js" shopby-use-page-script></script>
+    </body>
+</html>

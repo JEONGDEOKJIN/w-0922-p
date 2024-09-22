@@ -1,0 +1,26 @@
+@charset "UTF-8";
+/*  로그인 페이지 스타일 파일입니다. */
+.sign-in {
+  padding: 20px;
+}
+
+.guest-order-form {
+  margin-top: 40px;
+  padding-top: 40px;
+  border-top: 1px solid var(--gray200);
+}
+.guest-order-form__link {
+  width: 100%;
+}
+.guest-order-form__title {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+}
+.guest-order-form__input-wrap {
+  margin-top: 10px;
+}
+.guest-order-form .btn-group .btn {
+  font-size: 14px;
+  padding: 18px;
+}

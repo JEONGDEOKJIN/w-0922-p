@@ -1,0 +1,38 @@
+@charset "UTF-8";
+/*  1:1문의 상세 페이지 스타일 파일입니다. */
+.inquiry-detail__title {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  white-space: normal;
+  word-wrap: break-word;
+  padding: 0 20px;
+  font-size: 16px;
+  font-weight: 500;
+}
+.inquiry-detail table .td_icon {
+  vertical-align: top;
+}
+
+.inquiry-item__title {
+  line-height: 16px;
+}
+.inquiry-item__top-writer {
+  font-size: 16px;
+  line-height: 16px;
+  margin: 10px 0;
+}
+.inquiry-item__top-writer span + span::before {
+  content: "|";
+  margin: 0 6px 0 4px;
+  color: var(--gray300);
+}
+.inquiry-item__product-item-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

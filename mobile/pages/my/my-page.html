@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <!-- A2HS -->
+        <link rel="manifest" shopby-manifest-placeholder href="/manifest.json" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+
+        <link rel="apple-touch-icon" href="https://rlyfaazj0.toastcdn.net/20211220/141125.985487000/app_icon(144).png" />
+        <!-- A2HS -->
+
+        <link rel="stylesheet" href="/shopby-skin-mobile.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/my/my-page.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-mobile.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+    <body>
+        <div shopby-skin-container>
+            <!-- 디자인팝업 -->
+            <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+            <!-- 상단 레이아웃 -->
+            <template
+                class="l-header"
+                shopby-partials="@partials/common-header.html"
+                shopby-partials-js="@partials/common-header.js"
+                shopby-using-button="hamburger,back"
+                shopby-visible-logo="false"
+                shopby-sub-title="마이페이지"
+            ></template>
+            <main shopby-helper-key="my-page-helper-key">
+                <profile-summary>
+                    <script type="text/x-handlebars-template">
+                        <div class='my-info'>
+                            <article class='my-info__member'>
+                                <div class='my-info__member-summary'>
+                                    <p slot='profile' class='my-info__member-greeting'>
+                                        {{#if profile.memberName}}
+                                            <span class='bold'>{{profile.memberName}}</span>
+                                        {{else}}
+                                            {{profile.memberId}}
+                                        {{/if}}
+                                        님은
+                                        <br />
+                                        <span class='bold'>{{profile.memberGradeName}}</span>
+                                        입니다.
+                                    </p>
+                                    <button type='button' class='btn btn--line-dark btn--md my-info__benefit-btn' shopby-action='GRADE_BENEFIT'>
+                                        나의혜택
+                                    </button>
+                                </div>
+                                <div class='my-info__member-info'>
+                                    <span slot='profile' class='my-info__member-type'>
+                                        {{profile.memberTypeLabel}}
+                                        아이디 회원
+                                    </span>
+                                    <span slot='profileOrdersSummaryAmount' class='my-info__member-type font-montserrat'>
+                                        구매금액
+                                        {{convertToKoreanCurrency profileOrdersSummaryAmount.lastPayAmt}}원
+                                    </span>
+                                    <span slot='profileOrdersSummaryAmount' class='my-info__member-type font-montserrat'>
+                                        구매횟수
+                                        {{convertToKoreanCurrency profileOrdersSummaryAmount.orderCnt}}회
+                                    </span>
+                                </div>
+                            </article>
+
+                            <div class='my-coupon-data'>
+                                <a class='my-coupon-data__link' href='/pages/my/coupon-list.html'>
+                                    보유쿠폰
+                                    <div class='my-coupon-data__num'>
+                                        <em slot='couponSummary' class='font-montserrat'>
+                                            {{convertToKoreanCurrency couponSummary.usableCouponCnt}}
+                                        </em>
+                                        <span>개</span>
+                                    </div>
+                                </a>
+                                <a class='my-coupon-data__link' href='/pages/my/accumulation-list.html' slot='accumulationConfig'>
+                                    {{accumulationConfig.accumulationName}}
+                                    <div class='my-coupon-data__num'>
+                                        <em slot='accumulationSummary' class='font-montserrat'>
+                                            {{convertToKoreanCurrency accumulationSummary.totalAvailableAmt}}
+                                        </em>
+                                        <span>원</span>
+                                    </div>
+                                </a>
+                                <a class='my-coupon-data__link' href='/pages/my/like-product-list.html'>
+                                    좋아요
+                                    <div class='my-coupon-data__num'>
+                                        <em slot='likeSummary' class='font-montserrat'>
+                                            {{convertToKoreanCurrency likeSummary}}
+                                        </em>
+                                        <span>개</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </script>
+                </profile-summary>
+                <my-order-status>
+                    <script type="text/x-handlebars-template">
+                        <div>
+                            <div class='my-order-status'>
+                                <summary class='my-order-status__summary'>
+                                    <span class='bold my-order-status__title'>나의 주문 현황</span>
+                                    <span class='my-order-status__description'>최근 <span class='font-montserrat'>6</span>개월 기준</span>
+                                </summary>
+                                <a class='my-order-status__link' href='/pages/my/order-list.html'> 더보기 </a>
+                            </div>
+
+                            <div class='order-state'>
+                                <ul class='order-state__list'>
+                                    <li class='order-state__item'>
+                                        <a class='order-state__item-link' href='/pages/my/order-list.html?orderRequestTypes=DEPOSIT_WAIT'>
+                                            <span class='bold order-state__item-price font-montserrat'>
+                                                {{depositWaitCnt}}
+                                                <span class='order-state__item-unit'>건</span>
+                                            </span>
+                                            <p class='order-state__item-title'>미입금</p>
+                                        </a>
+                                    </li>
+                                    <button type='button' class='order-state__item-link-icon'>
+                                        <span class='ico ico--angle-down-black-24'></span>
+                                    </button>
+                                    <li class='order-state__item'>
+                                        <a
+                                            class='order-state__item-link'
+                                            href='/pages/my/order-list.html?orderRequestTypes=PAY_DONE,PRODUCT_PREPARE,DELIVERY_PREPARE'
+                                        >
+                                            <span class='bold order-state__item-price font-montserrat'>
+                                                {{sum payDoneCnt productPrepareCnt deliveryPrepareCnt}}
+                                                <span class='order-state__item-unit'>건</span>
+                                            </span>
+                                            <p class='order-state__item-title'>출고대기</p>
+                                        </a>
+                                    </li>
+                                    <button type='button' class='order-state__item-link-icon'>
+                                        <span class='ico ico--angle-down-black-24'></span>
+                                    </button>
+                                    <li class='order-state__item'>
+                                        <a class='order-state__item-link' href='/pages/my/order-list.html?orderRequestTypes=DELIVERY_ING'>
+                                            <span class='bold order-state__item-price font-montserrat'>
+                                                {{deliveryIngCnt}}
+                                                <span class='order-state__item-unit'>건</span>
+                                            </span>
+                                            <p class='order-state__item-title'>배송중</p>
+                                        </a>
+                                    </li>
+                                    <button type='button' class='order-state__item-link-icon'>
+                                        <span class='ico ico--angle-down-black-24'></span>
+                                    </button>
+                                    <li class='order-state__item'>
+                                        <a class='order-state__item-link' href='/pages/my/order-list.html?orderRequestTypes=DELIVERY_DONE'>
+                                            <span class='bold order-state__item-price font-montserrat'>
+                                                {{deliveryDoneCnt}}
+                                                <span class='order-state__item-unit'>건</span>
+                                            </span>
+                                            <p class='order-state__item-title'>배송완료</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class='order-state__etc' slot='previousOrder'>
+                                    <div class='order-state__etc-item'>
+                                        <a href='/pages/my/claim-list.html'>
+                                            <span class='order-state__item-title'>취소/반품/교환<span class='order-state__item-count font-montserrat'>
+                                                    {{sum
+                                                        cancelDoneCnt
+                                                        cancelProcessingCnt
+                                                        exchangeDoneCnt
+                                                        exchangeProcessingCnt
+                                                        returnDoneCnt
+                                                        returnProcessingCnt
+                                                    }}
+                                                </span>건</span>
+                                        </a>
+                                    </div>
+                                    {{#if previousOrder.includesPreviousOrder}}
+                                        <div class='order-state__etc-item'>
+                                            <a href='/pages/my/previous-order-list.html'>
+                                                <span class='order-state__item-title'>이전 주문 목록
+                                                    <span class='order-state__item-count font-montserrat'> {{previousOrder.count}} </span>건</span>
+                                            </a>
+                                        </div>
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </div>
+                    </script>
+                </my-order-status>
+
+                <my-menu>
+                    <script type="text/x-handlebars-template">
+                        <div>
+                            <div class='my-link__list' slot='boardConfig'>
+                                <a class='my-link' href='/pages/my/modify-member.html'>
+                                    회원정보 수정
+                                    <button type='button' class='my-link__ico'>
+                                        <span class='ico ico--angle-down-black-24'></span>
+                                    </button>
+                                </a>
+                                <a class='my-link' href='/pages/my/shipping-list.html'>
+                                    배송지 관리
+                                    <button type='button' class='my-link__ico'>
+                                        <span class='ico ico--angle-down-black-24'></span>
+                                    </button>
+                                </a>
+                                {{#if boardConfig.inquiryConfig.used}}
+                                    <a class='my-link' href='/pages/my/inquiry-list.html'>
+                                        {{{boardConfig.inquiryConfig.name}}}
+                                        <button type='button' class='my-link__ico'>
+                                            <span class='ico ico--angle-down-black-24'></span>
+                                        </button>
+                                    </a>
+                                {{/if}}
+                                {{#if boardConfig.productInquiryConfig.used}}
+                                    <a class='my-link' href='/pages/my/product-inquiry-list.html'>
+                                        {{{boardConfig.productInquiryConfig.name}}}
+                                        <button type='button' class='my-link__ico'>
+                                            <span class='ico ico--angle-down-black-24'></span>
+                                        </button>
+                                    </a>
+                                {{/if}}
+                                {{#if boardConfig.productReviewConfig.used}}
+                                    <a class='my-link' href='/pages/my/product-review-list.html'>
+                                        {{{boardConfig.productReviewConfig.name}}}
+                                        <button type='button' class='my-link__ico'>
+                                            <span class='ico ico--angle-down-black-24'></span>
+                                        </button>
+                                    </a>
+                                {{/if}}
+
+                                <a class='my-link' href='/pages/my/withdrawal.html'>
+                                    회원 탈퇴
+                                    <button type='button' class='my-link__ico'>
+                                        <span class='ico ico--angle-down-black-24'></span>
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                    </script>
+                </my-menu>
+            </main>
+
+            <layer-modal-area type="title" name="grade-benefit-guide" src="@modals/grade-benefit-guide.html"></layer-modal-area>
+
+            <!-- 하단 레이아웃 -->
+            <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js" shopby-has-page-script="TRUE"></template>
+
+            <!-- 하단바 -->
+            <template shopby-partials="@partials/common-nav.html"></template>
+        </div>
+
+        <!-- 오프캔버스 -->
+        <template shopby-partials="@partials/slide-menu.html" shopby-partials-js="@partials/slide-menu.js"></template>
+        <!-- 최근 검색 -->
+        <layer-modal-area type="custom" name="search-keyword" src="@modals/search-keyword.html"></layer-modal-area>
+        <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+        <template shopby-partials="@partials/modal.html"></template>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/pages/my/my-page.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/libs/naver-marketing-config.js" shopby-use-page-script></script>
+    </body>
+</html>

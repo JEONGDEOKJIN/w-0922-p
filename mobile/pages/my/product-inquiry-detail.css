@@ -1,0 +1,117 @@
+@charset "UTF-8";
+/*  상품문의 상세 페이지 스타일 파일입니다. */
+.product-inquiry-detail {
+  border-top: 2px solid var(--color-base-black);
+}
+.product-inquiry-detail .inquiry-item {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--gray200);
+}
+.product-inquiry-detail .inquiry-item__product-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  text-decoration: none;
+  color: var(--color-base-black);
+  font-weight: 500;
+  font-size: 16px;
+}
+.product-inquiry-detail .inquiry-item__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 15px;
+}
+.product-inquiry-detail .inquiry-item__top-writer {
+  font-size: 12px;
+  font-weight: 500;
+}
+.product-inquiry-detail .inquiry-item__top-writer span + span::before {
+  content: "|";
+  margin: 0 6px 0 4px;
+  color: var(--gray300);
+}
+.product-inquiry-detail .inquiry-item__top-register-date {
+  font-size: 12px;
+  font-weight: 400;
+}
+.product-inquiry-detail .inquiry-item__bottom {
+  display: flex;
+  gap: 17px;
+  text-decoration: none;
+  color: var(--color-base-black);
+}
+.product-inquiry-detail .inquiry-item__bottom img {
+  flex: none;
+  width: 80px;
+  height: 80px;
+}
+.product-inquiry-detail .inquiry-item__inquiry-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.product-inquiry-detail .inquiry-item__inquiry-info-name {
+  font-size: 12px;
+  color: var(--gray500);
+  padding-bottom: 5px;
+}
+.product-inquiry-detail .inquiry-item__inquiry-type {
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--gray500);
+}
+.product-inquiry-detail .inquiry-item__inquiry-title {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 14px;
+  color: var(--color-base-black);
+}
+.product-inquiry-detail .inquiry-item__inquiry-product-name {
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--gray600);
+}
+.product-inquiry-detail .inquiry-item__reply {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  border: 1px 0px solid var(--gray200);
+  background-color: var(--gray100);
+}
+.product-inquiry-detail .inquiry-item__reply .question-content p {
+  max-height: 254px;
+  overflow-y: auto;
+  font-size: 14px;
+  font-weight: 400;
+}
+.product-inquiry-detail .inquiry-item__reply .reply-icon {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  background-color: #3f434c;
+  border-radius: 50%;
+  color: #fff;
+  text-align: center;
+  line-height: 28px;
+}
+.product-inquiry-detail .inquiry-item__reply .reply-icon--question {
+  background-color: #3f434c;
+}
+.product-inquiry-detail .inquiry-item__reply .reply-icon--answer {
+  background-color: var(--color-point);
+}
+.product-inquiry-detail .inquiry-item__reply .reply-content {
+  padding-top: 20px;
+}
+.product-inquiry-detail__detail-btn-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 40px;
+  margin-top: 20px;
+}
+.product-inquiry-detail__list-btn {
+  width: 100%;
+}

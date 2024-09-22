@@ -1,0 +1,20 @@
+@charset "UTF-8";
+/*  배송지 관리 페이지 스타일 파일입니다. */
+.shipping-list span.font-montserrat {
+  vertical-align: baseline;
+}
+.shipping-list .notice {
+  padding-block: 20px;
+}
+.shipping-list .address__badge {
+  margin-block-start: 6px;
+}
+.shipping-list .address .btn-group--block-column {
+  padding-inline-start: 8px;
+}
+.shipping-list .my-page-box .right-box__table tbody td {
+  padding-inline: 10px;
+}
+.shipping-list td, .shipping-list th {
+  word-break: break-all;
+}

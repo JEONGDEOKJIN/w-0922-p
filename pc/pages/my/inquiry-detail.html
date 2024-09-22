@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="/shopby-skin-pc.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/my/inquiry-detail.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-pc.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+    <body>
+        <!-- 디자인팝업 -->
+        <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+        <!-- 상단 레이아웃 -->
+        <template class="shopby-header" shopby-partials="@partials/common-header.html" shopby-partials-js="@partials/common-header.js"></template>
+
+        <main class="l-my-page">
+            <section class="page-content-top">
+                <ol class="page-content-top__path page-content-top__location">
+                    <li><a href="/">HOME</a></li>
+                    &gt;
+                    <li><a href="/pages/my/my-page.html">마이페이지</a></li>
+                    &gt;
+                    <li>1:1문의</li>
+                </ol>
+            </section>
+            <div class="my-page-box">
+                <template class="l-my-page-menu" shopby-partials="@partials/my-menu.html" shopby-menu-title="1:1문의"></template>
+
+                <div class="right-box">
+                    <inquiry-detail inquiry-no:query="inquiryNo" board-idx:query="boardIdx">
+                        <script type="text/x-handlebars-template">
+                            <div class='inquiry-detail'>
+                                <div class='right-box__container'>
+                                    <p class='right-box__head'>
+                                        <span class='right-box__title'>1:1문의 상세</span>
+                                    </p>
+                                    <div class='right-box__table' slot='inquiryDetail'>
+                                        <table class='l-table'>
+                                            <colgroup>
+                                                <!-- 번호 -->
+                                                <col width='10%' />
+                                                <!--문의유형 -->
+                                                <col width='15%' />
+                                                <!-- 제목-->
+                                                <col />
+                                                <!-- 관리 -->
+                                                <col width='20%' />
+                                            </colgroup>
+                                            <tbody>
+                                                <tr>
+                                                    <td>{{boardIdx}}</td>
+                                                    <td>
+                                                        <p class='inquiry-item__type'>{{inquiryDetail.inquiryTypeInformation.name}}</p>
+                                                    </td>
+                                                    <td class='td_left'>
+                                                        <span class="inquiry-detail__title">
+                                                            {{inquiryDetail.inquiryTitle}}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <div class="inquiry-item__top-writer">
+                                                            <span class="font-noto bold">{{maskingName inquiryDetail.issuerName}}</span>
+                                                            <span class='inquiry-item__date'>{{formatUseByDate inquiryDetail.registerYmdt}}</p>
+                                                        </div>
+                                                        {{#ifEq inquiryDetail.inquiryStatus 'ANSWERED'}}
+                                                            <span class='badge badge--line-dark'>답변완료</span>
+                                                        {{else}}
+                                                            <span class='badge badge--line-point'>답변대기</span>
+                                                        {{/ifEq}}
+                                                    </td>
+                                                </tr>
+                                                <tr class='right-box__row'>
+                                                    <td class='td_icon'><strong class='font-montserrat right-box__icon right-box__icon-question'>Q</strong></td>
+                                                    <td colspan='2' class='td_left'>
+                                                        <div class='right-box__content'>
+                                                            <span class="inquiry-detail__content">
+                                                                {{{convertContentLineBreak inquiryDetail.inquiryContent}}}
+                                                            </span>
+                                                        </div>
+                                                            {{#if inquiryDetail.images.length}}
+                                                            <div class='right-box__question-attach-files folding-images-by-one-row is-active'>
+                                                                <ul class='folding-images-by-one-row__image-list' shopby-images='{{inquiryDetail.images}}'>
+                                                                    {{#each inquiryDetail.images}}
+                                                                        <li class='folding-images-by-one-row__image-item' shopby-image-idx='{{@index}}'>
+                                                                            {{img imageUrl 100 100 originName}}
+                                                                            <button class='folding-images-by-one-row__image-zoom-in' shopby-on:click='ZOOM_IN_IMAGE'>
+                                                                                <span class='ico ico--magnet-white-12'></span>
+                                                                            </button>
+                                                                        </li>
+                                                                    {{/each}}
+                                                                </ul>
+                                                            </div>
+                                                            {{/if}}
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+                                                {{#if inquiryDetail.answerInformation}}
+                                                    <tr class='right-box__row'>
+                                                        <td class='td_icon'><strong class='font-montserrat right-box__icon right-box__icon-answer'>A</strong></td>
+                                                        <td colspan='2' class='td_left'>
+                                                            <div class='right-box__answer'>
+                                                                {{{inquiryDetail.answerInformation.content}}}
+                                                            </div>
+                                                        </td>
+                                                        <td>운영자 | {{formatUseByDate inquiryDetail.answerInformation.registerYmdt}}</td>
+                                                    </tr>
+                                                {{/if}}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class='right-box__btns' shopby-inquiry-no='{{inquiryDetail.inquiryNo}}' shopby-uses-attachment='{{inquiryConfiguration.usesAttachment}}' shopby-inquiry-board-name="{{inquiryConfiguration.name}}">
+                                        <div>
+                                            {{#unless inquiryDetail.answerInformation}}
+                                                    <button class='btn btn--line-gray btn--xs' shopby-action='MODIFY'>수정</button>
+                                                    <button class='btn btn--line-gray btn--xs' shopby-action='DELETE'>삭제</button>
+                                            {{/unless}}
+                                        </div>
+                                        <button class='btn btn--line-dark btn--xs' shopby-action='LIST'>목록</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </script>
+                    </inquiry-detail>
+                </div>
+            </div>
+        </main>
+
+        <layer-modal-area type="title" name="personal-inquiry-form" src="@modals/inquiry-form.html"></layer-modal-area>
+        <layer-modal-area type="title" name="image-attachment-detail" src="@modals/image-attachment-detail.html"></layer-modal-area>
+
+        <!-- 퀵메뉴 (최상단 이동 + 최근 본 상품) -->
+        <template shopby-partials="@partials/quick-menu.html"></template>
+        <!-- 최근 본 상품(오프캔버스) -->
+        <template shopby-partials="@partials/recent-product.html"></template>
+
+        <!-- 하단 레이아웃 -->
+        <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js"></template>
+        <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+        <template shopby-partials="@partials/modal.html"></template>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/pages/my/inquiry-detail.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/libs/naver-marketing-config.js"></script>
+    </body>
+</html>

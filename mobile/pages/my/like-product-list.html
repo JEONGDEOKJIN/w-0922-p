@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <!-- A2HS -->
+        <link rel="manifest" shopby-manifest-placeholder href="/manifest.json" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+
+        <link rel="apple-touch-icon" href="https://rlyfaazj0.toastcdn.net/20211220/141125.985487000/app_icon(144).png" />
+        <!-- A2HS -->
+
+        <link rel="stylesheet" href="/shopby-skin-mobile.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/my/like-product-list.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-mobile.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+    <body>
+        <div shopby-skin-container>
+            <!-- 디자인팝업 -->
+            <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+            <!-- 상단 레이아웃 -->
+            <template
+                class="l-header"
+                shopby-partials="@partials/common-header.html"
+                shopby-partials-js="@partials/common-header.js"
+                shopby-sub-title="좋아요"
+                shopby-using-button="hamburger,back"
+                shopby-visible-logo="false"
+            ></template>
+
+            <main class="l-content">
+                <div class="profile-like">
+                    <like-product-total-count>
+                        <script type="text/x-handlebars-template">
+                            <summary class='l-title l-title__align-end profile-like__title'>
+                                <span class='profile-like__total-count'>
+                                    <label class='form-check form-check--md'>
+                                        <input type='checkbox' shopby-on:change='CHANGE_CHECKBOX_DELETE_ALL_LIKE_PRODUCT' />
+                                    </label>
+                                    <span class='my-page__count'>
+                                        좋아요
+                                        <span class='highlight bold' slot='totalCount'>
+                                            {{totalCount}}
+                                        </span>
+                                        건
+                                    </span>
+                                </span>
+                                <button
+                                    type='button'
+                                    class='btn btn--fill-dark btn--sm'
+                                    slot='selectedCount'
+                                    shopby-action='DELETE_SELECTED_LIKE_PRODUCTS'
+                                    shopby-selected-count='{{selectedCount}}'
+                                    shopby-checked-product-nos-as-string='{{checkedProductNosAsString}}'
+                                >
+                                    선택 삭제
+                                </button>
+                            </summary>
+                        </script>
+                    </like-product-total-count>
+                    <like-product-list
+                        pair-key="PRODUCT_LIKE_MORE_VIEW_BUTTON"
+                        default-page-size="20"
+                        page-size:query="pageSize"
+                        page-number:query="pageNumber"
+                        has-total-count:query="hasTotalCount"
+                        uses-more-button
+                    >
+                        <script type="text/x-handlebars-template">
+                            <div>
+                                <ul class="profile-like__list" slot="likeList">
+                                    {{#each items}}
+                                    <li class="thumb-LIST profile-like__list-item"
+                                        shopby-product-no="{{productNo}}"
+                                        shopby-product-name="{{productName}}"
+                                        shopby-image-url="{{getFirstImageWithDefault imageUrls}}"
+                                        shopby-board-name="{{../name}}"
+                                    >
+                                        <div class="thumb-item product-thumb-item profile-like__list-item-product">
+                                            <label class='form-check form-check--md'>
+                                                <input type='checkbox' shopby-on:change='CHANGE_CHECKBOX_DELETE_LIKE_PRODUCT' slot="checked"/>
+                                            </label>
+                                            <div class="thumb-item__media">
+                                                <a class="thumb-item__img-box" href="/pages/product/product-detail.html?productNo={{productNo}}">
+                                                    <span class="thumb-item__img">
+                                                        {{#ifEq listImageInfo.[0].type 'VIDEO_URL'}}
+                                                        <div class='video-wrapper'>
+                                                            <div class='video-cover'></div>
+                                                            <iframe src='{{listImageInfo.0.url}}' width='100%' height="100%" frameborder='0'></iframe>
+                                                        </div>
+                                                        {{else}}
+                                                        {{img listImageInfo.[0].url 80 80 productName '' ''}}
+                                                        {{/ifEq}}
+                                                        <!-- {{img (getFirstImageWithDefault imageUrls) 80 80 productName '' ''}} -->
+                                                    </span>
+                                                </a>
+                                            </div>
+                                            <div class="thumb-item__info">
+                                                {{#if invalid}}
+                                                    <span class='alert alert--error'>구매제한 상품</span>
+                                                {{/if}}
+                                                <p class="bold profile-like__name">
+                                                    {{{productName}}}
+                                                </p>
+                                                <ul class="profile-like__amount-list">
+                                                    <li class="profile-like__amount-item">
+                                                        <span class="bold font-montserrat">{{convertToKoreanCurrency (subtractNumber salePrice immediateDiscountAmt additionDiscountAmt)}} 원</span>
+                                                        {{#ifHasDiscount immediateDiscountAmt additionDiscountAmt}}
+                                                        <del class="profile-like__original-price">{{convertToKoreanCurrency salePrice}} 원</del>
+                                                        {{/ifHasDiscount}}
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="profile-like__buttons"  >
+                                            <button type="button" class="btn btn--line-gray btn--md" shopby-action="INQUIRE_PRODUCT">
+                                                상품문의
+                                            </button>
+                                            <button type="button" class="btn btn--line-gray btn--md" shopby-action="DELETE_LIKE_PRODUCT">삭제</button>
+                                        </div>
+                                    </li>
+                                    {{else}}
+                                    <div class="notice notice--full">
+                                        <span class='sprite-image notice--warning'></span>
+                                        <em>좋아요 내역이 없습니다.</em>
+                                    </div>
+                                    {{/each}}
+                                </ul>
+                            </div>
+                        </script>
+                    </like-product-list>
+                    <more-view-button pair-key="PRODUCT_LIKE_MORE_VIEW_BUTTON">
+                        <script type="text/x-handlebars-template">
+                            <div>
+                                <div slot='hasMoreViewButton'>
+                                    {{#if hasMoreViewButton}}
+                                        <button class='btn btn--line-gray btn--lg-wide' shopby-on:click='MORE_VIEW_BUTTON_CLICK'>
+                                            더보기
+                                        </button>
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </script>
+                    </more-view-button>
+                </div>
+            </main>
+            <layer-modal-area type="title" name="product-inquiry-form" src="@modals/product-inquiry-form.html"></layer-modal-area>
+
+            <!-- 하단 레이아웃 -->
+            <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js"></template>
+
+            <!-- 하단바 -->
+            <template shopby-partials="@partials/common-nav.html"></template>
+        </div>
+        <!-- 오프캔버스 -->
+        <template shopby-partials="@partials/slide-menu.html" shopby-partials-js="@partials/slide-menu.js"></template>
+        <!-- 최근 검색 -->
+        <layer-modal-area type="custom" name="search-keyword" src="@modals/search-keyword.html"></layer-modal-area>
+        <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+        <template shopby-partials="@partials/modal.html"></template>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/pages/my/like-product-list.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/libs/naver-marketing-config.js"></script>
+    </body>
+</html>

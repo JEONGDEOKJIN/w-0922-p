@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="/shopby-skin-mobile.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/order/order-fail.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-mobile.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+    <body>
+        <div shopby-skin-container>
+            <!-- 디자인팝업 -->
+            <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+            <!-- 상단 레이아웃 -->
+            <template
+                class="l-header"
+                shopby-partials="@partials/common-header.html"
+                shopby-partials-js="@partials/common-header.js"
+                shopby-sub-title="결제실패"
+                shopby-using-button="hamburger,back"
+            ></template>
+
+            <main class="l-content">
+                <div class="order-fail">
+                    <order-fail result:query="result" message:query="message">
+                        <script type="text/x-handlebars-template">
+                            <section class='notice order-fail__message'>
+                                <span class='sprite-image notice--caution'></span>
+                                <div class='order-fail__message-fail'>
+                                    <em>
+                                        <span slot='failCode'>
+                                            [{{failCode}}]
+                                        </span>
+                                        <span slot='summary'>
+                                            {{summary}}
+                                        </span>
+                                    </em>
+                                </div>
+                                <div class='order-fail__message-contact notice__description--center'>
+                                    <p slot='description'>{{description}}</p>
+                                    <div slot='phoneNo'>
+                                        <div>실패 사유를 확인하신 후 '장바구니 가기' 또는 </div>
+                                        <div>'홈으로 가기' 버튼을 통해 주문/결제를 다시 시도하시거나,</div>
+                                        <div>계속 실패되시는 경우
+                                            {{#if phoneNo}}
+                                                {{phoneNo}}
+                                            {{else}}
+                                                고객센터
+                                            {{/if}}
+                                            로</div>
+                                        문의주시기 바랍니다.
+                                    </div>
+                                </div>
+                            </section>
+                        </script>
+                    </order-fail>
+                    <section class="btn-group">
+                        <a class="btn btn--line-dark btn--lg" href="/pages/order/cart.html">장바구니 가기</a>
+                        <a class="btn btn--fill-dark btn--lg" href="/">홈으로</a>
+                    </section>
+                </div>
+            </main>
+        </div>
+
+        <!-- 오프캔버스 -->
+        <template shopby-partials="@partials/slide-menu.html" shopby-partials-js="@partials/slide-menu.js"></template>
+
+        <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+        <template shopby-partials="@partials/modal.html"></template>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/libs/naver-marketing-config.js"></script>
+    </body>
+</html>

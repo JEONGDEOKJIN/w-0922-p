@@ -1,0 +1,106 @@
+@charset "UTF-8";
+/*  1:1문의 상세 페이지 스타일 파일입니다. */
+.personal-inquiry-detail {
+  border-top: 2px solid var(--color-base-black);
+}
+.personal-inquiry-detail__detail-btn-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 40px;
+  margin-top: 20px;
+}
+.personal-inquiry-detail__list-btn {
+  width: 100%;
+}
+.personal-inquiry-detail .inquiry-item {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--gray200);
+}
+.personal-inquiry-detail .inquiry-item__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 15px;
+}
+.personal-inquiry-detail .inquiry-item__top-writer {
+  font-size: 12px;
+}
+.personal-inquiry-detail .inquiry-item__top-writer span + span::before {
+  content: "|";
+  margin: 0 6px 0 4px;
+  color: var(--gray300);
+}
+.personal-inquiry-detail .inquiry-item__bottom {
+  display: flex;
+  gap: 17px;
+  text-decoration: none;
+  color: var(--color-base-black);
+}
+.personal-inquiry-detail .inquiry-item__bottom img {
+  flex: none;
+  width: 80px;
+  height: 80px;
+  border: 1px solid var(--gray200);
+}
+.personal-inquiry-detail .inquiry-item__inquiry-info {
+  padding: 10px 0;
+  flex: 1;
+}
+.personal-inquiry-detail .inquiry-item__inquiry-info-title {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  white-space: normal;
+  word-wrap: break-word;
+}
+.personal-inquiry-detail .inquiry-item__inquiry-type {
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--gray500);
+  padding: 3px 0;
+}
+.personal-inquiry-detail .inquiry-item__inquiry-title {
+  font-weight: normal;
+  font-size: 14px;
+  color: var(--color-base-black);
+}
+.personal-inquiry-detail .inquiry-item__reply {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  border-top: 1px;
+  border-bottom: 1px;
+  border: 1px solid var(--gray200);
+  background-color: var(--gray100);
+}
+.personal-inquiry-detail .inquiry-item__reply .question-content p {
+  max-height: 254px;
+  overflow-y: auto;
+  font-size: 14px;
+  line-height: 14px;
+  font-weight: 400;
+  padding-bottom: 20px;
+}
+.personal-inquiry-detail .inquiry-item__reply .reply-icon {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  background-color: #3f434c;
+  border-radius: 50%;
+  color: #fff;
+  text-align: center;
+  line-height: 28px;
+}
+.personal-inquiry-detail .inquiry-item__reply .reply-icon--question {
+  background-color: #3f434c;
+}
+.personal-inquiry-detail .inquiry-item__reply .reply-icon--answer {
+  background-color: var(--color-point);
+}
+.personal-inquiry-detail .inquiry-item__reply .reply-content {
+  padding-top: 20px;
+}

@@ -1,0 +1,58 @@
+@charset "UTF-8";
+/*  회원 탈퇴 페이지 스타일 파일입니다. */
+.withdrawal-form {
+  margin: 30px 20px 100px;
+}
+.withdrawal-form__name-wrap {
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--color-base-black);
+}
+.withdrawal-form__name-wrap p {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-base-black);
+}
+.withdrawal-form__name-wrap span {
+  font-weight: 400;
+  margin-left: 5px;
+}
+.withdrawal-form__item-wrap {
+  margin-top: 30px;
+}
+.withdrawal-form__input-wrap {
+  margin-top: 10px;
+}
+.withdrawal-form__input-wrap .text-area {
+  resize: none;
+  max-height: 82px;
+}
+.withdrawal-form__input-wrap .character-counter__status span {
+  font-size: 14px;
+  font-family: "Montserrat";
+}
+.withdrawal-form__input-wrap .character-counter__count {
+  font-weight: 700;
+}
+.withdrawal-form__term-wrap {
+  margin-top: 40px;
+  min-height: 100px;
+  max-height: 240px;
+  background-color: var(--gray100);
+  padding: 20px;
+  overflow: auto;
+}
+.withdrawal-form__checkbox-wrap {
+  margin-top: 20px;
+}
+.withdrawal-form__checkbox .form-check {
+  align-items: flex-start;
+}
+.withdrawal-form__checkbox .form-check__label {
+  font-weight: 500;
+}
+.withdrawal-form__checkbox .form-check input {
+  margin-top: 2px;
+}
+.withdrawal-form .btn-group {
+  margin-top: 40px;
+}

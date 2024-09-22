@@ -1,0 +1,70 @@
+<div shopby-layer-modal-helper-key="claim-detail">
+    <claim-detail>
+        <script type="text/x-handlebars-template">
+            <div class='claim-detail'>
+                <div class='claim-detail__contents'>
+                    <dl>
+                        <dt>
+                            신청일
+                        </dt>
+                        <dd slot='claimYmdt'>
+                            {{claimYmdt}}
+                        </dd>
+                        <dt>
+                            사유
+                        </dt>
+                        <dd slot='claimReason'>
+                            {{claimReason}}
+                        </dd>
+                        <dt>
+                            상세 사유
+                        </dt>
+                        <dd slot='claimReasonDetail'>
+                            {{#if claimReasonDetail}}{{claimReasonDetail}}{{else}}-{{/if}}
+                        </dd>
+                    </dl>
+                    <dl slot='refundBankAccount'>
+                        {{#with refundBankAccount}}
+                            <dt>
+                                환불정보
+                            </dt>
+                            <dd slot='claimPriceInfo'>
+                                {{#if bankAccount}}
+                                    {{bankName}}
+                                    /
+                                    {{bankAccount}}
+                                    /
+                                    {{bankDepositorName}}
+                                {{else}}
+                                    {{#ifEq claimPriceInfo.refundPayType 'ACCUMULATION'}}
+                                        {{claimPriceInfo.refundTypeLabel}}
+                                    {{else}}
+                                        -
+                                    {{/ifEq}}
+                                {{/if}}
+                            </dd>
+                        {{/with}}
+                    </dl>
+                    <dl slot='exchangePayInfo'>
+                        {{#with exchangePayInfo.bankAccount}}
+                            <dt>
+                                추가결제정보
+                            </dt>
+                            <dd>
+                                {{bankName}}
+                                /
+                                {{bankAccount}}
+                                /
+                                {{bankDepositorName}}
+                            </dd>
+                        {{/with}}
+                    </dl>
+                </div>
+                <button type='button' class='btn btn--fill-dark btn--lg' shopby-action='CONFIRM'>
+                    확인
+                </button>
+            </div>
+        </script>
+    </claim-detail>
+</div>
+<script src="/modals/claim-detail.js"></script>

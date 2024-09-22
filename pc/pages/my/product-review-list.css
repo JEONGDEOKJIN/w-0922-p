@@ -1,0 +1,147 @@
+@charset "UTF-8";
+/*  싱품후기 관리 페이지 스타일 파일입니다. */
+.product-review-list__tooltip {
+  display: block;
+  position: absolute;
+  width: 282px;
+  min-height: 120px;
+  top: 25px;
+  right: -25px;
+  text-align: left;
+  background-color: #fff;
+  border: 1px solid #ececec;
+  border-radius: 1px;
+}
+.product-review-list__tooltip::before {
+  position: absolute;
+  top: -6px;
+  right: 25px;
+  transform: rotate(-45deg);
+  content: "";
+  width: 12px;
+  height: 12px;
+  background-color: inherit;
+  border: 1px solid var(--gray300);
+  border-width: 1px 1px 0 0;
+}
+.product-review-list__tooltip button {
+  cursor: pointer;
+}
+.product-review-list__tooltip-title {
+  font-size: 16px;
+  font-weight: 700;
+  font-family: "Noto Sans KR";
+  padding: 15px 0 0 20px;
+}
+.product-review-list__tooltip-content {
+  padding: 20px;
+}
+.product-review-list__tooltip .title-modal__close-btn {
+  right: 20px;
+  top: 20px;
+}
+.product-review-list__benefit {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+}
+.product-review-list__benefit-info {
+  font-size: 14px;
+  line-height: 14px;
+  font-weight: 500;
+  color: var(--gray500);
+  margin-bottom: 8px;
+}
+.product-review-list__benefit-info .ico {
+  cursor: pointer;
+}
+.product-review-list__review-cnt-btn {
+  gap: 3px;
+}
+.product-review-list__list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 282px));
+  gap: 24px;
+}
+.product-review-list__item {
+  border: 1px solid var(--gray200);
+  margin: 10px 0;
+}
+.product-review-list__item a {
+  text-decoration: none;
+  color: var(--color-base-black);
+}
+.product-review-list .product-review-item__name {
+  font-size: 18px;
+  line-height: 18px;
+  font-weight: 500;
+  padding-bottom: 10px;
+}
+.product-review-list .product-review-item__top {
+  display: block;
+  width: 100%;
+  height: 280px;
+  border-bottom: 1px solid var(--gray200);
+  aspect-ratio: 1/1;
+}
+.product-review-list .product-review-item__top img {
+  width: 100%;
+  height: 100%;
+}
+.product-review-list .product-review-item__container {
+  padding: 20px;
+}
+.product-review-list .product-review-item__container section {
+  text-align: left;
+  padding: 10px 0;
+}
+.product-review-list .product-review-item__product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-bottom: 1px solid var(--gray200);
+}
+.product-review-list .product-review-item__product-info .option-label__normal-option {
+  font-size: 14px;
+  line-height: 14px;
+  font-weight: 400;
+  color: var(--gray500);
+}
+.product-review-list .product-review-item__content {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  white-space: normal;
+  word-wrap: break-word;
+  font-size: 16px;
+  line-height: 16px;
+  font-weight: 400;
+  color: var(--gray600);
+  margin: 20px 0;
+}
+.product-review-list .product-review-item__write-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+}
+.product-review-list .product-review-item__write-name {
+  font-size: 16px;
+  line-height: 16px;
+  font-weight: 500;
+}
+.product-review-list .product-review-item__write-date {
+  font-size: 16px;
+  line-height: 16px;
+  font-weight: 400;
+}
+.product-review-list .product-review-item__write span + span::before {
+  content: "|";
+  color: var(--gray200);
+}
+.product-review-list .notice.empty-list {
+  padding: 40px 0;
+  border-bottom: 1px solid var(--gray200);
+}

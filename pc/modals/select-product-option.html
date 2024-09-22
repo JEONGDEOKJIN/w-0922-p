@@ -1,0 +1,354 @@
+<div shopby-layer-modal-helper-key="select-product-option">
+    <article class="select-product-option-modal__content product-summary">
+        <div class="select-product-option-modal__thumb-summary">
+            <!-- 이미지 영역 -->
+            <image-slider>
+                <script type="text/x-handlebars-template">
+                    <div>
+                        <div class='thumb-item'>
+                            <div class='thumb-item__main'>
+                                <div class='swiper product-image-slider' shopby-slider-id='product-main-image-slider'>
+                                    <div class='swiper-wrapper' slot='images'>
+                                        {{#each images}}
+                                            <div class='swiper-slide'>
+                                                <div class='thumb-item__main-img'>
+                                                    {{img src 180 180}}
+                                                </div>
+                                            </div>
+                                        {{/each}}
+                                    </div>
+                                    <div class='swiper-pagination' shopby-slider-pagination='product-main-image-slider'></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </script>
+            </image-slider>
+            <!-- 상품 summary -->
+            <product-summary>
+                <script type="text/x-handlebars-template">
+                    <div>
+                        <div class='product-summary__title' slot='summary'>
+                            <p class='product-summary__brand-name' slot='summary'>
+                                {{summary.brandName}}
+                            </p>
+                            <h2 class='product-summary__title' slot='summary'>
+                                {{summary.productName}}
+                            </h2>
+
+                            <!-- 홍보문구 -->
+                            <div class='product-summary__promotion-text' slot='baseInfo'>
+                                {{baseInfo.promotionText}}
+                            </div>
+
+                            <div class='product-summary__price-detail' slot='summary'>
+                                {{#ifGt summary.discountRate 0}}
+                                    <span class='product-summary__off-percent'>
+                                        {{summary.discountRate}}%
+                                    </span>
+                                {{/ifGt}}
+                                <span class='product-summary__price'>
+                                    {{convertToKoreanCurrency summary.discountedPrice}}원
+                                </span>
+                                {{#ifGt summary.discountRate 0}}
+                                    <span class='product-summary__original-price'>
+                                        {{convertToKoreanCurrency summary.originalPrice}}원
+
+                                    </span>
+                                {{/ifGt}}
+                            </div>
+                        </div>
+
+                        <div class='product-summary__info'>
+                            <div slot='summary'>
+                                {{#if summary.accumulation.canAccumulate}}
+                                    {{#ifGt summary.accumulation.accumulatedAmount 0}}
+                                        <dl class='product-summary__info-accumulate'>
+                                            <dt slot='accumulationConfig'>
+                                                {{accumulationConfig.accumulationName}}
+                                            </dt>
+                                            <dd>
+                                                <span>
+                                                    +{{convertToKoreanCurrency summary.accumulation.accumulatedAmount}}
+                                                </span>
+                                                <span slot='accumulationConfigUnit'>
+                                                    {{accumulationConfigUnit}}
+                                                </span>
+                                                적립
+                                                <span slot='accumulationConfig'>
+                                                    {{#getSignUpAccumulationLabel accumulationConfig}}
+                                                        (로그인 시 적립 가능)
+                                                    {{/getSignUpAccumulationLabel}}
+                                                </span>
+                                            </dd>
+                                        </dl>
+                                    {{/ifGt}}
+                                {{/if}}
+                            </div>
+                            <div slot='coupon'>
+                                {{#ifEq coupon.couponUseYn 'Y'}}
+                                    <dl class='product-summary__info-coupon'>
+                                        <dt>
+                                            쿠폰
+                                        </dt>
+                                        <dd>
+                                            {{#if coupon.couponRate}}
+                                                <span class='discount'>
+                                                    {{coupon.couponRate}}%
+                                                </span>
+                                            {{/if}}
+                                            {{convertToKoreanCurrency coupon.priceWithCoupon}}원
+
+                                            <div class='coupon-download-wrap'>
+                                                <button class='btn btn--fill-dark btn--xs' shopby-action='COUPON_DOWNLOAD'>
+                                                    쿠폰받기
+                                                    <span class='ico ico--download-white-12'></span>
+                                                </button>
+                                            </div>
+                                        </dd>
+                                    </dl>
+                                {{/ifEq}}
+                            </div>
+                            <dl class='product-summary__freight'>
+                                <dt>
+                                    배송비
+                                </dt>
+                                <dd slot='freight'>
+                                    {{#with freight}}
+                                        {{#if shippingInfo.shippingAvailable}}
+                                            {{#with summary.freight}}
+                                                {{#ifEq areaType 'PARTNER_SHIPPING_AREA'}}
+                                                    <strong>
+                                                        {{partnerCompanyName}}
+                                                    </strong>
+                                                    배송
+                                                {{/ifEq}}
+
+                                                {{#ifEq conditionType 'FREE'}}
+                                                    무료배송
+                                                {{/ifEq}}
+
+                                                {{#ifEq conditionType 'FIXED_FEE'}}
+                                                    {{convertToKoreanCurrency fee}}원
+                                                {{else}}
+                                                    {{#ifNe conditionType 'FREE'}}
+                                                        {{convertToKoreanCurrency fee}}원
+                                                    {{/ifNe}}
+                                                {{/ifEq}}
+
+                                                {{#ifEq conditionType 'QUANTITY_PROPOSITIONAL_FEE'}}
+                                                    ({{perOrderCnt}}개마다 부과)
+                                                {{/ifEq}}
+
+                                                {{#ifGt aboveDeliveryAmt 0}}
+                                                    <em>
+                                                        ({{convertToKoreanCurrency aboveDeliveryAmt}}원 이상 구매 시 무료)
+                                                    </em>
+                                                {{/ifGt}}
+                                                <br />
+                                                <em>
+                                                    {{#ifEq deliveryType 'PARCEL_DELIVERY'}}택배/등기/소포{{else}}직접배송{{/ifEq}}
+                                                    /
+                                                    {{#if deliveryPrePayment}}선결제{{else}}착불{{/if}}
+                                                </em>
+                                            {{/with}}
+                                        {{else}}
+                                            배송불가 상품
+                                        {{/if}}
+                                    {{/with}}
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </script>
+            </product-summary>
+        </div>
+
+        <!-- 구매하기 영역 -->
+        <product-purchase>
+            <script type="text/x-handlebars-template">
+                <div class="product-purchase__info">
+                    <div class="product-purchase__option" slot="selectorOptions">
+                        <dl class="product-summary__purchase-option">
+                            {{#unless hasOnlyOneOption}}
+                            <dt>옵션 선택</dt>
+                            <div style="clear: both; display: flex; flex-direction: column; gap: 10px;">
+                                {{#each selectorOptions}}
+                                <div class="select select--sm">
+                                    <select shopby-on:change="CHANGE_OPTION" shopby-option-key="{{depthKey}}">
+                                        {{#select depthKey}}
+                                        <option value="" disabled>{{option.emptyOptionLabel}}</option>
+                                        {{#each option.options}}
+                                        <option
+                                            value="{{optionDepthKey}}"
+                                            shopby-selected="{{#ifEq ../option.selectedOptionDepthKey optionDepthKey}}true{{/ifEq}}"
+                                            shopby-disabled="{{disabled}}"
+                                        >
+                                            {{displayLabel}}
+                                            {{#ifGt stockCnt 0}} / 재고 : {{stockCnt}}개{{/ifGt}}
+                                            {{#ifNe addPrice 0}}
+                                                ({{#ifGt addPrice 0}}+{{/ifGt}}{{convertToKoreanCurrency addPrice}}원)
+                                            {{/ifNe}}
+                                        </option>
+                                        {{/each}}
+                                        {{/select}}
+                                    </select>
+                                </div>
+                                {{/each}}
+                            </div>
+                            {{/unless}}
+                            <!--  -->
+                            {{#each quantities}}
+                            <div class="quantity quantity-box{{#if ../hasOnlyOneOption}} undeletable{{/if}}">
+                              <span class="quantity__label">{{title}}{{#ifGt quantity.stockCnt 0}} / 재고 : {{quantity.stockCnt}}개{{/ifGt}}</span>
+                                <span class="quantity__content">
+                                    <span class="counter">
+                                        <button
+                                            class="counter__btn"
+                                            shopby-count="{{quantity.count}}"
+                                            shopby-selected-key="{{selectedKey}}"
+                                            shopby-on:click="SUBTRACT_OPTION_COUNT"
+                                        >
+                                            -
+                                        </button>
+                                        <span class="counter__input">
+                                            <input
+                                                type="number"
+                                                value="{{quantity.count}}"
+                                                shopby-selected-key="{{selectedKey}}"
+                                                shopby-on:change="CHANGE_OPTION_COUNT"
+                                            />
+                                        </span>
+                                        <button
+                                            class="counter__btn"
+                                            shopby-count="{{quantity.count}}"
+                                            shopby-selected-key="{{selectedKey}}"
+                                            shopby-on:click="ADD_OPTION_COUNT"
+                                        >
+                                            +
+                                        </button>
+                                    </span>
+                                    <span class="quantity__price">
+                                        <span class="font-montserrat">{{convertToKoreanCurrency quantity.totalPrice}}원</span>
+                                        <div class="quantity__del">
+                                            <span class="ico ico--x-black-24" shopby-on:click="REMOVE_OPTION" shopby-selected-key="{{selectedKey}}"></span>
+                                        </div>
+                                    </span>
+                                </span>
+                            </div>
+
+                            {{#eachTextOptionMapByOption ../textOptionsMapByOption selectedKey}}
+                            <dl class="product-summary__purchase-option {{#if byQuantity}}open-by-quantity{{/if}}" shopby-selected-option-key="{{../selectedKey}}" shopby-text-option-key="{{textOptionKey}}" shopby-purchase-option>
+                                <div class="text-option">
+                                    <span class="text-option__label">
+                                        <span>{{inputLabel}}</span>
+                                        {{#if required}}
+                                        <em>(필수)</em>
+                                        {{/if}}
+                                    </span>
+                                </div>
+
+                                <div class="product-summary__purchase-option-input-wrap">
+                                    {{#each values}}
+                                    <div class="character-counter {{#ifNe @index 0}}by-quantity{{/ifNe}}">
+                                        <span class="input-field input-field--md">
+                                            <input type="text"
+                                                shopby-selected-option-key="{{../../selectedKey}}"
+                                                shopby-text-option-key="{{../textOptionKey}}"
+                                                shopby-text-option-index="{{@index}}"
+                                                placeholder="{{../inputLabel}} (을)를 입력하세요."
+                                                value="{{this}}"
+                                                shopby-on:change="CHANGE_TEXT_OPTION_BY_OPTION"
+                                                shopby-on:input="INPUT_TEXT_OPTION_BY_OPTION"
+                                                maxlength="100"
+                                            />
+                                        </span>
+                                        <span class="character-counter__status character-counter__status--character">
+                                            <span class="character-counter__error" shopby-option-length-error></span>
+                                            <span class="character-counter__count" shopby-option-length="{{../textOptionKey}}-{{@index}}">{{length this}}</span>
+                                            <span class="character-counter__limit-count">/ 100</span>
+                                        </span>
+                                    </div>
+                                    {{/each}}
+                                </div>
+
+                                {{#ifGt ../quantity.count 1}}
+                                <div class="by-quantity-toggle-btn">
+                                    <span shopby-on:click="TOGGLE_TEXT_OPTIONS_BY_QUANTITY">{{#if byQuantity}}옵션별 입력{{else}}수량별 입력{{/if}}</span>
+                                </div>
+                                {{/ifGt}}
+                            </dl>
+                            {{/eachTextOptionMapByOption}}
+                            <!--  -->
+                            {{/each}}
+                        </dl>
+                    </div>
+
+                    <!-- 상풉옵션 -->
+                    <div slot="textOptionsByProduct">
+                        {{#each textOptionsByProduct}}
+                        <dl class="product-summary__purchase-option">
+                            <div class="text-option">
+                                <span class="text-option__label">
+                                    <span>{{textOption.inputLabel}}</span>
+                                    {{#if textOption.required}}
+                                    <em>(필수)</em>
+                                    {{/if}}
+                                </span>
+                            </div>
+                            <div class="character-counter">
+                                <span class="input-field input-field--md">
+                                    <input
+                                      type="text"
+                                      shopby-text-option-key="{{textOptionKey}}"
+                                      shopby-text-option-index="0"
+                                      placeholder="{{textOption.inputLabel}} (을)를 입력하세요."
+                                      value="{{textOption.value}}"
+                                      shopby-on:change="CHANGE_TEXT_OPTION_BY_PRODUCT"
+                                      shopby-on:input="INPUT_TEXT_OPTION_BY_PRODUCT"
+                                      maxlength="100"
+                                    />
+                                </span>
+                                <span class="character-counter__status character-counter__status--character">
+                                    <span class="character-counter__error" shopby-option-length-error></span>
+                                    <span class="character-counter__count" shopby-option-length="{{textOptionKey}}-0">{{length textOption.value}}</span>
+                                    <span class="character-counter__limit-count">/ 100</span>
+                                </span>
+                            </div>
+                        </dl>
+                        {{/each}}
+                    </div>
+                    <!-- 상풉옵션 END -->
+
+                    <div class="purchase__total">
+                        <span>총 상품 금액</span>
+                        <span>
+                            <em class="font-montserrat" slot="totalPrice">{{convertToKoreanCurrency totalPrice}}</em>
+                            원
+                        </span>
+                    </div>
+
+                    <div>
+                        <div class="purchase__button-wrap">
+                            <span class="purchase__btns" slot="unpurchasable">
+                            {{#if unpurchasable}}
+                                <button class="btn btn--dark btn--md" style="width: 100%;" disabled>구매불가</button>
+                            {{else}}
+                                <button class="btn btn--fill-dark btn--md" shopby-action='ADD_CART'>장바구니</button>
+                                <button class="btn btn--fill-point btn--md" shopby-on:click="PRODUCT_ORDER">바로구매</button>
+                            {{/if}}
+                            </span>
+                        </div>
+
+                        <div id="naver-pay" class="purchase__naver-pay-btn"></div>
+                    </div>
+                </div>
+            </script>
+        </product-purchase>
+    </article>
+</div>
+
+<!-- 쿠폰받기 모달 -->
+<layer-modal-area type="title" name="coupon-download" src="@modals/coupon-download.html"></layer-modal-area>
+
+<script src="/modals/select-product-option.js"></script>

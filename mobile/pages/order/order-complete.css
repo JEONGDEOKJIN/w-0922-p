@@ -1,0 +1,89 @@
+@charset "UTF-8";
+/*  주문완료 페이지 스타일 파일입니다. */
+.order-complete em {
+  font-style: normal;
+}
+.order-complete__order-no {
+  background: var(--gray100);
+  border-radius: 20px;
+  padding: 6px 15px;
+  margin-top: 11px;
+}
+.order-complete__order-no-label {
+  position: relative;
+  padding-right: 20px;
+}
+.order-complete__order-no-label::after {
+  content: "";
+  display: inline-block;
+  width: 1px;
+  height: 14px;
+  background-color: var(--gray300);
+  position: absolute;
+  top: 4px;
+  left: 63px;
+}
+.order-complete .l-panel {
+  margin-bottom: 40px;
+  padding: 0;
+  border-bottom: 0;
+}
+.order-complete__product.l-panel {
+  border-bottom: 1px solid var(--gray200);
+}
+.order-complete__message {
+  margin: 50px 0 40px;
+  line-height: normal;
+}
+.order-complete__message-success {
+  margin: 6px 0 3px;
+}
+.order-complete__message-success em {
+  font-size: 16px;
+}
+.order-complete__message__message-orderer {
+  font-size: 14px;
+}
+.order-complete__product-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  width: 100%;
+  padding-right: 27px;
+}
+.order-complete__product-amt {
+  font-size: 14px;
+}
+.order-complete__product-amt span + span::before {
+  content: "|";
+  margin: 0 6px 0 4px;
+  color: var(--gray300);
+}
+.order-complete .thumb-item__media {
+  width: 105px;
+  height: auto;
+}
+.order-complete .thumb-item__info {
+  margin: 0;
+}
+.order-complete__copy-btn {
+  color: var(--gray500);
+}
+.order-complete__order-amount {
+  border-top: 2px solid var(--color-base-black);
+  border-bottom: 2px solid var(--color-base-black);
+}
+.order-complete__order-amount dd {
+  text-align: right;
+}
+.order-complete__last-order-amount {
+  text-align: right;
+}
+.order-complete__last-order-amount .highlight {
+  font-size: 16px;
+}
+.order-complete__mileage {
+  font-size: 12px;
+  color: var(--gray500);
+}

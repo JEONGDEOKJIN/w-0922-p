@@ -1,0 +1,33 @@
+@charset "UTF-8";
+/*  적립금 페이지 스타일 파일입니다. */
+.my-page-accumulation table {
+  border-top: 2px solid var(--color-base-black);
+}
+.my-page-accumulation table .td_left {
+  padding: 20px;
+}
+.my-page-accumulation__reason-detail {
+  padding-left: 24px;
+  font-size: 16px;
+  font-weight: 500;
+}
+.my-page-accumulation__accumulation-amount {
+  white-space: nowrap;
+}
+.my-page-accumulation__accumulation-amount .give {
+  color: var(--color-point);
+}
+.my-page-accumulation__accumulation-amount .subtraction {
+  color: var(--color-error);
+}
+.my-page-accumulation__date {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--gray600);
+  display: flex;
+  flex-direction: column;
+}
+.my-page-accumulation .notice.empty-list {
+  padding: 40px 0;
+  border-bottom: 1px solid var(--gray200);
+}

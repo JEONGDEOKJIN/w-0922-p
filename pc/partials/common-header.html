@@ -1,0 +1,323 @@
+<shopby-header shopby-platform-type="PC">
+  <script type="text/x-handlebars-template">
+      <header slot="visibleSubHeader" class="header">
+        <ul class="header-top" slot="memberMenu">
+          {{#if isSignedIn}}
+            <li><a
+                class="header-top-link font-montserrat"
+                shopby-action="SIGN_OUT"
+              >로그아웃</a></li>
+          {{else}}
+            <li><a
+                class="header-top-link font-montserrat"
+                href="/pages/sign-in/sign-in.html"
+              >로그인</a></li>
+            <li><a
+                class="header-top-link font-montserrat"
+                href="/pages/sign-up/sign-up-method.html"
+              >회원가입</a></li>
+          {{/if}}
+          <li>
+            <a class="header-top-link font-montserrat">고객센터</a>
+          </li>
+        </ul>
+
+        <!-- 로고 -->
+        <div class="header-wrap">
+          <div class="header__logo__search">
+            {{#if visibleLogo}}
+              <h1 slot="logo" class="header__logo">
+                <div class="header__logo-img">
+                  {{#with logo}}
+                    {{#if landingUrl}}
+                      <a href="{{landingUrl}}" target="{{openLocationType}}">
+                        {{img
+                          imageUrl
+                          ""
+                          ""
+                          description
+                          ""
+                          (append "width: " width ";" "height: " height ";")
+                        }}
+                      </a>
+                    {{else}}
+                      {{img
+                        imageUrl
+                        ""
+                        ""
+                        description
+                        ""
+                        (append "width: " width ";" "height: " height ";")
+                      }}
+                    {{/if}}
+                  {{/with}}
+                </div>
+              </h1>
+            {{/if}}
+
+            <!-- 검색창 -->
+            <search-field shopby-module-key="header-product-search-field">
+              <div class="header__search">
+                <input
+                  class="header__search-input font-montserrat"
+                  type="text"
+                  shopby-on:change="CHANGE_SEARCH_FIELD_KEYWORD"
+                  shopby-on:keydown="KEYPRESS_SEARCH_FIELD_KEYWORD"
+                  value="{{keywords}}"
+                />
+                <button class="header__search-btn" shopby-on:click="SEARCH">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M21 21L16.6569 16.6569M16.6569 16.6569C18.1046 15.2091 19 13.2091 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19C13.2091 19 15.2091 18.1046 16.6569 16.6569Z"
+                      stroke="black"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+
+                </button>
+              </div>
+            </search-field>
+          </div>
+          <div class="member">
+            <!-- my menu -->
+            <ul slot="memberMenu" class="member__menu">
+              <li>
+                <a
+                  class="member__menu-link font-montserrat"
+                  href="/pages/my/like-product-list.html"
+                >
+                  <svg
+                    width="28"
+                    height="28"
+                    viewBox="0 0 28 28"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M24.1494 5.85655C23.5629 5.26797 22.8667 4.80107 22.1003 4.48251C21.334 4.16396 20.5126 4 19.6831 4C18.8535 4 18.0321 4.16396 17.2658 4.48251C16.4994 4.80107 15.8032 5.26797 15.2167 5.85655L13.9997 7.07749L12.7826 5.85655C11.5981 4.66822 9.99152 4.00062 8.31633 4.00062C6.64114 4.00062 5.03455 4.66822 3.85001 5.85655C2.66547 7.04489 2 8.65662 2 10.3372C2 12.0177 2.66547 13.6295 3.85001 14.8178L5.06705 16.0387L13.9997 25L22.9323 16.0387L24.1494 14.8178C24.7361 14.2295 25.2015 13.531 25.519 12.7622C25.8366 11.9934 26 11.1694 26 10.3372C26 9.50499 25.8366 8.68096 25.519 7.91216C25.2015 7.14336 24.7361 6.44486 24.1494 5.85655Z"
+                      stroke="black"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+
+                </a>
+              </li>
+              <li>
+                <a
+                  class="member__menu-link font-montserrat"
+                  href="/pages/my/my-page.html"
+                >
+                  <svg
+                    width="28"
+                    height="28"
+                    viewBox="0 0 28 28"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M24 23.9999V21.4074C24 20.0322 23.4732 18.7133 22.5355 17.7409C21.5979 16.7685 20.3261 16.2222 19 16.2222H9C7.67392 16.2222 6.40215 16.7685 5.46447 17.7409C4.52678 18.7133 4 20.0322 4 21.4074V23.9999"
+                      stroke="black"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M14 12.8889C16.4546 12.8889 18.4445 10.899 18.4445 8.44444C18.4445 5.98985 16.4546 4 14 4C11.5454 4 9.55557 5.98985 9.55557 8.44444C9.55557 10.899 11.5454 12.8889 14 12.8889Z"
+                      stroke="black"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+
+                </a>
+              </li>
+              <li class="member__menu-link-wrap" slot="count">
+                <a
+                  class="member__menu-link font-montserrat"
+                  href="/pages/order/cart.html"
+                >
+                  <svg
+                    width="28"
+                    height="28"
+                    viewBox="0 0 28 28"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M11 24C11.5523 24 12 23.5523 12 23C12 22.4477 11.5523 22 11 22C10.4477 22 10 22.4477 10 23C10 23.5523 10.4477 24 11 24Z"
+                      stroke="black"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M22.0001 24C22.5523 24 23.0001 23.5523 23.0001 23C23.0001 22.4477 22.5523 22 22.0001 22C21.4478 22 21.0001 22.4477 21.0001 23C21.0001 23.5523 21.4478 24 22.0001 24Z"
+                      stroke="black"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M3 4H7L9.68 17.39C9.77144 17.8504 10.0219 18.264 10.3875 18.5583C10.7532 18.8526 11.2107 19.009 11.68 19H21.4C21.8693 19.009 22.3268 18.8526 22.6925 18.5583C23.0581 18.264 23.3086 17.8504 23.4 17.39L25 9H8"
+                      stroke="black"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+
+                  <span
+                    class="badge badge--fill-point badge--round member__menu-link-badge"
+                  >{{count}}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- 우측 상단 메뉴 -->
+        </div>
+      </header>
+
+      <nav class="nav">
+        <!-- 전체 카테고리 버튼 -->
+        <button
+          class="nav__all-menu-btn font-montserrat"
+          shopby-on:click="TOGGLE_ALL_CATEGORY_PANEL"
+        ></button>
+
+        <ul class="nav__menu">
+          <li><a>
+              기획전
+            </a></li>
+          <li><a>
+              브랜드
+            </a></li>
+          <li><a>
+              베스트
+            </a></li>
+          <li><a>
+              세일
+            </a></li>
+          <li><a>
+              쿠폰&혜택
+            </a></li>
+          <li><a>
+              테마샵
+            </a></li>
+          <li><a>
+              선물하기
+            </a></li>
+          <li><a>
+              W리뷰
+            </a></li>
+        </ul>
+
+        <!-- 1차 카테고리 슬라이더 -->
+        {{!-- <div class="nav__slide">
+          <nav class="nav__slider" slot="categorySlider">
+            {{#if multiLevelCategories}}
+              <button
+                shopby-slider-nav-prev
+                type="button"
+                class="sprite-image nav__slide-btn nav__slide-prev"
+              >
+              </button>
+
+              <div
+                shopby-slider
+                shopby-slider-id="{{slider.id}}"
+                class="swiper nav__slider-wrap"
+              >
+                <ul class="swiper-wrapper">
+                  {{#each multiLevelCategories}}
+                    <li class="swiper-slide nav__slider-item-wrap">
+                      <a
+                        class="nav__slider-item"
+                        href="/pages/product/product-list.html?categoryNo={{categoryNo}}"
+                      >
+                        {{label}}
+                      </a>
+                    </li>
+                  {{/each}}
+                </ul>
+              </div>
+
+              <button
+                shopby-slider-nav-next
+                type="button"
+                class="sprite-image nav__slide-btn nav__slide-next"
+              >
+              </button>
+            {{/if}}
+          </nav>
+        </div> --}}
+
+        <!-- 기획전/공지사항 -->
+        {{!-- <div slot="boardCategory" class="nav__link-wrap">
+          {{#if hasEvents}}
+            <span class="nav__link font-noto"><a
+                href="/pages/event/event-list.html"
+              >기획전</a></span>
+          {{/if}}
+
+          {{#if noticeBoard.used}}
+            <span class="nav__link font-noto">
+              {{#if noticeBoard.boardId}}
+                <a
+                  href="/pages/board/post-list.html?boardId={{noticeBoard.boardId}}"
+                >{{noticeBoard.boardName}}</a>
+              {{else}}
+                <a
+                  href="/pages/board/post-list.html?boardNo={{noticeBoard.boardNo}}"
+                >{{noticeBoard.boardName}}</a>
+              {{/if}}
+            </span>
+          {{/if}}
+        </div> --}}
+
+        <!-- 전체 카테고리 패널 -->
+        <!-- hook (is-active) -->
+        <section
+          shopby-all-category-panel
+          slot="all-category-panel"
+          class="all-menu nav__all-menu"
+        >
+          <dl>
+            {{#if multiLevelCategories}}
+              {{#each multiLevelCategories}}
+                <div class="all-menu__category">
+                  <dt class="all-menu__tit">
+                    <a
+                      class="all-menu__link"
+                      href="/pages/product/product-list.html?categoryNo={{categoryNo}}"
+                    >{{label}}</a>
+                  </dt>
+                  <dd class="font-noto">
+                    <ul class="all-menu__list">
+                      {{#each children}}
+                        <li><a
+                            class="all-menu__link"
+                            href="/pages/product/product-list.html?categoryNo={{categoryNo}}"
+                          >{{label}}</a></li>
+                      {{/each}}
+                    </ul>
+                  </dd>
+                </div>
+              {{/each}}
+            {{else}}
+              <div class="notice notice--full">
+                <span class="sprite-image notice--warning"></span>
+                <em>노출 중인 카테고리가 없습니다.</em>
+              </div>
+            {{/if}}
+          </dl>
+        </section>
+      </nav>
+
+      <div class="header__bottom-line"></div>
+  </script>
+</shopby-header>

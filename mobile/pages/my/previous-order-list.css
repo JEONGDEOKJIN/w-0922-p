@@ -1,0 +1,40 @@
+@charset "UTF-8";
+/*  이전주문 목록 페이지 스타일 파일입니다. */
+.previous-order-list {
+  font-family: "Noto Sans KR";
+  color: var(--color-base-black);
+}
+.previous-order-list a {
+  text-decoration: none;
+  cursor: pointer;
+  font-family: "Montserrat";
+}
+.previous-order-list em {
+  font-style: normal;
+  color: var(--color-base-black);
+}
+.previous-order-list__items {
+  padding-block-start: 20px;
+}
+.previous-order-list__order-no {
+  color: var(--gray500);
+  font-size: 14px;
+  font-weight: 400;
+}
+.previous-order-list__product-name {
+  display: block;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 700;
+  padding-block: 8px;
+}
+.previous-order-list__price {
+  color: var(--gray600);
+  line-height: 16px;
+}
+.previous-order-list__price em {
+  font-family: "Montserrat";
+  color: var(--color-base-black);
+  font-weight: 700;
+  padding-inline: 4px 2px;
+}

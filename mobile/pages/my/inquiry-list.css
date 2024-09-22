@@ -1,0 +1,74 @@
+@charset "UTF-8";
+/*  1:1문의 목록 페이지 스타일 파일입니다. */
+.personal-inquiry-list__summary {
+  align-items: center;
+  padding: 30px 0 15px 0px;
+}
+.personal-inquiry-list__summary-name {
+  font-size: 14px;
+  font-weight: 500;
+}
+.personal-inquiry-list__title {
+  padding: 20px 0;
+  padding-top: 30px;
+  font-size: 16px;
+  font-weight: 700;
+}
+.personal-inquiry-list__title em {
+  color: var(--color-point);
+}
+.personal-inquiry-list .inquiry-item {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--gray200);
+}
+.personal-inquiry-list .inquiry-item__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 15px;
+}
+.personal-inquiry-list .inquiry-item__top-writer {
+  font-size: 12px;
+}
+.personal-inquiry-list .inquiry-item__top-writer span + span::before {
+  content: "|";
+  margin: 0 6px 0 4px;
+  color: var(--gray300);
+}
+.personal-inquiry-list .inquiry-item__bottom {
+  display: flex;
+  gap: 17px;
+  text-decoration: none;
+  color: var(--color-base-black);
+}
+.personal-inquiry-list .inquiry-item__bottom img {
+  flex: none;
+  width: 80px;
+  height: 80px;
+  border: 1px solid var(--gray200);
+}
+.personal-inquiry-list .inquiry-item__inquiry-info {
+  padding: 10px 0;
+  flex: 1;
+}
+.personal-inquiry-list .inquiry-item__inquiry-info-title {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  white-space: normal;
+  word-wrap: break-word;
+}
+.personal-inquiry-list .inquiry-item__inquiry-info-title .inquiry-item__title {
+  font-size: 14px;
+  line-height: 14px;
+  font-weight: 400;
+}
+.personal-inquiry-list .inquiry-item__inquiry-type {
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--gray500);
+  padding: 3px 0;
+}

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <!-- A2HS -->
+        <link rel="manifest" shopby-manifest-placeholder href="/manifest.json" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+
+        <link rel="apple-touch-icon" href="https://rlyfaazj0.toastcdn.net/20211220/141125.985487000/app_icon(144).png" />
+        <!-- A2HS -->
+
+        <link rel="stylesheet" href="/shopby-skin-mobile.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/board/product-review-list.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-mobile.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+    <body>
+        <div shopby-skin-container>
+            <!-- 디자인팝업 -->
+            <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+            <!-- 상단 레이아웃 -->
+            <template
+                class="l-header"
+                shopby-partials="@partials/common-header.html"
+                shopby-partials-js="@partials/common-header.js"
+                shopby-sub-title="전체 상품후기"
+                shopby-using-button="hamburger,back"
+                shopby-visible-logo="false"
+            ></template>
+
+            <main class="l-content">
+                <div class="board-reviews">
+                    <board-reviews-tabs board-type:query="boardType">
+                        <script type="text/x-handlebars-template">
+                            <div class='tabs-wrap'>
+                                <ul class='tab board-reviews__tabs' slot='tabs'>
+                                    <li>
+                                        <button class="tab__btn {{#ifEq currentTab 'ALL'}}is-active{{/ifEq}}" type='button' shopby-on:click='TAB_CLICK' shopby-tab-value='ALL'>
+                                            전체 상품후기
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="tab__btn {{#ifEq currentTab 'PHOTO'}}is-active{{/ifEq}}" type='button' shopby-on:click='TAB_CLICK' shopby-tab-value='PHOTO'>
+                                            포토 상품후기
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button class="tab__btn {{#ifEq currentTab 'REVIEWED_PRODUCTS'}}is-active{{/ifEq}}" type='button' shopby-on:click='TAB_CLICK' shopby-tab-value='REVIEWED_PRODUCTS'>
+                                            상품기준 상품후기
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </script>
+                    </board-reviews-tabs>
+
+                    <board-review-search-field shopby-module-key="product-list-search-field">
+                        <script type="text/x-handlebars-template">
+                            <span class='search-field'>
+                                <span class='select select--sm search-field__select-box'>
+                                    <select shopby-on:change='CHANGE_SEARCH_TYPE' slot='categories'>
+                                        {{#each categories}}
+                                            <option value={{value}}>{{label}}</option>
+                                        {{/each}}
+                                    </select>
+                                </span>
+                                <span class='search-field__input'>
+                                    <span class='input-field input-field--sm search-field__text-input'>
+                                        <input
+                                            type='text'
+                                            value='{{keyword}}'
+                                            placeholder='검색어를 입력해주세요.'
+                                            shopby-on:change='CHANGE_SEARCH_FIELD_KEYWORD'
+                                            shopby-on:keydown='KEYPRESS_SEARCH_FIELD_KEYWORD'
+                                        />
+                                    </span>
+                                    <button type='button' class='search-field__search-btn' shopby-on:click='SEARCH'>
+                                        <span class='ico ico--magnet-black-24'></span>
+                                    </button>
+                                </span>
+                            </span>
+                        </script>
+                    </board-review-search-field>
+
+                    <board-reviews-list
+                        pair-key="PRODUCT_LIST_MORE_VIEW_BUTTON"
+                        search-type:query="searchType"
+                        keyword:query="keyword"
+                        page-number:query="pageNumber"
+                        ordering:query="ordering"
+                        sort-criterion:query="sortCriterion"
+                        uses-more-button
+                    >
+                        <script type="text/x-handlebars-template">
+                            <div class='board-reviews-list'>
+                                <div class='board-reviews-list__search-container' slot='boardType'>
+                                    {{#ifEq boardType 'REVIEWED_PRODUCTS'}}
+                                        <span class='select select--sm search-field__select-box'>
+                                            <select shopby-on:change='CHANGE_ORDERING_TYPE'>
+                                                <option value='REVIEW_COUNT'>리뷰많은순</option>
+                                                <option value='REGISTER_YMDT'>등록일순</option>
+                                                <option value='REVIEW_RATE_DESC'>평점높은순</option>
+                                                <option value='REVIEW_RATE_ASC'>평점낮은순</option>
+                                            </select>
+                                        </span>
+                                    {{else}}
+                                        <span class='select select--sm search-field__select-box'>
+                                            <select shopby-on:change='CHANGE_ORDERING_TYPE'>
+                                                <option value='BEST_REVIEW'>베스트순</option>
+                                                <option value='REGISTER_YMDT'>등록일순</option>
+                                                <option value='RATING_DESC'>평점높은순</option>
+                                                <option value='RATING_ASC'>평점낮은순</option>
+                                                {{#if reviewConfig.expandedReviewConfig.useReviewRecommend}}
+                                                <option value='RECOMMEND'>추천순</option>
+                                                {{/if}}
+                                            </select>
+                                        </span>
+                                    {{/ifEq}}
+
+                                    {{#if (isSignedIn)}}
+                                        <button type='button'
+                                                class='btn btn--fill-point btn--sm'
+                                                shopby-uses-attachment='{{reviewConfig.canAttach}}'
+                                                shopby-action='REGISTER'
+                                            >
+                                            상품후기 등록
+                                        </button>
+                                    {{/if}}
+                                </div>
+
+                                <div slot='totalCount'>
+                                    {{#if totalCount}}
+                                        <ul class='board-reviews-list__list' slot='items'>
+                                            {{#each items}}
+                                                {{#ifEq ../boardType 'REVIEWED_PRODUCTS'}}
+                                                    <li class='board-reviews-list__reviewed-item'
+                                                        shopby-product-no="{{productNo}}">
+                                                        <div>
+                                                            <a href="/pages/product/product-detail.html?productNo={{productNo}}">
+                                                                <div class='board-reviewed-item__top'>
+                                                                    <div class='board-reviewed-item__top-img'>
+                                                                        {{img mainImage}}
+                                                                    </div>
+                                                                    <div class='board-reviewed-item__content'>
+                                                                        <div class='board-reviewed-item__product-review-info'>
+                                                                            <div>
+                                                                                <p class='product-review-info__product-name'>{{{productName}}}</p>
+                                                                                <p>
+                                                                                    <span class='product-review-info__product-price font-montserrat'>{{convertToKoreanCurrency appliedImmediateDiscountPrice}}</span>원
+                                                                                </p>
+                                                                            </div>
+
+                                                                            <div>
+                                                                                <div class="product-review-info__item">
+                                                                                    <span class='product-review-info__info'>후기</span>
+                                                                                    <span class='product-review-info__review-count font-montserrat'>{{totalReviewCount}}</span>
+                                                                                </div>
+                                                                                <div class="product-review-info__item">
+                                                                                    <span class='product-review-info__info'>평점</span>
+                                                                                    <div class="star" slot="starSet">
+                                                                                        {{#each starSet}}
+                                                                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20" class="crema_product_reviews_score_star_wrapper__star">
+                                                                                            <linearGradient id="gradient-star">
+                                                                                                <stop class="gradient__star-secondary" offset="73%" />
+                                                                                                <stop class="gradient__star" offset="73%" />
+                                                                                            </linearGradient>
+                                                                                            <defs>
+                                                                                                <path id="star-full" d="M9.53834 1.60996C9.70914 1.19932 10.2909 1.19932 10.4617 1.60996L12.5278 6.57744C12.5998 6.75056 12.7626 6.86885 12.9495 6.88383L18.3123 7.31376C18.7556 7.3493 18.9354 7.90256 18.5976 8.19189L14.5117 11.6919C14.3693 11.8139 14.3071 12.0053 14.3506 12.1876L15.5989 17.4208C15.7021 17.8534 15.2315 18.1954 14.8519 17.9635L10.2606 15.1592C10.1006 15.0615 9.89938 15.0615 9.73937 15.1592L5.14806 17.9635C4.76851 18.1954 4.29788 17.8534 4.40108 17.4208L5.64939 12.1876C5.69289 12.0053 5.6307 11.8139 5.48831 11.6919L1.40241 8.19189C1.06464 7.90256 1.24441 7.3493 1.68773 7.31376L7.05054 6.88383C7.23744 6.86885 7.40024 6.75056 7.47225 6.57744L9.53834 1.60996Z" />
+                                                                                                <path id="star-half" fill="url(#gradient-star)" d="M9.53834 1.60996C9.70914 1.19932 10.2909 1.19932 10.4617 1.60996L12.5278 6.57744C12.5998 6.75056 12.7626 6.86885 12.9495 6.88383L18.3123 7.31376C18.7556 7.3493 18.9354 7.90256 18.5976 8.19189L14.5117 11.6919C14.3693 11.8139 14.3071 12.0053 14.3506 12.1876L15.5989 17.4208C15.7021 17.8534 15.2315 18.1954 14.8519 17.9635L10.2606 15.1592C10.1006 15.0615 9.89938 15.0615 9.73937 15.1592L5.14806 17.9635C4.76851 18.1954 4.29788 17.8534 4.40108 17.4208L5.64939 12.1876C5.69289 12.0053 5.6307 11.8139 5.48831 11.6919L1.40241 8.19189C1.06464 7.90256 1.24441 7.3493 1.68773 7.31376L7.05054 6.88383C7.23744 6.86885 7.40024 6.75056 7.47225 6.57744L9.53834 1.60996Z" />
+                                                                                            </defs>
+                                                                                            <path id="star-empty" d="M9.53834 1.60996C9.70914 1.19932 10.2909 1.19932 10.4617 1.60996L12.5278 6.57744C12.5998 6.75056 12.7626 6.86885 12.9495 6.88383L18.3123 7.31376C18.7556 7.3493 18.9354 7.90256 18.5976 8.19189L14.5117 11.6919C14.3693 11.8139 14.3071 12.0053 14.3506 12.1876L15.5989 17.4208C15.7021 17.8534 15.2315 18.1954 14.8519 17.9635L10.2606 15.1592C10.1006 15.0615 9.89938 15.0615 9.73937 15.1592L5.14806 17.9635C4.76851 18.1954 4.29788 17.8534 4.40108 17.4208L5.64939 12.1876C5.69289 12.0053 5.6307 11.8139 5.48831 11.6919L1.40241 8.19189C1.06464 7.90256 1.24441 7.3493 1.68773 7.31376L7.05054 6.88383C7.23744 6.86885 7.40024 6.75056 7.47225 6.57744L9.53834 1.60996Z" fill="#EAECF0" />
+                                                                                            <use xlink:href="#star-{{.}}"></use>
+                                                                                        </svg>
+                                                                                        {{/each}}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                            <section class='board-reviewed-item__reviews'>
+                                                                {{#each reviews}}
+                                                                    <div class="reviews-item"
+                                                                        shopby-review-no="{{reviewNo}}"
+                                                                        shopby-on:click="REVIEW_DETAIL">
+                                                                        {{img attachedImage}}
+                                                                        <span class="reviews-item__content">
+                                                                            {{#if isBestReview}}
+                                                                                <span class='font-montserrat bold highlight board-review-item__best-post'>BEST</span>
+                                                                            {{/if}}
+                                                                            {{{convertContentLineBreak content}}}
+                                                                        </span>
+                                                                    </div>
+                                                                {{/each}}
+                                                            </section>
+                                                        </div>
+                                                    </li>
+                                                {{else}}
+                                                    <li class='board-reviews-list__item'
+                                                        shopby-product-no="{{productInfo.no}}"
+                                                        shopby-review-no="{{reviewNo}}"
+                                                        >
+                                                            <div class='board-reviews-item__top' shopby-on:click="REVIEW_DETAIL">
+                                                                    <div class='board-reviews-item__top-img'>
+                                                                        {{img (getFirstImageWithDefault images)}}
+                                                                        {{#ifGt images.length 1}}
+                                                                            <span class="board-reviews-item__top-img-cnt">{{images.length}}</span>
+                                                                        {{/ifGt}}
+                                                                    </div>
+                                                                <div class='board-reviews-item__content'>
+                                                                    {{#if isBestReview}}
+                                                                        <span class='font-montserrat bold highlight board-review-item__best-post'>BEST</span>
+                                                                    {{/if}}
+                                                                    {{{convertContentLineBreak content}}}
+                                                                </div>
+
+                                                                <div class='board-reviews-item__write-info'>
+                                                                    <div class='board-reviews-item__write'>
+                                                                        <span class='bold board-reviews-item__writer'>
+                                                                            {{register.name}}
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <a href="/pages/product/product-detail.html?productNo={{productInfo.no}}">
+                                                                <section class='board-reviews-item__product-info' >
+                                                                    {{img productInfo.thumbnailImage}}
+                                                                    <div class='board-reviews-item__product-review-info'>
+                                                                        <p class='product-review-info__product-name'>{{productInfo.name}}</p>
+                                                                        <p class='product-review-info__review-count'>
+                                                                            후기&nbsp;:&nbsp;<span class='bold font-montserrat'>{{productInfo.totalReviewCount}}</span>
+                                                                        </p>
+                                                                    </div>
+                                                                </section>
+                                                            </a>
+                                                    </li>
+                                                {{/ifEq}}
+                                            {{/each}}
+                                        </ul>
+                                    {{else}}
+                                    {{#unless isLoading}}
+                                        <div class='notice notice--full'>
+                                            <span class='sprite-image notice--warning'></span>
+                                            <em>게시글이 존재하지 않습니다.</em>
+                                        </div>
+                                    {{/unless}}
+                                    {{/if}}
+                                </div>
+
+                                <div slot="isLoading">
+                                    {{#if isLoading}}
+                                        {{#repeat 2}}
+                                        <div class="skeleton__wrap thumb-GALLERY" >
+                                            {{#repeat 2}}
+                                            <div class="thumb-item skeleton skeleton--gallery">
+                                                <div class="skeleton__media"></div>
+                                                <div class="skeleton__line"></div>
+                                                <div class="skeleton__line"></div>
+                                            </div>
+                                            {{/repeat}}
+                                        </div>
+                                        {{/repeat}}
+                                    {{/if}}
+                                 </div>
+                            </div>
+                        </script>
+                    </board-reviews-list>
+
+                    <more-view-button pair-key="PRODUCT_LIST_MORE_VIEW_BUTTON">
+                        <script type="text/x-handlebars-template">
+                            <div>
+                                <div slot='hasMoreViewButton'>
+                                    {{#if hasMoreViewButton}}
+                                        <button class='btn btn--line-gray btn--lg-wide' shopby-on:click='MORE_VIEW_BUTTON_CLICK'>
+                                            더보기
+                                        </button>
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </script>
+                    </more-view-button>
+                </div>
+            </main>
+
+            <layer-modal-area type="title" name="product-review-form" src="@modals/product-review-form.html"></layer-modal-area>
+            <layer-modal-area type="title" name="product-review-detail" src="@modals/product-review-detail.html"></layer-modal-area>
+            <layer-modal-area type="title" name="product-review-photos" src="@modals/product-review-photos.html"></layer-modal-area>
+
+            <!-- 하단 레이아웃 -->
+            <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js"></template>
+
+            <!-- 하단바 -->
+            <template shopby-partials="@partials/common-nav.html"></template>
+        </div>
+        <!-- 오프캔버스 -->
+        <template shopby-partials="@partials/slide-menu.html" shopby-partials-js="@partials/slide-menu.js"></template>
+        <!-- 최근 검색 -->
+        <layer-modal-area type="custom" name="search-keyword" src="@modals/search-keyword.html"></layer-modal-area>
+        <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+        <template shopby-partials="@partials/modal.html"></template>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/pages/board/product-review-list.js"></script>
+        <script src="/libs/naver-marketing-config.js"></script>
+    </body>
+</html>

@@ -1,0 +1,130 @@
+<custom-modal shopby-layer-modal-template="custom-modal">
+    <script type="text/x-handlebars-template">
+        <div>
+            <div slot="isOpen">
+                {{#if isOpen}}
+                <div class="portal">
+                    <div class="dim"></div>
+                    <div class="modal {{#if modalAddClass}}{{modalAddClass}}{{else}}full-modal{{/if}}" slot="layerModalContent">
+                        {{{layerModalContent}}}
+                        <!-- modal content -->
+                    </div>
+                </div>
+                {{/if}}
+            </div>
+        </div>
+    </script>
+</custom-modal>
+
+<title-modal shopby-layer-modal-template="title-modal">
+    <script type="text/x-handlebars-template">
+        <div>
+            <div slot="isOpen">
+                {{#if isOpen}}
+                <div class="portal">
+                    <div class="dim"></div>
+                    <div class="modal {{#if modalAddClass}}{{modalAddClass}}{{else}}full-modal{{/if}}">
+                        <div class="title-modal{{#if classModifier}} title-modal--{{classModifier}}{{/if}}{{#if isFull}} title-modal--full{{/if}}">
+                            <div class="title-modal__header">
+                                <h2 class="title-modal__title" slot="title">{{{title}}}</h2>
+                                {{#if visibleCloseBtn}}
+                                <button class="title-modal__close-btn" shopby-on:click="CLOSE_TITLE_MODAL">
+                                    <span class="ico ico--x-black-24"></span>
+                                </button>
+                                {{/if}}
+                            </div>
+                            <div class="title-modal__content" slot="layerModalContent">
+                                <!-- modal content -->
+                                {{{layerModalContent}}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/if}}
+            </div>
+        </div>
+    </script>
+</title-modal>
+
+<shopby-alert>
+    <script type="text/x-handlebars-template">
+        <div>
+            <div slot="isOpen">
+                {{#if isOpen}}
+                <div class="portal alert">
+                    <div class="dim"></div>
+                    <div class="modal {{#if modalAddClass}}{{modalAddClass}}{{/if}}">
+                        <div class="modal__box modal__box--alert">
+                            <div class="modal__title-header">
+                                {{#if title}}
+                                <span class="modal__header-title">{{title}}</span>
+                                {{/if}}
+                                {{#if useCloseButton}}
+                                <button class="modal__close-x-btn" shopby-on:click="MODAL_ALERT_BTN">
+                                    <span class="ico ico--x-black-24"></span>
+                                </button>
+                                {{/if}}
+                            </div>
+                            <div class="modal__content" slot="noticeType">
+                                <span class="modal__text {{#if noticeType}}notice{{/if}}" slot="message">
+                                    {{#if noticeType}}
+                                    <span class="sprite-image notice--{{lowerCase noticeType}}"></span>
+                                    {{/if}} {{{message}}}
+                                </span>
+                            </div>
+                            {{#if visibleBottomButton}}
+                            <div class="modal__btns">
+                                <button type="button" class="btn btn--fill-dark btn--lg" slot="label" shopby-on:click="MODAL_ALERT_BTN">{{label}}</button>
+                            </div>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+                {{/if}}
+            </div>
+        </div>
+    </script>
+</shopby-alert>
+
+<shopby-confirm>
+    <script type="text/x-handlebars-template">
+        <div>
+            <div slot="isOpen">
+                {{#if isOpen}}
+                <div class="portal confirm">
+                    <div class="dim"></div>
+                    <div class="modal">
+                        <div slot="hasHeader">
+                            {{#if hasHeader}}
+                            <div class="modal__header">
+                                <h2 class="modal__header-title">알림</h2>
+                                <button class="modal__header-close-btn" shopby-on:click="MODAL_CONFIRM_CLOSE">
+                                    <span class="ico ico--x-black-24"></span>
+                                </button>
+                            </div>
+                            {{/if}}
+                        </div>
+                        <div class="modal__box modal__box--confirm">
+                            <div class="modal__content" slot="noticeType">
+                                <span class="modal__text {{#if noticeType}}notice{{/if}}" slot="message">
+                                    {{#if noticeType}}
+                                    <span class="sprite-image notice--{{lowerCase noticeType}}"></span>
+                                    {{/if}} {{{message}}}
+                                </span>
+                            </div>
+                            <div class="modal__btns">
+                                <button type="button" class="btn btn--line-dark btn--lg" slot="cancelLabel" shopby-on:click="MODAL_CONFIRM_CANCEL_BTN">
+                                    {{cancelLabel}}
+                                </button>
+                                <button type="button" class="btn btn--fill-dark btn--lg" slot="confirmLabel" shopby-on:click="MODAL_CONFIRM_CONFIRM_BTN">
+                                    {{confirmLabel}}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/if}}
+            </div>
+        </div>
+    </script>
+</shopby-confirm>

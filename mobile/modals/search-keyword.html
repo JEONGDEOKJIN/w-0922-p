@@ -1,0 +1,60 @@
+<div shopby-layer-modal-helper-key="search-keyword">
+    <search-field shopby-module-key="search-field">
+        <script type="text/x-handlebars-template">
+            <div class='search-keyword-modal'>
+                <div class='search-keyword-modal__top'>
+                    <button type='button' class='search-keyword-modal__back-btn' shopby-on:click='CLOSE_TITLE_MODAL'>
+                        <span class='ico ico--arrow-left-black-24'></span>
+                    </button>
+
+                    <span class='search-field'>
+                        <span class='search-field__input'>
+                            <span class='input-field input-field--sm text-field'>
+                                <input
+                                    type='text'
+                                    value='{{keyword}}'
+                                    shopby-on:change='CHANGE_SEARCH_FIELD_KEYWORD'
+                                    shopby-on:keydown='KEYPRESS_SEARCH_FIELD_KEYWORD'
+                                />
+                            </span>
+                            <button class='fab fab--sm search-field__clear-btn' shopby-on:click='CLEAR_INPUT_VALUE'>
+                                <span class='ico ico--x-white-12'></span>
+                            </button>
+                        </span>
+                        <button type='button' class='search-field__submit-btn' shopby-on:click='SEARCH'>
+                            <span class='ico ico--magnet-black-24'></span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </script>
+    </search-field>
+    <recent-keyword max-size="10">
+        <script type="text/x-handlebars-template">
+            <div class='recent-keyword'>
+                <h2 class='recent-keyword__top'>
+                    <p>최근검색어</p>
+                    <button shopby-on:click='DELETE_ALL'>검색어 전체삭제</button>
+                </h2>
+                <div slot='keywords' class='recent-keyword__content'>
+                    {{#if keywords.length}}
+                        <ul class='recent-keyword__list'>
+                            {{#each keywords}}
+                                <li class='recent-keyword__item' shopby-keyword='{{this}}'>
+                                    <button shopby-on:click='SEARCH'>{{this}}</button>
+                                    <button class='fab fab--sm search-field__delete-btn' shopby-on:click='DELETE'>
+                                        <span class='ico ico--x-white-12'></span>
+                                    </button>
+                                </li>
+                            {{/each}}
+                        </ul>
+                    {{else}}
+                        <div class='recent-keyword__content-empty'>
+                            <p>최근 검색어 내역이 없습니다.</p>
+                        </div>
+                    {{/if}}
+                </div>
+            </div>
+        </script>
+    </recent-keyword>
+</div>

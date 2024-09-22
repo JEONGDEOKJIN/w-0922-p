@@ -1,0 +1,89 @@
+<div shopby-layer-modal-helper-key="select-product">
+    <div class="select-product">
+        <select-product-search-field>
+            <div class="select-product__search-box">
+                <span class="search-field">
+                    <span class="select select--md search-field__select-box">
+                        <select shopby-on:change="CHANGE_SEARCH_TYPE">
+                            <option value="PRODUCT_NAME">상품명</option>
+                            <option value="PRODUCT_NO">상품번호</option>
+                        </select>
+                    </span>
+                    <span class="search-field__input">
+                        <span class="input-field input-field--md">
+                            <input type="text" placeholder="검색어를 입력해주세요." shopby-on:change="CHANGE_SEARCH_FIELD_KEYWORD" />
+                        </span>
+                        <button type="button" class="search-field__search-btn" shopby-on:click="SEARCH">
+                            <span class="ico ico--magnet-black-24"></span>
+                        </button>
+                    </span>
+                </span>
+            </div>
+        </select-product-search-field>
+
+        <select-product-list pair-key="SELECT_PRODUCT_MORE_VIEW_BUTTON" uses-more-button>
+            <script type="text/x-handlebars-template">
+                <div>
+                    <div class='select-product__list' slot='items'>
+                        {{#each items}}
+                            <div class='select-product-list__item'>
+                                <div class='thumb-item product-option-info__detail'>
+                                    <div class='thumb-item__media'>
+                                        <a class='thumb-item__img-box' href='/pages/product/product-detail.html?productNo={{productNo}}'>
+                                            <span class='thumb-item__img'>
+                                                {{#ifEq imageUrlInfo.0.type 'VIDEO_URL'}}
+                                                    <video width='80px' src='{{imageUrlInfo.0.url}}'></video>
+                                                {{else}}
+                                                    {{img imageUrlInfo.0.url 80 80 productName 'middle' ''}}
+                                                {{/ifEq}}
+                                            </span>
+                                        </a>
+                                    </div>
+                                    <div class='thumb-item__info'>
+                                        <p class='product-option-info__name'>
+                                            <em>
+                                                {{safeString productName}}
+                                            </em>
+                                        </p>
+                                        <div class='product-option-info__option'>
+                                            <div>{{displayNormalOption optionName optionValue}}</div>
+                                            {{#each inputs}}
+                                                <div>{{inputLabel}} : {{inputValue}}</div>
+                                            {{/each}}
+                                        </div>
+                                        <div>
+                                            <em>{{convertToKoreanCurrency (subtractNumber salePrice immediateDiscountAmt additionDiscountAmt)}}</em>원
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type='button' class='btn btn--line-gray btn--md-wide' shopby-product-no={{productNo}} shopby-action='SELECTED_PRODUCT'>
+                                    선택
+                                </button>
+                            </div>
+                        {{else}}
+                            <div class='notice empty-list'>
+                                <span class='sprite-image notice--warning'></span>
+                                <em class='notice__description--center'>검색된 결과가 없습니다.</em>
+                            </div>
+                        {{/each}}
+                    </div>
+                </div>
+            </script>
+        </select-product-list>
+
+        <more-view-button pair-key="SELECT_PRODUCT_MORE_VIEW_BUTTON">
+            <script type="text/x-handlebars-template">
+                <div>
+                    <div slot='hasMoreViewButton'>
+                        {{#if hasMoreViewButton}}
+                            <button class='btn btn--line-gray btn--lg-wide' shopby-on:click='MORE_VIEW_BUTTON_CLICK'>
+                                더보기
+                            </button>
+                        {{/if}}
+                    </div>
+                </div>
+            </script>
+        </more-view-button>
+    </div>
+</div>
+<script src="/modals/select-product.js"></script>

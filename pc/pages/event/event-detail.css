@@ -1,0 +1,233 @@
+@charset "UTF-8";
+/*  기획전 목록 페이지 스타일 파일입니다. */
+.event-detail button {
+  cursor: pointer;
+}
+.event-detail .l-title {
+  margin-bottom: 20px;
+}
+.event-detail .product-link {
+  text-decoration: unset;
+}
+.event-detail__coupon-download-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  border: unset;
+  width: 100%;
+  font-size: 18px;
+  font-weight: 400;
+  background-color: var(--color-point);
+  padding: 20px;
+  color: var(--color-base-white);
+}
+.event-detail__coupon-download-btn strong {
+  font-weight: 500;
+}
+.event-detail__coupon-download-btn .download {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  margin-inline-start: 20px;
+  border: 1px solid var(--color-base-white);
+  padding: 6px 16px;
+  font-size: 14px;
+}
+.event-detail__coupon-download-btn .download .sprite-image {
+  background-size: 364px 335px;
+  background-position: -168px -123px;
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  margin-inline-start: 10px;
+}
+.event-detail .event-nav {
+  margin: 20px 0;
+  padding: 12px;
+  background-color: var(--gray100);
+}
+.event-detail .event-nav__btn {
+  border: 1px solid var(--gray300);
+  padding: 9px 15px;
+  margin-inline-end: 12px;
+  border-radius: 32px;
+  color: var(--gray600);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 14px;
+  background-color: transparent;
+}
+.event-detail .event-nav__btn.is-active {
+  background-color: var(--color-base-black);
+  color: var(--color-base-white);
+}
+.event-detail__products {
+  display: grid;
+  gap: 12px;
+}
+.event-detail__products .thumb-item {
+  width: auto;
+}
+.event-detail__products .thumb-item__media {
+  background-image: none;
+}
+.event-detail__products .thumb-item__icon-box {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-direction: row;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.event-detail__products .thumb-item__img {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.event-detail__products .thumb-item__img img {
+  object-fit: contain;
+}
+.event-detail__products .thumb-item__img .no-img {
+  background-size: 64px;
+}
+.event-detail__products .thumb-item__overlay {
+  font-size: 30px;
+}
+.event-detail__products .thumb-item__like-btn {
+  border: none;
+  background-color: none;
+}
+.event-detail__products .thumb-item__like-btn svg {
+  position: absolute;
+  right: 10px;
+  bottom: 12px;
+  width: 56px;
+}
+.event-detail__products--2row .thumb-item__media, .event-detail__products--3row .thumb-item__media {
+  aspect-ratio: auto;
+}
+.event-detail__products--2row .thumb-item__img, .event-detail__products--3row .thumb-item__img {
+  height: 282px;
+}
+.event-detail__products--2row .thumb-item__like-btn svg, .event-detail__products--3row .thumb-item__like-btn svg {
+  bottom: 24px;
+}
+.event-detail__products--2row .thumb-item__info, .event-detail__products--3row .thumb-item__info {
+  margin-top: 0;
+}
+.event-detail__products--5row .thumb-item__info {
+  line-height: 26px;
+}
+.event-detail__products--5row .thumb-item__info .current-price,
+.event-detail__products--5row .thumb-item__info .rate {
+  font-size: 14px;
+}
+.event-detail__products--5row .thumb-item__info-name,
+.event-detail__products--5row .thumb-item__info .current-price em,
+.event-detail__products--5row .thumb-item__info .rate em {
+  font-size: 16px;
+}
+.event-detail__products--5row .thumb-item__info .origin-price,
+.event-detail__products--5row .thumb-item__info .origin-price s {
+  font-size: 14px;
+}
+.event-detail__products--5row .thumb-item__like-btn svg {
+  width: 48px;
+}
+.event-detail__products--5row .thumb-item__img .no-img {
+  background-size: 48px;
+}
+.event-detail__products--5row .thumb-item__overlay {
+  font-size: 18px;
+}
+.event-detail__products--6row .thumb-item__info, .event-detail__products--7row .thumb-item__info, .event-detail__products--8row .thumb-item__info {
+  line-height: 20px;
+}
+.event-detail__products--6row .thumb-item__info .current-price,
+.event-detail__products--6row .thumb-item__info .rate, .event-detail__products--7row .thumb-item__info .current-price,
+.event-detail__products--7row .thumb-item__info .rate, .event-detail__products--8row .thumb-item__info .current-price,
+.event-detail__products--8row .thumb-item__info .rate {
+  font-size: 12px;
+}
+.event-detail__products--6row .thumb-item__info-name,
+.event-detail__products--6row .thumb-item__info .current-price em,
+.event-detail__products--6row .thumb-item__info .rate em, .event-detail__products--7row .thumb-item__info-name,
+.event-detail__products--7row .thumb-item__info .current-price em,
+.event-detail__products--7row .thumb-item__info .rate em, .event-detail__products--8row .thumb-item__info-name,
+.event-detail__products--8row .thumb-item__info .current-price em,
+.event-detail__products--8row .thumb-item__info .rate em {
+  font-size: 14px;
+}
+.event-detail__products--6row .thumb-item__info .origin-price,
+.event-detail__products--6row .thumb-item__info .origin-price s, .event-detail__products--7row .thumb-item__info .origin-price,
+.event-detail__products--7row .thumb-item__info .origin-price s, .event-detail__products--8row .thumb-item__info .origin-price,
+.event-detail__products--8row .thumb-item__info .origin-price s {
+  font-size: 12px;
+}
+.event-detail__products--6row .thumb-item__status-label, .event-detail__products--7row .thumb-item__status-label, .event-detail__products--8row .thumb-item__status-label {
+  top: 10px;
+  left: 12px;
+  font-size: 14px;
+}
+.event-detail__products--6row .thumb-item__like-btn svg, .event-detail__products--7row .thumb-item__like-btn svg, .event-detail__products--8row .thumb-item__like-btn svg {
+  right: 4px;
+  bottom: 6px;
+  width: 42px;
+}
+.event-detail__products--6row .thumb-item__img .no-img, .event-detail__products--7row .thumb-item__img .no-img, .event-detail__products--8row .thumb-item__img .no-img {
+  background-size: 42px;
+}
+.event-detail__products--6row .thumb-item__overlay, .event-detail__products--7row .thumb-item__overlay, .event-detail__products--8row .thumb-item__overlay {
+  font-size: 16px;
+}
+.event-detail__products--9row .thumb-item__info, .event-detail__products--10row .thumb-item__info {
+  line-height: 14px;
+}
+.event-detail__products--9row .thumb-item__info .current-price,
+.event-detail__products--9row .thumb-item__info .rate, .event-detail__products--10row .thumb-item__info .current-price,
+.event-detail__products--10row .thumb-item__info .rate {
+  font-size: 10px;
+}
+.event-detail__products--9row .thumb-item__info-name,
+.event-detail__products--9row .thumb-item__info .current-price em,
+.event-detail__products--9row .thumb-item__info .rate em, .event-detail__products--10row .thumb-item__info-name,
+.event-detail__products--10row .thumb-item__info .current-price em,
+.event-detail__products--10row .thumb-item__info .rate em {
+  font-size: 12px;
+}
+.event-detail__products--9row .thumb-item__info .origin-price,
+.event-detail__products--9row .thumb-item__info .origin-price s, .event-detail__products--10row .thumb-item__info .origin-price,
+.event-detail__products--10row .thumb-item__info .origin-price s {
+  font-size: 8px;
+}
+.event-detail__products--9row .thumb-item__status-label, .event-detail__products--10row .thumb-item__status-label {
+  top: 8px;
+  left: 10px;
+  font-size: 12px;
+}
+.event-detail__products--9row .thumb-item__like-btn svg, .event-detail__products--10row .thumb-item__like-btn svg {
+  width: 38px;
+}
+.event-detail__products--9row .thumb-item__img .no-img, .event-detail__products--10row .thumb-item__img .no-img {
+  background-size: 32px;
+}
+.event-detail__products--9row .thumb-item__overlay, .event-detail__products--10row .thumb-item__overlay {
+  font-size: 14px;
+}
+.event-detail .skeleton-grid .skeleton__media {
+  aspect-ratio: 2/1;
+}
+.event-detail .thumb-item__like-btn svg {
+  fill: var(--color-base-white);
+}
+.event-detail .thumb-item__like-btn path {
+  stroke-width: 5;
+}
+.event-detail .thumb-item__like-btn:where(.is-active) svg {
+  fill: var(--color-point);
+}
+.event-detail .thumb-item__like-btn:where(.is-active) path {
+  stroke-width: 0;
+}

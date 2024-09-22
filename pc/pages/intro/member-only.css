@@ -1,0 +1,29 @@
+@charset "UTF-8";
+/*  회원인증 페이지 스타일 파일입니다. */
+.member-only {
+  padding-block-end: 120px;
+}
+.member-only__img {
+  display: block;
+  width: 100%;
+  height: 24vh;
+  background: center/contain no-repeat url("/assets/images/bg/member-only-img.png");
+}
+.member-only__content {
+  width: 500px;
+  height: 300px;
+}
+.member-only__text {
+  text-align: center;
+  margin: 10px;
+  line-height: 30px;
+  font-size: 30px;
+}
+.member-only__description {
+  text-align: center;
+  color: var(--gray500);
+}
+.member-only__login-box {
+  text-align: center;
+  padding: 50px;
+}

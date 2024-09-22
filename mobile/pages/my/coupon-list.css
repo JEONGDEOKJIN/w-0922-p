@@ -1,0 +1,97 @@
+@charset "UTF-8";
+/*  쿠폰 페이지 스타일 파일입니다. */
+.my-page-coupon .tabs-wrap {
+  position: sticky;
+  top: 70px;
+  z-index: 3;
+}
+.my-page-coupon .tab {
+  width: 100%;
+}
+.my-page-coupon .tab li {
+  width: 100%;
+}
+.my-page-coupon .tab li .tab__btn {
+  width: 100%;
+  padding: 17px 0;
+}
+.my-page-coupon__list {
+  margin-top: 19px;
+}
+.my-page-coupon__discounted-price {
+  font-size: 28px;
+  color: var(--color-point);
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.my-page-coupon__max-amount, .my-page-coupon__limit-sale-price {
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 400;
+}
+.my-page-coupon__unit {
+  font-weight: 600;
+  vertical-align: baseline;
+  display: inline-block;
+  margin-left: 2px;
+  margin-right: 6px;
+}
+.my-page-coupon__content {
+  font-size: 14px;
+  line-height: 22px;
+}
+.my-page-coupon__content p {
+  overflow: hidden;
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: break-word;
+  line-height: 30px;
+}
+.my-page-coupon__name {
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--color-secondary);
+}
+.my-page-coupon__date {
+  font-size: 12px;
+  color: var(--gray600);
+}
+.my-page-coupon__list-item + .my-page-coupon__list-item {
+  margin-top: 19px;
+}
+.my-page-coupon__box {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--gray300);
+  padding: 16px;
+}
+.my-page-coupon__coupon-info {
+  border-bottom: 1px solid var(--gray300);
+}
+.my-page-coupon__coupon-sub-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.my-page-coupon__coupon-limit {
+  background-color: transparent;
+  border: none;
+  color: var(--gray400);
+  text-decoration: underline;
+}
+.my-page-coupon__list-item--unissuable .my-page-coupon__name,
+.my-page-coupon__list-item--unissuable .my-page-coupon__content,
+.my-page-coupon__list-item--unissuable .my-page-coupon__discounted-price,
+.my-page-coupon__list-item--unissuable .my-page-coupon__date {
+  color: var(--gray400);
+}
+.my-page-coupon__list-item--unissuable .my-page-coupon__box {
+  border: 1.4px solid var(--gray300);
+}
+.my-page-coupon__list-item--unissuable .my-page-coupon__box--right {
+  background-color: var(--gray100);
+}
+.my-page-coupon__list-item--unissuable .my-page-coupon__box--right::before, .my-page-coupon__list-item--unissuable .my-page-coupon__box--right::after {
+  border: 1.4px solid var(--gray300);
+}

@@ -1,0 +1,115 @@
+@charset "UTF-8";
+/*  상품후기 관리 페이지 스타일 파일입니다. */
+.profile-product-review__tabs {
+  height: 4.2857142857rem;
+  background-color: var(--color-secondary);
+}
+.profile-product-review__tabs li {
+  position: relative;
+}
+.profile-product-review__tabs li:not(:first-child):before {
+  content: "";
+  display: block;
+  width: 1px;
+  height: 1.2rem;
+  background-color: #5f656e;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+.profile-product-review__tabs button {
+  font-size: 1.1428571429rem;
+  font-weight: 400;
+}
+.profile-product-review .tabs__item {
+  border: none;
+}
+.profile-product-review .tabs__item.on {
+  color: var(--color-base-white);
+}
+.profile-product-review__list {
+  padding: 20px;
+}
+.profile-product-review__list-item {
+  padding: 20px;
+  border: 1px solid #e2e2e2;
+}
+.profile-product-review__register-button {
+  height: 40px;
+  border-radius: 0;
+}
+.profile-product-review__list-item + .profile-product-review__list-item {
+  margin-top: 20px;
+}
+
+.product-review-list__list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.product-review-list__item {
+  width: calc(50% - 5px);
+  border: 1px solid var(--gray200);
+  margin: 10px 0;
+}
+.product-review-list__item a {
+  text-decoration: none;
+  color: var(--color-base-black);
+}
+.product-review-list .product-review-item__top {
+  height: 161px;
+  width: 161px;
+  border-bottom: 1px solid var(--gray200);
+}
+.product-review-list .product-review-item__top img {
+  width: 100%;
+  height: auto;
+}
+.product-review-list .product-review-item__container {
+  padding: 16px 10px;
+}
+.product-review-list .product-review-item__container section {
+  text-align: left;
+  padding: 10px 0;
+}
+.product-review-list .product-review-item__product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-bottom: 1px solid var(--gray200);
+}
+.product-review-list .product-review-item__name, .product-review-list .product-review-item__content {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  white-space: normal;
+  word-wrap: break-word;
+}
+.product-review-list .product-review-item__write-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+}
+.product-review-list .product-review-item__write span + span::before {
+  content: "|";
+  color: var(--gray200);
+}
+
+.review-comments__write-info {
+  padding-top: 10px;
+}
+.review-comments__write-info span + span::before {
+  content: "|";
+  margin-right: 5px;
+  color: var(--gray200);
+}
+.review-comments__date {
+  font-weight: 400;
+}
+.review-comments__content {
+  padding: 10px 0;
+}

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="referrer" content="same-origin" />
+
+        <title></title>
+
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="/shopby-skin-mobile.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/window-popup/design-popup-window.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-mobile.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+    <body>
+        <design-popup-window>
+            <script type="text/x-handlebars-template">
+                <div>
+                    <div slot="popupsNormal">
+                        <!-- 일반 팝업 -->
+                        {{#with popup}}
+                        <section shopby-popup shopby-popup-no="{{popupNo}}" shopby-draggable="{{#ifEq detailInfo.screenType 'LAYER'}}true{{/ifEq}}{{#ifNe detailInfo.screenType 'LAYER'}}false{{/ifNe}}" class="design-popup design-popup--window">
+                            <div class="editor">
+                                <div shopby-popup-content class="design-popup__content">{{{content}}}</div>
+
+                                <footer class="design-popup__btns">
+                                    {{#if usesVisibleTodayOption}}
+                                    <label for="no-visible-today-{{popupNo}}" class="form-check form-check--sm design-popup__btn--no-visible-today">
+                                        <input type="checkbox" id="no-visible-today-{{popupNo}}" shopby-action="NO_VISIBLE_TODAY" >
+                                        오늘 하루 보이지 않음
+                                    </label>
+                                    {{/if}}
+                                    <button type="button" shopby-action="CLOSE_DESIGN_POPUP" class="btn btn--default design-popup__btn--close">
+                                        <span class="ico ico--x-black-24"></span>
+                                    </button>
+                                </footer>
+                            </div>
+                        </section>
+                        {{/with}}
+                    </div>
+
+                    <div slot="popupsMulti">
+                        <!-- 멀티팝업 -->
+                        {{#with popup}}
+                        <section shopby-popup shopby-popup-no="{{popupNo}}" shopby-draggable="{{#ifEq detailInfo.screenType 'LAYER'}}true{{/ifEq}}{{#ifNe detailInfo.screenType 'LAYER'}}false{{/ifNe}}" class="design-popup design-popup--window">
+                            <div shopby-popup-content class="design-popup__content">
+                                <div shopby-popup-multi-main>
+                                    <div shopby-slider class="swiper">
+                                        <div class="swiper-wrapper">
+                                            {{#each popupSlideInfo.slideImages}}
+                                            <div class="swiper-slide">
+                                                <div class="design-popup__slide" style="height: {{../popupSlideInfo.slideMaxHeight}}px;">
+                                                  {{#if ../popupSlideInfo.resizable}}
+                                                  {{img mainImageUrl ../popupSlideInfo.slideMaxWidth ../popupSlideInfo.slideMaxHeight '팝업이미지_메인' '' (append 'height: ' ../popupSlideInfo.slideMaxHeight 'px;') }}
+                                                  {{else}}
+                                                  {{img mainImageUrl '' '' '팝업이미지_메인' '' '' }}
+                                                  {{/if}}
+                                                </div>
+                                            </div>
+                                            {{/each}}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div shopby-popup-multi-sub class="design-popup__thumb-image">
+                                    {{#each popupSlideInfo.slideImages}}
+                                    <div shopby-slider class="swiper design-popup__slider--sub">
+                                      <div class="swiper-wrapper">
+                                          <div class="swiper-slide">
+                                              <div class="design-popup__slide" style="height: {{../popupSlideInfo.slideMinHeight}}px;">
+                                                  {{#if landingUrl}}
+                                                  <a href="{{landingUrl}}" target="{{#ifEq openLocationTarget 'SELF'}}_self{{/ifEq}}{{#ifEq openLocationTarget 'BLANK'}}_blank{{/ifEq}}">
+                                                      {{#if ../popupSlideInfo.resizable}}
+                                                      {{img thumbImageUrl ../popupSlideInfo.slideMinWidth ../popupSlideInfo.slideMinHeight '팝업이미지_서브' '' (append 'height: ' ../popupSlideInfo.slideMinHeight 'px;') }}
+                                                      {{else}}
+                                                      {{img thumbImageUrl '' '' '팝업이미지_서브' '' '' }}
+                                                      {{/if}}
+                                                  </a>
+                                                  {{else}}
+                                                      {{#if ../popupSlideInfo.resizable}}
+                                                      {{img thumbImageUrl ../popupSlideInfo.slideMinWidth ../popupSlideInfo.slideMinHeight '팝업이미지_서브' '' (append 'height: ' ../popupSlideInfo.slideMinHeight 'px;') }}
+                                                      {{else}}
+                                                      {{img thumbImageUrl '' '' '팝업이미지_서브' '' '' }}
+                                                      {{/if}}
+                                                  {{/if}}
+                                              </div>
+                                          </div>
+                                          <div class="swiper-slide">
+                                              <div class="design-popup__slide" style="height: {{../popupSlideInfo.slideMinHeight}}px;">
+                                                  {{#if landingUrl}}
+                                                  <a href="{{landingUrl}}" target="{{#ifEq openLocationTarget 'SELF'}}_self{{/ifEq}}{{#ifEq openLocationTarget 'BLANK'}}_blank{{/ifEq}}">
+                                                      {{#if ../popupSlideInfo.resizable}}
+                                                      {{img thumbImageUrlOnOver ../popupSlideInfo.slideMinWidth ../popupSlideInfo.slideMinHeight '팝업이미지_서브' '' (append 'height: ' ../popupSlideInfo.slideMinHeight 'px;') }}
+                                                      {{else}}
+                                                      {{img thumbImageUrlOnOver '' '' '팝업이미지_서브' '' '' }}
+                                                      {{/if}}
+                                                  </a>
+                                                  {{else}}
+                                                      {{#if ../popupSlideInfo.resizable}}
+                                                      {{img thumbImageUrlOnOver ../popupSlideInfo.slideMinWidth ../popupSlideInfo.slideMinHeight '팝업이미지_서브' '' (append 'height: ' ../popupSlideInfo.slideMinHeight 'px;') }}
+                                                      {{else}}
+                                                      {{img thumbImageUrlOnOver '' '' '팝업이미지_서브' '' '' }}
+                                                      {{/if}}
+                                                  {{/if}}
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                    {{/each}}
+                                </div>
+
+                                <footer class="design-popup__btns">
+                                    {{#if usesVisibleTodayOption}}
+                                    <label for="no-visible-today-{{popupNo}}" class="form-check form-check--sm design-popup__btn--no-visible-today">
+                                        <input type="checkbox" id="no-visible-today-{{popupNo}}" shopby-action="NO_VISIBLE_TODAY">
+                                        오늘 하루 보이지 않음
+                                    </label>
+                                    {{/if}}
+                                    <button type="button" shopby-action="CLOSE_DESIGN_POPUP" class="btn btn--default design-popup__btn--close">
+                                        <span class="ico ico--x-black-24"></span>
+                                    </button>
+                                </footer>
+                            </div>
+                        </section>
+                        {{/with}}
+                    </div>
+                </div>
+            </script>
+        </design-popup-window>
+    </body>
+    <script src="/pages/window-popup/design-popup-window.js"></script>
+</html>

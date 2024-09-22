@@ -1,0 +1,52 @@
+@charset "UTF-8";
+/*  게시판 상세 페이지 스타일 파일입니다. */
+.reply-list__item {
+  padding: 16px;
+}
+.reply-list__item + .reply-list__item {
+  border-top: 1px solid var(--default-color);
+}
+.reply-list__item-link {
+  text-decoration: none;
+  color: black;
+}
+.reply-list__item-top {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-direction: row;
+  height: 20px;
+  vertical-align: middle;
+  gap: 4px;
+}
+.reply-list__item-title {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.reply-list__item-bottom {
+  display: flex;
+  gap: 14px;
+  margin-top: 10px;
+  padding-left: 24px;
+  color: var(--gray-color);
+}
+.reply-list__item-new-icon {
+  background-color: var(--color-point);
+}
+.reply-list__pagination-btn {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.reply-section-title {
+  padding: 10px 16px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.reply-section-table {
+  border-top: 2px solid var(--color-base-black);
+  margin-bottom: 20px;
+}

@@ -1,0 +1,51 @@
+@charset "UTF-8";
+/*  성인인증 페이지 스타일 파일입니다. */
+.adult-certification {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+}
+.adult-certification__adult {
+  width: 90px;
+  height: 90px;
+  padding: 18px;
+  border-radius: 45px;
+  border: 8px solid #f92626;
+}
+.adult-certification__adult span {
+  width: 40px;
+  height: 40px;
+  top: 25px;
+  left: 25px;
+  padding: 1px 0px 1px 0px;
+  font-size: 38px;
+  font-family: "Montserrat";
+  font-weight: 700;
+  line-height: 38px;
+}
+.adult-certification__login-box {
+  width: 100%;
+  padding: 10px 0;
+}
+.adult-certification__exit-button {
+  width: 100%;
+  margin-bottom: 40px;
+}
+.adult-certification__title {
+  margin-top: 20px;
+  font-size: 2.1428571429rem;
+  line-height: 2.8571428571rem;
+  font-weight: 500;
+}
+.adult-certification__description {
+  margin-top: 0.8571428571rem;
+  color: var(--gray-font-color);
+  font-size: 16px;
+  color: var(--gray500);
+  text-align: center;
+}
+.adult-certification__description .caution {
+  color: #f92626;
+}

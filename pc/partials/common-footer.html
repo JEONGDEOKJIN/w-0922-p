@@ -1,0 +1,169 @@
+<shopby-footer>
+  <script type="text/x-handlebars-template">
+  <footer shopby-common-footer class="shopby-common-footer">
+    
+    <div class="footer-information" slot="mallInfo">
+      <div class="inner-wrap">
+        <div class="information__company-wrap">
+          <div class="information__company">
+            <p>{{mallInfo.serviceBasicInfo.companyName}}</p>
+            <p>대표이사 {{mallInfo.serviceBasicInfo.representativeName}}</p>
+          </div>
+          <div class="information__company-light">
+            <p>{{mallInfo.serviceBasicInfo.zipCd}}
+              {{mallInfo.serviceBasicInfo.address}}
+              {{mallInfo.serviceBasicInfo.addressDetail}}
+            </p>
+            <p>사업자등록번호
+              {{mallInfo.serviceBasicInfo.businessRegistrationNo}} / 통신판매신고번호
+              {{mallInfo.serviceBasicInfo.onlineMarketingBusinessDeclarationNo}}
+            </p>
+          </div>
+        </div>
+
+        <div class="information__service-wrap">
+          <div class="information__service-trems" slot="terms">
+            {{#each terms}}
+              {{#if used}}
+                <a class=""
+                  href="{{#ifEq termsKey 'MALL_INTRODUCTION'}}/pages/service/company-introduce.html{{/ifEq}}{{#ifEq termsKey 'USE'}}/pages/service/use-terms.html{{/ifEq}}{{#ifEq termsKey 'ACCESS_GUIDE'}}/pages/service/use-guide.html{{/ifEq}}{{#ifEq termsKey 'PI_PROCESS'}}/pages/service/privacy-policy.html{{/ifEq}}">{{title}}</a>
+              {{/if}}
+            {{/each}}
+          </div>
+          <div class="information__service">
+            <p>고객센터: 
+              {{mallInfo.mall.serviceCenter.phoneNo}}
+            </p>
+            {{#if mallInfo.mall.serviceCenter.faxNo}}
+            <p>팩스: 
+              {{mallInfo.mall.serviceCenter.faxNo}}
+            </p>
+            {{/if}}
+          </div>
+        </div>
+
+      </div>
+    </div>
+    {{!-- <footer class="footer">
+            <div class="l-panel">
+                <section class="footer__content">
+                    <p class='footer__mall-name' slot="mallInfo">{{mallInfo.serviceBasicInfo.companyName}}</p>
+                    <p class='footer__about-company' slot="terms">
+                        {{#each terms}}
+                        {{#if used}}
+                        <span><a class="{{#if isBold}}bold{{/if}}" href="{{#ifEq termsKey 'MALL_INTRODUCTION'}}/pages/service/company-introduce.html{{/ifEq}}{{#ifEq termsKey 'USE'}}/pages/service/use-terms.html{{/ifEq}}{{#ifEq termsKey 'ACCESS_GUIDE'}}/pages/service/use-guide.html{{/ifEq}}{{#ifEq termsKey 'PI_PROCESS'}}/pages/service/privacy-policy.html{{/ifEq}}">{{title}}</a></span>
+                        {{/if}}
+                        {{/each}}
+                    </p>
+                    <div slot="mallInfo">
+                        <address>
+                            {{#with mallInfo.serviceBasicInfo}}
+                                대표자명 :
+                                {{representativeName}}
+                                ・ 주소 :
+                                {{address}} {{addressDetail}}
+                                <br />
+                                대표전화번호 :
+                                {{representPhoneNo}}
+                                {{#if faxNo}}・ 팩스번호 : {{faxNo}}{{/if}}
+                                <br />
+                                이메일 :
+                                {{representEmail}}
+                                ・ 사업자등록번호 :
+                                <span>
+                                    {{businessRegistrationNo}}
+                                    <a
+                                        href='https://www.ftc.go.kr/bizCommPop.do?wrkr_no={{businessRegistrationNo}}'
+                                        target='_blank'
+                                        rel='noopener no-referrer'
+                                    >사업자정보확인</a>
+                                </span>
+                                <br />
+                                통신판매업신고번호 :
+                                {{onlineMarketingBusinessDeclarationNo}}
+                                ・ 개인정보보호책임자 :
+                                {{privacyManagerName}}
+                                <br />
+                                호스팅제공 : 엔에이치엔커머스(주)
+                            {{/with}}
+                        </address>
+                        <p class='copyright' slot='mallInfo'>Copyright ⓒ 2024 {{mallInfo.serviceBasicInfo.companyName}} all rights reserved.</p>
+                    </div>
+                    <ul class='footer__mark' slot="mallInfo">
+                        <!-- 공정거래 -->
+                        {{#with mallInfo.termsConfig}}
+                            {{#if fairLogoUsed}}
+                                <li>
+                                    {{img fairLogoUrl 'auto' 'auto' '공정거래 위원회' '' ''}}
+                                </li>
+                            {{/if}}
+                        {{/with}}
+                        <!-- 공정거래 -->
+
+                        {{#with mall.escrowLogo}}
+                            {{#if exposure}}
+                                <li>
+                                    {{{logoHtml}}}
+                                </li>
+                            {{/if}}
+                        {{/with}}
+
+                        {{#with orderConfig}}
+                            {{#if escrow.exposeLogo}}
+                                <li>
+                                    {{{escrow.logo}}}
+                                </li>
+                            {{/if}}
+                        {{/with}}
+                    </ul>
+                </section>
+
+                <section>
+                    <div class='footer__quick-link font-noto' slot="allBoardConfig">
+                        <ul>
+                            {{#each allBoardConfig.boardConfigs}}
+                                {{#if used}}
+                                <li>
+                                    {{#if boardId}}
+                                        <a href='/pages/board/post-list.html?boardId={{boardId}}'>{{name}}</a>
+                                    {{else}}
+                                        <a href='/pages/board/post-list.html?boardNo={{boardNo}}'>{{name}}</a>
+                                    {{/if}}
+                                </li>
+                                {{/if}}
+                            {{/each}}
+                        </ul>
+                        <ul>
+                            {{#if allBoardConfig.inquiryConfig.used}}<li><a href='/pages/my/inquiry-list.html'>{{{allBoardConfig.inquiryConfig.name}}}</a></li>{{/if}}
+                            {{#if allBoardConfig.productInquiryConfig.used}}<li><a href='/pages/my/product-inquiry-list.html'>{{{allBoardConfig.productInquiryConfig.name}}}</a></li>{{/if}}
+                            {{#if allBoardConfig.productReviewConfig.used}}<li><a href='/pages/my/product-review-list.html'>{{{allBoardConfig.productReviewConfig.name}}}</a></li>{{/if}}
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="footer__info" slot="mallInfo">
+                    <dl>
+                        {{#with mallInfo}}
+                            <dt>CS CENTER</dt>
+                            {{#with mall.serviceCenter}}
+                                <dd>
+                                    <p><a href='tel:{{phoneNo}}'>{{phoneNo}}</a></p>
+                                    <p><a href='mailto:{{email}}'>{{email}}</a></p>
+                                </dd>
+                            {{/with}}
+
+                            <dt>BANK INFO</dt>
+                            <dd>
+                                {{#each bankAccountInfos}}
+                                    <p>{{bankName}} {{bankAccount}} (예금주: {{bankDepositorName}})</p>
+                                {{/each}}
+                            </dd>
+                        {{/with}}
+                    </dl>
+
+                </section>
+            </div>
+        </footer> --}}
+  </footer>
+  </script>
+</shopby-footer>

@@ -1,0 +1,54 @@
+<recent-product>
+    <script type="text/x-handlebars-template">
+        <div>
+            <div class='recent-product-wrap'>
+                <div class='recent-product-box' slot='recentProducts'>
+                    {{#each recentProducts}}
+                        <div class='recent-product-item-wrap'>
+                            <a href='/pages/product/product-detail.html?productNo={{productNo}}'>
+                                <div class='recent-product-item'>
+                                    <div class='recent-product-item__img'>
+                                        {{#ifEq imageType 'VIDEO_URL'}}
+                                            <div class='video-wrapper'>
+                                                <div class='video-cover'></div>
+                                                <iframe src='{{src}}' width='100%' height='100%' frameborder='0'></iframe>
+                                            </div>
+                                        {{else}}
+                                            <img src='{{src}}' alt='{{alt}}' loading='lazy' />
+                                        {{/ifEq}}
+                                    </div>
+                                    <div class='recent-product-item__info'>
+                                        <div class='recent-product-item__info-name font-noto' title='productName'>{{productName}}</div>
+                                        <div class='recent-product-item__info-price'>
+                                            <div class='current-price'>
+                                                <em class='font-montserrat'>{{convertToKoreanCurrency discountedPrice}}</em><span class='font-noto'>원</span>
+                                            </div>
+                                            {{#unless hasOnlyOriginalPrice}}
+                                                <span class='origin-price'>
+                                                    <s class='font-montserrat'>{{convertToKoreanCurrency originalPrice}}</s><s class='font-noto'>원</s>
+                                                </span>
+                                            {{/unless}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <button class='fab fab--sm recent-product__fab' shopby-on:click='REMOVE_RECENT_PRODUCT' shopby-value='{{productNo}}'>
+                                <span class='ico ico--x-white-24' shopby-on:click='REMOVE_RECENT_PRODUCT'></span>
+                            </button>
+                        </div>
+                    {{/each}}
+
+                    {{#unless recentProducts}}
+                        <div class='notice'>
+                            <span class='sprite-image notice--warning'></span>
+                            <em>
+                                최근 본 상품이 없습니다.
+                            </em>
+                        </div>
+                    {{/unless}}
+                </div>
+            </div>
+        </div>
+    </script>
+</recent-product>

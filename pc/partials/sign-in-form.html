@@ -1,0 +1,59 @@
+<sign-in-form>
+    <script type="text/x-handlebars-template">
+        <article class='normal-sign-in'>
+            <form>
+                <div>
+                    <div class='normal-sign-in__input-wrap'>
+                        <span class='input-field input-field--md'>
+                            <input
+                                class='member-id'
+                                type='text'
+                                slot='memberId'
+                                name='memberId'
+                                value='{{memberId}}'
+                                shopby-focus-field='memberId'
+                                placeholder='아이디'
+                                shopby-on:change='CHANGE_MEMBER_ID'
+                                shopby-on:input='NO_SPACE_MEMBER_ID'
+                            />
+                        </span>
+                        <span class='input-field input-field--md'>
+                            <input
+                                slot='password'
+                                class='password'
+                                name='password'
+                                value='{{password}}'
+                                type='password'
+                                placeholder='비밀번호'
+                                shopby-focus-field='password'
+                                shopby-on:change='CHANGE_PASSWORD'
+                                shopby-on:input='NO_SPACE_PASSWORD'
+                                shopby-action='PASSWORD_KEYPRESS'
+                            />
+                        </span>
+                    </div>
+                    <label class='form-check form-check--md'>
+                        <input type='checkbox' slot='saveIdChecked' shopby-on:change='CHECK_SAVE_ID' />
+                        <span class='form-check__label'>
+                            아이디 저장
+                        </span>
+                    </label>
+                    <button class='btn btn--fill-point btn--md' type='button' shopby-action='SIGN_IN'>
+                        로그인
+                    </button>
+                    <div class='sign-in-link'>
+                        <a class='sign-in-link__item' href='/pages/find/find-id.html'>
+                            아이디찾기
+                        </a>
+                        <a class='sign-in-link__item' href='/pages/find/find-password.html'>
+                            비밀번호찾기
+                        </a>
+                        <a class='sign-in-link__item' href='/pages/sign-up/sign-up-method.html'>
+                            회원가입
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </article>
+    </script>
+</sign-in-form>

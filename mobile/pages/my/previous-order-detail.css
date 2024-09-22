@@ -1,0 +1,71 @@
+@charset "UTF-8";
+/*  이전주문 상세 페이지 스타일 파일입니다. */
+.previous-order-detail {
+  font-family: "Noto Sans KR";
+  text-decoration: none;
+}
+.previous-order-detail em {
+  font-style: normal;
+}
+.previous-order-detail__order-no {
+  margin-left: 4px;
+  color: var(--gray400);
+}
+.previous-order-detail__product-name {
+  font-weight: 700;
+}
+.previous-order-detail__price {
+  display: flex;
+  justify-content: none;
+  align-items: center;
+  flex-direction: row;
+  padding-block: 8px;
+  color: var(--gray600);
+  gap: 12px;
+  line-height: 16px;
+}
+.previous-order-detail__price em {
+  font-family: "Montserrat";
+  color: var(--color-base-black);
+  font-weight: 700;
+  padding-inline: 4px 2px;
+}
+.previous-order-detail__price > span {
+  position: relative;
+}
+.previous-order-detail__price > span:not(:last-of-type)::after {
+  position: absolute;
+  top: 50%;
+  right: -3px;
+  width: 2px;
+  height: 10px;
+  content: "";
+  transform: translate(3px, -50%);
+  background-color: var(--gray300);
+}
+.previous-order-detail .l-title--sm {
+  font-family: "Montserrat";
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+.previous-order-detail .accordion__title {
+  margin-block-start: 12px;
+}
+.previous-order-detail .accordion__contents:not(:first-of-type) {
+  border-top: 2px solid var(--gray200);
+}
+.previous-order-detail__payment dd {
+  text-align: end;
+  line-height: 18px;
+}
+.previous-order-detail__payment dt:last-of-type,
+.previous-order-detail__payment dd:last-of-type {
+  border-top: 2px solid var(--color-base-black);
+}
+.previous-order-detail__payment em {
+  font-family: "Montserrat";
+  font-weight: 700;
+}
+.previous-order-detail__payment .highlight {
+  font-size: 18px;
+}

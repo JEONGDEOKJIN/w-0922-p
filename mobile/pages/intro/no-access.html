@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="/shopby-skin-mobile.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/intro/no-access.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-mobile.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+    <body>
+        <no-access>
+            <script type="text/x-handlebars-template">
+                <div class='no-access'>
+                    <span class='no-access__img'></span>
+                    <p class='font-noto bold no-access__title'>접근이 제한된 쇼핑몰입니다.</p>
+                    <p class='no-access__content'>
+                        이용에 불편을 드려 죄송합니다.
+                        <br />
+                        빠른 시일 내에 더욱 나은 서비스로 찾아뵙겠습니다.
+                        <br />
+                        {{mallName}}의 이용관련 문의는
+                        {{serviceCenter.phoneNo}}으로 연락하시기 바랍니다.
+                        <br />
+                        감사합니다.
+                    </p>
+                </div>
+            </script>
+        </no-access>
+    </body>
+</html>

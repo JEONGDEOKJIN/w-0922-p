@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <!-- A2HS -->
+        <link rel="manifest" shopby-manifest-placeholder href="/manifest.json" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+
+        <link rel="apple-touch-icon" href="https://rlyfaazj0.toastcdn.net/20211220/141125.985487000/app_icon(144).png" />
+        <!-- A2HS -->
+
+        <link rel="stylesheet" href="/shopby-skin-mobile.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/board/post-detail.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-mobile.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+    <body>
+        <div shopby-skin-container>
+            <!-- 디자인팝업 -->
+            <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+            <!-- 상단 레이아웃 -->
+            <template
+                class="l-header"
+                shopby-partials="@partials/common-header.html"
+                shopby-partials-js="@partials/common-header.js"
+                shopby-sub-title="게시글 상세"
+                shopby-using-button="hamburger,back"
+                shopby-visible-logo="false"
+            ></template>
+
+            <div class="board-detail">
+                <article-view class="article-view" board-no:query="boardNo" board-id:query="boardId" article-no:query="articleNo">
+                    <script type="text/x-handlebars-template">
+                        <div>
+                            {{#unless isLoading}}
+                                {{#if parentArticle}}
+                                    <div class="article-view__parent" slot="isParentArticleOpen">
+                                        {{#if isParentArticleOpen}}
+                                        <div class="article-view__parent-content {{#if isParentArticleOpen}}{{else}}hidden{{/if}}">
+                                            <p class="article-view__title">{{{parentArticle.title}}}</p>
+                                            <div class="article-view__sub-info">
+                                                <div>
+                                                    <span class="article-view__register-name">{{parentArticle.registerName}}</span>
+                                                    <span class="article-view__register-ymdt font-montserrat">{{formatUseByDate parentArticle.registerYmdt}}</span>
+                                                </div>
+                                                <span class="article-view__view-count">조회수&nbsp;<span class="font-montserrat">{{convertToKoreanCurrency parentArticle.viewCnt}}</span></span>
+                                            </div>
+                                            <div class="article-view__content" shopby-html-content="PARENT"></div>
+                                        </div>
+                                        {{/if}}
+
+                                        <button class="btn btn--line-gray btn--lg-wide" shopby-on:click="PARENT_ARTICLE_BTN">
+                                            본문
+                                            {{#if isParentArticleOpen}}
+                                                닫기 <span class="ico ico--chevron-down-24 article-view__ico-chevron-up"></span>
+                                            {{else}}
+                                                열기<span class="ico ico--chevron-down-24"></span>
+                                            {{/if}}
+                                        </button>
+                                    </div>
+                                {{/if}}
+                                <div class="board__head">
+                                    <h2 class="article-view__title">{{{title}}}</h2>
+                                    <div class="article-view__sub-info">
+                                        <div>
+                                            <span class="article-view__register-name">{{registerName}}</span>
+                                            <span class="article-view__register-ymdt font-montserrat">{{formatUseByDate registerYmdt}}</span>
+                                        </div>
+                                        <span class="article-view__view-count">조회수&nbsp;<span class="font-montserrat">{{convertToKoreanCurrency viewCnt}}</span></span>
+                                    </div>
+                                </div>
+                                <div class="article-view__content">
+                                    <div class='article-view__content--main-image'>
+                                        <img src='{{imageUrl}}' />
+                                    </div>
+                                    <div shopby-html-content="MAIN"></div>
+                                    <div class='article-view__content--attach-files folding-images-by-one-row is-active'>
+                                        <ul class='folding-images-by-one-row__image-list'>
+                                            {{#each images}}
+                                                <li class='folding-images-by-one-row__image-item' shopby-image-idx='{{@index}}'>
+                                                    {{img uploadedFileName 100 100 fileName}}
+                                                    <button class='folding-images-by-one-row__image-zoom-in' shopby-on:click='ZOOM_IN_IMAGE'>
+                                                        <span class='ico ico--magnet-white-12'></span>
+                                                    </button>
+                                                </li>
+                                            {{/each}}
+                                        </ul>
+                                    </div>
+
+                                    <div class="article-view__content--attach-files">
+                                        <ul>
+                                            {{#each files}}
+                                                <li>
+                                                    <span class='ico ico--clip-16 article-list__item-title-icon'></span>
+                                                    <span
+                                                        style='cursor: pointer;'
+                                                        shopby-file-name='{{uploadedFileName}}'
+                                                        shopby-origin-file-name='{{fileName}}'
+                                                        shopby-action='DOWNLOAD_FILE'
+                                                    >{{fileName}}</span>
+                                                </li>
+                                            {{/each}}
+                                        </ul>
+                                    </div>
+                                </div>
+                            {{/unless}}
+                        </div>
+                    </script>
+                </article-view>
+
+                <article-replies
+                    board-id:query="boardId"
+                    board-no:query="boardNo"
+                    article-no:query="articleNo"
+                    pair-key="REPLY_MORE_VIEW_BUTTON"
+                    uses-more-button
+                >
+                    <script type="text/x-handlebars-template">
+                        <div>
+                            <div slot='totalCount'>
+                                {{#if boardConfig.replyUsed}}
+                                    {{#ifNe totalCount 0}}
+                                    <p class="reply-section-title">답글보기</p>
+                                    <ul slot="items" class="reply-list">
+                                        {{#each items}}
+                                        <li class="reply-list__item">
+                                            <a href="/pages/board/post-detail.html?boardNo={{../boardNo}}&articleNo={{articleNo}}">
+                                                <p class="reply-list__item-top">
+                                                    <span class="ico ico--corner-down-right-16"></span>
+                                                    {{#if secreted}}
+                                                    <span class="ico ico--lock-black-16 article-list__item-title-icon"></span>
+                                                    <span class="bold reply-list__item-title">비밀글입니다.</span>
+                                                    {{else}}
+                                                    <span class="bold reply-list__item-title">{{{title}}}</span>
+                                                    {{/if}} {{#if attached}}
+                                                    <span class="ico ico--clip-16 article-list__item-title-icon"></span>
+                                                    {{/if}}
+                                                    {{#isNewPost registerYmdt}}
+                                                        <span class="ico ico--n-white-16 article-list__item-new-icon"></span>
+                                                    {{/isNewPost}}
+                                                </p>
+                                                <div class="reply-list__item-bottom">
+                                                    <div>
+                                                        <span class="reply-list__register-name">{{registerName}}</span>
+                                                        <span class="reply-list__register-ymdt font-montserrat">{{formatUseByDate registerYmdt}}</span>
+                                                    </div>
+                                                    <span class="reply-list__view-count">조회수&nbsp;<span class="font-montserrat">{{viewCnt}}</span></span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        {{/each}}
+                                    </ul>
+                                    {{/ifNe}}
+                                {{/if}}
+                            </div>
+                        </div>
+                    </script>
+                </article-replies>
+
+                <more-view-button pair-key="REPLY_MORE_VIEW_BUTTON">
+                    <script type="text/x-handlebars-template">
+                        <div>
+                            <div slot='hasMoreViewButton'>
+                                {{#if hasMoreViewButton}}
+                                    <button class='btn btn--line-gray btn--lg-wide' shopby-on:click='MORE_VIEW_BUTTON_CLICK'>더보기</button>
+                                {{/if}}
+                            </div>
+                        </div>
+                    </script>
+                </more-view-button>
+
+                <article-view-btns board-id:query="boardId" board-no:query="boardNo" article-no:query="articleNo">
+                    <script type="text/x-handlebars-template">
+                        <div class='article-view__btns'>
+                            <div>
+                                <div slot='canModify' shopby-secreted='{{secreted}}' shopby-board-name='{{boardName}}' shopby-register-type='{{registerType}}'>
+                                    {{#if canModify}}
+                                        <button class='btn btn--line-gray' shopby-action='MODIFY'>수정</button>
+                                        <button class='btn btn--line-gray' shopby-action='DELETE'>삭제</button>
+                                    {{/if}}
+                                </div>
+                            </div>
+                            <button class='btn btn--line-gray btn--xs' shopby-action='LIST'>목록</button>
+                        </div>
+                    </script>
+                </article-view-btns>
+            </div>
+
+            <layer-modal-area type="title" name="check-post-password-form" src="@modals/check-post-password.html"></layer-modal-area>
+            <layer-modal-area type="title" name="article-write-form" src="@modals/post-form.html"></layer-modal-area>
+            <layer-modal-area type="title" name="image-attachment-detail" src="@modals/image-attachment-detail.html"></layer-modal-area>
+
+            <!-- 하단 레이아웃 -->
+            <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js"></template>
+
+            <!-- 하단바 -->
+            <template shopby-partials="@partials/common-nav.html"></template>
+        </div>
+        <!-- 오프캔버스 -->
+        <template shopby-partials="@partials/slide-menu.html" shopby-partials-js="@partials/slide-menu.js"></template>
+        <!-- 최근 검색 -->
+        <layer-modal-area type="custom" name="search-keyword" src="@modals/search-keyword.html"></layer-modal-area>
+        <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+        <template shopby-partials="@partials/modal.html"></template>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/pages/board/post-detail.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/libs/naver-marketing-config.js"></script>
+    </body>
+</html>

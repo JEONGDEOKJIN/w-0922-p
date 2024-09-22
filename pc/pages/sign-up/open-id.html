@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="/shopby-skin-pc.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/sign-up/open-id.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-pc.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+    <body>
+        <!-- 디자인팝업 -->
+        <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+        <!-- 상단 레이아웃 -->
+        <template class="shopby-header" shopby-partials="@partials/common-header.html" shopby-partials-js="@partials/common-header.js"></template>
+        <main class="l-page">
+            <section class="page-content-top">
+                <ol class="page-content-top__path page-content-top__location">
+                    <li><a href="/">HOME</a></li>
+                    &gt;
+                    <li>로그인</li>
+                </ol>
+            </section>
+            <div shopby-helper-key="open-id">
+                <div class="open-id-agreement-form">
+                    <open-id-sign-up>
+                        <script type="text/x-handlebars-template">
+                            <div>
+                                <div class='open-id-agreement-form__description'>
+                                    <div class='notice'>
+                                        <span class='sprite-image notice--success'></span>
+                                    </div>
+                                    <span slot='provider'>
+                                        쇼핑몰 이용을 위해
+                                        {{provider}}
+                                        회원 정보로 가입됩니다.
+                                        <br />
+                                        제공된 서비스는 쇼핑몰 탈퇴 시까지 보관됩니다.
+                                    </span>
+                                </div>
+                                <div slot='profileInformation'>
+                                    {{#if (isEmptyData profileInformation)}}
+                                        <ul class='open-id-agreement-form__callout'>
+                                            {{#ifNe profileInformation.memberId ''}}
+                                                <li>
+                                                    <div>
+                                                        <h4>
+                                                            아이디
+                                                        </h4>
+                                                        <span>
+                                                            {{profileInformation.memberId}}
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                            {{/ifNe}}
+                                            {{#ifNe profileInformation.memberName ''}}
+                                                <li>
+                                                    <div>
+                                                        <h4>
+                                                            이름
+                                                        </h4>
+                                                        <span>
+                                                            {{profileInformation.memberName}}
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                            {{/ifNe}}
+                                            {{#ifNe profileInformation.email ''}}
+                                                <li>
+                                                    <div>
+                                                        <h4>
+                                                            이메일
+                                                        </h4>
+                                                        <span>
+                                                            {{profileInformation.email}}
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                            {{/ifNe}}
+                                            {{#ifNe profileInformation.mobileNo ''}}
+                                                <li>
+                                                    <div>
+                                                        <h4>
+                                                            휴대폰번호
+                                                        </h4>
+                                                        <span>
+                                                            {{profileInformation.mobileNo}}
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                            {{/ifNe}}
+                                            {{#ifNe profileInformation.gender ''}}
+                                                <li>
+                                                    <div>
+                                                        <h4>
+                                                            성별
+                                                        </h4>
+                                                        <span>
+                                                            {{getGenderLabel profileInformation.gender}}
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                            {{/ifNe}}
+                                            {{#ifNe profileInformation.birthday ''}}
+                                                <li>
+                                                    <div>
+                                                        <h4>
+                                                            생일
+                                                        </h4>
+                                                        <span>
+                                                            {{convertDateFormat profileInformation.birthday}}
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                            {{/ifNe}}
+                                        </ul>
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </script>
+                    </open-id-sign-up>
+                    <p class="open-id-agreement-form__title">약관동의</p>
+                    <terms-information>
+                        <script type="text/x-handlebars-template">
+                            <div>
+                                <div>
+                                    <div class='open-id-agreement-form__input-wrap'>
+                                        <div class='open-id-agreement-form__checkbox--check-all'>
+                                            <label class='form-check form-check--md'>
+                                                <input type='checkbox' slot='isAllChecked' shopby-on:click='CHECK_ALL_TERMS' />
+                                                <span class='form-check__label'>
+                                                    아래 약관에 모두 동의합니다.
+                                                </span>
+                                            </label>
+                                        </div>
+
+                                        <ul class='open-id-agreement-form__agree-list-margin'>
+                                            <div slot='terms'>
+                                                {{#each terms}}
+                                                    <li>
+                                                        <div class='open-id-agreement-form__checkbox--check-single'>
+                                                            <label class='form-check form-check--md'>
+                                                                <input type='checkbox' value='{{id}}' shopby-on:click='CHECK_TERMS' />
+                                                                <span class='form-check__label'>
+                                                                    {{getMandatoryLabel required}}
+                                                                    {{title}}
+                                                                </span>
+                                                            </label>
+                                                            {{#if hasDetailView}}
+                                                                <button
+                                                                    class='btn btn--md'
+                                                                    type='button'
+                                                                    shopby-term-id='{{id}}'
+                                                                    shopby-action='SHOW_TERM_DETAIL'
+                                                                >
+                                                                    보기
+                                                                </button>
+                                                            {{/if}}
+                                                        </div>
+                                                    </li>
+                                                {{/each}}
+                                            </div>
+                                            <div slot='customTerms'>
+                                                {{#each customTerms}}
+                                                    <li>
+                                                        <div class='open-id-agreement-form__checkbox--check-single'>
+                                                            <label class='form-check form-check--md'>
+                                                                <input type='checkbox' value='{{id}}' shopby-on:click='CHECK_TERMS' />
+                                                                <span class='form-check__label'>
+                                                                    {{getMandatoryLabel required}}
+                                                                    {{title}}
+                                                                </span>
+                                                            </label>
+                                                            {{#if hasDetailView}}
+                                                                <button
+                                                                    class='btn btn--md'
+                                                                    type='button'
+                                                                    shopby-term-id='{{id}}'
+                                                                    shopby-action='SHOW_TERM_DETAIL'
+                                                                >
+                                                                    보기
+                                                                </button>
+                                                            {{/if}}
+                                                        </div>
+                                                    </li>
+                                                {{/each}}
+                                            </div>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </script>
+                    </terms-information>
+                    <div class="open-id-agreement-form__confirm">
+                        <button type="button" class="btn btn--line-dark btn--lg" shopby-action="CANCEL">취소</button>
+                        <button type="button" class="btn btn--fill-point btn--lg" shopby-action="SIGN_UP">회원가입</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <layer-modal-area type="custom" name="term-detail" src="@modals/terms-detail.html"></layer-modal-area>
+        <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+        <template shopby-partials="@partials/modal.html"></template>
+
+        <!-- 퀵메뉴 (최상단 이동 + 최근 본 상품) -->
+        <template shopby-partials="@partials/quick-menu.html"></template>
+        <!-- 최근 본 상품(오프캔버스) -->
+        <template shopby-partials="@partials/recent-product.html"></template>
+        <!-- 하단 레이아웃 -->
+        <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js"></template>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/pages/sign-up/open-id.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/libs/naver-marketing-config.js"></script>
+    </body>
+</html>

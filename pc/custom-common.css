@@ -1,0 +1,45 @@
+.main-banner {
+  position: relative;
+  width: 100%; /* 전체 슬라이드 영역의 크기 */
+  margin: 0 auto;
+  overflow: hidden; /* 슬라이드 끝을 숨기기 위한 설정 */
+}
+
+.slider-wrapper {
+  display: flex;
+  transition: transform 0.5s ease;
+  /* 슬라이드가 가운데 정렬되도록 설정 */
+  transform: translateX(calc(-100% / 3));
+}
+
+.slider-item {
+  flex: 0 0 auto;
+  width: calc(100% / 3); /* 슬라이드가 3개 보이도록 설정 */
+  box-sizing: border-box;
+}
+
+.slider-item img {
+  width: 100%;
+  display: block;
+  pointer-events: none;
+}
+
+.slider-prev,
+.slider-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.slider-prev {
+  left: 0;
+}
+
+.slider-next {
+  right: 0;
+}

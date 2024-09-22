@@ -1,0 +1,64 @@
+<shopby-header shopby-platform-type="MOBILE">
+    <script type="text/x-handlebars-template">
+        <header>
+            <div slot='visibleSubHeader'>
+                <div class='header'>
+                    <!-- 로고 -->
+                    {{#if visibleLogo}}
+                        <h1 class='header__logo' slot='logo'>
+                            {{#with logo}}
+                                {{#if landingUrl}}
+                                    <a href='{{landingUrl}}' target='{{openLocationType}}'>
+                                        {{img imageUrl '' '' description '' (append 'width: ' width ';' 'height: ' height ';')}}
+                                    </a>
+                                {{else}} {{img imageUrl '' '' description '' (append 'width: ' width ';' 'height: ' height ';')}} {{/if}}
+                            {{/with}}
+                        </h1>
+                    {{/if}}
+
+                    <!-- 햄버거 메뉴 -->
+                    {{#if visibleHamburgerButton}}
+                        <button class='header__hamburger' shopby-on:click='OPEN_HEADER_SLIDE_MENU'>
+                            <span class='ico ico--hamburger-black-24'></span>
+                        </button>
+                    {{/if}}
+
+                    <!-- 뒤로가기 -->
+                    {{#unless visibleSubHeader}}
+                        {{#if visibleBackButton}}
+                            <button class='header__back' shopby-on:click='BACK'>
+                                <span class='ico ico--arrow-left-black-24'></span>
+                            </button>
+                        {{/if}}
+                    {{/unless}}
+
+                    <!-- 타이틀 -->
+                    {{#unless visibleSubHeader}}
+                        {{#if subTitle}}
+                            <h1 class='header__title' slot='subTitle'>{{subTitle}}</h1>
+                        {{/if}}
+                    {{/unless}}
+
+                    <!-- 카트 -->
+                    {{#if visibleCartButton}}
+                        <a class='header__link-basket' href='/pages/order/cart.html' title='장바구니 가기'>
+                            <span class='ico ico--bag-black-24'></span>
+                            <span class='badge badge--round badge--fill-point header__link-basket-badge' slot='count'> {{count}} </span>
+                        </a>
+                    {{/if}}
+                </div>
+                {{#if visibleSubHeader}}
+                    <div class='header header--sub'>
+                        <!-- 뒤로가기 -->
+                        <button class='header__back' shopby-on:click='BACK'>
+                            <span class='ico ico--arrow-left-black-24'></span>
+                        </button>
+
+                        <!-- 타이틀 -->
+                        <h1 class='header__title' slot='subTitle'>{{subTitle}}</h1>
+                    </div>
+                {{/if}}
+            </div>
+        </header>
+    </script>
+</shopby-header>

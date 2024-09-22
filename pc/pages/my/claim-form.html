@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="/shopby-skin-pc.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/my/claim-form.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/lib/lodash_4_17_21.min.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-pc.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+
+    <body>
+        <!-- 디자인팝업 -->
+        <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+        <!-- 상단 레이아웃 -->
+        <template class="shopby-header" shopby-partials="@partials/common-header.html" shopby-partials-js="@partials/common-header.js"></template>
+        <main class="l-my-page claim-form" shopby-helper-key="claim-form-helper-key">
+            <section class="page-content-top">
+                <ol class="page-content-top__path page-content-top__location">
+                    <li><a href="/">HOME</a></li>
+                    &gt;
+                    <li><a href="/pages/my/my-page.html">마이페이지</a></li>
+                    &gt;
+                    <li>취소/반품/교환 신청</li>
+                </ol>
+            </section>
+
+            <section class="my-page-box">
+                <template class="l-my-page-menu" shopby-partials="@partials/my-menu.html" shopby-menu-title="취소/반품/교환 내역"></template>
+
+                <div class="right-box">
+                    <div class="right-box__container">
+                        <!-- 클레임 신청 -->
+                        <claim-type claim-type:query="claimType">
+                            <div class="right-box__head">
+                                <span class="font-noto right-box__title">{{claimStatusLabel claimType}} 신청</span>
+                            </div>
+                        </claim-type>
+
+                        <!-- 상품 영역 -->
+                        <claim-products claim-type:query="claimType">
+                            <script type="text/x-handlebars-template">
+                                <div>
+                                    <div class='right-box__table'>
+                                        <table class='l-table'>
+                                            <colgroup>
+                                                <!-- 주문일자(주문번호) -->
+                                                <col width='15%' />
+
+                                                <!-- 선택 -->
+                                                <col width='8%' />
+
+                                                <!-- 상품 정보 -->
+                                                <col />
+
+                                                <!-- 수량 -->
+                                                <col width='8%' />
+
+                                                <!-- 상품금액 -->
+                                                <col width='10%' />
+
+                                                <!-- 진행상태 -->
+                                                <col width='10%' />
+
+                                                <!-- 클레임 수량 -->
+                                                <col width='12%' />
+                                            </colgroup>
+
+                                            <thead>
+                                                <tr>
+                                                    <th>주문일자(주문번호)</th>
+                                                    <th>
+                                                        <label class='form-check form-check--md'>
+                                                            <input type='checkbox' slot='isAllChecked' shopby-action='TOGGLE_ALL' />
+                                                        </label>
+                                                    </th>
+                                                    <th>상품정보</th>
+                                                    <th>수량</th>
+                                                    <th>상품금액</th>
+                                                    <th>진행상태</th>
+                                                    <th>{{claimStatusLabel claimType}} 수량</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody slot='products'>
+                                                {{#each products}}
+                                                    <tr shopby-order-option-no='{{orderOptionNo}}'>
+                                                        <!-- 주문일자(주문번호) -->
+                                                        {{#if @first}}
+                                                        <td rowspan="{{../products.length}}">
+                                                            <span><strong class='font-montserrat order-date' slot='orderDate'>{{../orderDate}}</strong></span>
+                                                            <a
+                                                                class='font-montserrat order-number'
+                                                                href='/pages/my/order-detail.html?orderNo={{../orderOptionNo}}'
+                                                                slot='orderOptionNo'
+                                                            >{{../orderOptionNo}}</a>
+                                                        </td>
+                                                        {{/if}}
+                                                        <!-- 주문일자(주문번호) -->
+
+                                                        <!-- 선택 -->
+                                                        <td>
+                                                            <label class='form-check form-check--md'>
+                                                                <input
+                                                                    type='checkbox'
+                                                                    slot='orderOptionNoCheckbox'
+                                                                    shopby-order-option-no='{{orderOptionNo}}'
+                                                                    shopby-action='TOGGLE_ORDER_OPTION'
+                                                                />
+                                                            </label>
+                                                        </td>
+                                                        <!-- 선택 -->
+
+                                                        <!-- 상품정보 -->
+                                                        <td>
+                                                            <a class='thumb-item' href='/pages/product/product-detail.html?productNo={{productNo}}'>
+                                                                <span class='thumb-item__media'>
+                                                                    {{#if hasImage}}
+                                                                        {{#ifEq imageUrlInfo.0.imageUrlType 'VIDEO_URL'}}
+                                                                            <div class='video-wrapper'>
+                                                                                <div class="video-cover"></div>
+                                                                                <iframe class="thumb" src='{{imageUrlInfo.0.url}}' width="100px" frameborder='0'></iframe>
+                                                                            </div>
+                                                                        {{else}}
+                                                                            {{img imageUrlInfo.0.url 100 100 productName '' ''}}
+                                                                        {{/ifEq}}
+                                                                    {{else}}
+                                                                        <span class='no-img'></span>
+                                                                    {{/if}}
+                                                                </span>
+                                                                <span class='thumb-item__info'>
+                                                                    <span class='thumb-item__brand-name'>{{{brandName}}}</span>
+                                                                    <span class='thumb-item__product-name'>{{{productName}}}</span>
+                                                                    {{#each options}}
+                                                                        <span>{{{label}}} : {{{value}}}</span>
+                                                                    {{/each}}
+                                                                    {{#each inputs}}
+                                                                        <span>
+                                                                            {{{inputLabel}}}
+                                                                            :
+                                                                            {{{inputValue}}}
+                                                                        </span>
+                                                                    {{/each}}
+                                                                </span>
+                                                            </a>
+                                                        </td>
+                                                        <!-- 상품정보 -->
+
+                                                        <!-- 수량 -->
+                                                        <td><span class='currency'><em class="font-montserrat">{{orderCnt}}</em>개</span></td>
+                                                        <!-- 수량 -->
+
+                                                        <!-- 상품금액 -->
+                                                        <td>
+                                                            <span class='currency'><em class="font-montserrat">{{convertToKoreanCurrency price.buyAmt}}</em>원</span>
+                                                        </td>
+                                                        <!-- 상품금액 -->
+
+                                                        <!-- 진행상태 -->
+                                                        <td><span class='order-status'>{{orderStatusLabel orderStatusType}}</span></td>
+                                                        <!-- 진행상태 -->
+
+                                                        <!-- 클레임 수량 -->
+                                                        <td>
+                                                            <span
+                                                                class='counter counter--center'
+                                                                slot='quantityChanger'
+                                                                shopby-order-option-no='{{orderOptionNo}}'
+                                                                shopby-max='{{orderCnt}}'
+                                                            >
+                                                                <button type='button' class='counter__btn' shopby-action='HANDLE_DECREASE_COUNT_BTN_CLICK'>
+                                                                    -
+                                                                </button>
+                                                                <span class='counter__input'>
+                                                                    <input
+                                                                        type='text'
+                                                                        slot='orderCnt'
+                                                                        shopby-order-option-no='{{orderOptionNo}}'
+                                                                        value='{{orderCnt}}'
+                                                                        disabled
+                                                                    />
+                                                                </span>
+                                                                <button
+                                                                    type='button'
+                                                                    class='counter__btn'
+                                                                    shopby-max='{{orderCnt}}'
+                                                                    shopby-action='HANDLE_INCREASE_COUNT_BTN_CLICK'
+                                                                >
+                                                                    +
+                                                                </button>
+                                                            </span>
+                                                        </td>
+                                                        <!-- 클레임 수량 -->
+                                                    </tr>
+                                                {{/each}}
+                                                {{#if isLoading}}
+                                                <tr>
+                                                    <td colspan="7">
+                                                        <div class="loader loader--lg">
+                                                            <span class="spinner"></span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                {{/if}}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class='claim-form__notice'>
+                                        <span class='dot dot--l-notice highlight' slot='checkedCount'>
+                                            {{#if isAllChecked}}
+                                                모든 상품을 선택하셨습니다.
+                                            {{else}}
+                                                {{checkedCount}}개 상품을 선택하셨습니다.
+                                            {{/if}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </script>
+                        </claim-products>
+                        <!-- 상품 영역 -->
+                        <!-- 클레임 신청 -->
+
+                        <!-- 클레임 사유 -->
+                        <claim-reason-form>
+                            <script type="text/x-handlebars-template">
+                                <div>
+                                    <div class='right-box__head'>
+                                        <span class='font-noto right-box__title' slot='claimType'>{{claimStatusLabel claimInfo.claimType}} 사유</span>
+                                    </div>
+
+                                    <dl>
+                                        {{#ifNe claimInfo.originalOption.orderStatusType 'DEPOSIT_WAIT'}}
+                                            <dt><span class='dot dot--r-must'>귀책 대상</span></dt>
+                                            <dd>
+                                                <span class='select select--md'>
+                                                    <select slot="responsibleObjectTypes" shopby-focus-field='responsibleObjectType' shopby-on:change="HANDLE_RESPONSIBLE_OBJECT_TYPES_CHANGE">
+                                                        <option value='' disabled='' selected>
+                                                            귀책 대상을 선택해주세요.
+                                                        </option>
+                                                        {{#each claimInfo.responsibleObjectTypes}}
+                                                        <option value='{{@this}}'>
+                                                            {{#ifEq @this 'SELLER'}}
+                                                            판매자
+                                                            {{else}}
+                                                            구매자
+                                                            {{/ifEq}}
+                                                        </option>
+                                                        {{/each}}
+                                                    </select>
+                                                </span>
+                                            </dd>
+                                            <dt><span class='dot dot--r-must'>사유</span></dt>
+                                            <dd>
+                                                <span class='select select--md'>
+                                                    <select slot="claimReasonTypes" shopby-focus-field='claimReasonType' shopby-on:change="HANDLE_CLAIM_REASON_CHANGE">
+                                                        <option value='' disabled='' selected>
+                                                            사유를 선택해주세요
+                                                        </option>
+                                                        {{#each claimInfo.claimReasonTypes}}
+                                                        <option value="{{claimReasonType}}">{{label}}</option>
+                                                        {{/each}}
+                                                    </select>
+                                                </span>
+                                            </dd>
+                                        {{/ifNe}}
+                                        <dt><span class='dot dot--r-must'>상세 사유</span></dt>
+                                        <dd>
+                                            <span class='input-field input-field--lg'>
+                                                <textarea
+                                                    class='text-area'
+                                                    cols='30'
+                                                    rows='5'
+                                                    placeholder='상세 사유를 입력해 주세요.'
+                                                    slot="claimReasonDetail"
+                                                    value="{{claimReasonDetail}}"
+                                                    shopby-focus-field='claimReasonDetail'
+                                                    shopby-max="160"
+                                                    shopby-on:input="HANDLE_DETAIL_REASON_INPUT"
+                                                    shopby-on:change="HANDLE_DETAIL_REASON_CHANGE"
+                                                ></textarea>
+                                            </span>
+                                        </dd>
+                                        {{#if isCollectionInfoFormNecessary}}
+                                        <dt>
+                                            <span>첨부파일</span>
+                                        </dt>
+                                        <dd slot="images">
+                                            <input type='file' hidden multiple accept='image/*' shopby-attach-input shopby-limit-count="5" shopby-limit-mega-bytes="5" shopby-on:change='HANDLE_ATTACH_INPUT_CHANGE' />
+                                            <button type="button" class='btn btn--line-dark btn--sm' shopby-on:click="HANDLE_ATTACH_BTN_CLICK">사진 첨부하기</button>
+                                            <ul class='attachment attachment__items'>
+                                                {{#each images}}
+                                                <li class='attachment__media'>
+                                                    {{img imageUrl 80 80 originName '' ''}}
+                                                    <button type="button" class='attachment__delete' shopby-image-url="{{imageUrl}}" shopby-action='HANDLE_ATTACH_DELETE_BTN'></button>
+                                                </li>
+                                                {{/each}}
+
+                                            </ul>
+                                        </dd>
+                                        {{/if}}
+                                    </dl>
+
+                                    {{#ifNe claimInfo.originalOption.orderStatusType 'DEPOSIT_WAIT'}}
+                                    <div class='claim-form__notice'>
+                                        <span class='dot dot--l-gray'>
+                                            {{#ifEq claimInfo.claimType 'CANCEL'}}
+                                            고객님의 귀책 사유로 {{claimStatusLabel claimInfo.claimType}}처리 시 비용이 발생될 수 있습니다.
+                                            {{else}}
+                                            고객님의 귀책 사유로 상품 등이 훼손 또는 멸실 된 경우 반품/교환 제한(불가) 및 비용이 발생될 수 있습니다.
+                                            {{/ifEq}}
+                                        </span>
+                                    </div>
+                                    {{/ifNe}}
+                                </div>
+                            </script>
+                        </claim-reason-form>
+                        <!-- 클레임 사유 -->
+
+                        <!-- 클레임 정보 -->
+                        <claim-information-form>
+                            <script type="text/x-handlebars-template">
+                                <div>
+                                    {{#if isAccountFormNecessary}}
+                                        <div class='right-box__head'>
+                                            <span class='font-noto right-box__title' slot='claimType'>{{claimStatusLabel claimType}} 정보</span>
+                                        </div>
+
+                                        <dl>
+                                            <dt><span class='dot dot--r-must'>은행</span></dt>
+                                            <dd>
+                                                <span class='select select--md'>
+                                                    <select slot='availableBanks' shopby-on:change='HANDLE_BANK_CHANGE' shopby-focus-field='bank'>
+                                                        <option value='' disabled='' selected>
+                                                            은행을 선택해주세요.
+                                                        </option>
+                                                        {{#each availableBanks}}
+                                                            <option value={{bank}}>
+                                                                {{label}}
+                                                            </option>
+                                                        {{/each}}
+                                                    </select>
+                                                </span>
+                                            </dd>
+                                            <dt><span class='dot dot--r-must'>계좌번호</span></dt>
+                                            <dd>
+                                                <span class='input-field input-field--md'>
+                                                    <input
+                                                        class='font-montserrat'
+                                                        type='text'
+                                                        placeholder='계좌번호 - 없이 입력'
+                                                        shopby-max='20'
+                                                        shopby-on:input='HANDLE_BANK_ACCOUNT_INPUT'
+                                                        shopby-on:change='HANDLE_BANK_ACCOUNT_CHANGE'
+                                                        shopby-focus-field='bankAccount'
+                                                    />
+                                                </span>
+                                            </dd>
+                                            <dt><span class='dot dot--r-must'>예금주</span></dt>
+                                            <dd>
+                                                <span class='input-field input-field--md'>
+                                                    <input
+                                                        type='text'
+                                                        placeholder='예금주를 입력해주세요.'
+                                                        shopby-max='30'
+                                                        shopby-on:input='HANDLE_BANK_DEPOSITOR_NAME_INPUT'
+                                                        shopby-on:change='HANDLE_BANK_DEPOSITOR_NAME_CHANGE'
+                                                        shopby-focus-field='bankDepositorName'
+                                                    />
+                                                </span>
+                                            </dd>
+                                        </dl>
+
+                                        <div class='claim-form__notice'>
+                                            <span class='dot dot--l-gray'>
+                                                결제하신 수단에 따라 취소 방법이 다를 수 있습니다.
+                                            </span>
+                                        </div>
+                                    {{/if}}
+                                </div>
+                            </script>
+                        </claim-information-form>
+                        <!-- 클레임 정보 -->
+
+                        <!-- 반품 수거 정보 -->
+                        <return-information-form deliverable:query="deliverable">
+                            <script type="text/x-handlebars-template">
+                                {{#if isCollectionInfoFormNecessary}}
+                                    <div>
+                                        <div class='right-box__head'>
+                                            <span class='font-noto right-box__title'>반품 수거 정보</span>
+                                        </div>
+
+                                        <dl class='claim-form__collection-type' slot='collectionType'>
+                                            <dt><span class='dot dot--r-must'>반품 수거 방법</span></dt>
+                                            <dd>
+                                                <ul slot='collectionTypes' shopby-on:click='HANDLE_COLLECTION_TYPE_CLICK'>
+                                                    <li>
+                                                        <label class='form-check form-check--md'>
+                                                            <input
+                                                                type='radio'
+                                                                name='collection-type'
+                                                                slot='collection'
+                                                                shopby-disabled
+                                                                value='SELLER'
+                                                                checked
+                                                            />
+                                                            <span class='form-check__label'> 판매자 수거요청 </span>
+                                                        </label>
+                                                    </li>
+                                                    <li>
+                                                        <label class='form-check form-check--md'>
+                                                            <input type='radio' name='collection-type' slot='collection' value='BUYER' />
+                                                            <span class='form-check__label'> 구매자 직접반품 </span>
+                                                        </label>
+                                                    </li>
+                                                </ul>
+                                            </dd>
+
+                                            {{#ifEq collectionType 'SELLER'}}
+                                                <!-- 판매자 수거 정보 -->
+                                                <dt><span class='dot dot--r-must'>반품자명</span></dt>
+                                                <dd class='claim-form__return-name'>
+                                                    <span class='input-field input-field--md'>
+                                                        <input
+                                                            type='text'
+                                                            placeholder='이름을 입력하세요.'
+                                                            shopby-max='50'
+                                                            slot='receiverName'
+                                                            value='{{returnAddress.receiverName}}'
+                                                            shopby-on:change='HANDLE_RECEIVER_NAME_CHANGE'
+                                                            shopby-on:input='HANDLE_RECEIVER_NAME_INPUT'
+                                                            shopby-focus-field='receiverName'
+                                                        />
+                                                    </span>
+                                                    <button
+                                                        type='button'
+                                                        class='btn btn--line-dark btn--sm'
+                                                        shopby-action='SELECT_FROM_SHIPPING_ADDRESSES'
+                                                    >배송지 목록에서 선택</button>
+                                                </dd>
+
+                                                <dt><span class='dot dot--r-must'>수거지 주소</span></dt>
+                                                <dd>
+                                                    <span class='address-form'>
+                                                        <span class='address'>
+                                                            <span class='input-field input-field--md'>
+                                                                <input
+                                                                    type='text'
+                                                                    slot='returnAddress'
+                                                                    class='font-montserrat'
+                                                                    disabled
+                                                                    value='{{returnAddress.receiverZipCd}}'
+                                                                />
+                                                            </span>
+                                                            <button
+                                                                type='button'
+                                                                class='btn btn--line-dark btn--sm'
+                                                                shopby-focus-field='receiverZipCdToReturn'
+                                                                shopby-action='SEARCH_ZIP_CODE_TO_RETURN'
+                                                            >우편번호 찾기</button>
+                                                        </span>
+                                                        <span class='input-field input-field--md'>
+                                                            <input
+                                                                type='text'
+                                                                class='font-montserrat'
+                                                                disabled
+                                                                slot='returnAddress'
+                                                                value='{{returnAddress.receiverAddress}}'
+                                                            />
+                                                        </span>
+                                                        <span class='input-field input-field--md'>
+                                                            <input
+                                                                type='text'
+                                                                slot='receiverDetailAddress'
+                                                                class='font-montserrat'
+                                                                value='{{returnAddress.receiverDetailAddress}}'
+                                                                shopby-max='100'
+                                                                shopby-focus-field='receiverDetailAddress'
+                                                                shopby-on:input='HANDLE_RECEIVER_DETAIL_ADDRESS_INPUT'
+                                                                shopby-on:change='HANDLE_RECEIVER_DETAIL_ADDRESS_CHANGE'
+                                                            />
+                                                        </span>
+                                                    </span>
+                                                </dd>
+
+                                                <dt><span class='dot dot--r-must'>휴대폰 번호</span></dt>
+                                                <dd>
+                                                    <span class='input-field input-field--md'>
+                                                        <input
+                                                            class='font-montserrat'
+                                                            type='text'
+                                                            placeholder='휴대폰 번호 - 없이 입력'
+                                                            slot='receiverMobileNo'
+                                                            shopby-focus-field='receiverMobileNo'
+                                                            shopby-max='11'
+                                                            value='{{returnAddress.receiverContact1}}'
+                                                            shopby-on:input='HANDLE_RECEIVER_NO_INPUT'
+                                                            shopby-on:change='HANDLE_RECEIVER_MOBILE_NO_CHANGE'
+                                                        />
+                                                    </span>
+                                                </dd>
+
+                                                <dt><span>전화번호</span></dt>
+                                                <dd>
+                                                    <span class='input-field input-field--md'>
+                                                        <input
+                                                            class='font-montserrat'
+                                                            type='text'
+                                                            placeholder='전화번호 - 없이 입력'
+                                                            slot='receiverPhoneNo'
+                                                            shopby-focus-field='receiverPhoneNo'
+                                                            shopby-max='11'
+                                                            value='{{returnAddress.receiverContact2}}'
+                                                            shopby-on:input='HANDLE_RECEIVER_NO_INPUT'
+                                                            shopby-on:change='HANDLE_RECEIVER_PHONE_NO_CHANGE'
+                                                        />
+                                                    </span>
+                                                </dd>
+
+                                                <dt><span>수거시 참고 사항</span></dt>
+                                                <dd>
+                                                    <span class='input-field input-field--md'>
+                                                        <input type='text' placeholder='수거 시 요청사항을 입력해 주세요.' />
+                                                    </span>
+                                                </dd>
+                                                <!-- 판매자 수거 정보 -->
+                                            {{else}}
+                                                <!-- 구매자 직접 반품 정보 -->
+                                                <dt><span>반품 주소지</span></dt>
+                                                <dd>
+                                                    <dl class='claim-form__return-address'>
+                                                        {{#with claimInfo.returnWarehouse}}
+                                                            <dt>
+                                                                이름
+                                                            </dt>
+                                                            <dd>
+                                                                {{#ifEq ../claimInfo.originalOption.shippingAreaType 'MALL_SHIPPING_AREA'}}
+                                                                {{../mallName}}
+                                                                {{else}}
+                                                                {{safeString receiverName true}}
+                                                                {{/ifEq}}
+                                                            </dd>
+                                                            <dt>
+                                                                주소
+                                                            </dt>
+                                                            <dd class='font-montserrat'>
+                                                                {{summary}}
+                                                            </dd>
+                                                            <dt>
+                                                                전화번호
+                                                            </dt>
+                                                            <dd class='font-montserrat'>
+                                                                {{safeString contact true}}
+                                                            </dd>
+                                                        {{/with}}
+                                                    </dl>
+                                                </dd>
+                                                <dt><span>반품 접수 정보</span></dt>
+                                                <dd class='claim-form__delivery-company'>
+                                                    <span class='select select--md claim-form__return-delivery-company-type'>
+                                                        <select
+                                                            shopby-on:change='HANDLE_DELIVERY_COMPANY_TYPE_CHANGE'
+                                                            slot='deliveryCompanyTypeWithLabels'
+                                                            shopby-focus-field='deliveryCompanyType'
+                                                        >
+                                                            <option value='' disabled='' selected>
+                                                                택배사를 선택하세요.
+                                                            </option>
+                                                            {{#each claimInfo.deliveryCompanyTypeWithLabels}}
+                                                                <option value='{{deliveryCompanyType}}'>
+                                                                    {{label}}
+                                                                </option>
+                                                            {{/each}}
+                                                        </select>
+                                                    </span>
+
+                                                    <span class='input-field input-field--md'>
+                                                        <input
+                                                            type='text'
+                                                            class='font-montserrat'
+                                                            placeholder='반품 송장번호 입력'
+                                                            slot='invoiceNo'
+                                                            shopby-focus-field='invoiceNo'
+                                                            shopby-max='50'
+                                                            value='{{invoiceNo}}'
+                                                            shopby-on:input='HANDLE_INVOICE_NO_INPUT'
+                                                            shopby-on:change='HANDLE_INVOICE_NO_CHANGE'
+                                                        />
+                                                    </span>
+                                                </dd>
+                                                <!-- 구매자 직접 반품 정보 -->
+                                            {{/ifEq}}
+                                        </dl>
+
+                                        <div class='claim-form__notice'>
+                                            <span class='dot dot--l-gray'>결제하신 수단에 따라 취소 방법이 다를 수 있습니다.</span>
+                                        </div>
+                                    </div>
+                                {{/if}}
+                            </script>
+                        </return-information-form>
+                        <!-- 반품 수거 정보 -->
+
+                        <!-- 교환 출고 정보 -->
+                        <exchange-information-form deliverable:query="deliverable" claimType:query="claimType">
+                            <script type="text/x-handlebars-template">
+                                {{#if isCollectionInfoFormNecessary}}
+                                    <div>
+                                        {{#ifEq claimType 'EXCHANGE'}}
+                                            <div class='right-box__head'>
+                                                <span class='font-noto right-box__title'>교환 출고 정보</span>
+                                            </div>
+
+                                            <dl>
+                                                <dt><span class='dot dot--r-must'>수령자명</span></dt>
+                                                <dd class='address'>
+                                                    <span class='input-field input-field--md'>
+                                                        <input
+                                                            type='text'
+                                                            placeholder='이름을 입력하세요.'
+                                                            shopby-max='50'
+                                                            slot='exchangeReceiverName'
+                                                            value='{{exchangeAddress.receiverName}}'
+                                                            shopby-on:change='HANDLE_RECEIVER_NAME_CHANGE'
+                                                            shopby-on:input='HANDLE_RECEIVER_NAME_INPUT'
+                                                            shopby-focus-field='exchangeReceiverName'
+                                                        />
+                                                    </span>
+                                                    <button
+                                                        class='btn btn--line-dark btn--sm'
+                                                        shopby-action='SELECT_FROM_SHIPPING_ADDRESSES_FOR_EXCHANGE'
+                                                    >배송지 목록에서 선택</button>
+                                                </dd>
+
+                                                <dt><span class='dot dot--r-must'>배송지 주소</span></dt>
+                                                <dd>
+                                                    <span class='address-form'>
+                                                        <span class='address'>
+                                                            <span class='input-field input-field--md'>
+                                                                <input
+                                                                    type='text'
+                                                                    class='font-montserrat'
+                                                                    disabled
+                                                                    slot='exchangeAddress'
+                                                                    value='{{exchangeAddress.receiverZipCd}}'
+                                                                />
+                                                            </span>
+                                                            <button
+                                                                type='button'
+                                                                class='btn btn--line-dark btn--sm'
+                                                                shopby-focus-field='exchangeReceiverZipCd'
+                                                                shopby-action='SEARCH_ZIP_CODE_TO_EXCHANGE'
+                                                            >우편번호 찾기</button>
+
+                                                        </span>
+                                                        <span class='input-field input-field--md'>
+                                                            <input
+                                                                type='text'
+                                                                disabled
+                                                                class='font-montserrat'
+                                                                slot='exchangeAddress'
+                                                                value='{{exchangeAddress.receiverAddress}}'
+                                                            />
+                                                        </span>
+                                                        <span class='input-field input-field--md'>
+                                                            <input
+                                                                type='text'
+                                                                slot='exchangeDetailAddress'
+                                                                class='font-montserrat'
+                                                                value='{{exchangeAddress.receiverDetailAddress}}'
+                                                                shopby-max='100'
+                                                                shopby-focus-field='exchangeDetailAddress'
+                                                                shopby-on:input='HANDLE_RECEIVER_DETAIL_ADDRESS_INPUT'
+                                                                shopby-on:change='HANDLE_RECEIVER_DETAIL_ADDRESS_CHANGE'
+                                                            />
+                                                        </span>
+                                                    </span>
+                                                </dd>
+                                                <dt><span class='dot dot--r-must'>휴대폰 번호</span></dt>
+                                                <dd>
+                                                    <span class='input-field input-field--md'>
+                                                        <input
+                                                            class='font-montserrat'
+                                                            type='text'
+                                                            placeholder='휴대폰 번호 - 없이 입력'
+                                                            slot='exchangeMobileNo'
+                                                            shopby-focus-field='exchangeMobileNo'
+                                                            shopby-max='11'
+                                                            value='{{exchangeAddress.receiverContact1}}'
+                                                            shopby-on:input='HANDLE_RECEIVER_NO_INPUT'
+                                                            shopby-on:change='HANDLE_RECEIVER_MOBILE_NO_CHANGE'
+                                                        />
+                                                    </span>
+                                                </dd>
+
+                                                <dt><span>전화번호</span></dt>
+                                                <dd>
+                                                    <span class='input-field input-field--md'>
+                                                        <input
+                                                            class='font-montserrat'
+                                                            type='text'
+                                                            placeholder='전화번호 - 없이 입력'
+                                                            slot='exchangePhoneNo'
+                                                            shopby-focus-field='exchangePhoneNo'
+                                                            shopby-max='11'
+                                                            value='{{exchangeAddress.receiverContact2}}'
+                                                            shopby-on:input='HANDLE_RECEIVER_NO_INPUT'
+                                                            shopby-on:change='HANDLE_RECEIVER_PHONE_NO_CHANGE'
+                                                        />
+                                                    </span>
+                                                </dd>
+
+                                                <dt><span>배송 메모</span></dt>
+                                                <dd>
+                                                    <span class='input-field input-field--md'>
+                                                        <input
+                                                            type='text'
+                                                            placeholder='배송 시 요청사항을 입력해 주세요.'
+                                                            shopby-max='50'
+                                                            value='{{exchangeAddress.deliveryMemo}}'
+                                                            shopby-on:change='HANDLE_DELIVERY_MEMO_CHANGE'
+                                                            shopby-on:input='HANDLE_DELIVERY_MEMO_INPUT'
+                                                        />
+                                                    </span>
+                                                </dd>
+
+                                                {{#if exchangeAddress.customsIdNumber}}
+                                                    <dt><span>개인통관고유부호</span></dt>
+                                                    <dd>
+                                                        <span class='input-field input-field--md'>
+                                                            <input
+                                                                type='text'
+                                                                class='font-montserrat'
+                                                                slot='customsIdNumber'
+                                                                shopby-focus-field='customsIdNumber'
+                                                                shopby-max='13'
+                                                                value='{{exchangeAddress.customsIdNumber}}'
+                                                                shopby-on:input='HANDLE_CUSTOMS_ID_NUMBER_INPUT'
+                                                                shopby-on:change='HANDLE_CUSTOMS_ID_NUMBER_CHANGE'
+                                                            />
+                                                        </span>
+                                                    </dd>
+                                                {{/if}}
+                                            </dl>
+
+                                            <div class='claim-form__notice'>
+                                                <span class='dot dot--l-gray'>결제하신 수단에 따라 취소 방법이 다를 수 있습니다.</span>
+                                            </div>
+                                        {{/ifEq}}
+                                    </div>
+                                {{/if}}
+                            </script>
+                        </exchange-information-form>
+                        <!-- 교환 출고 정보 -->
+
+                        <!-- 반품 수거 안내 -->
+                        <return-information-form deliverable:query="deliverable" claimType:query="claimType">
+                            <script type="text/x-handlebars-template">
+                                <div>
+                                    {{#if isCollectionInfoFormNecessary}}
+                                        <div class='right-box__head'>
+                                            <span class='font-noto right-box__title'>반품 수거 안내</span>
+                                        </div>
+
+                                        <ul class='claim-form__notice'>
+                                            <li class='dot dot--l-gray'>반품상황에 따라 (반품)택배비를 차감할 수 있습니다.</li>
+                                            <li class='dot dot--l-gray'>반품신청이 완료되면 입력하신 수거지주소로 반품수거가 진행됩니다.</li>
+                                            <li class='dot dot--l-gray'>CJ대한통은 택배기사가 1~2일 내에 직접 방문합니다.</li>
+                                            <li class='dot dot--l-gray'>반품등록일 오후 5시까지 접수분은 익일로 반품접수됩니다.</li>
+                                            <li class='dot dot--l-gray'>단, 토/일/공휴일은 다음 근무일에 처리됩니다.</li>
+                                        </ul>
+                                    {{/if}}
+                                </div>
+                            </script>
+                        </return-information-form>
+                        <!-- 반품 수거 안내 -->
+
+                        <claim-type claim-type:query="claimType">
+                            <script type="text/x-handlebars-template">
+                                <div class='btn-group'>
+                                    <button type='button' class='btn btn--line-dark' shopby-action='HANDLE_CANCEL_BTN_CLICK'>취소</button>
+                                    <button
+                                        type='submit'
+                                        class='btn btn--fill-point'
+                                        claimType='{{claimType}}'
+                                        shopby-action='HANDLE_CLAIM_BTN_CLICK'
+                                    >{{claimStatusLabel claimType}} 신청</button>
+                                </div>
+                            </script>
+                        </claim-type>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- 퀵메뉴 (최상단 이동 + 최근 본 상품) -->
+        <template shopby-partials="@partials/quick-menu.html"></template>
+        <!-- 최근 본 상품(오프캔버스) -->
+        <template shopby-partials="@partials/recent-product.html"></template>
+
+        <!-- 하단 레이아웃 -->
+        <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js"></template>
+
+        <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+        <template shopby-partials="@partials/modal.html"></template>
+
+        <!-- 배송지 목록 모달 -->
+        <layer-modal-area type="title" name="shipping-addresses" src="@modals/shipping-address-list.html" title="배송지 관리"></layer-modal-area>
+
+        <!-- 판매자 수거 정보 > 수거지 주소 찾기 모달 -->
+        <layer-modal-area type="title" name="page-zip-code" src="@modals/zip-code.html" title="우편번호 찾기"></layer-modal-area>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/pages/my/claim-form.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/libs/naver-marketing-config.js"></script>
+    </body>
+</html>

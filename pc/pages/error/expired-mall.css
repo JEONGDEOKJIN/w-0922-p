@@ -1,0 +1,27 @@
+@charset "UTF-8";
+/*  쇼핑몰 만료 페이지 스타일 파일입니다. */
+.expired-mall {
+  position: absolute;
+  width: 100%;
+  top: 25vh;
+  text-align: center;
+  padding: 20px 0;
+}
+.expired-mall__img {
+  display: block;
+  width: 100%;
+  height: 24vh;
+  background: center/contain no-repeat url("/assets/images/bg/expired-mall.png");
+}
+.expired-mall__title {
+  font-size: 30px;
+  margin-top: 20px;
+}
+.expired-mall__title .error {
+  color: var(--color-error);
+}
+.expired-mall__content {
+  color: var(--gray500);
+  font-size: 16px;
+  margin-top: 10px;
+}

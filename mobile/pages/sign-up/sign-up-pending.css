@@ -1,0 +1,31 @@
+@charset "UTF-8";
+/*  회원가입 승인대기 페이지 스타일 파일입니다. */
+.sign-up-pending {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  padding: 120px 20px;
+  flex-direction: column;
+}
+.sign-up-pending__notice-confirm {
+  font-size: 20px;
+}
+.sign-up-pending__notice-description {
+  margin-top: 10px;
+  color: var(--gray500);
+  text-align: center;
+  font-size: 16px;
+}
+.sign-up-pending__btn-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  width: 100%;
+  margin-top: 40px;
+  gap: 10px;
+}
+.sign-up-pending__btn-wrap a {
+  width: 100%;
+}

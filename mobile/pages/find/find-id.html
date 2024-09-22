@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <!-- A2HS -->
+        <link rel="manifest" shopby-manifest-placeholder href="/manifest.json" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+
+        <link rel="apple-touch-icon" href="https://rlyfaazj0.toastcdn.net/20211220/141125.985487000/app_icon(144).png" />
+        <!-- A2HS -->
+
+        <link rel="stylesheet" href="/shopby-skin-mobile.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/find/find-id.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-mobile.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+    <body>
+        <div shopby-skin-container>
+            <!-- 디자인팝업 -->
+            <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+            <template
+                class="l-header"
+                shopby-partials="@partials/common-header.html"
+                shopby-partials-js="@partials/common-header.js"
+                shopby-sub-title="아이디 찾기"
+                shopby-using-button="hamburger,back"
+                shopby-visible-logo="true"
+            ></template>
+            <main class="l-content" shopby-helper-key="find-id">
+                <div class="find-id">
+                    <find-account-tabs>
+                        <script type="text/x-handlebars-template">
+                            <div>
+                                <div slot="hasMobileCertification">
+                                    <ul class="tab" slot="tabs">
+                                        <li class="tab__btn {{#ifEq currentTab 'EMAIL'}}is-active{{/ifEq}}">
+                                            <button type="button" shopby-on:click="TAB_CLICK" shopby-tab-value="EMAIL">이메일인증</button>
+                                        </li>
+                                        <li class="tab__btn {{#ifEq currentTab 'SMS'}}is-active{{/ifEq}}">
+                                            <button type="button" shopby-on:click="TAB_CLICK" shopby-tab-value="SMS">
+                                                휴대폰번호 인증
+                                            </button>
+                                        </li>
+                                        {{#if hasMobileCertification}}
+                                        <li class="tab__btn {{#ifEq currentTab 'MOBILE'}}is-active{{/ifEq}}">
+                                            <button type="button" shopby-on:click="TAB_CLICK" shopby-tab-value="MOBILE">
+                                                휴대폰 본인인증
+                                            </button>
+                                        </li>
+                                        {{/if}}
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </script>
+                    </find-account-tabs>
+                    <div class="find-id-form">
+                        <find-account-basic-information>
+                            <script type="text/x-handlebars-template">
+                                <div>
+                                    <div class='find-id-form__item' slot='findMethod'>
+                                        {{#ifNe findMethod 'MOBILE'}}
+                                            <div class='find-id-form__input-wrap'>
+                                                <span class='input-field input-field--md'>
+                                                    <input
+                                                        slot='memberName'
+                                                        placeholder='이름 입력'
+                                                        type='text'
+                                                        shopby-focus-field='memberName'
+                                                        value='{{memberName}}'
+                                                        shopby-on:change='CHANGE_MEMBER_NAME'
+                                                        shopby-on:input='INPUT_MEMBER_NAME_VALID'
+                                                        maxlength='20'
+                                                    />
+                                                </span>
+                                            </div>
+                                        {{/ifNe}}
+                                    </div>
+
+                                    <div class='find-id-form__item' slot='findMethod'>
+                                        {{#ifEq findMethod 'EMAIL'}}
+                                            <div class='find-id-form__input-wrap'>
+                                                <div class='email-input'>
+                                                    <span class='input-field input-field--md email-input__id'>
+                                                        <input
+                                                            class='font-montserrat'
+                                                            slot='email'
+                                                            type='text'
+                                                            shopby-focus-field='email'
+                                                            value='{{displayEmailId email}}'
+                                                            name='email-id'
+                                                            shopby-on:change='CHANGE_EMAIL_ID'
+                                                            shopby-on:input='INPUT_EMAIL_ID_VALID'
+                                                            maxlength='64'
+                                                        />
+                                                    </span>
+                                                    @
+                                                    <span class='input-field input-field--md email-input__domain'>
+                                                        <input
+                                                            class='font-montserrat'
+                                                            slot='email'
+                                                            type='text'
+                                                            shopby-focus-field='email'
+                                                            value='{{displayEmailDomain email}}'
+                                                            name='email-domain'
+                                                            shopby-on:change='CHANGE_EMAIL_DOMAIN'
+                                                            shopby-on:input='INPUT_EMAIL_DOMAIN_VALID'
+                                                            maxlength='255'
+                                                        />
+                                                    </span>
+                                                </div>
+                                                <span class='select select--md'>
+                                                    <select slot='email' shopby-on:change='SELECT_EMAIL_DOMAIN'>
+                                                        <option value='' selected disabled>
+                                                            직접 입력
+                                                        </option>
+                                                        <option value='naver.com'>
+                                                            naver.com
+                                                        </option>
+                                                        <option value='hanmail.net'>
+                                                            hanmail.net
+                                                        </option>
+                                                        <option value='daum.net'>
+                                                            daum.net
+                                                        </option>
+                                                        <option value='nate.com'>
+                                                            nate.com
+                                                        </option>
+                                                        <option value='gmail.com'>
+                                                            gmail.com
+                                                        </option>
+                                                    </select>
+                                                </span>
+                                            </div>
+                                        {{/ifEq}}
+                                    </div>
+
+                                    <div class='find-id-form__item' slot='findMethod'>
+                                        {{#ifEq findMethod 'SMS'}}
+                                            <div class='find-id-form__input-wrap'>
+                                                <div class='phone-number-input'>
+                                                    <span class='input-field input-field--md'>
+                                                        <input
+                                                            class='font-montserrat'
+                                                            slot='mobileNo'
+                                                            type='text'
+                                                            shopby-focus-field='mobileNo'
+                                                            value='{{mobileNo}}'
+                                                            maxlength='11'
+                                                            placeholder='휴대폰 번호 - 없이 입력'
+                                                            name='mobileNo'
+                                                            shopby-on:input='INPUT_PHONE_ONLY_NUMBER'
+                                                            shopby-on:change='CHANGE_PHONE_NUMBER'
+                                                        />
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        {{/ifEq}}
+                                    </div>
+
+                                    <div class='find-id-form__btn-wrap' slot='findMethod'>
+                                        {{#ifEq findMethod 'MOBILE'}}
+                                            <button class='btn btn--fill-point btn--lg' shopby-action='CERTIFICATION_MOBILE_NO'>
+                                                휴대폰 본인인증
+                                            </button>
+                                        {{else}}
+                                            <button class='btn btn--fill-point btn--lg' shopby-action='FIND_ID_SUBMIT'>
+                                                아이디 찾기
+                                            </button>
+                                        {{/ifEq}}
+                                    </div>
+                                </div>
+                            </script>
+                        </find-account-basic-information>
+                    </div>
+                </div>
+            </main>
+            <!-- 모달 -->
+            <layer-modal-area type="title" title="아이디 찾기 결과" name="find-id-result" src="@modals/find-id-result.html"></layer-modal-area>
+            <layer-modal-area type="title" name="kcp-sms-authentication" src="@modals/kcp-sms-authentication.html" title="휴대폰 본인인증"></layer-modal-area>
+            <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+            <template shopby-partials="@partials/modal.html"></template>
+            <!-- 하단 레이아웃 -->
+            <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js"></template>
+        </div>
+        <template shopby-partials="@partials/slide-menu.html" shopby-partials-js="@partials/slide-menu.js"></template>
+        <!-- 오프캔버스 -->
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/pages/find/find-id.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/libs/naver-marketing-config.js"></script>
+    </body>
+</html>

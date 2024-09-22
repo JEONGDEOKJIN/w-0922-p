@@ -1,0 +1,31 @@
+<div shopby-layer-modal-helper-key="image-attachment-detail">
+    <attach-images-slider>
+        <script type="text/x-handlebars-template">
+            <div class='image-zoom-in'>
+                <div slot='images'>
+                    <div shopby-slider class='swiper'>
+                        <div class='swiper-wrapper'>
+                            {{#each images}}
+                                <div class='swiper-slide'>
+                                    <div>
+                                        <img src='{{imageUrl}}' alt='{{originName}}' />
+                                    </div>
+                                    {{#if label}}
+                                        <div class='image-label'>{{label}}</div>
+                                    {{/if}}
+                                </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                    <div slot='isSlider'>
+                        {{#if isSlider}}
+                            <button shopby-slider-nav-prev class='swiper-button-prev'></button>
+                            <button shopby-slider-nav-next class='swiper-button-next'></button>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </script>
+    </attach-images-slider>
+    <script src="/modals/image-attachment-detail.js"></script>
+</div>

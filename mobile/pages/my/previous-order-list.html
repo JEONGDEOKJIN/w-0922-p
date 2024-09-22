@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <!-- A2HS -->
+        <link rel="manifest" shopby-manifest-placeholder href="/manifest.json" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+
+        <link rel="apple-touch-icon" href="https://rlyfaazj0.toastcdn.net/20211220/141125.985487000/app_icon(144).png" />
+        <!-- A2HS -->
+
+        <link rel="stylesheet" href="/shopby-skin-mobile.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/my/previous-order-list.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-mobile.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+    <body>
+        <div shopby-skin-container>
+            <!-- 디자인팝업 -->
+            <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+            <!-- 상단 레이아웃 -->
+            <template
+                class="l-header"
+                shopby-partials="@partials/common-header.html"
+                shopby-partials-js="@partials/common-header.js"
+                shopby-sub-title="이전 주문목록"
+                shopby-visible-logo="false"
+                shopby-using-button="hamburger,back"
+            ></template>
+
+            <main class="l-content">
+                <div class="previous-order-list">
+                    <!-- 기간 선택 -->
+                    <date-type-selector start-ymd:query="startYmd" date-type:query="dateType" shopby-default-type="7d">
+                        <script type="text/x-handlebars-template">
+                            <div class='select select--sm'>
+                                <select name='date-selector' shopby-on:change='CHANGE_DATE'>
+                                    <option value='td'>
+                                        오늘
+                                    </option>
+                                    <option value='7d'>
+                                        7일
+                                    </option>
+                                    <option value='15d'>
+                                        15일
+                                    </option>
+                                    <option value='1m'>
+                                        1개월
+                                    </option>
+                                    <option value='3m'>
+                                        3개월
+                                    </option>
+                                </select>
+                            </div>
+                        </script>
+                    </date-type-selector>
+                    <!-- 기간 선택 -->
+
+                    <!-- 이전 주문 목록 -->
+                    <previous-orders
+                        pair-key="PREVIOUS_ORDER_LIST_MORE_VIEW_BUTTON"
+                        default-page-size="20"
+                        page-size:query="pageSize"
+                        page-number:query="pageNumber"
+                        start-ymd:query="startYmd"
+                        shopby-accumulable
+                    >
+                        <script type="text/x-handlebars-template">
+                            <div class='previous-order-list__items'>
+                                <div slot='previousOrders'>
+                                    {{#if contents}}
+                                        <ul>
+                                            {{#each contents}}
+                                                <li class='previous-order-list__item l-panel'>
+                                                    <a class='l-title l-title--sm' href='/pages/my/previous-order-detail.html?orderNo={{orderNo}}'>
+                                                        <p>
+                                                            <span><em>{{formatUseByDate orderOptions.0.orderYmdt}}</em></span>
+                                                            <span class='previous-order-list__order-no'>{{orderNo}}</span>
+                                                        </p>
+                                                    </a>
+                                                    <span class='previous-order-list__info'>
+                                                        <span class='previous-order-list__product-name'>{{orderOptions.0.productName}}
+                                                            {{#if orderOptions}}외 {{subtract orderOptions.length 1}}건{{/if}}</span>
+                                                        <span class='previous-order-list__price'>
+                                                            <span>주문금액<em>{{convertToKoreanCurrency purchasePrice}}</em>원</span>
+                                                            <span>상품합계<em>{{convertToKoreanCurrency salePrice}}</em>원</span>
+                                                        </span>
+                                                    </span>
+                                                </li>
+                                            {{/each}}
+                                        </ul>
+                                    {{else}}
+                                        {{#if isLoading}}
+                                            <div class='loader loader--lg loader--full'>
+                                                <span class='spinner'></span>
+                                            </div>
+                                        {{else}}
+                                            <div class='notice notice--full'>
+                                                <span class='sprite-image notice--warning'></span>
+                                                <em>
+                                                    이전 주문 내역이 없습니다.
+                                                </em>
+                                            </div>
+                                        {{/if}}
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </script>
+                    </previous-orders>
+                    <!-- 이전 주문 목록 -->
+
+                    <!-- 더보기 -->
+                    <more-view-button pair-key="PREVIOUS_ORDER_LIST_MORE_VIEW_BUTTON">
+                        <script type="text/x-handlebars-template">
+                            <div>
+                                <div slot='hasMoreViewButton'>
+                                    {{#if hasMoreViewButton}}
+                                        <button class='btn btn--line-gray more-view-button' shopby-on:click='MORE_VIEW_BUTTON_CLICK'>
+                                            더보기
+                                        </button>
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </script>
+                    </more-view-button>
+                    <!-- 더보기 -->
+                </div>
+            </main>
+
+            <!-- 하단 레이아웃 -->
+            <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js"></template>
+        </div>
+        <!-- 오프캔버스 -->
+        <template shopby-partials="@partials/slide-menu.html" shopby-partials-js="@partials/slide-menu.js"></template>
+        <!-- 하단바 -->
+        <template shopby-partials="@partials/common-nav.html"></template>
+        <!-- 최근 검색 -->
+        <layer-modal-area type="custom" name="search-keyword" src="@modals/search-keyword.html"></layer-modal-area>
+        <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+        <template shopby-partials="@partials/modal.html"></template>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/pages/my/previous-order-list.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/libs/naver-marketing-config.js"></script>
+    </body>
+</html>

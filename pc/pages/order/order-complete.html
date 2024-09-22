@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="/shopby-skin-pc.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/order/order-complete.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-pc.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+    <body>
+        <!-- 디자인팝업 -->
+        <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+        <!-- 상단 레이아웃 -->
+        <template class="shopby-header" shopby-partials="@partials/common-header.html" shopby-partials-js="@partials/common-header.js"></template>
+
+        <main class="l-page">
+            <section class="page-content-top">
+                <ol class="page-content-top__path page-content-top__location">
+                    <li>HOME</li>
+                    &gt;
+                    <li>주문완료</li>
+                </ol>
+            </section>
+
+            <div class="order-complete">
+                <!--주문완료 상단-->
+                <order-complete-top>
+                    <script type="text/x-handlebars-template">
+                        <section class='notice order-complete__message'>
+                            <h1>주문완료</h1>
+                            <span class='sprite-image notice--success'></span>
+                            <div class='order-complete__message-success'>
+                                <em>주문이 정상적으로 완료되었습니다.</em>
+                            </div>
+                            <p class='notice__description--center' slot='ordererName'>
+                                {{ordererName}}
+                                고객님의 주문하신 결제가 완료되었습니다.
+                            </p>
+                            <div slot='orderNo' class='order-complete__order-no'>
+                                <span class='order-complete__order-no-label'>주문번호</span>
+                                {{orderNo}}
+                            </div>
+                        </section>
+                    </script>
+                </order-complete-top>
+                <!--주문내역-->
+                <order-product-options>
+                    <script type="text/x-handlebars-template">
+                        <section class='l-panel'>
+                            <details class='accordion' open>
+                                <summary class='accordion__title'>
+                                    <div class='order-complete__product-table-tit'>
+                                        주문상품 확인
+                                        <div class='order-complete__product-table-amt'>
+                                            <span slot='flattenedOrderOptions'>
+                                                <em class='highlight bold'>
+                                                    {{flattenedOrderOptions.length}}
+                                                </em>
+                                                개
+                                            </span>
+                                            <span slot='lastOrderAmount'>
+                                                <em class='highlight bold'>
+                                                    {{convertToKoreanCurrency lastOrderAmount.chargeAmt}}
+                                                </em>
+                                                원
+                                            </span>
+                                        </div>
+                                    </div>
+                                </summary>
+                                <div class='accordion__items'>
+
+                                    <div slot='flattenedOrderOptions'>
+                                        <table class='l-table'>
+                                            <colgroup>
+                                                <!-- 상품명/옵션 -->
+                                                <col />
+                                                <!-- 수량 -->
+                                                <col style='width: 10%' />
+                                                <!-- 상품금액 -->
+                                                <col style='width: 10%' />
+                                                <!-- 할인/적립 -->
+                                                <col style='width: 13%' />
+                                                <!-- 합계금액 -->
+                                                <col style='width: 10%' />
+                                            </colgroup>
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        상품/옵션
+                                                    </th>
+                                                    <th>
+                                                        수량
+                                                    </th>
+                                                    <th>
+                                                        상품금액
+                                                    </th>
+                                                    <th>
+                                                        할인/적립
+                                                    </th>
+                                                    <th>
+                                                        합계금액
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {{#each flattenedOrderOptions}}
+                                                    <tr>
+                                                        <!-- 상품/옵션 정보 -->
+                                                        <td class='product-option-info'>
+                                                            <div class='thumb-item__media'>
+                                                                <a href='/pages/product/product-detail.html?productNo={{productNo}}'>
+                                                                    <span class='thumb-item__img'>
+                                                                        {{#ifEq imageUrlInfo.0.imageUrlType 'VIDEO_URL'}}
+                                                                            <div class='video-wrapper w-130'>
+                                                                                <div class='video-cover'></div>
+                                                                                <iframe
+                                                                                    src='{{imageUrlInfo.0.url}}'
+                                                                                    width='100%'
+                                                                                    height='100%'
+                                                                                    frameborder='0'
+                                                                                ></iframe>
+                                                                            </div>
+                                                                        {{else}}
+                                                                            {{img imageUrlInfo.0.url 100 100 productName 'middle' ''}}
+                                                                        {{/ifEq}}
+                                                                    </span>
+                                                                </a>
+                                                            </div>
+                                                            <div>
+                                                                <div>
+                                                                    <em>{{safeString productName}}</em>
+                                                                </div>
+
+                                                                <div>
+                                                                    <div>
+                                                                        {{displayNormalOption optionName optionValue}}
+                                                                    </div>
+                                                                    {{#each inputs}}
+                                                                        <div>
+                                                                            {{safeString inputLabel}}
+                                                                            :
+                                                                            {{safeString inputValue}}
+                                                                        </div>
+                                                                    {{/each}}
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <!-- 수량 -->
+                                                        <td>
+                                                            <em>{{orderCnt}}</em>
+                                                        </td>
+                                                        <!--  상품금액 -->
+                                                        <td>
+                                                            <em>
+                                                                {{convertToKoreanCurrency price.standardAmt}}
+                                                            </em>
+                                                            원
+                                                        </td>
+                                                        <!-- 할인/적립 -->
+                                                        <td>
+                                                            <div>
+                                                                <span class='highlight'>할인</span>
+                                                                :
+                                                                <em>
+                                                                    {{calcMultiplyPrice price.immediateDiscountAmt orderCnt}}
+                                                                </em>
+                                                                원
+                                                            </div>
+                                                            <div>
+                                                                적립 :
+                                                                <em>
+                                                                    {{convertToKoreanCurrency accumulationAmt}}
+                                                                </em>
+                                                                원
+                                                            </div>
+                                                        </td>
+                                                        <!-- 합계금액 -->
+                                                        <td>
+                                                            <em>
+                                                                {{convertToKoreanCurrency price.buyAmt}}
+                                                            </em>
+                                                            원
+                                                        </td>
+                                                    </tr>
+                                                {{/each}}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </details>
+                        </section>
+                    </script>
+                </order-product-options>
+                <!--주문자 정보 -->
+                <order-orderer shopby-page-key="order-complete">
+                    <script type="text/x-handlebars-template">
+                        <section class='l-panel'>
+                            <details class='accordion' open>
+                                <summary class='accordion__title'>
+                                    주문자 정보
+                                </summary>
+                                <dl class='l-dl dl-border order-complete__orderer' slot='orderer'>
+                                    <dt>
+                                        주문자명
+                                    </dt>
+                                    <dd>
+                                        {{orderer.ordererName}}
+                                    </dd>
+                                    <dt>
+                                        이메일
+                                    </dt>
+                                    <dd>
+                                        {{orderer.ordererEmail}}
+                                    </dd>
+                                    <dt>
+                                        휴대폰 번호
+                                    </dt>
+                                    <dd>
+                                        {{orderer.ordererContact1}}
+                                    </dd>
+                                    <dt>
+                                        전화 번호
+                                    </dt>
+                                    <dd>
+                                        {{#if orderer.contact2}}{{orderer.contact2}}{{else}}-{{/if}}
+                                    </dd>
+                                    <dt>
+                                        주문 메모
+                                    </dt>
+                                    <dd slot='orderMemo'>
+                                        {{#if orderMemo}}{{orderMemo}}{{else}}-{{/if}}
+                                    </dd>
+                                </dl>
+                            </details>
+                        </section>
+                    </script>
+                </order-orderer>
+                <!--배송지 정보-->
+                <order-shipping>
+                    <script type="text/x-handlebars-template">
+                        <section class='l-panel'>
+                            <details class='accordion' open>
+                                <summary class='accordion__title'>
+                                    배송지 정보
+                                </summary>
+                                <dl class='l-dl dl-border' slot='shipping'>
+                                    <dt>
+                                        받으시는 분
+                                    </dt>
+                                    <dd>
+                                        {{shipping.receiverName}}
+                                    </dd>
+                                    <dt>
+                                        주소
+                                    </dt>
+                                    <dd>
+                                        ({{shipping.receiverZipCd}})
+                                        {{shipping.receiverAddress}}
+                                        {{shipping.receiverDetailAddress}}
+                                    </dd>
+                                    <dt>
+                                        휴대폰 번호
+                                    </dt>
+                                    <dd>
+                                        {{shipping.receiverContact1}}
+                                    </dd>
+                                    <dt>
+                                        전화 번호
+                                    </dt>
+                                    <dd>
+                                        {{#if shipping.receiverContact2}}{{shipping.receiverContact2}}{{else}}-{{/if}}
+                                    </dd>
+                                    <dt>
+                                        배송 메모
+                                    </dt>
+                                    <dd>
+                                        {{#if shipping.deliveryMemo}}{{shipping.deliveryMemo}}{{else}}-{{/if}}
+                                    </dd>
+                                </dl>
+                            </details>
+                        </section>
+                    </script>
+                </order-shipping>
+                <!--결제정보 -->
+                <order-payment>
+                    <script type="text/x-handlebars-template">
+                        <section class='l-panel'>
+                            <summary class='l-title'>
+                                결제정보
+                            </summary>
+                            <dl class='l-dl dl-border' slot='payInfo'>
+                                <dt>
+                                    결제 수단
+                                </dt>
+                                <dd slot='payTypeLabel'>
+                                    {{payTypeLabel}}
+                                </dd>
+                                {{#ifEqOneOfThree payInfo.payType 'ACCOUNT' 'VIRTUAL_ACCOUNT' 'ESCROW_VIRTUAL_ACCOUNT'}}
+                                    <dt>
+                                        입금 은행
+                                    </dt>
+                                    <dd>
+                                        {{payInfo.bankInfo.bankName}}
+                                    </dd>
+                                    <dt>
+                                        입금 계좌
+                                    </dt>
+                                    <dd>
+                                        {{payInfo.bankInfo.account}}
+                                    </dd>
+                                    <dt>
+                                        예금주명
+                                    </dt>
+                                    <dd>
+                                        {{payInfo.bankInfo.depositorName}}
+                                    </dd>
+                                    <dt>
+                                        입금 금액
+                                    </dt>
+                                    <dd>
+                                        <em>
+                                            {{convertToKoreanCurrency payInfo.bankInfo.bankAmt}}
+                                        </em>
+                                        원
+                                    </dd>
+                                    <dt>
+                                        입금자명
+                                    </dt>
+                                    <dd>
+                                        {{payInfo.bankInfo.remitterName}}
+                                    </dd>
+                                    <dt>
+                                        입금 기한
+                                    </dt>
+                                    <dd>
+                                        {{payInfo.bankInfo.paymentExpirationYmdt}}
+                                        까지
+                                    </dd>
+                                {{/ifEqOneOfThree}}
+                            </dl>
+                            <dl class='l-dl dl-border' slot='lastOrderAmount'>
+                                <dt>
+                                    상품금액 합계
+                                </dt>
+                                <dd>
+                                    <em>
+                                        {{convertToKoreanCurrency lastOrderAmount.standardAmt}}
+                                    </em>
+                                    원
+                                </dd>
+                                <dt>
+                                    배송비 합계
+                                </dt>
+                                <dd>
+                                    <em>
+                                        +
+                                        {{convertToKoreanCurrency lastOrderAmount.deliveryAmt}}
+                                    </em>
+                                    원
+                                </dd>
+                                {{#if lastOrderAmount.remoteDeliveryAmt}}
+                                    <dt>
+                                        지역별 배송비 합계
+                                    </dt>
+                                    <dd>
+                                        <em>
+                                            +
+                                            {{convertToKoreanCurrency lastOrderAmount.remoteDeliveryAmt}}
+                                        </em>
+                                        원
+                                    </dd>
+                                {{/if}}
+                                <dt>
+                                    할인금액 합계
+                                </dt>
+                                <dd>
+                                    <em class='highlight'>
+                                        -
+                                        {{sum
+                                            lastOrderAmount.cartCouponDiscountAmt
+                                            lastOrderAmount.productCouponDiscountAmt
+                                            lastOrderAmount.additionalDiscountAmt
+                                            lastOrderAmount.immediateDiscountAmt
+                                        }}
+                                    </em>
+                                    원
+                                </dd>
+                                <dt slot='accumulationName'>
+                                    {{accumulationName}}
+                                    사용
+                                </dt>
+                                <dd>
+                                    <em>
+                                        -
+                                        {{convertToKoreanCurrency lastOrderAmount.subPayAmt}}
+                                    </em>
+                                    원
+                                </dd>
+                            </dl>
+                            <dl class='l-dl dl-border'>
+                                <dt>
+                                    최종 결제 금액
+                                </dt>
+                                <dd>
+                                    <em slot='lastOrderAmount' class='highlight'>
+                                        {{convertToKoreanCurrency lastOrderAmount.chargeAmt}}
+                                    </em>
+                                    원
+                                    <span class='order-complete__mileage'>
+                                        구매확정 시&nbsp;
+                                        <em>
+                                            <span slot='accumulationAmtWhenBuyConfirm'>
+                                                {{convertToKoreanCurrency accumulationAmtWhenBuyConfirm}}
+                                            </span>
+                                        </em>
+                                        <span slot='accumulationName'>
+                                            {{accumulationName}}
+                                            지급
+                                        </span>
+                                    </span>
+                                </dd>
+                            </dl>
+                        </section>
+                    </script>
+                </order-payment>
+                <!-- 버튼 -->
+                <section class="l-btn-group l-btn-group__gap">
+                    <a class="btn btn--fill-dark btn--lg" shopby-action="GO_ORDER_LIST">주문내역 조회</a>
+                    <a class="btn btn--fill-point btn--lg" href="/">계속 쇼핑하기</a>
+                </section>
+            </div>
+        </main>
+
+        <!-- 퀵메뉴 (최상단 이동 + 최근 본 상품) -->
+        <template shopby-partials="@partials/quick-menu.html"></template>
+        <!-- 최근 본 상품(오프캔버스) -->
+        <template shopby-partials="@partials/recent-product.html"></template>
+        <!-- 하단 레이아웃 -->
+        <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js" shopby-has-page-script="TRUE"></template>
+
+        <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+        <template shopby-partials="@partials/modal.html"></template>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/pages/order/order-complete.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/libs/naver-marketing-config.js" shopby-use-page-script></script>
+    </body>
+</html>

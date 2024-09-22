@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
+        <link rel="stylesheet" href="/shopby-skin-pc.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/my/claim-list.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-pc.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+    <body>
+        <!-- 디자인팝업 -->
+        <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+        <!-- 상단 레이아웃 -->
+        <template class="shopby-header" shopby-partials="@partials/common-header.html" shopby-partials-js="@partials/common-header.js"></template>
+
+        <main class="l-my-page claim-list">
+            <section class="page-content-top">
+                <ol class="page-content-top__path page-content-top__location">
+                    <li><a href="/">HOME</a></li>
+                    &gt;
+                    <li><a href="/pages/my/my-page.html">마이페이지</a></li>
+                    &gt;
+                    <li>취소/반품/교환 내역</li>
+                </ol>
+            </section>
+            <div class="my-page-box">
+                <!-- 마이페이지 좌측 메뉴 -->
+                <template class="l-my-page-menu" shopby-partials="@partials/my-menu.html" shopby-menu-title="취소/반품/교환 내역"></template>
+
+                <div class="right-box">
+                    <div class="right-box__container">
+                        <div class="right-box__head">
+                            <h1 class="right-box__title">취소/반품/교환 내역</h1>
+                        </div>
+                        <!-- 취소/반품/교환 탭 -->
+                        <claim-tabs>
+                            <script type="text/x-handlebars-template">
+                                <div>
+                                    <ul class="tab" slot="tabs">
+                                        <li class="tab__btn {{#ifEq currentTab 'ALL'}}is-active{{/ifEq}}">
+                                            <div type="button" shopby-on:click="TAB_CLICK" shopby-tab-value="ALL">전체</div>
+                                        </li>
+                                        <li class="tab__btn {{#ifEq currentTab 'CANCEL'}}is-active{{/ifEq}}">
+                                            <div type="button" shopby-on:click="TAB_CLICK" shopby-tab-value="CANCEL">취소</div>
+                                        </li>
+                                        <li class="tab__btn {{#ifEq currentTab 'EXCHANGE'}}is-active{{/ifEq}}">
+                                            <div type="button" shopby-on:click="TAB_CLICK" shopby-tab-value="EXCHANGE">교환</div>
+                                        </li>
+                                        <li class="tab__btn {{#ifEq currentTab 'RETURN'}}is-active{{/ifEq}}">
+                                            <div type="button" shopby-on:click="TAB_CLICK" shopby-tab-value="RETURN">반품</div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </script>
+                        </claim-tabs>
+                        <!-- 기간 조회 -->
+                        <date-search start-ymd:query="startYmd" end-ymd:query="endYmd" date-type:query="dateType" shopby-default-type="7d">
+                            <script type="text/x-handlebars-template">
+                                <div class='date-selector'>
+                                    <div class='date-selector__button_box' shopby-date-selector='shopby-date-selector' shopby-on:click='CLICK_DATE'>
+                                        <button class='btn date-selector__select-btn' value='td'>오늘</button>
+                                        <button class='btn date-selector__select-btn' value='7d'>7일</button>
+                                        <button class='btn date-selector__select-btn' value='15d'>15일</button>
+                                        <button class='btn date-selector__select-btn' value='1m'>1개월</button>
+                                        <button class='btn date-selector__select-btn' value='3m'>3개월</button>
+                                        <button class='btn date-selector__select-btn' value='1y'>1년</button>
+                                    </div>
+                                    <div class='date-selector__date-picker-wrap'>
+                                        <div class='date-selector__date-picker tui-datepicker-input tui-datetime-input tui-has-focus'>
+                                            <input type='text' name='startDate' readonly='readonly' aria-label='Date-Time' />
+                                            <span class='tui-ico-date'></span>
+                                            <div class='start-date-picker'></div>
+                                        </div>
+                                        ~
+                                        <div class='date-selector__date-picker tui-datepicker-input tui-datetime-input tui-has-focus'>
+                                            <input type='text' name='endDate' readonly='readonly' aria-label='Date-Time' />
+                                            <span class='tui-ico-date'></span>
+                                            <div class='end-date-picker'></div>
+                                        </div>
+                                        <button type='button' class='btn btn--fill-dark btn--sm date-picker__search' shopby-action='SEARCH_ORDERS'>조회</button>
+                                    </div>
+                                </div>
+                            </script>
+                        </date-search>
+                        <!-- 취소/반품/교환 내역 -->
+                        <my-orders
+                            start-ymd:query="startYmd"
+                            end-ymd:query="endYmd"
+                            default-page-size="20"
+                            page-size:query="pageSize"
+                            page-number:query="pageNumber"
+                            date-type:query="dateType"
+                            claim-type:query="claimType"
+                        >
+                            <script type="text/x-handlebars-template">
+                                <div>
+                                    <div slot='myOrders'>
+                                        <div class='l-title l-title__my-total-count'>
+                                            총&nbsp;<span class='highlight' slot='totalCount'>{{totalCount}}</span>건
+                                        </div>
+                                        <table class='l-table'>
+                                            <colgroup>
+                                                <col style='width:16%' />
+                                                <col />
+                                                <col style='width:8%' />
+                                                <col style='width:13%' />
+                                                <col style='width:11%' />
+                                                <col style='width:11%' />
+                                            </colgroup>
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        주문일자(주문번호)
+                                                    </th>
+                                                    <th>
+                                                        상품정보
+                                                    </th>
+                                                    <th>
+                                                        수량
+                                                    </th>
+                                                    <th>
+                                                        상품 합계 금액
+                                                    </th>
+                                                    <th>
+                                                        진행상태
+                                                    </th>
+                                                    <th>
+                                                        접수
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {{#each myOrders}}
+                                                {{#each orderOptions}}
+                                                    <tr shopby-order-option-count="{{../orderOptions.length}}">
+                                                        <!-- 주문일자(주문번호) -->
+                                                        <!-- {{#if @first}} -->
+                                                          <td rowspan="{{../orderOptions.length}}">
+                                                           <em class="font-montserrat claim-list__orderYmt">{{substring ../orderYmdt 0 10}}</em>
+                                                           <a class="font-black font-montserrat claim-list__order-no" href="/pages/my/order-detail.html?orderNo={{orderNo}}">{{orderNo}}</a>
+                                                         </td>
+                                                         <!-- {{/if}} -->
+                                                        <!-- 상품정보 -->
+                                                        <td>
+                                                            <div class="product-option-info">
+                                                                <div class='thumb-item__media'>
+                                                                    <a href='/pages/product/product-detail.html?productNo={{productNo}}'>
+                                                                        <span class='thumb-item__img'>
+                                                                            {{#ifEq imageUrlInfo.0.imageUrlType 'VIDEO_URL'}}
+                                                                            <div class='video-wrapper'>
+                                                                                <div class="video-cover"></div>
+                                                                                <iframe class="thumb" src='{{imageUrlInfo.0.url}}' width="100px" frameborder='0'></iframe>
+                                                                            </div>
+                                                                            {{else}}
+                                                                                {{img imageUrlInfo.0.url 100 100 productName '' ''}}
+                                                                            {{/ifEq}}
+                                                                        </span>
+                                                                    </a>
+                                                                </div>
+                                                                <div class="product-option-info__name">
+                                                                    <em>
+                                                                        <a href='/pages/product/product-detail.html?productNo={{productNo}}' class="font-black">{{safeString productName}}</a>
+                                                                    </em>
+                                                                    <div class="product-option-info__option">
+                                                                        <div>
+                                                                            {{displayNormalOption optionName optionValue}}
+                                                                        </div>
+                                                                        {{#each inputs}}
+                                                                            <div>
+                                                                                {{safeString inputLabel}}
+                                                                                :
+                                                                                {{safeString inputValue}}
+                                                                            </div>
+                                                                        {{/each}}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <!-- 주문수량 -->
+                                                        <td>
+                                                            <em class="font-montserrat">{{orderCnt}}</em><span class="currency">개</span>
+                                                        </td>
+                                                        <!-- 상품 합계 금액-->
+                                                        <td>
+                                                            <em class="font-montserrat">{{convertToKoreanCurrency price.buyAmt}}</em><span class="currency">원</span>
+                                                        </td>
+                                                        <!-- 진행상태 -->
+                                                        <td>
+                                                            <div class='next-action-btns' shopby-order-option-no='{{orderOptionNo}}'>
+                                                                {{#if claimStatusTypeLabel}}
+                                                                    <button
+                                                                        class='link'
+                                                                        shopby-claim-no='{{claimNo}}'
+                                                                        shopby-modal-title-prefix='{{substring claimStatusTypeLabel 2}}'
+                                                                        shopby-action='VIEW_CLAIM_DETAIL'
+                                                                    >
+                                                                        {{claimStatusTypeLabel}}
+                                                                    </button>
+                                                                {{/if}}
+                                                            </div>
+                                                        </td>
+                                                        <!-- 접수 -->
+                                                        <td>
+                                                            <div class="next-action-btns" shopby-order-option-no="{{orderOptionNo}}" shopby-claim-nos="{{arrayToString ../orderOptions 'claimNo'}}">
+                                                                {{#each nextActions}}
+                                                                    {{#ifEq nextActionType 'WITHDRAW_CANCEL'}}
+                                                                    <button type="button" class="btn btn--line-gray btn--xs" shopby-claim-no="{{../claimNo}}" shopby-action="WITHDRAW_CANCEL">취소신청 철회</button>
+                                                                    {{/ifEq}}
+                                                                    {{#ifEq nextActionType 'WITHDRAW_EXCHANGE'}}
+                                                                    <button type="button" class="btn btn--line-gray btn--xs" shopby-claim-no="{{../claimNo}}" shopby-action="WITHDRAW_EXCHANGE">교환신청 철회</button>
+                                                                    {{/ifEq}}
+                                                                    {{#ifEq nextActionType 'WITHDRAW_RETURN'}}
+                                                                    <button type="button" class="btn btn--line-gray btn--xs" shopby-claim-no="{{../claimNo}}" shopby-action="WITHDRAW_RETURN">반품신청 철회</button>
+                                                                    {{/ifEq}}
+                                                                    {{#ifEq ../nextActions.length 1}}
+                                                                        {{#ifEq actionGroupType 'NORMAL'}}
+                                                                        -
+                                                                        {{/ifEq}}
+                                                                    {{/ifEq}}
+                                                                {{/each}}
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                {{/each}}
+                                            {{/each}}
+                                            </tbody>
+                                        </table>
+                                        <div slot="totalCount">
+                                            {{#ifEq totalCount 0 }}
+                                            <div slot="isLoading">
+                                                {{#if isLoading}}
+                                                <div class="loader loader--lg loader--full">
+                                                    <span class="spinner"></span>
+                                                </div>
+                                                {{else}}
+                                                <div class='notice empty-list'>
+                                                    <span class='sprite-image notice--warning'></span>
+                                                    <em class='notice__description--center'>주문 내역이 없습니다.</em>
+                                                </div>
+                                                {{/if}}
+                                            </div>
+                                            {{/ifEq}}
+                                        </div>
+                                    </div>
+                                    <!-- 페이지네이션 -->
+                                    <div slot="totalCount">
+                                        {{#ifGt totalCount 0 }}
+                                            <div class="pagination" slot="pagination">
+                                                <a href="?{{pagination.firstPage}}">
+                                                    <button class="sprite-image pagination__btn pagination__btn--double-lt">
+                                                    </button>
+                                                </a>
+                                                <a href="?{{pagination.prevPage}}">
+                                                    <button class="sprite-image pagination__btn pagination__btn--lt">
+                                                    </button>
+                                                </a>
+                                                {{#each pagination.pages}}
+                                                <a class="pagination__link {{#if isCurrentPage}}is-current{{/if}}" href="?{{param}}">{{page}}</a>
+                                                {{/each}}
+                                                <a href="?{{pagination.nextPage}}">
+                                                    <button class="sprite-image pagination__btn pagination__btn--rt">
+                                                    </button>
+                                                </a>
+                                                <a href="?{{pagination.lastPage}}">
+                                                    <button class="sprite-image pagination__btn pagination__btn--double-rt">
+                                                    </button>
+                                                </a>
+                                            </div>
+                                        {{/ifGt}}
+                                    </div>
+                                </div>
+                            </script>
+                        </my-orders>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <layer-modal-area type="title" name="claim-detail" src="@modals/claim-detail.html"></layer-modal-area>
+
+        <!-- 퀵메뉴 (최상단 이동 + 최근 본 상품) -->
+        <template shopby-partials="@partials/quick-menu.html"></template>
+        <!-- 최근 본 상품(오프캔버스) -->
+        <template shopby-partials="@partials/recent-product.html"></template>
+        <!-- 하단 레이아웃 -->
+        <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js"></template>
+
+        <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+        <template shopby-partials="@partials/modal.html"></template>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/pages/my/claim-list.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/libs/naver-marketing-config.js"></script>
+    </body>
+</html>

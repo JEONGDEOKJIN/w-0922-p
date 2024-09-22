@@ -1,0 +1,106 @@
+<div class="shipping-address-list-wrap" shopby-layer-modal-helper-key="shipping-address-list">
+    <my-shipping-address-list
+        pair-key="SHIPPING_LIST_MORE_VIEW_BUTTON"
+        default-page-size="20"
+        page-number:query="pageNumber"
+        page-size:query="pageSize"
+        shopby-accumulable
+    >
+        <script type="text/x-handlebars-template">
+            <div>
+                <div slot="contents">
+                    {{#if contents}}
+                        <ul class='shipping-address-list'>
+                            {{#each contents}}
+                                <li
+                                    class='shipping-address-item'
+                                    shopby-address-no='{{addressNo}}'
+                                    shopby-default-yn='{{defaultYn}}'
+                                    shopby-address-name='{{addressName}}'
+                                >
+                                    <label class='form-check form-check--sm'>
+                                        <input type='radio' name='address' value='{{addressNo}}' shopby-on:click='HANDLE_ADDRESS_NO_CLICK' />
+                                    </label>
+
+                                    <span class="shipping-address-item__info-wrap">
+                                        <span>
+                                            {{#ifEq defaultYn 'Y'}}
+                                            <span class='shipping-address-item__default'>기본배송지</span>
+                                            {{/ifEq}}
+                                            {{#if addressName}}
+                                                <span class="shipping-address-item__address-name">{{addressName}}</span>
+                                            {{/if}}
+                                        </span>
+                                        {{#if receiverName}}
+                                            <span>{{receiverName}}</span>
+                                        {{/if}}
+
+                                        <span class='shipping-address-item__info'>
+                                            <span class="shipping-address-item__address font-montserrat">({{receiverZipCd}}) {{receiverAddress}} {{receiverDetailAddress}}</span>
+                                            <span class='shipping-address-item__contact'>
+                                                {{#if receiverContact1}}
+                                                    <span class='shipping-address-item__contact-type font-montserrat'>{{receiverContact1}}</span>
+                                                {{/if}}
+
+                                                {{#if receiverContact2}}
+                                                    <span class='shipping-address-item__contact-type font-montserrat'>{{receiverContact2}}</span>
+                                                {{/if}}
+                                            </span>
+                                        </span>
+                                    </span>
+                                    <span class='btn-group btn-group--inline-column'>
+                                        <button type='button' class='btn btn--line-gray btn--sm' shopby-address-no='{{addressNo}}' shopby-action='MODIFY_SHIPPING_ADDRESS' shopby-total-count="{{../totalCount}}">수정</button>
+                                        <button type='button' class='btn btn--line-gray btn--sm' shopby-address-no='{{addressNo}}' shopby-address-name="{{addressName}}" shopby-default-yn="{{defaultYn}}" shopby-action='DELETE_SHIPPING_ADDRESS'>삭제</button>
+                                    </span>
+                                </li>
+                            {{/each}}
+                        </ul>
+                    {{else}}
+                        {{#if isLoading}}
+                            <div class="loader loader--lg loader--full">
+                                <span class="spinner"></span>
+                            </div>
+                            {{else}}
+                            <div class='notice notice--full'>
+                                <span class='sprite-image notice--warning'></span>
+                                <em>
+                                    등록된 배송지가 없습니다.
+                                </em>
+                            </div>
+                        {{/if}}
+                    {{/if}}
+                </div>
+            </div>
+        </script>
+    </my-shipping-address-list>
+
+    <!-- 더보기 -->
+    <more-view-button pair-key="SHIPPING_LIST_MORE_VIEW_BUTTON">
+        <script type="text/x-handlebars-template">
+            <div>
+                <div slot='hasMoreViewButton'>
+                    {{#if hasMoreViewButton}}
+                        <button class='btn btn--line-gray btn--lg-wide' shopby-on:click='MORE_VIEW_BUTTON_CLICK'>더보기</button>
+                    {{/if}}
+                </div>
+            </div>
+        </script>
+    </more-view-button>
+    <!-- 더보기 -->
+
+    <my-shipping-address-total-count>
+        <script type="text/x-handlebars-template">
+            <section>
+                <div class='btn-group' slot='totalCount'>
+                    <button type='button' class='btn btn--fill-dark' shopby-action='REGISTER_SHIPPING_ADDRESS' shopby-total-count='{{totalCount}}'>배송지 추가</button>
+                    <button type='submit' class='btn btn--fill-point' shopby-action='SELECT_ADDRESS'>배송지 선택</button>
+                </div>
+            </section>
+        </script>
+    </my-shipping-address-total-count>
+
+    <!-- 배송지 등록/수정 모달 -->
+    <layer-modal-area type="title" name="shipping-address-form" src="@modals/shipping-address-form.html"></layer-modal-area>
+</div>
+
+<script src="/modals/shipping-address-list.js"></script>

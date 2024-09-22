@@ -1,0 +1,49 @@
+@charset "UTF-8";
+/*  주문목록/배송조회 페이지 스타일 파일입니다. */
+.order-list .l-title {
+  margin-top: 40px;
+  font-weight: 500;
+  font-size: 16px;
+}
+.order-list__group-by-order-no {
+  margin-bottom: 18px;
+}
+.order-list__identifier {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  border-bottom: 1px solid var(--gray200);
+  padding: 18px 0;
+  font-weight: 500;
+}
+.order-list__delivery-info::after {
+  content: ">";
+}
+.order-list__order-no {
+  color: var(--gray400);
+}
+.order-list .thumb-item__media {
+  width: 105px;
+  height: auto;
+  flex: none;
+}
+.order-list .thumb-item__info {
+  margin: 0;
+}
+.order-list .product-option-info__detail {
+  padding: 18px 0 10px;
+  border-top: 0;
+}
+.order-list .btn {
+  width: 100%;
+}
+.order-list__claim-detail {
+  text-decoration: underline;
+}
+.order-list .notice {
+  margin: 60px 0;
+}
+.order-list__more-btn {
+  margin: 40px 0 100px;
+}

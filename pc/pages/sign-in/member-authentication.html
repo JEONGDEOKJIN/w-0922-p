@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="/shopby-skin-pc.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/sign-in/member-authentication.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-pc.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+    <body>
+        <div shopby-skin-container>
+            <!-- 디자인팝업 -->
+            <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+            <!-- 상단 레이아웃 -->
+            <template class="shopby-header" shopby-partials="@partials/common-header.html" shopby-partials-js="@partials/common-header.js"></template>
+
+            <main class="l-page" shopby-helper-key="member-authentication">
+                <section class="page-content-top">
+                    <ol class="page-content-top__path page-content-top__location">
+                        <li><a href="/">HOME</a></li>
+                        &gt;
+                        <li>로그인</li>
+                    </ol>
+                </section>
+                <div class="member-authentication">
+                    <p class="l-title">회원 인증</p>
+                    <div class="member-authentication__description">
+                        <p>상품 구매를 위해 회원인증을 진행해주세요.</p>
+                        <span>인증 완료 시 인증정보가 회원정보에 반영됩니다.</span>
+                    </div>
+                    <div>
+                        <div>
+                            <!-- 이메일 -->
+                            <profile-email-information shopby-module-key="email-member-authentication" shopby-auth-time-type="PAYMENT_TIME">
+                                <script type="text/x-handlebars-template">
+                                    <div>
+                                        <div slot="emailCertificationStatus">
+                                          {{#ifNe emailCertificationStatus 'NONE'}}
+                                            <div class="member-authentication__item" slot="email">
+                                                <label class="member-authentication__field-title">
+                                                    이메일 주소
+                                                </label>
+                                                <div>
+                                                    <div class="email-input">
+                                                        <span class="input-field input-field--md email-input__id {{#unless email.isValid}}is-error{{/unless}}">
+                                                            <input
+                                                                type="text"
+                                                                value="{{displayEmailId email.value}}"
+                                                                shopby-focus-field="email"
+                                                                name="email-id"
+                                                                shopby-on:change="CHANGE_EMAIL_ID"
+                                                                shopby-on:input="INPUT_EMAIL_ID_VALID"
+                                                                maxlength="64"
+                                                            />
+                                                        </span>
+                                                        @
+                                                        <span class="input-field input-field--md email-input__domain {{#unless email.isValid}}is-error{{/unless}}">
+                                                            <input
+                                                                type="text"
+                                                                shopby-focus-field="email"
+                                                                value="{{displayEmailDomain email.value}}"
+                                                                name="email-domain"
+                                                                shopby-on:change="CHANGE_EMAIL_DOMAIN"
+                                                                shopby-on:input="INPUT_EMAIL_DOMAIN_VALID"
+                                                                maxlength="255"
+                                                            />
+                                                        </span>
+                                                    </div>
+                                                    <span class="select select--sm">
+                                                        <select shopby-on:change="SELECT_EMAIL_DOMAIN">
+                                                            <option value="" selected disabled>직접 입력</option>
+                                                            <option value="naver.com">naver.com</option>
+                                                            <option value="hanmail.net">hanmail.net</option>
+                                                            <option value="daum.net">daum.net</option>
+                                                            <option value="nate.com">nate.com</option>
+                                                            <option value="gmail.com">gmail.com</option>
+                                                        </select>
+                                                    </span>
+                                                    <div>
+                                                        {{#ifEq emailCertificationStatus 'SUCCESS'}}
+                                                        <button
+                                                        type="button"
+                                                        class="btn btn--line-dark btn--sm"
+                                                        shopby-on:click="CLICK_EMAIL_CERTIFICATION"
+                                                        >
+                                                            재인증
+                                                        </button>
+                                                        {{else}}
+                                                        <button
+                                                        type="button"
+                                                        class="btn btn--line-dark btn--sm"
+                                                        shopby-action="EMAIL_CERTIFICATION"
+                                                        >
+                                                            {{#ifEq emailCertificationStatus 'INITIAL'}}
+                                                            인증번호 발송
+                                                            {{else}}
+                                                            인증번호 재발송
+                                                            {{/ifEq}}
+                                                        </button>
+                                                        {{/ifEq}}
+                                                    </div>
+                                                    <p  class="description {{#unless email.isValid}}invalid-alert{{/unless}}">{{email.message}}</p>
+                                                </div>
+                                            </div>
+                                            {{/ifNe}}
+                                        </div>
+                                    </div>
+                                </script>
+                            </profile-email-information>
+                            <!-- 이메일 -->
+                            <div class="member-authentication__certification-field">
+                                <!-- 이메일 인증 번호 -->
+                                <profile-certification shopby-module-key="email-certification">
+                                    <script type="text/x-handlebars-template">
+                                        <div>
+                                            <div slot='certificationType'>
+                                                {{#ifEq certificationType 'EMAIL'}}
+                                                    <div class='member-authentication__item'>
+                                                        <label class='member-authentication__field-title'>
+                                                            인증 번호
+                                                        </label>
+
+                                                        <div slot='certificated'>
+                                                            <span class='input-field input-field--md {{#unless certificated.isValid}}is-error{{/unless}}'>
+                                                                <input
+                                                                    slot='certificatedNumber'
+                                                                    type='text'
+                                                                    shopby-focus-field='certificatedNumber'
+                                                                    maxlength='6'
+                                                                    value='{{certificatedNumber}}'
+                                                                    placeholder='인증번호를 입력해주세요.'
+                                                                    shopby-on:input='INPUT_CERTIFICATION_ONLY_NUMBER'
+                                                                    shopby-on:change='CHANGE_CERTIFICATION_NUMBER'
+                                                                />
+                                                            </span>
+                                                            <p class='description invalid-alert'>
+                                                                {{certificated.message}}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                {{/ifEq}}
+                                            </div>
+                                        </div>
+                                    </script>
+                                </profile-certification>
+                                <!-- 이메일 인증 번호 -->
+                                <!-- 타이머 -->
+                                <shopby-timer>
+                                    <script type="text/x-handlebars-template">
+                                        <div>
+                                            <div slot='timerModuleKey'>
+                                                {{#ifEq timerModuleKey 'EMAIL_CERTIFICATION'}}
+                                                    <div class='timer'>
+                                                        <span class='count-down' slot='time'>
+                                                            <span slot='isExpiredTime'>
+                                                                {{#if isExpiredTime}}
+                                                                    <span class='description invalid-alert'>
+                                                                        00:00
+                                                                    </span>
+                                                                {{else}}
+                                                                    <span>
+                                                                        {{padStart time.minutes}}:{{padStart time.seconds}}
+                                                                    </span>
+                                                                {{/if}}
+                                                            </span>
+                                                        </span>
+                                                    </div>
+                                                {{/ifEq}}
+                                            </div>
+                                        </div>
+                                    </script>
+                                </shopby-timer>
+                                <!-- 타이머 -->
+                            </div>
+                            <mall-information>
+                                <script type="text/x-handlebars-template">
+                                    <div>
+                                        <div slot='mallInfo'>
+                                            {{#ifEq mallInfo.mallJoinConfig.authenticationType 'AUTHENTICATION_BY_EMAIL'}}
+                                                <div class='btn-group'>
+                                                    <button class='btn btn--md btn--fill-dark' shopby-action='CLOSE'>취소</button>
+                                                    <button class='btn btn--md btn--fill-point' shopby-action='EMAIL_AUTHENTICATION_SUBMIT'>확인</button>
+                                                </div>
+                                            {{/ifEq}}
+                                        </div>
+                                    </div>
+                                </script>
+                            </mall-information>
+                        </div>
+                        <div>
+                            <!-- 휴대폰 번호 -->
+                            <profile-sms-information shopby-module-key="sms-member-authentication" shopby-auth-time-type="PAYMENT_TIME">
+                                <script type="text/x-handlebars-template">
+                                    <div>
+                                        <div slot="smsCertificationStatus">
+                                          {{#ifEqOneOfThree smsCertificationStatus 'INITIAL' 'PROCESSING' 'SUCCESS'}}
+                                            <div class="member-authentication__item" slot="mobileNo">
+                                                <label class="member-authentication__field-title">
+                                                    휴대폰 번호
+                                                </label>
+                                                <div>
+                                                    <div class="phone-number-input">
+                                                        <span class="input-field input-field--md {{#unless mobileNo.isValid}}is-error{{/unless}} {{#ifEq smsCertificationStatus 'SUCCESS'}}is-disabled{{/ifEq}}">
+                                                            <input
+                                                                type="text"
+                                                                shopby-focus-field="mobileNo"
+                                                                maxlength="12"
+                                                                value="{{mobileNo.value}}"
+                                                                placeholder="휴대폰 번호 - 없이 입력"
+                                                                name="telephoneNo"
+                                                                shopby-on:input="INPUT_PHONE_ONLY_NUMBER"
+                                                                shopby-on:change="CHANGE_PHONE_NUMBER"
+                                                            />
+                                                        </span>
+                                                    </div>
+                                                    <div >
+                                                        {{#ifEqOne smsCertificationStatus 'INITIAL' 'PROCESSING' }}
+                                                        <button
+                                                            type="button"
+                                                            class="btn btn--line-dark btn--sm"
+                                                            shopby-action="SMS_CERTIFICATION"
+                                                        >
+                                                            {{#ifEq smsCertificationStatus 'INITIAL'}}
+                                                            인증번호 발송
+                                                            {{else}}
+                                                            인증번호 재발송
+                                                            {{/ifEq}}
+                                                        </button>
+                                                        {{/ifEqOne}}
+
+                                                        {{#ifEq smsCertificationStatus 'SUCCESS'}}
+                                                        <button
+                                                            type="button"
+                                                            class="btn btn--line-dark btn--sm"
+                                                            shopby-on:click="CLICK_SMS_CERTIFICATION"
+                                                        >
+                                                        재인증
+                                                        </button>
+                                                        {{/ifEq}}
+                                                    </div>
+                                                    <p class="description invalid-alert">{{mobileNo.message}}</p>
+                                                </div>
+                                            </div>
+                                            {{/ifEqOneOfThree}}
+                                        </div>
+                                    </div>
+                                </script>
+                            </profile-sms-information>
+                            <!-- 휴대폰 번호 -->
+                            <div class="member-authentication__certification-field">
+                                <!-- 휴대폰 인증 번호 -->
+                                <profile-certification shopby-module-key="sms-certification">
+                                    <script type="text/x-handlebars-template">
+                                        <div>
+                                            <div slot='certificationType'>
+                                                {{#ifEq certificationType 'SMS'}}
+                                                    <div class='member-authentication__item'>
+                                                        <label class='member-authentication__field-title'>
+                                                            인증번호
+                                                        </label>
+
+                                                        <div slot='certificated'>
+                                                            <span class='input-field input-field--md {{#unless certificated.isValid}}is-error{{/unless}}'>
+                                                                <input
+                                                                    type='text'
+                                                                    maxlength='6'
+                                                                    shopby-focus-field='certificatedNumber'
+                                                                    slot='certificatedNumber'
+                                                                    value='{{certificatedNumber}}'
+                                                                    placeholder='인증번호를 입력해주세요.'
+                                                                    shopby-on:input='INPUT_CERTIFICATION_ONLY_NUMBER'
+                                                                    shopby-on:change='CHANGE_CERTIFICATION_NUMBER'
+                                                                />
+                                                            </span>
+                                                        </div>
+                                                        <p class='description invalid-alert'>
+                                                            {{certificated.message}}
+                                                        </p>
+                                                    </div>
+                                                {{/ifEq}}
+                                            </div>
+                                        </div>
+                                    </script>
+                                </profile-certification>
+                                <!-- 휴대폰 인증 번호 -->
+                                <!-- 타이머 -->
+                                <shopby-timer>
+                                    <script type="text/x-handlebars-template">
+                                        <div>
+                                            <div slot='timerModuleKey'>
+                                                {{#ifEq timerModuleKey 'SMS_CERTIFICATION'}}
+                                                    <div class='timer'>
+                                                        <span class='count-down' slot='time'>
+                                                            <span slot='isExpiredTime'>
+                                                                {{#if isExpiredTime}}
+                                                                    <span class='description invalid-alert'>
+                                                                        00:00
+                                                                    </span>
+                                                                {{else}}
+                                                                    <span>
+                                                                        {{padStart time.minutes}}:{{padStart time.seconds}}
+                                                                    </span>
+                                                                {{/if}}
+                                                            </span>
+                                                        </span>
+                                                    </div>
+                                                {{/ifEq}}
+                                            </div>
+                                        </div>
+                                    </script>
+                                </shopby-timer>
+                                <!-- 타이머 -->
+                            </div>
+                            <mall-information>
+                                <script type="text/x-handlebars-template">
+                                    <div>
+                                        <div slot='mallInfo'>
+                                            {{#ifEq mallInfo.mallJoinConfig.authenticationType 'SMS_AUTHENTICATION'}}
+                                                <div class='btn-group'>
+                                                    <button class='btn btn--md btn--fill-dark' shopby-action='CLOSE'>취소</button>
+                                                    <button class='btn btn--md btn--fill-point' shopby-action='SMS_AUTHENTICATION_SUBMIT'>확인</button>
+                                                </div>
+                                            {{/ifEq}}
+                                        </div>
+                                    </div>
+                                </script>
+                            </mall-information>
+                        </div>
+                    </div>
+
+                    <div>
+                        <!-- 휴대폰 본인인증 -->
+                        <profile-sms-information shopby-module-key="member-authentication-by-phone" shopby-auth-time-type="PAYMENT_TIME">
+                            <script type="text/x-handlebars-template">
+                                <div>
+                                    <div slot='smsCertificationStatus'>
+                                        {{#ifEq smsCertificationStatus 'SMS_AUTHENTICATION'}}
+                                            <div class='member-authentication__item'>
+                                                <button type='button' class='btn btn--fill-point btn--lg' shopby-action='AUTHENTICATION_BY_PHONE'>
+                                                    휴대폰 본인인증
+                                                </button>
+                                            </div>
+                                        {{/ifEq}}
+                                    </div>
+                                </div>
+                            </script>
+                        </profile-sms-information>
+                        <!-- 휴대폰 본인인증 -->
+                    </div>
+
+                    <div>
+                        <!-- 휴대폰 본인인증 성공 -->
+                        <member-authentication-result>
+                            <script type="text/x-handlebars-template">
+                                <div>
+                                    <div slot='key'>
+                                        {{#if key}}
+                                            <div slot='authenticationInformation' class='member-authentication__callout'>
+                                                <p>{{authenticationInformation.memberName}}</p>
+                                                <p>{{authenticationInformation.mobileNo}}</p>
+                                                <p>{{authenticationInformation.birthday}}</p>
+                                                <p>{{authenticationInformation.sex}}</p>
+                                            </div>
+                                            <div class='btn-group'>
+                                                <button class='btn btn--md btn--fill-dark' shopby-action='CLOSE'>취소</button>
+                                                <button class='btn btn--md btn--fill-point' shopby-action='AUTHENTICATION_BY_PHONE_SUBMIT'>확인</button>
+                                            </div>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                            </script>
+                        </member-authentication-result>
+                    </div>
+                </div>
+            </main>
+
+            <layer-modal-area type="title" name="kcp-sms-authentication" src="@modals/kcp-sms-authentication.html" title="휴대폰 본인인증"></layer-modal-area>
+
+            <!-- 퀵메뉴 (최상단 이동 + 최근 본 상품) -->
+            <template shopby-partials="@partials/quick-menu.html"></template>
+            <!-- 최근 본 상품(오프캔버스) -->
+            <template shopby-partials="@partials/recent-product.html"></template>
+            <!-- 하단 레이아웃 -->
+            <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js"></template>
+        </div>
+        <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+        <template shopby-partials="@partials/modal.html"></template>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/pages/sign-in/member-authentication.js"></script>
+        <script src="/libs/naver-marketing-config.js"></script>
+    </body>
+</html>

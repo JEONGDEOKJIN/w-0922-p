@@ -1,0 +1,21 @@
+<term-detail>
+    <script type="text/x-handlebars-template">
+        <div shopby-layer-modal-helper-key='term-detail' class='title-modal term-detail'>
+            <div class='title-modal__header'>
+                <h2 class='title-modal__title'>
+                    <span slot='required'>{{getMandatoryLabel required}}</span>
+                    <span slot='title'>{{title}}</span>
+                </h2>
+                <button class='title-modal__close-btn' shopby-on:click='CLOSE_TITLE_MODAL'>
+                    <span class='ico ico--x-black-24'></span>
+                </button>
+            </div>
+            <div class='title-modal__content'>
+                <div class='term-detail__content' slot='contents'>
+                    {{{contents}}}
+                </div>
+            </div>
+        </div>
+    </script>
+</term-detail>
+<script src="/modals/terms-detail.js"></script>

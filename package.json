@@ -1,0 +1,13 @@
+{
+  "name": "@shopby/aurora",
+  "version": "1.0.9",
+  "private": true,
+  "scripts": {
+    "serve": "lite-server index.html --baseDir=pc",
+    "serve:pc": "lite-server index.html --baseDir=pc",
+    "serve:mobile": "lite-server index.html --baseDir=mobile"
+  },
+  "devDependencies": {
+    "lite-server": "^2.6.1"
+  }
+}

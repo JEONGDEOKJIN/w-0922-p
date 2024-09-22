@@ -1,0 +1,90 @@
+<div shopby-layer-modal-helper-key="select-order-product">
+    <div class="select-order-product">
+        <select-order-product-search-field>
+            <div class="select-order-product-search-field">
+                <span class="search-field">
+                    <span class="select select--md search-field__select-box">
+                        <select shopby-on:change="CHANGE_SEARCH_TYPE">
+                            <option value="PRODUCT_NAME">상품명</option>
+                            <option value="ORDER_NO">주문번호</option>
+                        </select>
+                    </span>
+                    <span class="search-field__input">
+                        <span class="input-field input-field--md">
+                            <input type="text" placeholder="검색어를 입력해주세요." shopby-on:change="CHANGE_SEARCH_FIELD_KEYWORD" />
+                        </span>
+                        <button type="button" class="search-field__search-btn" shopby-on:click="SEARCH">
+                            <span class="ico ico--magnet-black-24"></span>
+                        </button>
+                    </span>
+                </span>
+            </div>
+        </select-order-product-search-field>
+
+        <select-order-product-list pair-key="SELECT_ORDER_PRODUCT_MORE_VIEW_BUTTON" uses-more-button>
+            <script type="text/x-handlebars-template">
+                <div>
+                    <ul class='select-order-product-list' slot='items'>
+                        {{#each items}}
+                            <li shopby-order-no='{{orderNo}}'>
+                                <section class='select-order-product-list__order-info'>
+                                    <span>{{formatUseByDate orderStatusDate.registerYmdt}}</span>
+                                    <a href='/pages/my/order-detail.html?orderNo={{orderNo}}' class='select-order-product-list__order-no'>
+                                        {{orderNo}}
+                                    </a>
+                                </section>
+
+                                <a class='select-order-product-list__product-info' href='/pages/product/product-detail.html?productNo={{productNo}}'>
+                                    {{img imageUrl 80 80 productName '' ''}}
+                                    <div class='select-order-product-list__product-info-container'>
+                                        <p class='bold select-order-product-list__product-name'>{{productName}}</p>
+                                        <section class='select-order-product-list__product-option'>
+                                            <span>
+                                                {{optionName}}:{{optionValue}}
+                                            </span>
+                                        </section>
+                                        <section class='select-order-product-list__product-order'>
+                                            <span class='bold'>
+                                                {{convertToKoreanCurrency price.salePrice}}
+                                            </span>원 /
+                                            <span class='bold'>
+                                                {{convertToKoreanCurrency orderCnt}}
+                                            </span>개
+
+                                            <span class='highlight select-order-product-lis__product-order-status'>
+                                                {{displayOrderStatusType}}
+                                            </span>
+                                        </section>
+                                    </div>
+                                </a>
+                                <button type='button' class='btn btn--line-gray btn--md-wide' shopby-action='SELECTED_PRODUCT'>
+                                    선택
+                                </button>
+                            </li>
+                        {{else}}
+                            <div class='notice empty-list'>
+                                <span class='sprite-image notice--warning'></span>
+                                <em class='notice__description--center'>검색된 주문상품이 없습니다.</em>
+                            </div>
+                        {{/each}}
+                    </ul>
+                </div>
+            </script>
+        </select-order-product-list>
+
+        <more-view-button pair-key="SELECT_ORDER_PRODUCT_MORE_VIEW_BUTTON">
+            <script type="text/x-handlebars-template">
+                <div>
+                    <div slot='hasMoreViewButton'>
+                        {{#if hasMoreViewButton}}
+                            <button class='btn btn--line-gray btn--lg-wide' shopby-on:click='MORE_VIEW_BUTTON_CLICK'>
+                                더보기
+                            </button>
+                        {{/if}}
+                    </div>
+                </div>
+            </script>
+        </more-view-button>
+    </div>
+</div>
+<script src="/modals/select-order-product.js"></script>

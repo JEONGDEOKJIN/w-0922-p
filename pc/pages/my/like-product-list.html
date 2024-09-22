@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="/shopby-skin-pc.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/my/like-product-list.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-pc.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+    <body>
+        <!-- 디자인팝업 -->
+        <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+        <!-- 상단 레이아웃 -->
+        <template class="shopby-header" shopby-partials="@partials/common-header.html" shopby-partials-js="@partials/common-header.js"></template>
+
+        <main class="l-my-page">
+            <section class="page-content-top">
+                <ol class="page-content-top__path page-content-top__location">
+                    <li><a href="/">HOME</a></li>
+                    &gt;
+                    <li><a href="/pages/my/my-page.html">마이페이지</a></li>
+                    &gt;
+                    <li>좋아요</li>
+                </ol>
+            </section>
+
+            <div class="my-page-box">
+                <template class="l-my-page-menu" shopby-partials="@partials/my-menu.html" shopby-menu-title="좋아요"></template>
+
+                <div class="right-box">
+                    <div class="right-box__container">
+                        <div class="profile-like">
+                            <like-product-total-count>
+                                <script type="text/x-handlebars-template">
+                                    <div>
+                                        <h3 class='font-noto my-page__title'>좋아요</h3>
+
+                                        <summary class='l-title l-title__align-end'>
+                                            <span class='my-page__count'>
+                                                총
+                                                <span class='highlight' slot='totalCount'>
+                                                    {{totalCount}}
+                                                </span>
+                                                건
+                                            </span>
+                                            <button
+                                                type='button'
+                                                class='btn btn--fill-dark btn--sm'
+                                                slot='selectedCount'
+                                                shopby-action='DELETE_SELECTED_LIKE_PRODUCTS'
+                                                shopby-selected-count='{{selectedCount}}'
+                                                shopby-checked-product-nos-as-string='{{checkedProductNosAsString}}'
+                                            >
+                                                선택 삭제
+                                            </button>
+                                        </summary>
+                                    </div>
+                                </script>
+                            </like-product-total-count>
+
+                            <like-product-list default-page-size="20" page-size:query="pageSize" page-number:query="pageNumber" uses-pagination>
+                                <script type="text/x-handlebars-template">
+                                    <div>
+                                        <div class='profile-like__list' slot='profileLikeProduct'>
+                                            <table class='l-table'>
+                                                <colgroup>
+                                                    <!-- checkbox -->
+                                                    <col width="50px"/>
+                                                    <!--상품정보 -->
+                                                    <col />
+                                                    <!-- 상품금액 -->
+                                                    <col width="120px"/>
+                                                    <!-- 할인/적립 -->
+                                                    <col width="120px"/>
+                                                    <!-- 합계금액 -->
+                                                    <col width="120px"/>
+                                                    <!-- 관리 -->
+                                                    <col width="160px"/>
+                                                </colgroup>
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            <label class="form-check form-check--md">
+                                                                <input type='checkbox' shopby-on:change='CHANGE_CHECKBOX_DELETE_ALL_LIKE_PRODUCT'/>
+                                                            </label>
+                                                        </th>
+                                                        <th>
+                                                            상품정보
+                                                        </th>
+                                                        <th>
+                                                            상품금액
+                                                        </th>
+                                                        <th>
+                                                            할인/적립
+                                                        </th>
+                                                        <th>
+                                                            합계금액
+                                                        </th>
+                                                        <th>
+                                                            관리
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {{#each profileLikeProduct.items}}
+                                                        <tr shopby-product-no="{{productNo}}"
+                                                            shopby-product-name="{{productName}}"
+                                                            shopby-image-url="{{getFirstImageWithDefault imageUrls}}"
+                                                            shopby-board-name="{{../name}}"
+                                                            >
+                                                            <td>
+                                                                <label class="form-check form-check--md">
+                                                                    <input type='checkbox' shopby-on:change='CHANGE_CHECKBOX_DELETE_LIKE_PRODUCT' slot="checked"/>
+                                                                </label>
+                                                            </td>
+                                                            <td class='product-option-info'>
+                                                                <div class='thumb-item__media'>
+                                                                    <a href='/pages/product/product-detail.html?productNo={{productNo}}'>
+                                                                        <span class='thumb-item__img'>
+                                                                            {{#ifEq listImageInfo.[0].type 'VIDEO_URL'}}
+                                                                            <div class='video-wrapper'>
+                                                                                <div class='video-cover'></div>
+                                                                                <iframe src='{{listImageInfo.0.url}}'  width='100px' height="100%" frameborder='0'></iframe>
+                                                                            </div>
+                                                                            {{else}}
+                                                                            {{img listImageInfo.[0].url 100 100 productName 'middle' ''}}
+                                                                            {{/ifEq}}
+                                                                            <!-- {{img (getFirstImageWithDefault imageUrls) 100 100 productName 'middle' ''}} -->
+                                                                        </span>
+                                                                    </a>
+                                                                </div>
+                                                                <div>
+                                                                    {{#if invalid}}
+                                                                        <span class='alert alert--error'>구매제한 상품</span>
+                                                                    {{/if}}
+                                                                    <div class='bold font-noto product-name'>
+                                                                        {{{productName}}}
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class='product-thumb-item__amount-wrap'>
+                                                                    <span class='font-montserrat bold profile-like__benefit-amount'>{{convertToKoreanCurrency salePrice}}</span>
+                                                                    <span class="bold profile-like__benefit-amount-unit">
+                                                                        원
+                                                                    </span>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <ul class='profile-like__benefit_list'>
+                                                                    <li class='profile-like__benefit_item'>
+                                                                        <span class="profile-like__benefit-sale">할인</span>
+                                                                        {{#ifHasDiscount immediateDiscountAmt additionDiscountAmt}}
+                                                                        <span>
+                                                                            <span class='font-montserrat bold profile-like__benefit-sale-price'>
+                                                                              {{sum immediateDiscountAmt additionDiscountAmt}}
+                                                                            </span>
+                                                                            <span class="profile-like__benefit-sale-unit">
+                                                                                원
+                                                                            </span>
+                                                                        </span>
+                                                                        {{else}}
+                                                                        <span class="profile-like__no-benefit">
+                                                                            -
+                                                                        </span>
+                                                                        {{/ifHasDiscount}}
+                                                                    </li>
+                                                                    <li class='profile-like__benefit_item'>
+                                                                        <span class="bold profile-like__benefit-mileage">적립</span>
+                                                                        {{#if accumulationAmtWhenBuyConfirm}}
+                                                                        <span>
+                                                                            <span class='font-montserrat bold profile-like__benefit-mileage-price'>
+                                                                                {{convertToKoreanCurrency accumulationAmtWhenBuyConfirm}}
+                                                                            </span>
+                                                                            <span class="profile-like__benefit-mileage-unit">
+                                                                                원
+                                                                            </span>
+                                                                        </span>
+                                                                        {{else}}
+                                                                        <span class="profile-like__no-benefit">
+                                                                            -
+                                                                        </span>
+                                                                        {{/if}}
+                                                                    </li>
+                                                                </ul>
+                                                            </td>
+                                                            <td>
+                                                                <span class='font-montserrat bold profile-like__benefit-amount'>
+                                                                    {{convertToKoreanCurrency (subtractNumber salePrice immediateDiscountAmt additionDiscountAmt)}}
+                                                                </span>
+                                                                <span class="bold profile-like__benefit-amount-unit">
+                                                                    원
+                                                                </span>
+                                                            </td>
+                                                            <td class="btn-group btn-group--block-column btn-group--sm">
+                                                                    <button type="button" class='btn btn--line-gray btn--xs' shopby-action="INQUIRE_PRODUCT">
+                                                                        상품문의
+                                                                    </button>
+                                                                    <button type="button" class='btn btn--line-gray btn--xs' shopby-action="DELETE_LIKE_PRODUCT">
+                                                                        삭제
+                                                                    </button>
+                                                            </td>
+                                                        </tr>
+                                                    {{/each}}
+                                                </tbody>
+                                            </table>
+                                            <div slot="totalCount">
+                                                {{#ifEq profileLikeProduct.totalCount 0 }}
+                                                <div slot="isLoading">
+                                                    {{#if isLoading}}
+                                                    <div class="loader loader--lg loader--full">
+                                                        <span class="spinner"></span>
+                                                    </div>
+                                                    {{else}}
+                                                    <div class='notice empty-list'>
+                                                        <span class='sprite-image notice--warning'></span>
+                                                        <em>
+                                                            조회내역이 없습니다.
+                                                        </em>
+                                                    </div>
+                                                    {{/if}}
+                                                </div>
+                                                {{/ifEq}}
+                                            </div>
+                                        </div>
+
+                                        <div slot="totalCount">
+                                            {{#ifGt profileLikeProduct.totalCount 0 }}
+                                            <div class="pagination" slot="pagination">
+                                                <a href="?{{pagination.firstPage}}">
+                                                    <button class="sprite-image pagination__btn pagination__btn--double-lt">
+                                                    </button>
+                                                </a>
+                                                <a href="?{{pagination.prevPage}}">
+                                                    <button class="sprite-image pagination__btn pagination__btn--lt">
+                                                    </button>
+                                                </a>
+                                                {{#each pagination.pages}}
+                                                <a class="pagination__link {{#if isCurrentPage}}is-current{{/if}}" href="?{{param}}">{{page}}</a>
+                                                {{/each}}
+                                                <a href="?{{pagination.nextPage}}">
+                                                    <button class="sprite-image pagination__btn pagination__btn--rt">
+                                                    </button>
+                                                </a>
+                                                <a href="?{{pagination.lastPage}}">
+                                                    <button class="sprite-image pagination__btn pagination__btn--double-rt">
+                                                    </button>
+                                                </a>
+                                            </div>
+                                            {{/ifGt}}
+                                        </div>
+                                    </div>
+                                </script>
+                            </like-product-list>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <layer-modal-area type="title" name="product-inquiry-form" src="@modals/product-inquiry-form.html"></layer-modal-area>
+
+        <!-- 퀵메뉴 (최상단 이동 + 최근 본 상품) -->
+        <template shopby-partials="@partials/quick-menu.html"></template>
+        <!-- 최근 본 상품(오프캔버스) -->
+        <template shopby-partials="@partials/recent-product.html"></template>
+        <!-- 하단 레이아웃 -->
+        <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js"></template>
+
+        <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+        <template shopby-partials="@partials/modal.html"></template>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/pages/my/like-product-list.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/libs/naver-marketing-config.js"></script>
+    </body>
+</html>

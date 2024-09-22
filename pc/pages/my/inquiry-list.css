@@ -1,0 +1,5 @@
+@charset "UTF-8";
+/*  1:1문의 목록 페이지 스타일 파일입니다. */
+.personal-inquiry__list table td {
+  padding: 20px;
+}

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <!-- A2HS -->
+        <link rel="manifest" shopby-manifest-placeholder href="/manifest.json" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+
+        <link rel="apple-touch-icon" href="https://rlyfaazj0.toastcdn.net/20211220/141125.985487000/app_icon(144).png" />
+        <!-- A2HS -->
+
+        <link rel="stylesheet" href="/shopby-skin-mobile.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/board/post-list.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-mobile.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+    <body>
+        <div shopby-skin-container>
+            <!-- 디자인팝업 -->
+            <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+            <!-- 상단 레이아웃 -->
+            <template
+                class="l-header"
+                shopby-partials="@partials/common-header.html"
+                shopby-partials-js="@partials/common-header.js"
+                shopby-sub-title="게시판 목록"
+                shopby-using-button="hamburger,back"
+                shopby-visible-logo="false"
+            ></template>
+
+            <main class="l-content">
+                <search-field shopby-module-key="post-list-search-field">
+                    <script type="text/x-handlebars-template">
+                        <span class='search-field'>
+                            <span class='search-field__input'>
+                                <span class='input-field input-field--sm search-field__text-input'>
+                                    <input
+                                        type='text'
+                                        value='{{keyword}}'
+                                        placeholder='검색어를 입력해주세요.'
+                                        shopby-on:change='CHANGE_SEARCH_FIELD_KEYWORD'
+                                        shopby-on:keydown='KEYPRESS_SEARCH_FIELD_KEYWORD'
+                                    />
+
+                                </span>
+                                <button type='button' class='search-field__search-btn' shopby-on:click='SEARCH'>
+                                    <span class='ico ico--magnet-black-24'></span>
+                                </button>
+                            </span>
+                        </span>
+                    </script>
+                </search-field>
+
+                <div>
+                    <article-total-count board-no:query="boardNo" board-id:query="boardId">
+                        <script type="text/x-handlebars-template">
+                            <summary class='l-title l-title__align-end'>
+                                <div class='article-list__total-count font-montserrat'>
+                                    총
+                                    <span class='highlight bold' slot='totalCount'>{{totalCount}}</span>건
+                                </div>
+                                <div slot='boardConfig'>
+                                    {{#if hasPostingPermission}}
+                                        <button
+                                            type='button'
+                                            class='btn btn--fill-point btn--sm'
+                                            slot='boardName'
+                                            shopby-board-name='{{boardName}}'
+                                            shopby-can-post-by-member='{{boardConfig.canPostByMember}}'
+                                            shopby-can-post-by-guest='{{boardConfig.guestPostingUsed}}'
+                                            shopby-can-secret-posting='{{boardConfig.canPostBySecret}}'
+                                            shopby-uses-attachment='{{boardConfig.canAttach}}'
+                                            shopby-action='WRITE'
+                                        >
+                                            글쓰기
+                                        </button>
+                                    {{/if}}
+                                </div>
+                            </summary>
+                        </script>
+                    </article-total-count>
+
+                    <article-list
+                        class="board"
+                        board-no:query="boardNo"
+                        board-id:query="boardId"
+                        page-size:query="pageSize"
+                        initial-page-number:query="pageNumber"
+                        pair-key="POST_MORE_VIEW_BUTTON"
+                        uses-more-button
+                    >
+                        <script type="text/x-handlebars-template">
+                            <div>
+                                <ul slot='items' class='article-list'>
+                                    {{#if items}}
+                                    {{#each items}}
+                                        <li class='article-list__item'>
+                                            <a href='/pages/board/post-detail.html?boardNo={{../boardNo}}&articleNo={{articleNo}}'>
+                                                <div class='article-list__item-top'>
+                                                    {{#if secreted}}
+                                                        <span class='ico ico--lock-black-16'></span>
+                                                        <span class='article-list__item-title'>{{isWriter ../memberNo registerType registerNo modifierNo title}}</span>
+                                                    {{else}}
+                                                        {{#if notice}}
+                                                            <span class='badge badge--line-point'>공지</span>
+                                                        {{/if}}
+                                                        {{#if imageUrl}}
+                                                        <span class="thumb-item__media">
+                                                            <span class="thumb-item__img">
+                                                                {{img imageUrl 60 60 '' 'middle' ''}}
+                                                            </span>
+                                                        </span>
+                                                        {{/if}}
+                                                        <span class='article-list__item-title'>{{{title}}}</span>
+                                                    {{/if}}
+                                                    {{#if attached}}
+                                                        <span class='ico ico--clip-16'></span>
+                                                    {{/if}}
+                                                    {{#isNewPost registerYmdt}}
+                                                        <span class="ico ico--n-white-16 article-list__item-new-icon"></span>
+                                                    {{/isNewPost}}
+                                                    {{#isBestPost viewCnt}}
+                                                        <span class="ico-hot"></span>
+                                                    {{/isBestPost}}
+                                                </div>
+                                            </a>
+                                            <span class='article-list__item-bottom'>
+                                                <div>
+                                                    <span>{{registerName}}</span>
+                                                    <span class="font-montserrat">{{substring registerYmdt 10}}</span>
+                                                </div>
+                                                <span class='article-list__item-view-count'>조회&nbsp;<span class="font-montserrat">{{viewCnt}}</span></span>
+                                            </span>
+                                        </li>
+                                    {{/each}}
+
+                                    {{else}}
+                                        {{#if isLoading}}
+                                        <div class="loader loader--lg loader--full">
+                                            <span class="spinner"></span>
+                                        </div>
+                                        {{else}}
+                                            <div class='notice notice--full'>
+                                                <span class='sprite-image notice--warning'></span>
+                                                <em>
+                                                    게시글이 존재하지 않습니다.
+                                                </em>
+                                            </div>
+                                        {{/if}}
+                                    {{/if}}
+                                </ul>
+                            </div>
+                        </script>
+                    </article-list>
+
+                    <more-view-button pair-key="POST_MORE_VIEW_BUTTON">
+                        <script type="text/x-handlebars-template">
+                            <div>
+                                <div slot='hasMoreViewButton'>
+                                    {{#if hasMoreViewButton}}
+                                        <button class='btn btn--line-gray btn--lg-wide' shopby-on:click='MORE_VIEW_BUTTON_CLICK'>더보기</button>
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </script>
+                    </more-view-button>
+                </div>
+            </main>
+
+            <!-- 하단 레이아웃 -->
+            <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js"></template>
+
+            <!-- 하단바 -->
+            <template shopby-partials="@partials/common-nav.html"></template>
+        </div>
+        <!-- 오프캔버스 -->
+        <template shopby-partials="@partials/slide-menu.html" shopby-partials-js="@partials/slide-menu.js"></template>
+        <!-- 최근 검색 -->
+        <layer-modal-area type="custom" name="search-keyword" src="@modals/search-keyword.html"></layer-modal-area>
+        <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+        <template shopby-partials="@partials/modal.html"></template>
+
+        <layer-modal-area type="title" name="article-write-form" src="@modals/post-form.html"></layer-modal-area>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/pages/board/post-list.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/libs/naver-marketing-config.js"></script>
+    </body>
+</html>

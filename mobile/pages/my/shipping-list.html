@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <!-- A2HS -->
+        <link rel="manifest" shopby-manifest-placeholder href="/manifest.json" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+
+        <link rel="apple-touch-icon" href="https://rlyfaazj0.toastcdn.net/20211220/141125.985487000/app_icon(144).png" />
+        <!-- A2HS -->
+
+        <link rel="stylesheet" href="/shopby-skin-mobile.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/my/shipping-list.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/lib/lodash_4_17_21.min.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-mobile.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+    <body>
+        <div shopby-skin-container>
+            <!-- 디자인팝업 -->
+            <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+            <!-- 상단 레이아웃 -->
+            <template
+                class="l-header"
+                shopby-partials="@partials/common-header.html"
+                shopby-partials-js="@partials/common-header.js"
+                shopby-sub-title="배송지 관리"
+                shopby-using-button="hamburger,back"
+                shopby-visible-logo="false"
+            ></template>
+
+            <main class="l-content shipping-list" shopby-helper-key="profile-shipping-address">
+                <my-shipping-address-total-count>
+                    <script type="text/x-handlebars-template">
+                        <section>
+                            <div class='l-title l-title--md-medium l-title--center' slot='totalCount'>
+                                <span class='total-count total-count--md'>배송지&nbsp;<em class='highlight'>{{totalCount}}</em>건</span>
+                                <button
+                                    type='button'
+                                    class='btn btn--fill-point btn--sm'
+                                    shopby-action='REGISTER_SHIPPING_ADDRESS'
+                                    shopby-total-count='{{totalCount}}'
+                                >배송지 등록</button>
+                            </div>
+                        </section>
+                    </script>
+                </my-shipping-address-total-count>
+
+                <my-shipping-address-list
+                    pair-key="SHIPPING_LIST_MORE_VIEW_BUTTON"
+                    default-page-size="20"
+                    page-number:query="pageNumber"
+                    page-size:query="pageSize"
+                    shopby-accumulable
+                >
+                    <script type="text/x-handlebars-template">
+                        <div>
+                            <div slot='contents'>
+                                {{#if contents}}
+                                    <ul class='address'>
+                                        {{#each contents}}
+                                            <li
+                                                class='address__item l-panel'
+                                                shopby-address-no='{{addressNo}}'
+                                                shopby-default-yn='{{defaultYn}}'
+                                                shopby-address-name='{{addressName}}'
+                                            >
+                                                <span class='address__top'>{{addressName}}
+                                                    {{#ifEq defaultYn 'Y'}}<span class='badge badge--line-point'>기본배송지</span>{{/ifEq}}</span>
+                                                <span class='address__content'>
+                                                    <span class='address__info'>
+                                                        <span class='address__name'>{{receiverName}}</span><br />
+                                                        <span>({{receiverZipCd}}) {{receiverAddress}} {{receiverDetailAddress}}</span><br />
+                                                        <span class='font-montserrat'>{{receiverContact1}}
+                                                            {{#if receiverContact2}}{{receiverContact2}}{{/if}}</span>
+                                                    </span>
+                                                    <span class='btn-group btn-group--inline-column'>
+                                                        <button
+                                                            type='button'
+                                                            class='btn btn--line-gray btn--sm'
+                                                            shopby-action='MODIFY_SHIPPING_ADDRESS'
+                                                            shopby-total-count="{{../totalCount}}"
+                                                        >수정</button>
+                                                        <button
+                                                            type='button'
+                                                            class='btn btn--line-gray btn--sm'
+                                                            shopby-action='DELETE_SHIPPING_ADDRESS'
+                                                        >삭제</button>
+                                                    </span>
+                                                </span>
+                                            </li>
+                                        {{/each}}
+                                    </ul>
+                                {{else}}
+                                    {{#if isLoading}}
+                                        <div class="loader loader--lg loader--full">
+                                            <span class="spinner"></span>
+                                        </div>
+                                    {{else}}
+                                        <div class='notice notice--full'>
+                                            <span class='sprite-image notice--warning'></span>
+                                            <em>
+                                                등록된 배송지가 없습니다.
+                                            </em>
+                                        </div>
+                                    {{/if}}
+                                {{/if}}
+                            </div>
+                        </div>
+                    </script>
+                </my-shipping-address-list>
+
+                <!-- 더보기 -->
+                <more-view-button pair-key="SHIPPING_LIST_MORE_VIEW_BUTTON">
+                    <script type="text/x-handlebars-template">
+                        <div>
+                            <div slot='hasMoreViewButton'>
+                                {{#if hasMoreViewButton}}
+                                    <button class='btn btn--line-gray btn--lg-wide' shopby-on:click='MORE_VIEW_BUTTON_CLICK'>더보기</button>
+                                {{/if}}
+                            </div>
+                        </div>
+                    </script>
+                </more-view-button>
+                <!-- 더보기 -->
+
+                <!-- 배송지 등록/수정 모달 -->
+                <layer-modal-area type="title" name="shipping-address-form" src="@modals/shipping-address-form.html"></layer-modal-area>
+            </main>
+
+            <!-- 하단 레이아웃 -->
+            <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js"></template>
+
+            <!-- 하단바 -->
+            <template shopby-partials="@partials/common-nav.html"></template>
+        </div>
+
+        <!-- 오프캔버스 -->
+        <template shopby-partials="@partials/slide-menu.html" shopby-partials-js="@partials/slide-menu.js"></template>
+        <!-- 최근 검색 -->
+        <layer-modal-area type="custom" name="search-keyword" src="@modals/search-keyword.html"></layer-modal-area>
+        <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+        <template shopby-partials="@partials/modal.html"></template>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/pages/my/shipping-list.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/libs/naver-marketing-config.js"></script>
+    </body>
+</html>

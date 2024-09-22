@@ -1,0 +1,66 @@
+<div shopby-layer-modal-helper-key="coupon-condition">
+    <coupon-condition>
+        <div>
+            <div class="coupon-condition__header">
+                <span class="coupon-condition__title">사용/제한 조건</span>
+                <button class="title-modal__close-btn" shopby-on:click="CLOSE_TITLE_MODAL">
+                    <span class="ico ico--x-black-24"></span>
+                </button>
+            </div>
+            <div slot="coupon-condition">
+                <div class="coupon-condition__content">
+                    {{#unless isAvailableAllPlatform}}
+                    <dl>
+                        <dt>사용 가능 플랫폼</dt>
+                        <dd>{{platform}}</dd>
+                    </dl>
+                    {{/unless}} {{#if minSalePrice}}
+                    <dl>
+                        <dt>최소 기준금액</dt>
+                        <dd>{{limitSalePrice}}원 이상 구매 시 사용 가능</dd>
+                    </dl>
+                    {{/if}} {{#unless fixedAmt}}
+                    <dl>
+                        <dt>최대 할인금액</dt>
+                        <dd>최대 {{convertToKoreanCurrency maxDiscountAmt}}원 할인</dd>
+                    </dl>
+                    {{/unless}} {{#if availableCategories}}
+                    <dl>
+                        <dt>사용가능 카테고리</dt>
+                        {{#each availableCategories}}
+                        <dd>{{{this}}}</dd>
+                        {{/each}}
+                    </dl>
+                    {{/if}} {{#if availableProducts}}
+                    <dl>
+                        <dt>사용가능 상품</dt>
+                        <dd>{{{availableProducts}}}</dd>
+                    </dl>
+                    {{/if}} {{#if memberGradeNames}}
+                    <dl>
+                        <dt>사용가능 회원등급</dt>
+                        <dd>{{{memberGradeNames}}}</dd>
+                    </dl>
+                    {{/if}} {{#if unusableProduct}}
+                    <dl>
+                        <dt>사용불가 상품</dt>
+                        <dd>{{{unusableProduct}}}</dd>
+                    </dl>
+                    {{/if}} {{#if isLimit}}
+                    <dl>
+                        <dt>사용 시 혜택 제한</dt>
+                        {{#if skipsAccumulation}}
+                        <dd>적립금 적립 불가</dd>
+                        {{/if}} {{#unless cartCouponUsable}}
+                        <dd>{{limitCouponTypeLabel}} 쿠폰 사용 불가</dd>
+                        {{/unless}} {{#unless productCouponUsable}}
+                        <dd>{{limitCouponTypeLabel}} 쿠폰 사용 불가</dd>
+                        {{/unless}}
+                    </dl>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </coupon-condition>
+</div>
+<script src="/modals/coupon-condition.js"></script>

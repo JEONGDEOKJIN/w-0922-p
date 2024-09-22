@@ -1,0 +1,162 @@
+@charset "UTF-8";
+/*  기획전 상세 페이지 스타일 파일입니다. */
+.event-category-nav {
+  margin-inline: -20px;
+}
+.event-category-nav:has(.swiper-wrapper) {
+  padding: 12px 20px;
+  background-color: var(--gray100);
+}
+.event-category-nav .swiper-slide {
+  width: auto;
+}
+.event-category-nav__btn {
+  padding: 0.7142857143em 1.1428571429em;
+  border-radius: 28px;
+  border: 1px solid var(--gray300);
+  color: var(--gray600);
+}
+.event-category-nav__btn.is-active {
+  background-color: var(--color-base-black);
+  border-color: var(--color-base-black);
+  color: var(--color-base-white);
+}
+
+.event-detail button {
+  cursor: pointer;
+}
+.event-detail em {
+  font-weight: 700;
+}
+.event-detail__top img {
+  width: fit-content;
+}
+.event-detail .total-sort {
+  position: static;
+  padding: 20px 0;
+}
+.event-detail .total-sort__count {
+  width: 100%;
+}
+.event-detail .product-link {
+  text-decoration: unset;
+}
+.event-detail__nav {
+  position: sticky;
+  top: 70px;
+  z-index: 10;
+}
+.event-detail__coupon-button {
+  padding-block: 12px;
+}
+.event-detail__download {
+  background-size: 364px 335px;
+  background-position: -168px -111px;
+  width: 12px;
+  height: 12px;
+}
+.event-detail__list {
+  display: grid;
+  justify-content: space-between;
+}
+.event-detail__list .thumb-item {
+  width: auto;
+}
+.event-detail__list .thumb-item__info {
+  padding: 12px 0 20px;
+}
+.event-detail__list .thumb-item__info-name {
+  font-family: "Noto Sans KR";
+  font-weight: 500;
+}
+.event-detail__list .thumb-item__info .current-price em {
+  font-family: "Montserrat";
+}
+.event-detail__list .thumb-item__like-btn svg {
+  width: 40px;
+  height: 40px;
+}
+.event-detail__list .rate {
+  margin-right: 4px;
+}
+.event-detail__list--1row .thumb-item__overlay {
+  font-size: 20px;
+}
+.event-detail__list--1row .thumb-item .no-img {
+  background-size: 64px;
+}
+.event-detail__list--2row .thumb-item .rate {
+  display: block;
+}
+.event-detail__list--2row .thumb-item__like-btn svg {
+  right: 6px;
+  bottom: 6px;
+}
+.event-detail__list--3row .thumb-item__overlay, .event-detail__list--3row .thumb-item__status-label, .event-detail__list--3row .thumb-item__info-name, .event-detail__list--3row .thumb-item__info-price {
+  font-size: 12px;
+}
+.event-detail__list--3row .thumb-item .origin-price {
+  display: block;
+  margin-block: -4px 4px;
+}
+.event-detail__list--3row .thumb-item__like-btn svg {
+  width: 38px;
+  height: 38px;
+  right: 4px;
+  bottom: 4px;
+}
+.event-detail__list--3row .thumb-item__info-name {
+  font-size: 12px;
+}
+.event-detail__list--3row .thumb-item__info-price {
+  font-size: 12px;
+}
+.event-detail__list--4row .thumb-item__info-name, .event-detail__list--4row .thumb-item__info-price {
+  font-size: 10px;
+}
+.event-detail__list--4row .thumb-item__status-label {
+  padding: 2px 4px;
+  font-size: 10px;
+}
+.event-detail__list--4row .thumb-item__overlay {
+  font-size: 10px;
+}
+.event-detail__list--4row .thumb-item__like-btn svg {
+  width: 32px;
+  height: 32px;
+  right: 1px;
+  bottom: 1px;
+}
+.event-detail__list--4row .thumb-item .no-img {
+  background-size: 32px;
+}
+.event-detail__list--5row .thumb-item {
+  margin-block-end: 12px;
+}
+.event-detail__list--5row .thumb-item__overlay, .event-detail__list--5row .thumb-item__status-label, .event-detail__list--5row .thumb-item__info-name, .event-detail__list--5row .thumb-item__info-price {
+  font-size: 8px;
+}
+.event-detail__list--5row .thumb-item__like-btn svg {
+  width: 20px;
+  height: 20px;
+  right: 0px;
+  bottom: 1px;
+}
+.event-detail__list--5row .thumb-item__status-label {
+  padding: 2px 4px;
+}
+.event-detail__list--5row .no-img {
+  background-size: 32px;
+}
+.event-detail .thumb-item__like-btn svg {
+  fill: var(--color-base-white);
+}
+.event-detail .thumb-item__like-btn path {
+  stroke-width: 5;
+}
+.event-detail .thumb-item__like-btn:where(.is-active) svg {
+  fill: var(--color-point);
+}
+.event-detail .thumb-item__like-btn:where(.is-active) path {
+  stroke-width: 0;
+}

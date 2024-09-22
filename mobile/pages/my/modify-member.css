@@ -1,0 +1,166 @@
+@charset "UTF-8";
+/*  회원정보 수정 페이지 스타일 파일입니다. */
+.member-modification-name {
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--color-base-black);
+}
+.member-modification-name p {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-base-black);
+}
+.member-modification-name span {
+  font-weight: 400;
+  margin-left: 5px;
+}
+.member-modification-form {
+  padding-bottom: 35px;
+}
+.member-modification-form__certification {
+  position: relative;
+}
+.member-modification-form__certification .timer {
+  position: absolute;
+  font-size: 12px;
+  top: 42px;
+  right: 12px;
+}
+.member-modification-form__item {
+  margin-top: 20px;
+}
+.member-modification-form .description {
+  margin-top: 5px;
+  font-size: 12px;
+}
+.member-modification-form .description.invalid-alert {
+  color: var(--color-error);
+}
+.member-modification-form__input-wrap {
+  margin-top: 10px;
+}
+.member-modification-form__input-wrap button.certification-btn {
+  margin-top: 10px;
+  width: 100%;
+}
+.member-modification-form__input-wrap .email-input + .select {
+  margin-top: 10px;
+}
+.member-modification-form__input-wrap .extra-info-radio-group,
+.member-modification-form__input-wrap .extra-info-checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+.member-modification-form__certification-wrap {
+  margin-top: 10px;
+}
+.member-modification-form__radio-wrap {
+  margin-top: 10px;
+}
+.member-modification-form__radio-wrap .radio-group {
+  display: flex;
+  justify-content: flex-start;
+  align-items: left;
+  flex-direction: row;
+}
+.member-modification-form__radio-wrap .form-check {
+  margin: 10px auto 0 0;
+}
+.member-modification-form__select-wrap {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+.member-modification-form__select-wrap .select:not(:last-of-type) {
+  margin-right: 10px;
+}
+.member-modification-form .address-form {
+  width: auto;
+  height: auto;
+}
+.member-modification-form .address-form .address-form__zip-code {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+.member-modification-form .address-form .address-form__zip-code span {
+  flex: 2;
+}
+.member-modification-form .address-form .address-form__zip-code button {
+  margin: 0 0 10px 10px;
+  flex: 1;
+  height: 40px;
+}
+.member-modification-form__button-wrap {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 10px;
+}
+.member-modification-form__button-wrap button {
+  width: 100%;
+}
+.member-modification-form__agree-wrap--description {
+  display: flex;
+  justify-content: flex-start;
+  align-items: left;
+  flex-direction: row;
+  margin-top: 5px;
+  color: var(--gray500);
+}
+.member-modification-form__agree-wrap--description span {
+  margin: 2px 5px 0 0;
+}
+.member-modification-form__agree-list {
+  margin-top: 20px;
+}
+.member-modification-form__agree-list .form-check input {
+  flex: 0 0 auto;
+}
+.member-modification-form__agree-list .form-check__label {
+  font-size: 14px;
+}
+.member-modification-form__agree-list li {
+  margin-top: 5px;
+}
+.member-modification-form__checkbox--check-all {
+  padding: 10px 0 15px;
+  border-bottom: 1px solid var(--gray200);
+}
+.member-modification-form__checkbox--check-single {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+}
+.member-modification-form__checkbox--check-single .form-check.is-disabled .form-check__label {
+  color: var(--gray300);
+}
+.member-modification-form__checkbox--check-single button {
+  border: none;
+  gap: 0px;
+  padding: 0px;
+  background-color: var(--color-base-white);
+  color: var(--color-point);
+  -webkit-text-decoration: 1px underline var(--color-point);
+  text-decoration: 1px underline var(--color-point);
+}
+.member-modification-form__notice-list {
+  position: relative;
+  margin-top: 10px;
+}
+.member-modification-form__notice-list p {
+  padding-left: 20px;
+  color: var(--gray500);
+}
+.member-modification-form__notice-list p::before {
+  position: absolute;
+  left: 4px;
+  content: "-";
+}

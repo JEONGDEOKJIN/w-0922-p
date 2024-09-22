@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="/shopby-skin-pc.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/my/product-inquiry-list.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-pc.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+    <body>
+        <!-- 디자인팝업 -->
+        <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+        <!-- 상단 레이아웃 -->
+        <template class="shopby-header" shopby-partials="@partials/common-header.html" shopby-partials-js="@partials/common-header.js"></template>
+
+        <main class="l-my-page">
+            <section class="page-content-top">
+                <ol class="page-content-top__path page-content-top__location">
+                    <li><a href="/">HOME</a></li>
+                    &gt;
+                    <li><a href="/pages/my/my-page.html">마이페이지</a></li>
+                    &gt;
+                    <li>상품문의</li>
+                </ol>
+            </section>
+
+            <main class="my-page-box">
+                <template class="l-my-page-menu" shopby-partials="@partials/my-menu.html" shopby-menu-title="상품문의"></template>
+
+                <div class="right-box">
+                    <div class="right-box__container">
+                        <p class="right-box__head">
+                            <span class="font-noto right-box__title">상품문의 관리</span>
+                        </p>
+
+                        <search-field shopby-module-key="product-inquiry-list-search-field">
+                            <script type="text/x-handlebars-template">
+                                <span class='search-field'>
+                                    <span class='select select--md search-field__select-box'>
+                                        <select shopby-on:change='CHANGE_SEARCH_TYPE'>
+                                            <option value='CONTENT'>내용</option>
+                                            <option value='PRODUCT_NAME'>상품명</option>
+                                        </select>
+                                    </span>
+                                    <span class='search-field__input'>
+                                        <span class='input-field input-field--md'>
+                                            <input
+                                                type='text'
+                                                value='{{keyword}}'
+                                                placeholder='검색어를 입력해주세요.'
+                                                shopby-on:change='CHANGE_SEARCH_FIELD_KEYWORD'
+                                                shopby-on:keydown='KEYPRESS_SEARCH_FIELD_KEYWORD'
+                                            />
+                                        </span>
+                                        <button type='button' class='search-field__search-btn' shopby-on:click='SEARCH'>
+                                            <span class='ico ico--magnet-black-24'></span>
+                                        </button>
+                                    </span>
+                                </span>
+                            </script>
+                        </search-field>
+
+                        <summary class="l-title l-title__align-end right-box__no-end-line">
+                            <product-inquiry-total-count>
+                                <script type="text/x-handlebars-template">
+                                    <span class='my-page__count'>
+                                        총
+                                        <span class='highlight' slot='totalCount'>
+                                            {{totalCount}}
+                                        </span>
+                                        건
+                                    </span>
+                                </script>
+                            </product-inquiry-total-count>
+                            <button
+                                type="button"
+                                class="btn btn--fill-point btn--sm"
+                                shopby-product-register-btn="shopby-product-register-btn"
+                                shopby-action="REGISTER"
+                            >
+                                상품문의 등록
+                            </button>
+                        </summary>
+
+                        <product-inquiry-list
+                            default-page-size="20"
+                            page-size:query="pageSize"
+                            page-number:query="pageNumber"
+                            search-type:query="searchType"
+                            search-keyword:query="searchKeyword"
+                            uses-pagination
+                        >
+                            <script type="text/x-handlebars-template">
+                                <div class="product-inquiry-list">
+                                    <div class='right-box__table' slot='items'>
+                                        <table class='l-table'>
+                                            <colgroup>
+                                                <!-- 번호 -->
+                                                <col width='80px' />
+                                                <!--문의유형 -->
+                                                <col width='120px' />
+                                                <!-- 제목-->
+                                                <col />
+                                                <!-- 관리 -->
+                                                <col width='200px' />
+                                            </colgroup>
+                                            <thead>
+                                                <tr>
+                                                    <th>번호</th>
+                                                    <th>문의유형</th>
+                                                    <th>제목</th>
+                                                    <th>관리</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {{#each items}}
+                                                <tr>
+                                                    <td>{{listIndex @index ../pageNumber ../pageSize}}</td>
+                                                    <td>
+                                                        <p class="inquiry-item__type">{{productInquiryDisplayType}}</p>
+                                                    </td>
+                                                    <td class="td_left">
+                                                            <a class="inquiry-item__product-info" href="/pages/my/product-inquiry-detail.html?productNo={{productNo}}&inquiryNo={{inquiryNo}}&boardIdx={{listIndex @index ../pageNumber ../pageSize}}">
+                                                                <div class='thumb-item__media'>
+                                                                    <span class='thumb-item__img'>
+                                                                        {{img imageUrl 80 80 productName 'middle' ''}}
+                                                                    </span>
+                                                                </div>
+                                                                <div class="inquiry-item__product-item-info">
+                                                                    <span class='font-noto inquiry-item__title'>
+                                                                        {{#if isSecreted}}
+                                                                            <span class='ico ico--lock-black-16'></span>
+                                                                        {{/if}}
+                                                                        {{title}}
+                                                                    </span>
+                                                                    <span class='font-noto inquiry-item__description'>
+                                                                        {{productName}}
+                                                                    </span>
+                                                                </div>
+                                                            </a>
+                                                     </td>
+                                                     <td>
+                                                        <div class="inquiry-item__top-writer">
+                                                            <span class='font-noto bold'>{{registerName}}</span>
+                                                            <span class='inquiry-item__date'>{{formatUseByDate registerYmdt}}</span>
+                                                        </div>
+                                                        {{#if hasBeenReplied}}
+                                                            <span class='badge badge--line-dark inquiry-item__reply-status'>답변완료</span>
+                                                        {{else}}
+                                                            <span class='badge badge--line-point inquiry-item__reply-status'>답변대기</span>
+                                                        {{/if}}
+                                                    </td>
+                                                </tr>
+                                                {{/each}}
+                                            </tbody>
+                                       </table>
+                                       <div slot="totalCount">
+                                            {{#ifEq totalCount 0 }}
+                                            <div slot="isLoading">
+                                                {{#if isLoading}}
+                                                <div class="loader loader--lg loader--full">
+                                                        <span class="spinner"></span>
+                                                </div>
+                                                {{else}}
+                                                <div class='notice empty-list'>
+                                                    <div class='notice notice--full'>
+                                                        <span class='sprite-image notice--warning'></span>
+                                                        <em class='notice__description--center'>
+                                                            게시글이 존재하지 않습니다.
+                                                        </em>
+                                                    </div>
+                                                </div>
+                                                {{/if}}
+                                            </div>
+                                            {{/ifEq}}
+                                        </div>
+                                    </div>
+                                    <div slot="totalCount">
+                                        {{#ifGt totalCount 0 }}
+                                        <div class="pagination" slot="pagination">
+                                            <a href="?{{pagination.firstPage}}">
+                                                <button class="sprite-image pagination__btn pagination__btn--double-lt">
+                                                </button>
+                                            </a>
+                                            <a href="?{{pagination.prevPage}}">
+                                                <button class="sprite-image pagination__btn pagination__btn--lt">
+                                                </button>
+                                            </a>
+                                            {{#each pagination.pages}}
+                                            <a class="pagination__link {{#if isCurrentPage}}is-current{{/if}}" href="?{{param}}">{{page}}</a>
+                                            {{/each}}
+                                            <a href="?{{pagination.nextPage}}">
+                                                <button class="sprite-image pagination__btn pagination__btn--rt">
+                                                </button>
+                                            </a>
+                                            <a href="?{{pagination.lastPage}}">
+                                                <button class="sprite-image pagination__btn pagination__btn--double-rt">
+                                                </button>
+                                            </a>
+                                        </div>
+                                        {{/ifGt}}
+                                    </div>
+                                </div>
+                            </script>
+                        </product-inquiry-list>
+                    </div>
+                </div>
+            </main>
+        </main>
+
+        <layer-modal-area type="title" name="product-inquiry-form" src="@modals/product-inquiry-form.html"></layer-modal-area>
+
+        <!-- 하단 레이아웃 -->
+        <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js"></template>
+
+        <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+        <template shopby-partials="@partials/modal.html"></template>
+
+        <!-- 퀵메뉴 (최상단 이동 + 최근 본 상품) -->
+        <template shopby-partials="@partials/quick-menu.html"></template>
+        <!-- 최근 본 상품(오프캔버스) -->
+        <template shopby-partials="@partials/recent-product.html"></template>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/pages/my/product-inquiry-list.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/libs/naver-marketing-config.js"></script>
+    </body>
+</html>

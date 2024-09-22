@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <!-- A2HS -->
+        <link rel="manifest" shopby-manifest-placeholder href="/manifest.json" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+
+        <link rel="apple-touch-icon" href="https://rlyfaazj0.toastcdn.net/20211220/141125.985487000/app_icon(144).png" />
+        <!-- A2HS -->
+
+        <link rel="stylesheet" href="/shopby-skin-mobile.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/my/previous-order-detail.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-mobile.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+    <body>
+        <div shopby-skin-container>
+            <!-- 디자인팝업 -->
+            <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+            <!-- 상단 레이아웃 -->
+            <template
+                class="l-header"
+                shopby-partials="@partials/common-header.html"
+                shopby-partials-js="@partials/common-header.js"
+                shopby-sub-title="이전주문 상세"
+                shopby-using-button="hamburger,back"
+                shopby-visible-logo="true"
+            ></template>
+
+            <main class="l-content previous-order-detail" shopby-helper-key="previous-order-detail">
+                <!-- 상품 영역 -->
+                <product-information order-no:query="orderNo">
+                    <script type="text/x-handlebars-template">
+                        <section class='previous-order-detail__product-info'>
+                            <p class='l-title l-title--sm'>
+                                <span slot='orderYmdt'><em class='font-montserrat'>{{formatUseByDate orderYmdt}}</em></span>
+                                <span class='previous-order-detail__order-no font-montserrat' slot='orderNo'>{{orderNo}}</span>
+                            </p>
+
+                            <ul class='previous-order-detail__products' slot='products'>
+                                {{#if isLoading}}
+                                    <li class='loader loader--lg'>
+                                        <span class='spinner'></span>
+                                    </li>
+                                {{/if}}
+                                {{#each products}}
+                                    <li class='l-panel previous-order-detail__product'>
+                                        <p class='previous-order-detail__product-name'>{{{productName}}}</p>
+
+                                        <span class='previous-order-detail__price'>
+                                            <span>수량<em class='font-montserrat'>{{convertToKoreanCurrency orderCnt}}</em></span>
+                                            <span>상품합계<em class='font-montserrat'>{{convertToKoreanCurrency salePrice}}</em>원</span>
+                                            <span>주문금액<em class='font-montserrat'>{{convertToKoreanCurrency purchasePrice}}</em>원</span>
+                                        </span>
+
+                                        <span class='highlight'>{{orderStatusLabel orderStatusType}}</span>
+
+                                    </li>
+                                {{/each}}
+                            </ul>
+                        </section>
+                    </script>
+                </product-information>
+                <!-- 상품 영역 -->
+
+                <!-- 주문자 정보 -->
+                <orderer-information>
+                    <script type="text/x-handlebars-template">
+                        <section>
+                            <details class='accordion' open>
+                                <summary class='accordion__title'>주문자 정보</summary>
+
+                                <dl class='accordion__contents' slot='orderer'>
+                                    {{#with orderer}}
+                                        <dt>주문자명</dt>
+                                        <dd>{{ordererName}}</dd>
+                                        <dt>이메일</dt>
+                                        <dd class='font-montserrat'>{{safeString ordererEmail true}}</dd>
+                                        <dt>휴대폰 번호</dt>
+                                        <dd class='font-montserrat'>{{safeString ordererMobileNumber true}}</dd>
+                                        <dt>전화번호</dt>
+                                        <dd class='font-montserrat'>{{safeString ordererPhoneNumber true}}</dd>
+                                        <dt>주문 메모</dt>
+                                        <dd>{{safeString orderMemo true}}</dd>
+                                    {{/with}}
+                                </dl>
+                            </details>
+                        </section>
+                    </script>
+                </orderer-information>
+                <!-- 주문자 정보 -->
+
+                <!-- 배송지 -->
+                <shipping-information>
+                    <script type="text/x-handlebars-template">
+                        <section>
+                            <details class='accordion' open>
+                                <summary class='accordion__title'>배송지</summary>
+
+                                {{#each receiver}}
+                                    <dl class='accordion__contents'>
+                                        <dt>받는 사람</dt>
+                                        <dd>{{safeString receiverName true}}</dd>
+                                        <dt>주소</dt>
+                                        <dd>
+                                            {{#empty receiverZipCd receiverAddress receiverDetailAddress}}
+                                                -
+                                            {{else}}
+                                                {{#if receiverZipCd}}<span
+                                                        class='font-montserrat'
+                                                    >({{receiverZipCd}})</span>&nbsp;{{/if}}{{receiverAddress}}&nbsp;{{receiverDetailAddress}}
+                                            {{/empty}}
+                                        </dd>
+                                        <dt>휴대폰 번호</dt>
+                                        <dd class='font-montserrat'>{{safeString receiverMobileNumber true}}</dd>
+                                        <dt>전화번호</dt>
+                                        <dd class='font-montserrat'>{{safeString receiverPhoneNumber true}}</dd>
+                                        <dt>배송 메모</dt>
+                                        <dd>{{safeString deliveryMemo true}}</dd>
+                                    </dl>
+                                {{/each}}
+
+                            </details>
+                        </section>
+                    </script>
+                </shipping-information>
+                <!-- 배송지 -->
+
+                <!-- 결제정보 -->
+                <payment-information>
+                    <script type="text/x-handlebars-template">
+                        <section class='previous-order-detail__payment'>
+                            <details class='accordion' open>
+                                <summary class='accordion__title'>결제정보</summary>
+                                <dl class='accordion__contents'>
+                                    <dt>결제 수단</dt>
+                                    <dd>{{safeString paymentMethod.payTypeLabel true}}</dd>
+
+                                    <dt>상품 금액 합계</dt>
+                                    <dd><em class='font-montserrat'>{{convertToKoreanCurrency payment.standardAmt}}</em>원</dd>
+
+                                    <dt>배송비 합계</dt>
+                                    <dd><em class='font-montserrat'>+&nbsp;&nbsp;{{convertToKoreanCurrency payment.deliveryAmt}}</em>원</dd>
+
+                                    <dt>할인금액 합계</dt>
+                                    <dd><em class='font-montserrat'>-&nbsp;&nbsp;{{convertToKoreanCurrency payment.discountAmt}}</em>원</dd>
+
+                                    <dt>적립금 사용</dt>
+                                    <dd><em class='font-montserrat'>-&nbsp;&nbsp;{{convertToKoreanCurrency payment.subPayAmt}}</em>원</dd>
+
+                                    <dt>최종 결제 금액</dt>
+                                    <dd><em class='highlight font-montserrat'>{{convertToKoreanCurrency payment.payAmt}}</em>원</dd>
+                                </dl>
+                            </details>
+                        </section>
+                    </script>
+                </payment-information>
+                <!-- 결제정보 -->
+
+                <!-- 환불 정보 -->
+                <claim-information>
+                    <script type="text/x-handlebars-template">
+                        <section>
+                            <div slot='refund'>
+                                {{#with refund}}
+                                    <details class='accordion' open>
+                                        <summary class='accordion__title'>환불 정보</summary>
+                                        <dl class='accordion__contents'>
+                                            <dt>환불 금액</dt>
+                                            <dd class='font-montserrat'>{{convertToKoreanCurrency refundAmt}}원</dd>
+                                            <dt>환불 수단</dt>
+                                            <dd>{{refundTypeLabel}} {{#with refundBankAccount}}- {{bank}} / {{account}} / {{depositorName}}{{/with}}</dd>
+                                        </dl>
+                                    </details>
+                                {{/with}}
+                            </div>
+                        </section>
+                    </script>
+                </claim-information>
+                <!-- 환불 정보 -->
+
+                <button type="button" class="btn btn--fill-dark btn--lg-wide" shopby-action="GO_BACK">목록보기</button>
+            </main>
+
+            <!-- 하단 레이아웃 -->
+            <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js"></template>
+        </div>
+        <!-- 오프캔버스 -->
+        <template shopby-partials="@partials/slide-menu.html" shopby-partials-js="@partials/slide-menu.js"></template>
+
+        <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+        <template shopby-partials="@partials/modal.html"></template>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/pages/my/previous-order-detail.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/libs/naver-marketing-config.js"></script>
+    </body>
+</html>

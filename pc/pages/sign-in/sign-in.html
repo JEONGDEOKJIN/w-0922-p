@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="/shopby-skin-pc.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/sign-in/sign-in.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-pc.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+    <body>
+        <!-- 디자인팝업 -->
+        <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+        <!-- 상단 레이아웃 -->
+        <template class="shopby-header" shopby-partials="@partials/common-header.html" shopby-partials-js="@partials/common-header.js"></template>
+
+        <main class="l-page sign-in">
+            <section class="page-content-top">
+                <ol class="page-content-top__path page-content-top__location">
+                    <li><a href="/">HOME</a></li>
+                    &gt;
+                    <li>로그인</li>
+                </ol>
+            </section>
+            <section shopby-helper-key="sign-in" class="sign-in-form">
+                <p class="normal-sign-in__title">로그인</p>
+                <template shopby-partials="@partials/sign-in-form.html" shopby-partials-js="@partials/sign-in-form.js"></template>
+                <article class="guest-order-form">
+                    <guest-order>
+                        <script type="text/x-handlebars-template">
+                            <div>
+                                <div slot='orderSheetNo'>
+                                    {{#ifNe orderSheetNo ""}}
+                                        <a class='guest-order-form__link btn btn--line-dark btn--lg'  href='/pages/order/order-sheet-form.html?ordersheetNo={{orderSheetNo}}'>
+                                            비회원 주문하기
+                                        </a>
+                                    {{else}}
+                                        <div slot='orderConfig'>
+                                            <p class='guest-order-form__title'>
+                                                비회원 주문조회 하기
+                                            </p>
+
+                                            {{#if orderConfig.includesPreviousOrder}}
+                                                    <ul class='tab tab--full' shopby-on:click='HANDLE_PREVIOUS_ORDER_TAB_TOGGLE' slot="currentTab">
+                                                        <li class="tab__item" shopby-tab='CURRENT_ORDER'>
+                                                            <button type='button' class="tab__btn {{#ifEq currentTab 'CURRENT_ORDER'}}is-active{{/ifEq}}">{{formatUseByDate orderConfig.mallTransferYmdt}}<br />이후 주문</button>
+                                                        </li>
+                                                        <li class="tab__item" shopby-tab='PREVIOUS_ORDER'>
+                                                            <button type='button' class="tab__btn {{#ifEq currentTab 'PREVIOUS_ORDER'}}is-active{{/ifEq}}">{{formatUseByDate orderConfig.mallTransferYmdt}}<br />이전 주문</button>
+                                                        </li>
+                                                    </ul>
+                                            {{/if}}
+                                            <div class='guest-order-form__input-wrap'>
+                                                <span class='input-field input-field--md'>
+                                                    <input
+                                                        autocomplete='new-password'
+                                                        placeholder='주문번호 입력'
+                                                        slot='guestOrderNo'
+                                                        value='{{guestOrderNo}}'
+                                                        shopby-focus-field='guestOrderNo'
+                                                        shopby-on:change='CHANGE_GUEST_ORDER_NO'
+                                                        shopby-on:input='INPUT_GUEST_ORDER_NO_ONLY_NUMBER'
+                                                    />
+                                                </span>
+                                                <span class='input-field input-field--md'>
+                                                    <input
+                                                        autocomplete='new-password'
+                                                        type='password'
+                                                        placeholder='주문번호 비밀번호 입력'
+                                                        slot='guestOrderPassword'
+                                                        value='{{guestOrderPassword}}'
+                                                        shopby-focus-field='guestOrderPassword'
+                                                        shopby-on:change='CHANGE_GUEST_ORDER_PASSWORD'
+                                                        shopby-action='GUEST_ORDER_PASSWORD_KEYPRESS'
+                                                    />
+                                                </span>
+                                            </div>
+                                            <div class="guest-order-form__btn-wrap">
+                                                <button class="btn btn--fill-point btn--md" shopby-action='SUBMIT_GUEST_ORDER' type='button' shopby-includes-previous-order="{{orderConfig.includesPreviousOrder}}" shopby-current-tab="{{currentTab}}">
+                                                    주문조회
+                                                </button>
+                                            </div>
+                                        </div>
+                                    {{/ifNe}}
+                                </div>
+                            </div>
+                        </script>
+                    </guest-order>
+                </article>
+                <template shopby-partials="@partials/open-id-sign-in.html" shopby-partials-js="@partials/open-id-sign-in.js"></template>
+
+                <layer-modal-area type="title" title="휴면회원 로그인 / 휴면해제" name="dormant-sign-in" src="@modals/dormant-sign-in.html"></layer-modal-area>
+            </section>
+        </main>
+        <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+        <template shopby-partials="@partials/modal.html"></template>
+        <!-- 퀵메뉴 (최상단 이동 + 최근 본 상품) -->
+        <template shopby-partials="@partials/quick-menu.html"></template>
+        <!-- 최근 본 상품(오프캔버스) -->
+        <template shopby-partials="@partials/recent-product.html"></template>
+        <!-- 하단 레이아웃 -->
+        <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js"></template>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/pages/sign-in/sign-in.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/libs/naver-marketing-config.js"></script>
+    </body>
+</html>

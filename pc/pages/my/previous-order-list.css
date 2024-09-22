@@ -1,0 +1,45 @@
+@charset "UTF-8";
+/*  이전주문 목록 페이지 스타일 파일입니다. */
+.previous-order-list .previous-order {
+  color: var(--gray600);
+}
+.previous-order-list .previous-order .order-date,
+.previous-order-list .previous-order .order-number,
+.previous-order-list .previous-order .product-name {
+  display: block;
+}
+.previous-order-list .previous-order .order-date {
+  font-size: 16px;
+  font-family: "Montserrat";
+}
+.previous-order-list .previous-order .order-number {
+  font-family: "Montserrat";
+  font-size: 14px;
+  padding-block: 6px;
+}
+.previous-order-list .previous-order .order-number a {
+  text-decoration: unset;
+  color: var(--gray600);
+  padding-block-end: 1px;
+  border-bottom: 1px solid var(--gray600);
+  font-family: "Montserrat";
+}
+.previous-order-list .previous-order .order-number a:hover {
+  color: var(--color-point);
+  border-color: var(--color-point);
+}
+.previous-order-list .previous-order .product-name {
+  text-align: left;
+  color: var(--color-base-black);
+  font-weight: 700;
+  padding-inline: 12px;
+}
+.previous-order-list .previous-order .currency {
+  font-size: 14px;
+  font-weight: 18px;
+}
+.previous-order-list .previous-order .currency em {
+  font-style: unset;
+  font-family: "Montserrat";
+  font-size: 16px;
+}

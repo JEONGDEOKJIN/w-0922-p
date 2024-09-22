@@ -1,0 +1,31 @@
+<article>
+    <open-id-sign-in>
+        <script type="text/x-handlebars-template">
+            <div>
+                <div slot='usableProvider'>
+                    {{#if usableProvider}}
+                        <div class='open-id-sign-in'>
+                            <div>
+                                <p class='open-id-sign-in__title'>
+                                    <span>
+                                        간편로그인
+                                    </span>
+                                </p>
+                                <ul class='open-id-sign-in__list'>
+                                    {{#each usableProvider}}
+                                        <li class='open-id-sign-in__item type-{{this.provider}}'>
+                                            <button class='btn btn--lg open-id-sign-in__link' shopby-provider='{{this.provider}}' shopby-action='OPEN_ID_CLICK'>
+                                                <span class='ico ico--{{this.provider}}-28'></span>
+                                                <span><strong>{{upperCase this.label}}</strong> 아이디로 로그인</span>
+                                            </button>
+                                        </li>
+                                    {{/each}}
+                                </ul>
+                            </div>
+                        </div>
+                    {{/if}}
+                </div>
+            </div>
+        </script>
+    </open-id-sign-in>
+</article>

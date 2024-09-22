@@ -1,0 +1,98 @@
+@charset "UTF-8";
+/*  이전주문 상세 페이지 스타일 파일입니다. */
+.previous-order-detail a {
+  text-decoration: unset;
+  color: unset;
+}
+.previous-order-detail em {
+  font-style: unset;
+  font-weight: 700;
+}
+.previous-order-detail textarea {
+  font-size: 16px;
+}
+.previous-order-detail .right-box__container {
+  gap: 0px;
+}
+.previous-order-detail .right-box__head {
+  padding: 0;
+  margin-block: 40px 20px;
+  border-bottom: 2px solid var(--color-base-black);
+}
+.previous-order-detail .right-box__head:first-of-type {
+  margin-block-end: 0px;
+}
+.previous-order-detail .right-box__title {
+  font-size: 20px;
+}
+.previous-order-detail .right-box__table {
+  border-top: none;
+  color: var(--gray600);
+}
+.previous-order-detail .right-box__table .l-table th {
+  font-weight: 500;
+}
+.previous-order-detail .right-box__table .l-table td {
+  padding-inline: 20px;
+}
+.previous-order-detail .right-box dl {
+  display: grid;
+  grid-template-columns: 0.5fr 2fr;
+}
+.previous-order-detail .right-box dl dt,
+.previous-order-detail .right-box dl dd {
+  padding: 20px;
+  border-bottom: 1px solid var(--gray200);
+}
+.previous-order-detail .right-box dl dt {
+  border-right: 1px solid var(--gray200);
+}
+.previous-order-detail .order-date {
+  display: block;
+  color: var(--color-base-black);
+  font-family: "Montserrat";
+}
+.previous-order-detail .order-number {
+  display: inline-block;
+  padding-block: 8px 1px;
+  font-family: "Montserrat";
+  font-size: 14px;
+  color: var(--color-base-black);
+}
+.previous-order-detail .product-name {
+  display: block;
+  text-align: left;
+  font-weight: 700;
+}
+.previous-order-detail .currency {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-direction: row;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+}
+.previous-order-detail .currency em {
+  padding-block-start: 4px;
+  font-family: "Montserrat";
+  font-weight: 700;
+  font-size: 16px;
+}
+.previous-order-detail .l-table .currency {
+  justify-content: center;
+}
+.previous-order-detail .final-price {
+  border-top: 2px solid var(--color-base-black);
+}
+.previous-order-detail .go-back-link {
+  margin: 80px;
+  color: var(--color-base-white);
+  width: 100%;
+  text-align: center;
+}
+.previous-order-detail .go-back-link .btn {
+  width: 384px;
+  height: 64px;
+  padding: 10px 20px;
+}

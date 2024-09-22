@@ -1,0 +1,29 @@
+@charset "UTF-8";
+/*  취소/반품/교환 내역 페이지 스타일 파일입니다. */
+.claim-list em {
+  font-style: normal;
+}
+.claim-list__order-no {
+  font-size: 14px;
+}
+.claim-list .product-option-info {
+  padding-left: 14px;
+}
+.claim-list .currency {
+  font-size: 14px;
+  vertical-align: baseline;
+}
+.claim-list .tab {
+  width: 100%;
+}
+.claim-list .tab .tab__btn {
+  width: 25%;
+  text-align: center;
+}
+.claim-list .date-selector {
+  margin-top: -20px;
+}
+.claim-list .notice.empty-list {
+  padding: 40px 0;
+  border-bottom: 1px solid var(--gray200);
+}

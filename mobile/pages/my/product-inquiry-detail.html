@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <!-- A2HS -->
+        <link rel="manifest" shopby-manifest-placeholder href="/manifest.json" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+
+        <link rel="apple-touch-icon" href="https://rlyfaazj0.toastcdn.net/20211220/141125.985487000/app_icon(144).png" />
+        <!-- A2HS -->
+
+        <link rel="stylesheet" href="/shopby-skin-mobile.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/my/product-inquiry-detail.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-mobile.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+    <body>
+        <div shopby-skin-container>
+            <!-- 디자인팝업 -->
+            <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+            <!-- 상단 레이아웃 -->
+            <template
+                class="l-header"
+                shopby-partials="@partials/common-header.html"
+                shopby-partials-js="@partials/common-header.js"
+                shopby-sub-title="상품문의 상세"
+                shopby-using-button="hamburger,back"
+                shopby-visible-logo="false"
+            ></template>
+
+            <main class="l-content">
+                <product-inquiry-detail product-no:query="productNo" inquiry-no:query="inquiryNo">
+                    <script type="text/x-handlebars-template">
+                        <div class='product-inquiry-detail'>
+                            <div class='inquiry-item'>
+                                <div class='inquiry-item__top'>
+                                    {{#if replied}}
+                                        <span class='badge badge--line-dark'>답변완료</span>
+                                    {{else}}
+                                        <span class='badge badge--line-point'>답변대기</span>
+                                    {{/if}}
+                                    <div class='inquiry-item__top-writer'>
+                                        <span class='font-noto'>{{registerName}}</span>
+                                        <span class='inquiry-item__top-register-date'>{{formatUseByDate registerYmdt}}</span>
+                                    </div>
+                                </div>
+                                <div class='inquiry-item__bottom'>
+                                    {{img imageUrl 80 80 productName '' ''}}
+                                    <div class='inquiry-item__inquiry-info'>
+                                        <p class='inquiry-item__inquiry-type'>문의유형 - {{productInquiryDisplayType}}</p>
+                                        <p>
+                                            <span class='ico ico--lock-black-16'></span>
+                                            <span class='inquiry-item__inquiry-title'>{{{title}}}</span>
+                                        </p>
+                                        <p class='inquiry-item__inquiry-product-name'>{{productName}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='inquiry-item__reply'>
+                                <strong class='reply-icon reply-icon--question'>Q</strong>
+                                <div class='question-content'>
+                                    <p>{{{convertContentLineBreak content}}}</p>
+                                </div>
+                            </div>
+                            {{#if replied}}
+                                {{#each answers}}
+                                    <div class='inquiry-item__reply'>
+                                        <strong class='reply-icon reply-icon--answer'>A</strong>
+                                        <div class='inquiry-item__top-writer'>
+                                            <span class='font-noto bold'>운영자 </span>
+                                            <span class='inquiry-item__date'>{{formatUseByDate registerYmdt}}</span>
+                                            <div class='reply-content'>
+                                                {{{content}}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {{/each}}
+                            {{/if}}
+
+                            <div class='product-inquiry-detail__detail-btn-group' shopby-product-no='{{productNo}}' shopby-inquiry-no='{{inquiryNo}}'>
+                                <div>
+                                    <button class='btn btn--line-gray btn--md product-inquiry-detail__modify-btn' shopby-action='MODIFY'>수정</button>
+                                    {{#unless replied}}
+                                        <button class='btn btn--line-gray btn--md product-inquiry-detail__modify-btn' shopby-action='DELETE'>삭제</button>
+                                    {{/unless}}
+                                </div>
+                                <button class='btn btn--fill-dark btn--lg product-inquiry-detail__list-btn' shopby-action='LIST'>목록</button>
+                            </div>
+                        </div>
+                    </script>
+                </product-inquiry-detail>
+            </main>
+
+            <layer-modal-area type="title" name="product-inquiry-form" src="@modals/product-inquiry-form.html"></layer-modal-area>
+
+            <!-- 하단 레이아웃 -->
+            <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js"></template>
+
+            <!-- 하단바 -->
+            <template shopby-partials="@partials/common-nav.html"></template>
+        </div>
+        <!-- 오프캔버스 -->
+        <template shopby-partials="@partials/slide-menu.html" shopby-partials-js="@partials/slide-menu.js"></template>
+        <!-- 최근 검색 -->
+        <layer-modal-area type="custom" name="search-keyword" src="@modals/search-keyword.html"></layer-modal-area>
+        <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+        <template shopby-partials="@partials/modal.html"></template>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/pages/my/product-inquiry-detail.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/libs/naver-marketing-config.js"></script>
+    </body>
+</html>

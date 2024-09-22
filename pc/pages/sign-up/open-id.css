@@ -1,0 +1,84 @@
+@charset "UTF-8";
+/*  간편로그인 회원강입 페이지 스타일 파일입니다. */
+.open-id-agreement-form {
+  width: 588px;
+  padding: 20px;
+  margin: 0px auto;
+}
+.open-id-agreement-form__description {
+  font-size: 1.4285714286em;
+  text-align: center;
+  margin-top: 20px;
+}
+.open-id-agreement-form__callout {
+  margin-top: 20px;
+  background-color: var(--gray100);
+  padding: 25px;
+}
+.open-id-agreement-form__callout div {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+}
+.open-id-agreement-form__callout div h4 {
+  width: 5.7142857143rem;
+}
+.open-id-agreement-form__title {
+  margin-top: 20px;
+  font-size: 1.1428571429em;
+}
+.open-id-agreement-form__checkbox--check-all {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  font-size: 16px;
+  height: 60px;
+  border: 1px solid var(--gray300);
+}
+.open-id-agreement-form__agree-list {
+  margin-top: 20px;
+}
+.open-id-agreement-form__agree-list li:not(:first-child) {
+  margin-top: 5px;
+}
+.open-id-agreement-form__agree-list-margin li {
+  margin-top: 5px;
+}
+.open-id-agreement-form__checkbox--check-single {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+}
+.open-id-agreement-form__checkbox--check-single .form-check input {
+  flex: 0 0 auto;
+}
+.open-id-agreement-form__checkbox--check-single .form-check__label {
+  font-size: 14px;
+}
+.open-id-agreement-form__checkbox--check-single button {
+  border: none;
+  gap: 0px;
+  padding: 0px;
+  margin: 0 5px 0 0;
+  min-width: 0;
+  font-size: 14px;
+  font-weight: 400;
+  background-color: transparent;
+  color: var(--color-point);
+  text-decoration: underline;
+}
+.open-id-agreement-form__confirm {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 10px;
+}
+.open-id-agreement-form__confirm button {
+  width: 100%;
+}

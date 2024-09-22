@@ -1,0 +1,22 @@
+<div shopby-layer-modal-helper-key="payment-progress-layer-modal">
+    <div class="order-sheet-progress-modal">
+        <div class="order-sheet-progress-modal__content">
+            <span class="sprite-image notice--waiting"></span>
+            <h3>잠시 후 결제창이 자동으로 열리게 됩니다.</h3>
+            <p>결제창이 열리지 않으면 아래 결제창 열기를 눌러주세요.</p>
+
+            <button
+                type="button"
+                class="btn btn--fill-point btn--lg order-sheet-progress-modal__open-payment-window-btn"
+                shopby-action="CLICK_OPEN_PAYMENT_WINDOW"
+            >
+                결제창 열기
+            </button>
+        </div>
+        <div class="order-sheet-progress-modal__bottom">
+            <button type="button" class="btn btn--line-dark btn--lg" shopby-action="CLICK_CANCEL_PAYMENT">결제 취소</button>
+            <button type="button" class="btn btn--line-dark btn--lg" shopby-action="CLICK_GO_CART">장바구니 가기</button>
+        </div>
+    </div>
+</div>
+<script src="/modals/payment-progress.js"></script>

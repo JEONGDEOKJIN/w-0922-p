@@ -1,0 +1,42 @@
+@charset "UTF-8";
+/*  주문/배송 상세 페이지 스타일 파일입니다. */
+.order-detail em {
+  font-style: normal;
+}
+.order-detail .my-page-box .right-box__container {
+  gap: 0;
+}
+.order-detail .l-panel {
+  width: 100%;
+}
+.order-detail__order-no {
+  font-size: 12px;
+}
+.order-detail__mileage {
+  font-size: 12px;
+  padding-left: 10px;
+  vertical-align: baseline;
+}
+.order-detail__mileage em,
+.order-detail__mileage span {
+  vertical-align: baseline;
+}
+.order-detail__deposit-info {
+  color: var(--gray500);
+}
+.order-detail__product-option-info {
+  display: flex;
+  justify-content: center;
+  align-items: normal;
+  flex-direction: column;
+  gap: 15px;
+}
+.order-detail .next-action-btns {
+  padding-left: 8px;
+}
+.order-detail .l-btn-group {
+  margin-bottom: 278px;
+}
+.order-detail .l-btn-group .btn {
+  width: 384px;
+}

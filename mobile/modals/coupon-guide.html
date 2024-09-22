@@ -1,0 +1,29 @@
+<div shopby-layer-modal-helper-key="coupon-guide">
+    <coupon-guide>
+        <div class="discount-price-information">
+            <ul class="discount-price-information__description">
+                <!-- 사용 종료일이 있는 경우 -->
+                <li slot="useEndYmdt">{{#if useEndYmdt}}사용기간: {{useEndYmdt}}까지 사용가능{{/if}}</li>
+
+                <li slot="useDays">
+                    {{#ifGt useDays -1}}
+                    <!-- 월말까지 -->
+                    {{#ifEq useDays 31}}사용기간: 말일까지 사용가능{{/ifEq}}
+
+                    <!-- 발급일 기준 -->
+                    {{#ifNe useDays 31}}사용기간: 발급일 +{{useDays}}까지 사용가능{{/ifNe}}
+
+                    <!-- END -->
+                    {{/ifGt}}
+                </li>
+                <li slot="platforms">
+                    사용 플랫폼: {{#each platforms}}{{#ifNe @index 0}},&nbsp;{{/ifNe}}{{#ifEq this 'PC'}}PC{{/ifEq}}{{#ifEq this 'MOBILE_WEB'}}모바일
+                    웹{{/ifEq}}{{#ifEq this 'MOBILE_APP'}}모바일 앱{{/ifEq}}{{/each}}
+                </li>
+            </ul>
+
+            <div class="guide__sub-description">본 이벤트는 예고 없이 변경되거나, 조기 종료 될 수 있습니다.</div>
+        </div>
+    </coupon-guide>
+</div>
+<script src="/modals/coupon-guide.js"></script>

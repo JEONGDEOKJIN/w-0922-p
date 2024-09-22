@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="/shopby-skin-pc.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/my/withdrawal.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-pc.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+    <body>
+        <!-- 디자인팝업 -->
+        <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+        <!-- 상단 레이아웃 -->
+        <template class="shopby-header" shopby-partials="@partials/common-header.html" shopby-partials-js="@partials/common-header.js"></template>
+
+        <main class="l-my-page" shopby-helper-key="my-page-helper-key">
+            <section class="page-content-top">
+                <ol class="page-content-top__path page-content-top__location">
+                    <li><a href="/">HOME</a></li>
+                    &gt;
+                    <li>마이페이지</li>
+                    &gt;
+                    <li>회원 탈퇴</li>
+                </ol>
+            </section>
+            <div class="my-page-box">
+                <template class="l-my-page-menu" shopby-partials="@partials/my-menu.html"></template>
+                <div shopby-helper-key="withdrawal" class="withdrawal-form">
+                    <p class="withdrawal-form__title">회원 탈퇴</p>
+                    <withdrawal-profile-form>
+                        <script type="text/x-handlebars-template">
+                            <div>
+                                <div slot='termContents'>
+                                    {{#if termContents}}
+                                        <div class='withdrawal-form__term-wrap'>
+                                            {{{termContents}}}
+                                        </div>
+                                    {{/if}}
+                                </div>
+                                <p class='l-title withdrawal-form__sub-title'>회원탈퇴 안내</p>
+                                <div slot='openIdProviderLabel'>
+                                    {{#ifEq openIdProviderLabel ''}}
+                                        <!-- 아이디 -->
+                                        <div class='withdrawal-form__item-wrap'>
+                                            <label>
+                                                <span class='dot dot--r-must'>아이디</span>
+                                            </label>
+                                            <div class='withdrawal-form__input-wrap' slot='memberId'>
+                                                <span class='input-field input-field--sm is-disabled'>
+                                                    <input type='text' disabled name='memberId' value='{{memberId}}' placeholder='아이디' />
+                                                </span>
+                                            </div>
+                                        </div>
+                                    {{/ifEq}}
+                                </div>
+                                <div class='withdrawal-form__item-wrap'>
+                                    <div>
+                                        <label>
+                                            <span class='dot dot--r-must'>탈퇴사유</span>
+                                        </label>
+                                        <div class='character-counter'>
+                                            <div class='withdrawal-form__input-wrap'>
+                                                <textarea
+                                                    class='text-area'
+                                                    name='reason'
+                                                    shopby-max='50'
+                                                    maxlength='50'
+                                                    placeholder='탈퇴 사유를 입력해주세요.'
+                                                    shopby-on:input='INPUT_WITHDRAWAL_REASON'
+                                                ></textarea>
+                                                <span class='character-counter__status character-counter__status--character'>
+                                                    <span class='character-counter__count' slot='reason'>
+                                                        {{convertToKoreanCurrency reason.length}}
+                                                    </span>
+                                                    <span class='character-counter__limit-count'>
+                                                        / 50
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class='withdrawal-form__checkbox-wrap'>
+                                    <div class='withdrawal-form__checkbox'>
+                                        <label class='form-check form-check--md'>
+                                            <input type='checkbox' slot='termAgreed' shopby-on:change='CHECK_WITHDRAWAL_TERM_AGREED' />
+                                            <span class='form-check__label'>
+                                                회원탈퇴 시 처리사항에 안내 내용을 확인하였으며, 회원탈퇴에 동의합니다.
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </script>
+                    </withdrawal-profile-form>
+                    <div class="btn-group">
+                        <a class="btn btn--line-dark btn--lg" href="/pages/my/my-page.html">취소</a>
+                        <button class="btn btn--fill-point btn--lg" shopby-action="CLICK_WITHDRAWAL">탈퇴 신청</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 퀵메뉴 (최상단 이동 + 최근 본 상품) -->
+        <template shopby-partials="@partials/quick-menu.html"></template>
+        <!-- 최근 본 상품(오프캔버스) -->
+        <template shopby-partials="@partials/recent-product.html"></template>
+        <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js"></template>
+
+        <layer-modal-area type="title" title="회원탈퇴" name="password-authentication" src="@modals/password-authentication.html"></layer-modal-area>
+        <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+        <template shopby-partials="@partials/modal.html"></template>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/pages/my/withdrawal.js"></script>
+        <script src="/libs/naver-marketing-config.js"></script>
+    </body>
+</html>

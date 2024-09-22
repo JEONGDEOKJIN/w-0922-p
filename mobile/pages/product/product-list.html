@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <!-- A2HS -->
+        <link rel="manifest" shopby-manifest-placeholder href="/manifest.json" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+
+        <link rel="apple-touch-icon" href="https://rlyfaazj0.toastcdn.net/20211220/141125.985487000/app_icon(144).png" />
+        <!-- A2HS -->
+
+        <link rel="stylesheet" href="/shopby-skin-mobile.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/product/product-list.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-mobile.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+    <body>
+        <div shopby-skin-container>
+            <!-- 디자인팝업 -->
+            <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+            <!-- 상단 레이아웃 -->
+            <template
+                class="l-header"
+                shopby-partials="@partials/common-header.html"
+                shopby-partials-js="@partials/common-header.js"
+                shopby-sub-title=""
+                shopby-using-button="hamburger,back"
+                shopby-visible-logo="false"
+            ></template>
+
+            <main shopby-product-list shopby-view-type="GALLERY" class="product-list">
+                <!-- 카테고리 선택 -->
+                <display-category>
+                    <script type="text/x-handlebars-template">
+                        <div>
+                            {{#if categoryNo}}
+                                <!-- 브레드크럼브 -->
+                                <section class='breadcrumb' slot='breadcrumb'>
+                                    <div class='breadcrumb__section{{#if isLeafCategory}} breadcrumb__leaf-category{{/if}}'>
+                                        {{#each categoryRoute}}
+                                            <a
+                                                class='breadcrumb__item'
+                                                href='/pages/product/product-list.html?categoryNo={{categoryNo}}&amp;depth={{depth}}'
+                                            >{{label}}</a>
+                                        {{/each}}
+                                    </div>
+                                </section>
+                                <!-- 하위 카테고리 리스트 -->
+                                <section slot='childCategories'>
+                                    {{#if categoryChildren}}
+                                        <nav class='category-slider product-list-category-slider'>
+                                            <ul class='swiper category-slider__wrapper' shopby-slider-id='{{slider.id}}'>
+                                                <div class='swiper-wrapper'>
+                                                    {{#each categoryChildren}}
+                                                        <li class='swiper-slide category-slider__slide'>
+                                                            <a
+                                                                class='category-slider__item'
+                                                                href='/pages/product/product-list.html?categoryNo={{categoryNo}}&amp;depth={{depth}}'
+                                                            >
+                                                                {{label}}
+                                                            </a>
+                                                        </li>
+                                                    {{/each}}
+                                                </div>
+                                            </ul>
+                                        </nav>
+                                    {{/if}}
+                                </section>
+                            {{/if}}
+                        </div>
+                    </script>
+                </display-category>
+
+                <!-- 상품검색으로 접근시 검색어영역 -->
+                <product-keyword>
+                    <script type="text/x-handlebars-template">
+                        {{#if isSearchPage}}
+                            <div class='product-list__search-keyword-wrap'>
+                                <em class='product-list__search-keyword'>{{keywords}}</em>
+                                <span>검색결과</span>
+                            </div>
+                        {{/if}}
+                    </script>
+                </product-keyword>
+
+                <!-- "총 n개 / 상품정렬 셀렉박스" -->
+                <total-count-and-sort>
+                    <script type="text/x-handlebars-template">
+                        <div class='total-sort'>
+                            <p class='total-sort__count'>
+                                총
+                                <em class='highlight' slot='totalCount'>
+                                    {{totalCount}}
+                                </em>
+                                개
+                            </p>
+
+                            <div>
+                                <span class='select select--sm product-list__sort'>
+                                    <select shopby-on:change='PRODUCTS_SORT_TYPE' slot='sortType'>
+                                        {{#selected sortType slot='sortType'}}
+                                            <option value='SALE_CNT' shopby-product-search-order='SALE_CNT'>
+                                                판매량순
+                                            </option>
+                                            <option value='LOW_PRICE' shopby-product-search-order='LOW_PRICE'>
+                                                낮은가격순
+                                            </option>
+                                            <option value='HIGH_PRICE' shopby-product-search-order='HIGH_PRICE'>
+                                                높은가격순
+                                            </option>
+                                            <option value='REVIEW' shopby-product-search-order='REVIEW'>
+                                                상품후기순
+                                            </option>
+                                            <option value='RECENT_PRODUCT' shopby-product-search-order='RECENT_PRODUCT'>
+                                                신상품순
+                                            </option>
+                                        {{/selected}}
+                                    </select>
+                                </span>
+
+                                <button
+                                    slot='viewType'
+                                    shopby-view-type-btn
+                                    class='product-list__display-type-btn ico ico--{{lowerCase nextViewType}}-32'
+                                    type='button'
+                                    shopby-on:click='VIEW_TYPE'
+                                >
+                                </button>
+                            </div>
+                        </div>
+                    </script>
+                </total-count-and-sort>
+
+                <!-- 상품리스트 -->
+                <product-list-items>
+                    <script type="text/x-handlebars-template">
+                        <section class="product-list-items">
+                            <div shopby-products-items class='thumb-{{viewType}}' slot='items'>
+                                {{#each items}}
+                                <a shopby-is-adult="{{adult}}" shopby-action="MOVE_PRODUCT_DETAIL" class='thumb-item thumb-item__link' href='/pages/product/product-detail.html?productNo={{productNo}}'>
+                                    <div class='thumb-item__media'>
+                                        <!-- 상품이미지 -->
+                                        <span class='thumb-item__img'>
+                                            {{#ifEq listImageUrlInfo.type 'VIDEO_URL'}}
+                                                <div class='video-wrapper'>
+                                                    <div class='video-cover'></div>
+                                                    <iframe src="{{listImageUrlInfo.url}}" width="100%" height="100%" frameborder="0"></iframe>
+                                                </div>
+                                            {{else}}
+                                            {{img listImageUrlInfo.url 250 250 productName '' ''}}
+                                            {{/ifEq}}
+                                        </span>
+                                        <!-- 좋아요 버튼 -->
+                                        <button
+                                            type="button"
+                                            class="btn btn--default sc-like-button thumb-fab{{#if liked}} is-active{{/if}}"
+                                            shopby-action="PRODUCT_LIKE_BTN"
+                                            shopby-product-no="{{productNo}}"
+                                        >
+                                            <svg
+                                                width="40"
+                                                viewBox="0 0 80 80"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <path
+                                                    d="M52.29 19.24c-6.382 0-10.932 3.926-12.41 6.888-1.82-3.086-8.408-8.31-14.79-6.888-7.977 1.777-12.613 11.532-5.774 21.324C25.521 49.45 34.74 56.557 39.88 61c5.319-4.443 17.728-14.216 22.16-22.213 5.596-10.097-1.773-19.547-9.75-19.547Z"
+                                                    stroke="var(--color-point)"
+                                                    stroke-linejoin="round"
+                                                ></path>
+                                            </svg>
+                                        </button>
+                                        <!-- 품절 오버레이 -->
+                                        {{#if isSoldOut}}
+                                        <div class="thumb-item__overlay">SOLD OUT</div>
+                                        {{/if}}
+                                        <!-- 뱃지(판매종료/판매임박) -->
+                                        <span class="thumb-item-badges">
+                                            {{#ifEq saleStatusType 'FINISHED'}}
+                                            <span class="badge badge--fill-navy">판매종료</span>
+                                            {{/ifEq}}
+                                            {{#ifEq saleStatusType 'READY'}}
+                                            <span class="badge badge--fill-red">판매임박</span>
+                                            {{/ifEq}}
+                                        </span>
+                                    </div>
+
+                                    <!-- 상품설명 -->
+                                    <div class="thumb-item__info">
+                                        <!-- 상품명 -->
+                                        <p class="product-thumb-title">{{productName}}</p>
+                                        <!-- 진열타입 리스트인경우 홍보문구 노출 -->
+                                        <p class="product-thumb__promotion-text">{{promotionText}}</p>
+                                        <!-- 가격정보 -->
+                                        <div class="product-thumb-price-info">
+                                            <!-- 판매가에대한 즉시할인+추가할인의 할인율 -->
+                                            {{#ifHasDiscount immediateDiscountAmt additionDiscountAmt}}
+                                            <span class="product-thumb__immediately-percent font-montserrat">{{calculatePercentage (addNumber immediateDiscountAmt additionDiscountAmt) salePrice 1}}%</span>
+                                            {{/ifHasDiscount}}
+                                            <!-- 할인된 가격 -->
+                                            <em class="product-thumb-price font-montserrat">{{convertToKoreanCurrency (subtractNumber salePrice immediateDiscountAmt additionDiscountAmt)}}</em>
+                                            <span class="product-thumb-unit">원</span>
+                                            <!-- 즉시할인 또는 추가할인이 있는경우 판매가를 삭선처리 -->
+                                            {{#ifHasDiscount immediateDiscountAmt additionDiscountAmt}}
+                                            <s class="product-thumb-price--origin font-montserrat">{{convertToKoreanCurrency salePrice}}원</s>
+                                            {{/ifHasDiscount}}
+                                        </div>
+
+                                        <div>
+                                            <!-- 스티커(뱃지) -->
+                                            {{#each stickerInfos}}
+                                            <span class="product-thumb__sticker">
+                                                <!-- 텍스트형 스티커 -->
+                                                {{#ifEq type 'TEXT'}} {{label}} {{/ifEq}}
+                                                <!-- 이미지형 스티커 -->
+                                                {{#ifEq type 'IMAGE'}}
+                                                    {{img label '' '' (append ../productName "-스티커-" @index) 'product-thumb__sticker-img'}}
+                                                {{/ifEq}}
+                                            </span>
+                                            {{/each}}
+                                        </div>
+                                    </div>
+                                </a>
+                                {{/each}}
+                            </div>
+
+                            <!-- 스켈레톤 -->
+                            <div slot="skeleton">
+                                {{#unless isLoaded}}
+                                {{#repeat 2}}
+                                <div class="skeleton__wrap {{#if items}}skeleton__wrap--has-item{{/if}} thumb-{{viewType}}" >
+                                    <!-- view type 갤러리 스켙레톤 -->
+                                    {{#ifEq viewType 'GALLERY'}}{{#repeat 2}}
+                                    <div class="thumb-item skeleton skeleton--gallery">
+                                        <div class="skeleton__media"></div>
+                                        <div class="skeleton__line"></div>
+                                        <div class="skeleton__line"></div>
+                                    </div>
+                                    {{/repeat}}{{/ifEq}}
+                                    <!-- view type 리스트 스켙레톤 -->
+                                    {{#ifEq viewType 'LIST'}}{{#repeat 2}}
+                                    <div class="thumb-item skeleton skeleton--list">
+                                        <div class="skeleton__media"></div>
+                                        <div>
+                                          <div class="skeleton__line skeleton__line--product-name"></div>
+                                          <div class="skeleton__line skeleton__line--product-price"></div>
+                                        </div>
+                                    </div>
+                                    {{/repeat}}{{/ifEq}}
+                                </div>
+                                {{/repeat}}
+                                {{/unless}}
+                            </div>
+
+                            <div slot="searchMoreBtn">
+                                {{#unless hasNoMoreItems}}
+                                <div class="product-section__more btn" shopby-action="SEARCH_MORE_PRODUCT">
+                                    더보기
+                                    <span class="product-section__more-ico">
+                                        <span class="ico ico--angle-right-solid"></span>
+                                    </span>
+                                </div>
+                                {{/unless}}
+                            </div>
+
+                            <div slot="noItems">
+                                {{#if isLoaded}}{{#if hasNoItems}}
+                                <div class="notice notice--full">
+                                    <span class="sprite-image notice--warning"></span>
+                                    {{#if isSearchPage}}
+                                    <em>검색결과가 없습니다.</em>
+                                    {{else}}
+                                    <em>진열중인 상품이 없습니다.</em>
+                                    {{/if}}
+                                </div>
+                                {{/if}}{{/if}}
+                            </div>
+                        </section>
+                    </script>
+                </product-list-items>
+            </main>
+        </div>
+
+        <!-- 하단 레이아웃 -->
+        <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js" shopby-has-page-script="TRUE"></template>
+
+        <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+        <template shopby-partials="@partials/modal.html"></template>
+        <!-- 오프캔버스 -->
+        <template shopby-partials="@partials/slide-menu.html" shopby-partials-js="@partials/slide-menu.js"></template>
+        <!-- 하단바 -->
+        <template shopby-partials="@partials/common-nav.html"></template>
+        <!-- 최근 검색 -->
+        <layer-modal-area type="custom" name="search-keyword" src="@modals/search-keyword.html"></layer-modal-area>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/pages/product/product-list.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/libs/naver-marketing-config.js" shopby-use-page-script></script>
+    </body>
+</html>

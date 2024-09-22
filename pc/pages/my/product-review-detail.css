@@ -1,0 +1,71 @@
+@charset "UTF-8";
+/*  상품후기 상세 페이지 스타일 파일입니다. */
+.product-review-detail {
+  border-top: 2px solid var(--color-base-black);
+}
+.product-review-detail__top {
+  display: flex;
+  align-items: center;
+}
+.product-review-detail__rate {
+  width: 130px;
+  text-align: center;
+}
+.product-review-detail__product {
+  flex: 1;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--gray200);
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  text-decoration: none;
+  color: var(--color-base-black);
+}
+.product-review-detail__product:first-child() {
+  flex: none;
+  width: 100px;
+}
+.product-review-detail__writer-info {
+  width: 104px;
+  display: flex;
+  justify-content: space-between;
+}
+.product-review-detail__writer-info span + span::before {
+  content: "|";
+  margin: 0 6px 0 4px;
+  color: var(--gray300);
+}
+.product-review-detail__writer-name {
+  font-size: 12px;
+  font-weight: 500;
+}
+.product-review-detail__writer-date {
+  font-size: 12px;
+  font-weight: 400;
+}
+.product-review-detail__product-option {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--gray600);
+  margin-top: 10px;
+}
+.product-review-detail__content {
+  min-height: 100px;
+  height: max-content;
+  word-break: break-word;
+  padding: 20px;
+  border-top: 1px;
+  border-bottom: 1px;
+  border: 1px solid var(--gary200);
+  background-color: var(--gray200);
+}
+.product-review-detail__btn-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 40px;
+  margin-top: 20px;
+}
+.product-review-detail .btn-group__list-btn {
+  width: 100%;
+}

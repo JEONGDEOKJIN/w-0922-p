@@ -1,0 +1,76 @@
+<div shopby-layer-modal-helper-key="coupon-download">
+    <coupon-download-information>
+        <div class="coupon-download-wrap">
+            <div class="coupon-download-content" slot="downloadableCoupons">
+                {{#if downloadableCoupons}}
+                <div class="coupon-download__description">
+                    다운로드 가능한 총 <em class="font-montserrat">{{length downloadableCoupons}}</em>개의 쿠폰이 있습니다.
+                </div>
+
+                <div class="coupon-download__coupons">
+                    {{#each downloadableCoupons}}
+                    <div class="coupon-download__coupon">
+                        <div class="coupon-download__info-area">
+                            <div class="coupon-download__coupon-name">{{couponName}}</div>
+
+                            <div class="coupon-download__discount-information">
+                                <span><span class="coupon-download__discount-amount font-montserrat">{{amount}}</span>{{unit}} {{couponTypeLabel}} 할인</span>
+                            </div>
+
+                            <div class="coupon-download__discount-description">
+                                {{#ifGt maxAmount 0}}
+                                <span
+                                    >(<span class="coupon-download__discount-amount font-montserrat">최대 {{#convertToKoreanCurrency maxAmount}}</span
+                                    >{{/convertToKoreanCurrency}}원 할인)</span
+                                >
+                                {{/ifGt}} {{#ifGt limitSalePrice 0}}
+                                <span
+                                    >(<span class="coupon-download__discount-amount font-montserrat"
+                                        >{{#convertToKoreanCurrency limitSalePrice}}{{/convertToKoreanCurrency}}</span
+                                    >원 이상 구매 시 사용가능)</span
+                                >
+                                {{/ifGt}}
+                            </div>
+                        </div>
+                        <div class="coupon-download__btn-area">
+                            <div>
+                                <button
+                                    class="btn btn--line-dark btn--sm {{#if modifier}}disabled{{/if}}"
+                                    shopby-coupon-no="{{couponNo}}"
+                                    shopby-disabled="{{disabled}}"
+                                    shopby-action="DOWNLOAD_COUPON_BTN"
+                                >
+                                    {{#if modifier}}발급완료{{else}}쿠폰받기{{/if}}<span
+                                        class="ico ico--download-black-12"
+                                        shopby-action="DOWNLOAD_COUPON_BTN"
+                                    ></span>
+                                </button>
+                            </div>
+                            <div class="coupon-download__coupon-info-btn">
+                                <u
+                                    shopby-action="COUPON_GUIDE"
+                                    shopby-platforms="{{useConstraint.usablePlatformTypes}}"
+                                    shopby-use-days="{{useConstraint.useDays}}"
+                                    shopby-use-end-ymdt="{{useConstraint.useEndYmdt}}"
+                                    >쿠폰 안내</u
+                                >
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+                {{else}}
+                <div class="notice">
+                    <span class="sprite-image notice--warning"></span>
+                    <em>등록된 쿠폰이 없습니다.</em>
+                </div>
+                {{/if}}
+            </div>
+
+            <div class="coupon-download__all-btn">
+                <button class="btn btn--fill-point btn--xl" shopby-action="DOWNLOAD_COUPONS_BTN">쿠폰 한번에 받기</button>
+            </div>
+        </div>
+    </coupon-download-information>
+</div>
+<script src="/modals/coupon-download.js"></script>

@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="/shopby-skin-pc.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/my/modify-member.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-pc.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+    <body>
+        <!-- 디자인팝업 -->
+        <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+        <!-- 상단 레이아웃 -->
+        <template class="shopby-header" shopby-partials="@partials/common-header.html" shopby-partials-js="@partials/common-header.js"></template>
+
+        <main class="l-my-page" shopby-helper-key="modify-member-form">
+            <section class="page-content-top">
+                <ol class="page-content-top__path page-content-top__location">
+                    <li><a href="/">HOME</a></li>
+                    &gt;
+                    <li><a href="/pages/my/my-page.html">마이페이지</a></li>
+                    &gt;
+                    <li>회원정보 수정</li>
+                </ol>
+            </section>
+            <div class="my-page-box">
+                <template class="l-my-page-menu" shopby-partials="@partials/my-menu.html"></template>
+                <div class="member-modification">
+                    <p class="member-modification__title">회원정보 수정</p>
+                    <profile-basic-information shopby-module-key="profile-information">
+                        <script type="text/x-handlebars-template">
+                            <div class='member-modification-name'>
+                                <p slot='memberName'>
+                                    {{memberName.value}}
+                                    <span slot='openIdProviderLabel'>
+                                        (
+                                        {{#ifEq openIdProviderLabel ''}}
+                                            쇼핑몰
+                                        {{else}}
+                                            {{openIdProviderLabel}}
+                                        {{/ifEq}}
+                                        아이디 회원 )
+                                    </span>
+                                </p>
+                            </div>
+                        </script>
+                    </profile-basic-information>
+                    <div class="member-modification-form">
+                        <profile-basic-information>
+                            <script type="text/x-handlebars-template">
+                                <div>
+                                    <div slot="openIdProvider">
+                                        {{#ifEq openIdProvider ''}}
+                                        <!-- 아이디 -->
+                                        <div class="member-modification-form__item">
+                                            <label class="member-modification-form__tit">
+                                                <span class="dot dot--r-must">아이디</span>
+                                            </label>
+                                            <div class="member-modification-form__input-wrap" slot="memberId">
+                                                <span class="input-field input-field--md">
+                                                    <input
+                                                        type="text"
+                                                        disabled
+                                                        name="password"
+                                                        value="{{memberId.value}}"
+                                                        placeholder="아이디"
+                                                    />
+                                                </span>
+                                            </div>
+                                        </div>
+
+
+                                        <div slot="isPasswordEditMode">
+                                        {{#if isPasswordEditMode}}
+                                        <div class="member-modification-form__input-wrap">
+                                            <div class="member-modification-form__input-wrap">
+                                                <button type="button" class="btn btn--line-dark btn--sm certification-btn" shopby-on:click="CHANGE_PASSWORD_CLOSE">비밀번호 변경</button>
+                                            </div>
+                                        </div>
+                                        <!-- 비밀번호 -->
+                                        <div class="member-modification-form__item">
+                                            <label class="member-modification-form__tit">
+                                                <span class="dot dot--r-must">비밀번호</span>
+                                            </label>
+                                            <div slot="password" class="member-modification-form__input-wrap">
+                                                <span class="input-field input-field--md {{#unless password.isValid}}is-error{{/unless}}">
+                                                    <input
+                                                        type="password"
+                                                        autocomplete="new-password"
+                                                        name="password"
+                                                        shopby-focus-field="password"
+                                                        value="{{password.value}}"
+                                                        placeholder="비밀번호 (영문, 숫자, 특수문자 8~20자)"
+                                                        shopby-on:change="CHANGE_PASSWORD"
+                                                        shopby-on:blur="BLUR_PASSWORD"
+                                                        maxlength="20"
+                                                        shopby-on:input='INPUT_MEMBER_PASSWORD'
+                                                    />
+                                                </span>
+                                                <p class="description {{#unless password.isValid}}invalid-alert{{/unless}}">{{password.message}}</p>
+                                            </div>
+                                        </div>
+                                        <!-- 비밀번호 -->
+                                        <!-- 비밀번호 재입력 -->
+                                        <div class="member-modification-form__item">
+                                            <label class="member-modification-form__tit">
+                                                <span class="dot dot--r-must">비밀번호 재입력</span>
+                                            </label>
+                                            <div class="member-modification-form__input-wrap" slot="passwordConfirm">
+                                                <span class="input-field input-field--md {{#unless passwordConfirm.isValid}}is-error{{/unless}}">
+                                                    <input
+                                                        type="password"
+                                                        autocomplete="new-password"
+                                                        shopby-focus-field="passwordConfirm"
+                                                        name="password-confirm"
+                                                        placeholder="비밀번호 재입력"
+                                                        value="{{passwordConfirm.value}}"
+                                                        shopby-on:change="CHANGE_PASSWORD_CONFIRM"
+                                                        shopby-on:blur="BLUR_PASSWORD_CONFIRM"
+                                                        shopby-on:input='INPUT_MEMBER_PASSWORD_CONFIRM'
+                                                        maxlength="20"
+                                                    />
+                                                </span>
+                                                <p class="description {{#unless passwordConfirm.isValid}}invalid-alert{{/unless}}">
+                                                    {{passwordConfirm.message}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        {{else}}
+                                        <div class="member-modification-form__item">
+                                            <label class="member-modification-form__tit">
+                                                <span class="dot dot--r-must">비밀번호</span>
+                                            </label>
+
+                                            <div class="member-modification-form__input-wrap">
+                                                <div class="member-modification-form__input-wrap">
+                                                    <button type="button" class="btn btn--line-dark btn--sm certification-btn" shopby-on:click="CHANGE_PASSWORD_OPEN">비밀번호 변경</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{/if}}
+                                    </div>
+                                    {{/ifEq}}
+                                    <!-- 비밀번호 재입력 -->
+                                    </div>
+                                    <!-- 이름 -->
+                                    <div slot="memberName">
+                                        {{#if memberName.isVisible}}
+                                        <div class="member-modification-form__item">
+                                            <label class="member-modification-form__title">
+                                                <span class="{{#if memberName.isRequired}}dot dot--r-must{{/if}}">이름</span>
+                                            </label>
+                                            <div  class="member-modification-form__input-wrap">
+                                                <span class="input-field input-field--md {{#unless memberName.isValid}}is-error{{/unless}}">
+                                                    <input
+                                                        type="text"
+                                                        name="member-name"
+                                                        shopby-focus-field="memberName"
+                                                        placeholder="이름"
+                                                        value="{{memberName.value}}"
+                                                        shopby-on:change="CHANGE_MEMBER_NAME"
+                                                        shopby-on:input="INPUT_MEMBER_NAME_VALID"
+                                                        shopby-on:blur="BLUR_MEMBER_NAME"
+                                                        maxlength="20"
+                                                    />
+                                                </span>
+                                                <p class="description {{#unless memberName.isValid}}invalid-alert{{/unless}}">{{memberName.message}}</p>
+                                            </div>
+                                        </div>
+                                        {{/if}}
+                                    </div>
+                                    <!-- 이름 -->
+                                </div>
+                            </script>
+                        </profile-basic-information>
+                        <!-- 닉네임 -->
+                        <profile-optional-information shopby-module-key="profile-nickname-information">
+                            <script type="text/x-handlebars-template">
+                                <div>
+                                    <div slot="nickname">
+                                        {{#if nickname.isVisible}}
+                                        <div class="member-modification-form__item">
+                                            <label class="member-modification-form__tit">
+                                                <span class="{{#if nickname.isRequired}}dot dot--r-must{{/if}}">닉네임</span>
+                                            </label>
+                                            <div class="member-modification-form__input-wrap">
+                                                <span class="input-field input-field--md {{#unless nickname.isValid}}is-error{{/unless}}">
+                                                    <input
+                                                        type="text"
+                                                        name="nickname"
+                                                        shopby-focus-field="nickname"
+                                                        value="{{nickname.value}}"
+                                                        placeholder="닉네임"
+                                                        shopby-on:change="CHANGE_NICKNAME"
+                                                        shopby-on:input="INPUT_NICKNAME_VALID"
+                                                        shopby-on:blur="BLUR_NICKNAME"
+                                                        maxlength="20"
+                                                    />
+                                                </span>
+                                                {{#ifNe '' nickname.message}}
+                                                <p class="description {{#unless nickname.isValid}}invalid-alert{{/unless}}">{{nickname.message}}</p>
+                                                {{/ifNe}}
+                                            </div>
+                                        </div>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                            </script>
+                        </profile-optional-information>
+                        <!-- 닉네임 -->
+                        <profile-email-information shopby-auth-time-type="JOIN_TIME">
+                            <script type="text/x-handlebars-template">
+                                <div>
+                                    <div slot="email">
+                                        {{#if email.isVisible}}
+                                        <div class="member-modification-form__item">
+                                            <label class="member-modification-form__tit">
+                                                <span class="{{#if email.isRequired}}dot dot--r-must{{/if}}">이메일 주소</span>
+                                            </label>
+                                            <div class="member-modification-form__input-wrap" slot="emailCertificationStatus" >
+                                                <div class="email-input">
+                                                    <span class="input-field input-field--md email-input__id {{#ifEq emailCertificationStatus 'SUCCESS'}}is-disabled{{/ifEq}} {{#unless email.isValid}}is-error{{/unless}}">
+                                                        <input
+                                                            type="text"
+                                                            value="{{displayEmailId email.value}}"
+                                                            shopby-focus-field="email"
+                                                            name="email-id"
+                                                            shopby-on:change="CHANGE_EMAIL_ID"
+                                                            shopby-on:input="INPUT_EMAIL_ID_VALID"
+                                                            maxlength="64"
+                                                        />
+                                                    </span>
+                                                    @
+                                                    <span class="input-field input-field--md email-input__domain {{#ifEq emailCertificationStatus 'SUCCESS'}}is-disabled{{/ifEq}} {{#unless email.isValid}}is-error{{/unless}}">
+                                                        <input
+                                                            type="text"
+                                                            shopby-focus-field="email"
+                                                            value="{{displayEmailDomain email.value}}"
+                                                            name="email-domain"
+                                                            shopby-on:change="CHANGE_EMAIL_DOMAIN"
+                                                            shopby-on:input="INPUT_EMAIL_DOMAIN_VALID"
+                                                            maxlength="255"
+                                                        />
+                                                    </span>
+                                                </div>
+                                                <span class="select select--md">
+                                                    <select shopby-on:change="SELECT_EMAIL_DOMAIN">
+                                                        <option value="" selected disabled>직접 입력</option>
+                                                        <option value="naver.com">naver.com</option>
+                                                        <option value="hanmail.net">hanmail.net</option>
+                                                        <option value="daum.net">daum.net</option>
+                                                        <option value="nate.com">nate.com</option>
+                                                        <option value="gmail.com">gmail.com</option>
+                                                    </select>
+                                                </span>
+                                                <div slot="emailCertificationStatus">
+                                                    {{#ifNe emailCertificationStatus 'NONE'}}
+                                                    {{#ifEq emailCertificationStatus 'SUCCESS'}}
+                                                    <button
+                                                    type="button"
+                                                    class="btn btn--line-dark btn--sm certification-btn"
+                                                    shopby-on:click="CLICK_EMAIL_CERTIFICATION"
+                                                    >
+                                                        재인증
+                                                    </button>
+                                                    {{else}}
+                                                    <button
+                                                    type="button"
+                                                    class="btn btn--line-dark btn--sm  certification-btn"
+                                                    shopby-action="EMAIL_CERTIFICATION"
+                                                    >
+                                                        {{#ifEq emailCertificationStatus 'INITIAL'}}
+                                                        인증번호 발송
+                                                        {{else}}
+                                                        인증번호 재발송
+                                                        {{/ifEq}}
+                                                    </button>
+                                                    {{/ifEq}}
+                                                    {{/ifNe}}
+                                                </div>
+                                                <p class="description {{#unless email.isValid}}invalid-alert{{/unless}}">{{email.message}}</p>
+                                            </div>
+                                        </div>
+                                        {{/if}}
+                                    </div>
+                                    <div slot="directMailAgreed">
+                                        {{#if directMailAgreed.isVisible}}
+                                        <div class="member-modification-form__agree-wrap">
+                                            <div>
+                                                <label class='form-check form-check--md'>
+                                                    <input type="checkbox" name="directMailAgreed" shopby-on:change="CHECK_EMAIL_AGREED" />
+                                                    <span class='form-check__label'>
+                                                        이메일 수신 동의
+                                                    </span>
+                                                </label>
+                                            </div>
+                                            <div class="member-modification-form__agree-wrap--description" slot="directMailAgreeYmdt">
+                                            {{#ifNe directMailAgreeYmdt ''}}
+                                            <span class="ico ico--alert-circle-gray-16"></span>
+                                                <p>수신 동의 기간: {{directMailAgreeYmdt}}
+                                                    <br>
+                                                    (상품/이벤트 정보 수신 동의)
+                                                </p>
+                                            {{/ifNe}}
+                                            </div>
+                                        </div>
+                                        {{/if}}
+                                    <!-- 메일 수신 동의 -->
+                                    </div>
+                                </div>
+                            </script>
+                        </profile-email-information>
+                        <div class="member-modification-form__certification">
+                            <profile-certification>
+                                <script type="text/x-handlebars-template">
+                                    <div>
+                                        <div slot='certificationType'>
+                                            {{#ifEq certificationType 'EMAIL'}}
+                                                <div class='member-modification-form__item'>
+                                                    <label class='member-modification-form__tit'>
+                                                        인증 번호
+                                                    </label>
+                                                    <div class='member-modification-form__input-wrap'  slot='certificated'>
+                                                        <span class='input-field input-field--md {{#unless certificated.isValid}}is-error{{/unless}}'>
+                                                            <input
+                                                                slot='certificatedNumber'
+                                                                type='text'
+                                                                shopby-focus-field='certificatedNumber'
+                                                                maxlength='6'
+                                                                value='{{certificatedNumber}}'
+                                                                placeholder='인증번호를 입력해주세요.'
+                                                                shopby-on:input='INPUT_CERTIFICATION_ONLY_NUMBER'
+                                                                shopby-on:change='CHANGE_CERTIFICATION_NUMBER'
+                                                            />
+                                                        </span>
+                                                        <button
+                                                            type='button'
+                                                            class='btn btn--line-dark btn--sm certification-btn'
+                                                            shopby-on:click='CERTIFICATION_CONFIRM'
+                                                        >
+                                                            확인
+                                                        </button>
+                                                        <p slot='certificated' class='description invalid-alert'>
+                                                            {{certificated.message}}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            {{/ifEq}}
+                                        </div>
+                                    </div>
+                                </script>
+                            </profile-certification>
+                            <shopby-timer>
+                                <script type="text/x-handlebars-template">
+                                    <div>
+                                        <div slot='timerModuleKey'>
+                                            {{#ifEq timerModuleKey 'EMAIL_CERTIFICATION'}}
+                                                <div class='timer'>
+                                                    <span class='count-down' slot='time'>
+                                                        <span slot='isExpiredTime'>
+                                                            {{#if isExpiredTime}}
+                                                                <span class='description invalid-alert'>
+                                                                    00:00
+                                                                </span>
+                                                            {{else}}
+                                                                <span>
+                                                                    {{padStart time.minutes}}:{{padStart time.seconds}}
+                                                                </span>
+                                                            {{/if}}
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                            {{/ifEq}}
+                                        </div>
+                                    </div>
+                                </script>
+                            </shopby-timer>
+                        </div>
+                        <profile-sms-information shopby-auth-time-type="JOIN_TIME">
+                            <script type="text/x-handlebars-template">
+                                <div>
+                                    <div slot="mobileNo">
+                                        {{#if mobileNo.isVisible}}
+                                        <div class="member-modification-form__item">
+                                            <label class="member-modification-form__tit">
+                                                <span class="{{#if mobileNo.isRequired}}dot dot--r-must{{/if}}">휴대폰 번호</span>
+                                            </label>
+                                            <div class="member-modification-form__input-wrap">
+                                                <div class="phone-number-input" >
+                                                    <span class="input-field input-field--md {{#unless mobileNo.isValid}}is-error{{/unless}} {{#ifEq smsCertificationStatus 'SUCCESS'}}is-disabled{{/ifEq}}">
+                                                        <input
+                                                            type="text"
+                                                            shopby-focus-field="mobileNo"
+                                                            maxlength="12"
+                                                            value="{{mobileNo.value}}"
+                                                            placeholder="휴대폰 번호 - 없이 입력"
+                                                            name="mobileNo"
+                                                            shopby-on:input="INPUT_PHONE_ONLY_NUMBER"
+                                                            shopby-on:change="CHANGE_PHONE_NUMBER"
+                                                        />
+                                                    </span>
+                                                </div>
+                                                <div slot="smsCertificationStatus">
+                                                    {{#ifNe smsCertificationStatus 'NONE'}}
+                                                    {{#ifEqOne smsCertificationStatus 'INITIAL' 'PROCESSING' }}
+                                                    <button
+                                                        type="button"
+                                                        class="btn btn--line-dark btn--sm certification-btn"
+                                                        shopby-action="SMS_CERTIFICATION"
+                                                    >
+                                                        {{#ifEq smsCertificationStatus 'INITIAL'}}
+                                                        인증번호 발송
+                                                        {{else}}
+                                                        인증번호 재발송
+                                                        {{/ifEq}}
+                                                    </button>
+                                                    {{/ifEqOne}}
+                                                    {{#ifEq smsCertificationStatus 'SUCCESS'}}
+                                                    <button
+                                                        type="button"
+                                                        class="btn btn--line-dark btn--sm certification-btn"
+                                                        shopby-on:click="CLICK_SMS_CERTIFICATION"
+                                                    >
+                                                    재인증
+                                                    </button>
+                                                    {{/ifEq}}
+                                                    {{#ifEq smsCertificationStatus 'SMS_AUTHENTICATION'}}
+                                                    <button
+                                                        type="button"
+                                                        class="btn btn--line-dark btn--sm certification-btn"
+                                                        shopby-action="AUTHENTICATION_BY_PHONE"
+                                                    >
+                                                        휴대폰 본인인증
+                                                    </button>
+                                                    {{/ifEq}}
+                                                    {{/ifNe}}
+                                                </div>
+                                                <p class="description invalid-alert">{{mobileNo.message}}</p>
+                                            </div>
+                                        </div>
+                                        <!-- SMS 수신 동의 -->
+                                        <div slot="smsAgreed">
+                                            {{#if smsAgreed.isVisible}}
+                                            <div class="member-modification-form__agree-wrap">
+                                                <div>
+                                                    <label class='form-check form-check--md'>
+                                                        <input type="checkbox" name="smsAgreed" shopby-on:change="CHECK_SMS_AGREED" />
+                                                        <span class='form-check__label'>
+                                                            SMS 수신 동의
+                                                        </span>
+                                                    </label>
+                                                </div>
+
+                                                <div  slot="smsAgreeYmdt" class="member-modification-form__agree-wrap--description">
+                                                    {{#ifNe smsAgreeYmdt ''}}
+                                                    <span class="ico ico--alert-circle-gray-16"></span>
+                                                    <p>수신 동의 기간: {{smsAgreeYmdt}}
+                                                        <br>
+                                                        (상품/이벤트 정보 수신 동의)
+                                                    </p>
+                                                    {{/ifNe}}
+                                                </div>
+                                                {{/if}}
+                                            </div>
+                                        </div>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                            </script>
+                        </profile-sms-information>
+                        <div class="member-modification-form__certification">
+                            <profile-certification>
+                                <script type="text/x-handlebars-template">
+                                    <div>
+                                        <div slot='certificationType'>
+                                            {{#ifEq certificationType 'SMS'}}
+                                                <div class='member-modification-form__item'>
+                                                    <label class='member-modification-form__tit'>
+                                                        인증 번호
+                                                    </label>
+
+                                                    <div class='member-modification-form__input-wrap' slot='certificated'>
+                                                        <span class='input-field input-field--md {{#unless certificated.isValid}}is-error{{/unless}}'>
+                                                            <input
+                                                                slot='certificatedNumber'
+                                                                type='text'
+                                                                maxlength='6'
+                                                                shopby-focus-field='certificatedNumber'
+                                                                value='{{certificatedNumber}}'
+                                                                placeholder='인증번호를 입력해주세요.'
+                                                                shopby-on:input='INPUT_CERTIFICATION_ONLY_NUMBER'
+                                                                shopby-on:change='CHANGE_CERTIFICATION_NUMBER'
+                                                            />
+                                                        </span>
+                                                        <button
+                                                            type='button'
+                                                            class='btn btn--line-dark btn--sm certification-btn'
+                                                            shopby-on:click='CERTIFICATION_CONFIRM'
+                                                        >
+                                                            확인
+                                                        </button>
+                                                        <p slot='certificated' class='description invalid-alert'>
+                                                            {{certificated.message}}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            {{/ifEq}}
+                                        </div>
+                                    </div>
+                                </script>
+                            </profile-certification>
+                            <shopby-timer>
+                                <script type="text/x-handlebars-template">
+                                    <div>
+                                        <div slot='timerModuleKey'>
+                                            {{#ifEq timerModuleKey 'SMS_CERTIFICATION'}}
+                                                <div class='timer'>
+                                                    <span class='count-down' slot='time'>
+                                                        <span slot='isExpiredTime'>
+                                                            {{#if isExpiredTime}}
+                                                                <span class='description invalid-alert'>
+                                                                    00:00
+                                                                </span>
+                                                            {{else}}
+                                                                <span>
+                                                                    {{padStart time.minutes}}:{{padStart time.seconds}}
+                                                                </span>
+                                                            {{/if}}
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                            {{/ifEq}}
+                                        </div>
+                                    </div>
+                                </script>
+                            </shopby-timer>
+                        </div>
+
+                        <profile-optional-information>
+                            <script type="text/x-handlebars-template">
+                                <div>
+                                    <!-- 전화번호 -->
+                                    <div slot='telephoneNo'>
+                                        {{#if telephoneNo.isVisible}}
+                                        <div class='member-modification-form__item'>
+                                            <label class='member-modification-form__tit'>
+                                                <span class="{{#if telephoneNo.isRequired}}dot dot--r-must{{/if}}">전화번호</span>
+                                            </label>
+                                            <div class='member-modification-form__input-wrap'>
+                                                <span class='input-field input-field--md  {{#unless telephoneNo.isValid}}is-error{{/unless}}'>
+                                                    <input
+                                                        type='text'
+                                                        maxlength='12'
+                                                        value='{{telephoneNo.value}}'
+                                                        placeholder='전화번호 - 없이 입력'
+                                                        name='telephoneNo'
+                                                        shopby-on:input='INPUT_TELEPHONE_ONLY_NUMBER'
+                                                        shopby-on:change='CHANGE_TELEPHONE_NUMBER'
+                                                    />
+                                                </span>
+                                                <p class='description invalid-alert'>
+                                                    {{telephoneNo.message}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        {{/if}}
+                                    </div>
+                                    <!-- 전화번호 -->
+                                    <!-- 주소 -->
+                                    <div slot='detailAddress'>
+                                        {{#if detailAddress.isVisible}}
+                                        <div class='member-modification-form__item'>
+                                            <label class='member-modification-form__tit'>
+                                                <span class="{{#if detailAddress.isRequired}}dot dot--r-must{{/if}}">주소</span>
+                                            </label>
+                                            <div class='member-modification-form__address-wrap member-modification-form__input-wrap'>
+                                                <form class='address-form'>
+                                                    <p class='address-form__zip-code'>
+                                                        <span class='input-field input-field--md is-readonly {{#unless detailAddress.isValid}}is-error{{/unless}}'>
+                                                            <input type='text' readonly slot='zipCodeInfo' value='{{zipCd}}' />
+                                                        </span>
+                                                        <button type='button' class='btn btn--line-dark btn--sm' shopby-action='SEARCH_ZIP_CODE'>
+                                                            우편번호 찾기
+                                                        </button>
+                                                    </p>
+                                                    <span class='input-field input-field--md is-disabled {{#unless detailAddress.isValid}}is-error{{/unless}}'>
+                                                        <input type='text' disabled slot='zipCodeInfo' value='{{address}}' />
+                                                    </span>
+                                                    <span class='input-field input-field--md {{#unless detailAddress.isValid}}is-error{{/unless}}'>
+                                                        <input
+                                                            type='text'
+                                                            maxlength='100'
+                                                            value='{{detailAddress.value}}'
+                                                            shopby-on:change='CHANGE_RECEIVER_DETAIL_ADDRESS'
+                                                            shopby-action='CHANGE_DETAIL_ADDRESS'
+                                                            shopby-focus-field='detailAddress'
+                                                        />
+                                                    </span>
+                                                    <p class='description invalid-alert'>
+                                                        {{detailAddress.message}}
+                                                    </p>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        {{/if}}
+                                    </div>
+                                    <!-- 주소 -->
+                                    <!-- 생년월일 -->
+                                    <div slot='birthday'>
+                                        {{#if birthday.isVisible}}
+                                        <div class='member-modification-form__item'>
+                                            <label class='member-modification-form__tit'>
+                                                <span class="{{#if birthday.isRequired}}dot dot--r-must{{/if}}">생년월일</span>
+                                            </label>
+                                            <div class='member-modification-form__select-wrap'>
+                                                <span class='select select--md {{#unless birthday.isValid}}is-error{{/unless}}'>
+                                                    <select shopby-focus-field='birthday' shopby-on:change='CHANGE_BIRTH_YEAR'>
+                                                        <option value='' selected disabled>
+                                                            년도
+                                                        </option>
+                                                        {{generateYearRangeOption true}}
+                                                    </select>
+                                                </span>
+                                                <span class='select select--md {{#unless birthday.isValid}}is-error{{/unless}}'>
+                                                    <select shopby-focus-field='birthday' shopby-on:change='CHANGE_BIRTH_MONTH'>
+                                                        <option value='' selected disabled>
+                                                            월
+                                                        </option>
+                                                        {{generateRangeOption 1 12}}
+                                                    </select>
+                                                </span>
+                                                <span class='select select--md {{#unless birthday.isValid}}is-error{{/unless}}'>
+                                                    <select shopby-focus-field='birthday' shopby-on:change='CHANGE_BIRTH_DAY'>
+                                                        <option value='' selected disabled>
+                                                            일
+                                                        </option>
+                                                        {{generateDateRangeOption (extractYearFromHyphenatedDate birthday.value) (extractMonthFromHyphenatedDate birthday.value)}}
+                                                    </select>
+                                                </span>
+                                            </div>
+                                            <p class='description invalid-alert'>
+                                                {{birthday.message}}
+                                            </p>
+                                        </div>
+                                        {{/if}}
+                                    </div>
+                                    <!-- 생년월일 -->
+                                    <!-- 성별 -->
+                                    <div slot="sex">
+                                        {{#if sex.isVisible}}
+                                        <div class='member-modification-form__item'>
+                                            <label class='member-modification-form__tit'>
+                                                <span class="{{#if sex.isRequired}}dot dot--r-must{{/if}}">성별</span>
+                                            </label>
+                                            <div class='member-modification-form__radio-wrap'>
+                                                <div class='radio-group'>
+                                                    <label class='form-check form-check--md {{#if isJoinTimeSmsAuthentication}}is-disabled{{/if}}'>
+                                                        <input type='radio' checked shopby-focus-field='sex' value='' shopby-on:click='CHANGE_SEX' />
+                                                        <span class='form-check__label'>사용 안 함</span>
+                                                    </label>
+                                                    <label class='form-check form-check--md {{#if isJoinTimeSmsAuthentication}}is-disabled{{/if}}'>
+                                                        <input type='radio' shopby-focus-field='sex' value='M' shopby-on:click='CHANGE_SEX' />
+                                                        <span class='form-check__label'>남자</span>
+                                                    </label>
+                                                    <label class='form-check form-check--md {{#if isJoinTimeSmsAuthentication}}is-disabled{{/if}}'>
+                                                        <input type='radio' shopby-focus-field='sex' value='F' shopby-on:click='CHANGE_SEX' />
+                                                        <span class='form-check__label'>여자</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <p class='description invalid-alert'>
+                                                {{sex.message}}
+                                            </p>
+                                        </div>
+                                        {{/if}}
+                                    </div>
+                                    <!-- 성별 -->
+                                </div>
+                            </script>
+                        </profile-optional-information>
+                        <!-- 추가항목 -->
+                        <profile-extra-information>
+                            <script type="text/x-handlebars-template">
+                                <div>
+                                    <div slot='extraInfoContents'>
+                                        {{#each extraInfoContents}}
+                                            {{#ifEq extraInfoType 'TEXTBOX'}}
+                                            <div class="member-modification-form__item">
+                                                <p class="member-modification-form__tit">
+                                                    <span class="{{#ifEq status 'REQUIRED'}}dot dot--r-must{{else}}{{/ifEq}}">{{{extraInfoName}}}</span>
+                                                </p>
+                                                <div class="member-modification-form__input-wrap">
+                                                    <span class='input-field input-field--sm {{#unless isValid}}is-error{{/unless}}'>
+                                                        <input
+                                                            type='text'
+                                                            name='{{extraInfoOptionNo}}'
+                                                            value='{{extraInfoOptionTextContent}}'
+                                                            maxlength="300"
+                                                            shopby-extra-info-no='{{extraInfoNo}}'
+                                                            shopby-extra-info-option-no='{{extraInfoOptionNo}}'
+                                                            shopby-on:input='INPUT_EXTRA_INFO_TEXT_OPTION'
+                                                            shopby-on:change='CHANGE_EXTRA_INFO_TEXT_OPTION'
+                                                        />
+                                                    </span>
+                                                </div>
+                                                <p class='description invalid-alert'>
+                                                    {{#unless isValid}}
+                                                        {{message}}
+                                                    {{/unless}}
+                                                </p>
+                                            </div>
+                                            {{/ifEq}}
+                                            {{#ifEq extraInfoType 'RADIOBUTTON'}}
+                                            <div class="member-modification-form__item">
+                                                <p class="member-modification-form__tit">
+                                                    <span class="{{#ifEq status 'REQUIRED'}}dot dot--r-must{{else}}{{/ifEq}}">{{{extraInfoName}}}</span>
+                                                </p>
+                                                <div class="member-modification-form__input-wrap">
+                                                    <div class="extra-info-radio-group">
+                                                        {{#each extraInfoOptions}}
+                                                                <label class='form-check form-check--sm'>
+                                                                    <input
+                                                                        type='radio'
+                                                                        name='{{{../extraInfoName}}}'
+                                                                        value='{{extraInfoOptionNo}}'
+                                                                        shopby-extra-info-no='{{../extraInfoNo}}'
+                                                                        shopby-on:change='CHANGE_EXTRA_INFO_RADIO_OPTION'
+                                                                    />
+                                                                    <span class='form-check__label'>
+                                                                        {{{extraInfoOptionName}}}
+                                                                    </span>
+                                                                </label>
+                                                        {{/each}}
+                                                    </div>
+                                                </div>
+                                                <p class='description invalid-alert'>
+                                                    {{#unless isValid}}
+                                                        {{message}}
+                                                    {{/unless}}
+                                                </p>
+                                            </div>
+                                            {{/ifEq}}
+                                            {{#ifEq extraInfoType 'CHECKBOX'}}
+                                            <div class="member-modification-form__item">
+                                                <p class="member-modification-form__tit">
+                                                    <span class="{{#ifEq status 'REQUIRED'}}dot dot--r-must{{else}}{{/ifEq}}">{{{extraInfoName}}}</span>
+                                                </p>
+                                                <div class="member-modification-form__input-wrap">
+                                                    <div class="extra-info-checkbox-group">
+                                                        {{#each extraInfoOptions}}
+                                                            <label class='form-check form-check--md'>
+                                                                <input
+                                                                    type='checkbox'
+                                                                    name="{{../extraInfoName}}"
+                                                                    shopby-extra-info-no='{{../extraInfoNo}}'
+                                                                    shopby-extra-info-option-no='{{extraInfoOptionNo}}'
+                                                                    shopby-on:change='CHANGE_EXTRA_INFO_CHECKBOX_OPTION'
+                                                                />
+                                                                <span class='form-check__label'>
+                                                                    {{{extraInfoOptionName}}}
+                                                                </span>
+                                                            </label>
+                                                        {{/each}}
+                                                    </div>
+                                                </div>
+                                                <p class='description invalid-alert'>
+                                                    {{#unless isValid}}
+                                                        {{message}}
+                                                    {{/unless}}
+                                                </p>
+                                            </div>
+                                            {{/ifEq}}
+                                            {{#ifEq extraInfoType 'DROPDOWN'}}
+                                            <div class="member-modification-form__item">
+                                                <p class="member-modification-form__tit">
+                                                    <span class="{{#ifEq status 'REQUIRED'}}dot dot--r-must{{else}}{{/ifEq}}">{{{extraInfoName}}}</span>
+                                                </p>
+                                                <div class="member-modification-form__input-wrap">
+                                                    <span class='select select--md'>
+                                                        <select shopby-extra-info-no='{{extraInfoNo}}' shopby-on:change='CHANGE_EXTRA_INFO_SELECT_OPTION'>
+                                                            <option value='' selected disabled shopby-disabled>
+                                                                선택
+                                                            </option>
+                                                            {{#each extraInfoOptions}}
+                                                                <option value={{extraInfoOptionNo}}>
+                                                                    {{{extraInfoOptionName}}}
+                                                                </option>
+                                                            {{/each}}
+                                                        </select>
+                                                    </span>
+                                                </div>
+                                                <p class='description invalid-alert'>
+                                                    {{#unless isValid}}
+                                                        {{message}}
+                                                    {{/unless}}
+                                                </p>
+                                            </div>
+                                            {{/ifEq}}
+                                        {{/each}}
+                                    </div>
+                                </div>
+                            </script>
+                        </profile-extra-information>
+
+                        <terms-information>
+                            <script type="text/x-handlebars-template">
+                                <div class='member-modification-form__item' >
+                                    <p class='member-modification-form__tit'>약관동의</p>
+                                    <div slot="hasRequiredTerms">
+                                        {{#if hasRequiredTerms}}
+                                        <div class='member-modification-form__checkbox--check-all'>
+                                            <label class='form-check form-check--md'>
+                                                <input type='checkbox' slot='isAllChecked' shopby-on:click='CHECK_ALL_TERMS' />
+                                                <span class='form-check__label'>
+                                                    아래 약관에 모두 동의합니다.
+                                                </span>
+                                            </label>
+                                        </div>
+                                        {{/if}}
+                                    </div>
+                                    <ul class='member-modification-form__agree-list'>
+                                        <div slot='terms'>
+                                            {{#each terms}}
+                                                <li>
+                                                    <div class='member-modification-form__checkbox--check-single'>
+                                                        <label class='form-check form-check--md {{#if required}}is-disabled{{/if}}' >
+                                                            <input type='checkbox' value='{{id}}' shopby-on:click='CHECK_TERMS' />
+                                                            <span class='form-check__label'>
+                                                                {{getMandatoryLabel required}}
+                                                                {{title}}
+                                                            </span>
+                                                        </label>
+                                                        {{#if hasDetailView}}
+                                                            <button class='btn btn--default' type='button' shopby-term-id='{{id}}' shopby-action='SHOW_TERM_DETAIL'>
+                                                                보기
+                                                            </button>
+                                                        {{/if}}
+                                                    </div>
+                                                </li>
+                                            {{/each}}
+                                        </div>
+                                        <div slot='customTerms'>
+                                            {{#each customTerms}}
+                                                <li>
+                                                    <div class='member-modification-form__checkbox--check-single'>
+                                                        <label class='form-check form-check--md'>
+                                                            <input type='checkbox' value='{{id}}' shopby-on:click='CHECK_TERMS' />
+                                                            <span class='form-check__label'>
+                                                                {{getMandatoryLabel required}}
+                                                                {{title}}
+                                                            </span>
+                                                        </label>
+                                                        {{#if hasDetailView}}
+                                                            <button class='btn btn--default' type='button' shopby-term-id='{{id}}' shopby-action='SHOW_TERM_DETAIL'>
+                                                                보기
+                                                            </button>
+                                                        {{/if}}
+                                                    </div>
+                                                </li>
+                                            {{/each}}
+                                        </div>
+                                    </ul>
+                                </div>
+                            </script>
+                        </terms-information>
+                        <div class="member-modification-form__notice-list">
+                            <p>주문, 결제, 고객 상담 등 원활한 정보 제공을 위해 이메일 주소 및 휴대폰 번호는 정확히 기입하셔야 합니다.</p>
+                        </div>
+                        <div class="member-modification-form__button-wrap">
+                            <button type="button" class="btn btn--line-dark btn--sm" shopby-action="CANCEL_MODIFY">취소</button>
+                            <button type="button" class="btn btn--fill-point btn--sm" shopby-action="MODIFY">정보 수정</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <layer-modal-area type="title" title="회원정보수정" name="password-authentication" src="@modals/password-authentication.html"></layer-modal-area>
+
+        <layer-modal-area type="title" name="page-zip-code" src="@modals/zip-code.html" title="주소찾기"></layer-modal-area>
+        <layer-modal-area type="title" name="kcp-sms-authentication" src="@modals/kcp-sms-authentication.html" title="휴대폰 본인인증"></layer-modal-area>
+        <layer-modal-area type="custom" name="term-detail" src="@modals/terms-detail.html"></layer-modal-area>
+
+        <!-- 퀵메뉴 (최상단 이동 + 최근 본 상품) -->
+        <template shopby-partials="@partials/quick-menu.html"></template>
+        <!-- 최근 본 상품(오프캔버스) -->
+        <template shopby-partials="@partials/recent-product.html"></template>
+        <!-- 하단 레이아웃 -->
+        <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js"></template>
+
+        <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+        <template shopby-partials="@partials/modal.html"></template>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/pages/my/modify-member.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/libs/naver-marketing-config.js"></script>
+    </body>
+</html>

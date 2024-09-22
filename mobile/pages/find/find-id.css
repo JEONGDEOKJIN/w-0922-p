@@ -1,0 +1,38 @@
+@charset "UTF-8";
+/*  아이디 찾기 페이지 스타일 파일입니다. */
+.find-id {
+  padding: 0 20px;
+}
+.find-id .tab {
+  width: 100%;
+}
+.find-id .tab li {
+  width: 100%;
+  text-align: center;
+}
+.find-id .tab li button {
+  height: 100%;
+  width: 100%;
+  font-size: 16px;
+  color: unset;
+  background-color: transparent;
+  border: none;
+}
+.find-id .tab li.is-active {
+  border-block-end-width: 3px;
+}
+.find-id-form {
+  margin-top: 20px;
+}
+.find-id-form .find-id-form__item + .find-id-form__item {
+  margin-top: 10px;
+}
+.find-id-form__input-wrap .email-input + .select {
+  margin-top: 10px;
+}
+.find-id-form__btn-wrap {
+  margin-top: 30px;
+}
+.find-id-form__btn-wrap button {
+  width: 100%;
+}

@@ -1,0 +1,62 @@
+@charset "UTF-8";
+/*  주문/배송 상세 페이지 스타일 파일입니다. */
+.order-detail .btn {
+  width: 100%;
+}
+.order-detail .l-panel {
+  margin-bottom: 40px;
+  padding: 0;
+  border-bottom: 0;
+}
+.order-detail .l-title {
+  color: var(--color-base-black);
+  font-weight: 500;
+}
+.order-detail__order-no {
+  color: var(--gray400);
+}
+.order-detail .thumb-item__media {
+  width: 105px;
+  height: auto;
+  flex: none;
+}
+.order-detail .thumb-item__info {
+  margin: 0;
+}
+.order-detail .product-option-info__detail {
+  padding: 18px 0 10px;
+  border-top: 0;
+}
+.order-detail__copy-btn {
+  color: var(--gray500);
+}
+.order-detail__claim-detail {
+  text-decoration: underline;
+}
+.order-detail__order-amount {
+  border-top: 2px solid var(--color-base-black);
+  border-bottom: 2px solid var(--color-base-black);
+}
+.order-detail__order-amount dd {
+  text-align: right;
+}
+.order-detail__last-order-amount {
+  text-align: right;
+}
+.order-detail__last-order-amount .highlight {
+  font-size: 16px;
+}
+.order-detail__mileage {
+  font-size: 12px;
+  color: var(--gray500);
+}
+.order-detail__refund-info dd, .order-detail__additional-pay-info dd {
+  text-align: right;
+}
+.order-detail__refund-product, .order-detail__exchange-product {
+  border-bottom: 1px solid var(--gray200);
+}
+.order-detail__refund-product-title, .order-detail__exchange-product-title {
+  margin: 18px 0;
+  font-weight: 500;
+}

@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="/shopby-skin-pc.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/order/order-sheet-form.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/lib/lodash_4_17_21.min.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-pc.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+
+    <body>
+        <!-- 디자인팝업 -->
+        <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+        <!-- 상단 레이아웃 -->
+        <template class="shopby-header" shopby-partials="@partials/common-header.html" shopby-partials-js="@partials/common-header.js"></template>
+
+        <main>
+            <div class="l-page">
+                <ol class="page-content-top__path page-content-top__location">
+                    <li>HOME</li>
+                    &gt;
+                    <li>주문서 작성/결제</li>
+                </ol>
+
+                <div class="page-content-top__title">
+                    <h2>주문서 작성/결제</h2>
+
+                    <ol class="page-content-top__path page-content-top__breadcrumb">
+                        <li>01 장바구니</li>
+                        <li class="current">02 주문서 작성/결제</li>
+                        <li>03 주문완료</li>
+                    </ol>
+                </div>
+
+                <div class="order-sheet" shopby-helper-key="order-sheet-form">
+                    <!-- 주문 상품 -->
+                    <section class="l-panel">
+                        <details class="accordion order-sheet__product-table" open>
+                            <summary class="accordion__title">주문상품</summary>
+                            <div class="">
+                                <div class="">
+                                    <order-products>
+                                        <script type="text/x-handlebars-template">
+                                            <table>
+                                                <colgroup>
+                                                    <col />
+                                                    <!-- 상품명/옵션 -->
+                                                    <col style='width: 10%' />
+                                                    <!-- 수량 -->
+                                                    <col style='width: 10%' />
+                                                    <!-- 상품금액 -->
+                                                    <col style='width: 13%' />
+                                                    <!-- 할인/적립 -->
+                                                    <col style='width: 10%' />
+                                                    <!-- 합계금액 -->
+                                                    <col style='width: 10%' />
+                                                    <!-- 배송비 -->
+                                                </colgroup>
+                                                <thead>
+                                                    <tr>
+                                                        <th>상품/옵션</th>
+                                                        <th>수량</th>
+                                                        <th>상품금액</th>
+                                                        <th>할인/적립</th>
+                                                        <th>합계금액</th>
+                                                        <th>배송비</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody slot='deliveryGroupingProducts'>
+                                                    {{#each deliveryGroupingProducts}}
+                                                        {{#each products}}
+                                                            <tr shopby-product-no='{{productNo}}'>
+                                                                <td class='order-sheet__product-info'>
+                                                                    <a
+                                                                        href='/pages/product/product-detail.html?productNo={{productNo}}'
+                                                                        class='order-sheet__product-img-link'
+                                                                    >
+                                                                        {{#ifEq imageUrlType 'VIDEO_URL'}}
+                                                                            <div class='video-wrapper'>
+                                                                                <div class='video-cover'></div>
+                                                                                <iframe src='{{imageUrl}}' width='100%' height='100%' frameborder='0'></iframe>
+                                                                            </div>
+                                                                        {{else}}
+                                                                            {{img imageUrl 130 130 productName 'middle' ''}}
+                                                                        {{/ifEq}}
+                                                                    </a>
+                                                                    <div class='order-sheet__product-additional-info'>
+                                                                        <a
+                                                                            class='order-sheet__product-name'
+                                                                            href='/pages/product/product-detail.html?productNo={{productNo}}'
+                                                                        >
+                                                                            {{safeString productName}}
+                                                                        </a>
+                                                                        <div class='order-sheet__option-info'>
+                                                                            <span>{{safeString optionTitle}}</span>
+                                                                            {{#each optionInputs}}
+                                                                                <span class='input-option'>
+                                                                                    {{safeString inputLabel}}:
+                                                                                    {{safeString inputValue}}
+                                                                                </span>
+                                                                            {{/each}}
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <strong class='product-number-data'>{{orderCnt}}</strong>
+                                                                </td>
+                                                                <td>
+                                                                    <p><strong class='product-number-data'>{{convertToKoreanCurrency
+                                                                                price.standardAmt
+                                                                            }}</strong>원</p>
+                                                                </td>
+                                                                <td class='order-sheet__discount-accumulation-td'>
+                                                                    {{#if price.immediateDiscountAmt}}
+                                                                        <div class='order-sheet__discount-accumulation-wrap'>
+                                                                            <span class='order-sheet__discount-label'>할인</span>
+                                                                            <p class='order-sheet__discount-accumulation-amt'><strong
+                                                                                    class='product-number-data'
+                                                                                > -{{convertToKoreanCurrency price.immediateDiscountAmt}}</strong>원</p>
+                                                                        </div>
+                                                                    {{/if}}
+
+                                                                    {{#if accumulationAmtWhenBuyConfirm}}
+                                                                        <div class='order-sheet__discount-accumulation-wrap'>
+                                                                            <span class='order-sheet__accumulation-label'>적립</span>
+                                                                            <p class='order-sheet__discount-accumulation-amt'><strong
+                                                                                    class='product-number-data'
+                                                                                >
+                                                                                    {{convertToKoreanCurrency
+                                                                                        accumulationAmtWhenBuyConfirm
+                                                                                    }}{{accumulationUnit}}</strong>원</p>
+                                                                        </div>
+                                                                    {{/if}}
+                                                                </td>
+                                                                <td>
+                                                                    <p><strong class='product-number-data'>{{convertToKoreanCurrency
+                                                                                price.buyAmt
+                                                                            }}</strong>원</p>
+                                                                </td>
+                                                                {{#ifNe rowSpan 0}}
+                                                                    {{#ifNe deliveryAmt 0}}
+                                                                        <td class='td_delivery' rowspan='{{rowSpan}}'>
+                                                                            <p><strong class='product-number-data'>{{convertToKoreanCurrency
+                                                                                        deliveryAmt
+                                                                                    }}</strong>원
+                                                                                <br />
+                                                                                <span class='order-sheet__delivery-pay-type'>({{toStringDeliveryPayType
+                                                                                        deliveryPayType
+                                                                                    }})</span>
+                                                                            </p>
+                                                                        </td>
+                                                                    {{else}}
+                                                                        <td class='td_delivery' rowspan='{{rowSpan}}'>
+                                                                            무료
+                                                                        </td>
+                                                                    {{/ifNe}}
+                                                                {{/ifNe}}
+                                                            </tr>
+                                                        {{/each}}
+                                                    {{/each}}
+                                                </tbody>
+                                            </table>
+                                        </script>
+                                    </order-products>
+                                </div>
+                            </div>
+                        </details>
+
+                        <div>
+                            <a href="/pages/order/cart.html" class="btn btn--line-dark btn--sm order-sheet__go-cart">장바구니 돌아가기</a>
+                        </div>
+                    </section>
+
+                    <!-- 주문자 정보 -->
+                    <orderer-info>
+                        <script type="text/x-handlebars-template">
+                            <section class='l-panel'>
+                                <div slot="isMemberInfoUpdatableWithOrdererInfo">
+                                    <!-- 회원 && 몰 설정에 회원 점유 인증이 아닌 경우 노출 -->
+                                    {{#if isMemberInfoUpdatableWithOrdererInfo}}
+                                    <label
+                                        class='form-check form-check--sm order-sheet__register-default-address-cbx'
+                                        slot='isMemberInfoSaved'
+                                    >
+                                        {{#if isMemberInfoSaved}}
+                                            <input type='checkbox' shopby-on:change='CHANGE_SAVE_UPDATE_MEMBER_INFO' checked />
+                                        {{else}}
+                                            <input type='checkbox' shopby-on:change='CHANGE_SAVE_UPDATE_MEMBER_INFO' />
+                                        {{/if}}
+                                        <span class='form-check__label'>주문자의 이메일, 전화번호와 배송지 주소를 회원 정보에 반영합니다.</span>
+                                    </label>
+                                    {{/if}}
+                                </div>
+                                <details class='accordion accordion__with-border-bottom' open>
+                                    <summary class='accordion__title'>
+                                        주문자 정보
+                                    </summary>
+                                    <div class='accordion__content-wrapper order-sheet__item-container'>
+                                        <div class='order-sheet__item'>
+                                            <label class='order-sheet__item-subject'>
+                                                <span class='dot dot--r-must'>주문자명</span>
+                                            </label>
+                                            <span class='input-field input-field--md'>
+                                                <input
+                                                    slot='ordererInfo.ordererName'
+                                                    type='text'
+                                                    maxlength='20'
+                                                    shopby-valid='NO_COMMON_SPECIAL'
+                                                    value='{{ordererInfo.ordererName}}'
+                                                    shopby-on:change='CHANGE_INPUT_ORDERER_INFO'
+                                                />
+                                            </span>
+                                        </div>
+                                        <div class='order-sheet__item'>
+                                            <label class='order-sheet__item-subject'>
+                                                <span class='dot dot--r-must'>이메일 주소</span>
+                                            </label>
+                                            <div class='order-sheet__email-form'>
+                                                <div class='order-sheet__email-input'>
+                                                    <span class='input-field input-field--md email-input__id'>
+                                                        <input
+                                                            slot='ordererInfo.emailId'
+                                                            type='text'
+                                                            maxlength='64'
+                                                            shopby-valid='EMAIL_ID'
+                                                            value='{{ordererInfo.emailId}}'
+                                                            shopby-on:change='CHANGE_INPUT_ORDERER_INFO'
+                                                        />
+                                                    </span>
+                                                    @
+                                                    <span class='input-field input-field--md email-input__domain'>
+                                                        <input
+                                                            slot='ordererInfo.emailDomain'
+                                                            type='text'
+                                                            maxlength='255'
+                                                            shopby-valid='EMAIL_DOMAIN'
+                                                            value='{{ordererInfo.emailDomain}}'
+                                                            shopby-on:change='CHANGE_INPUT_ORDERER_INFO'
+                                                        />
+                                                    </span>
+                                                </div>
+
+                                                <span class='select select--md order-sheet__domain-select'>
+                                                    <select shopby-on:change='CHANGE_SELECT_ORDERER_INFO' slot='ordererInfo.emailDomain'>
+                                                        <option value='' disabled selected>
+                                                            직접입력
+                                                        </option>
+                                                        <option value='naver.com'>
+                                                            naver.com
+                                                        </option>
+                                                        <option value='hanmail.net'>
+                                                            hanmail.net
+                                                        </option>
+                                                        <option value='daum.net'>
+                                                            daum.net
+                                                        </option>
+                                                        <option value='nate.com'>
+                                                            nate.com
+                                                        </option>
+                                                        <option value='gmail.com'>
+                                                            gmail.com
+                                                        </option>
+                                                    </select>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class='order-sheet__item'>
+                                            <label class='order-sheet__item-subject'>
+                                                <span class='dot dot--r-must'>휴대폰 번호</span>
+                                            </label>
+                                            <span class='input-field input-field--md'>
+                                                <input
+                                                    slot='ordererInfo.ordererContact1'
+                                                    type='text'
+                                                    maxlength='12'
+                                                    shopby-valid='NUMBER'
+                                                    value='{{ordererInfo.ordererContact1}}'
+                                                    placeholder='휴대폰 번호 - 없이 입력'
+                                                    shopby-on:change='CHANGE_INPUT_ORDERER_INFO'
+                                                />
+                                            </span>
+                                        </div>
+                                        <div class='order-sheet__item'>
+                                            <label class='order-sheet__item-subject'>
+                                                전화 번호
+                                            </label>
+                                            <span class='input-field input-field--md'>
+                                                <input
+                                                    slot='ordererInfo.ordererContact2'
+                                                    type='text'
+                                                    maxlength='12'
+                                                    shopby-valid='NUMBER'
+                                                    placeholder='전화 번호 - 없이 입력'
+                                                    value='{{ordererInfo.ordererContact2}}'
+                                                    shopby-on:change='CHANGE_INPUT_ORDERER_INFO'
+                                                />
+                                            </span>
+                                        </div>
+                                        <div class='order-sheet__item'>
+                                            <label class='order-sheet__item-subject'>
+                                                주문 메모
+                                            </label>
+                                            <span class='input-field input-field--md'>
+                                                <input slot='orderMemo' type='text' value='{{orderMemo}}' shopby-on:change='CHANGE_INPUT_ORDERER_INFO' />
+                                            </span>
+                                        </div>
+
+                                        <!-- 비회원일 때 -->
+                                        <div slot="visibleGuestForm" class='order-sheet__guest {{#if visibleGuestForm}}on{{/if}}'>
+                                            <p class='order-sheet__guest-desc'>
+                                                비회원 주문 조회 시 사용할 비밀번호를 영문/숫자/특수문자 조합하여 8~20자 이내로 입력해주세요.
+                                            </p>
+                                            <div>
+                                                <div class='order-sheet__item'>
+                                                    <label class='order-sheet__item-subject'>
+                                                        <span class='dot dot--r-must'>주문 비밀번호 입력</span>
+                                                    </label>
+                                                    <span class='input-field input-field--md'>
+                                                        <input
+                                                            type='password'
+                                                            minlength='8'
+                                                            maxlength='20'
+                                                            shopby-valid='NO_KOREAN_SPECIAL_PASSWORD'
+                                                            value='{{guestInfo.password}}'
+                                                            placeholder='비밀번호 (영문, 숫자, 특수문자 8~20자)'
+                                                            shopby-on:focusout='FOCUS_OUT_GUEST_PASSWORD_INPUT'
+                                                            autocomplete='off'
+                                                        />
+                                                    </span>
+                                                </div>
+                                                <p slot="errorMessageInvalidPassword" class='order-sheet__error-msg {{#if errorMessageInvalidPassword}}on{{/if}}' shopby-message='invalidPassword'>영문, 숫자, 특수문자를 3종류 모두
+                                                    조합하여 8~20자로 입력해주세요.</p>
+                                                <p slot="errorMessageLessInvalidPassword" class='order-sheet__error-msg {{#if errorMessageLessInvalidPassword}}on{{/if}}' shopby-message='lessInvalidPassword'>영문, 숫자, 특수문자를 2종류
+                                                    이상 조합하여 10~20자로 입력해주세요.</p>
+                                                <p slot="errorMessageInvalidPasswordLength" class='order-sheet__error-msg  {{#if errorMessageInvalidPasswordLength}}on{{/if}}' shopby-message='invalidPasswordLength'>비밀번호 자릿수를
+                                                    확인해주세요. (8자리~20자리)</p>
+                                            </div>
+                                            <div>
+                                                <div class='order-sheet__item'>
+                                                    <label class='order-sheet__item-subject'>
+                                                        <span class='dot dot--r-must'>주문 비밀번호 입력 확인</span>
+                                                    </label>
+                                                    <span class='input-field input-field--md'>
+                                                        <input
+                                                            type='password'
+                                                            minlength='8'
+                                                            maxlength='20'
+                                                            shopby-valid='NO_KOREAN_SPECIAL_PASSWORD'
+                                                            value='{{guestInfo.passwordForConfirmation}}'
+                                                            placeholder='비밀번호 한번 더 입력'
+                                                            shopby-on:focusout='FOCUS_OUT_GUEST_PASSWORD_CONFIRM_INPUT'
+                                                            autocomplete='off'
+                                                        />
+                                                    </span>
+                                                </div>
+                                                <p slot="errorMessageNotEqualPassword" class='order-sheet__error-msg {{#if errorMessageNotEqualPassword}}on{{/if}}' shopby-message='notEqualPassword'>비밀번호와 비밀번호확인 값이
+                                                      일치하지 않습니다.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </details>
+                            </section>
+                        </script>
+                    </orderer-info>
+
+                    <!-- 배송지 정보 -->
+                    <shipping-address-info>
+                        <script type="text/x-handlebars-template">
+                            <div>
+                                <div slot='hasDeliverableProduct'>
+                                    {{#if hasDeliverableProduct}}
+                                        <section class='l-panel'>
+                                            <details class='accordion accordion__with-border-bottom' open>
+                                                <summary class='accordion__title'>
+                                                    배송지 정보
+
+                                                    <label class='form-check form-check--md order-sheet__same-orderer' slot='isSameOrderer'>
+                                                        {{#if isSameOrderer}}
+                                                            <input type='checkbox' shopby-on:change='CHANGE_CHECKBOX_SAME_ORDERER' checked />
+                                                        {{else}}
+                                                            <input type='checkbox' shopby-on:change='CHANGE_CHECKBOX_SAME_ORDERER' />
+                                                        {{/if}}
+                                                        <span class='form-check__label'>주문자 동일</span>
+                                                    </label>
+                                                </summary>
+                                                <div class='accordion__content-wrapper order-sheet__item-container'>
+                                                    {{#if (isSignedIn)}}
+                                                        <div class='order-sheet__item order-sheet__shipping-setting' slot='selectedShippingGroup'>
+                                                            <label class='form-check form-check--md'>
+                                                                {{#ifEq selectedShippingGroup 'DEFAULT_ADDRESS'}}
+                                                                    <input
+                                                                        type='radio'
+                                                                        name='shippingGroup'
+                                                                        shopby-on:change='UPDATE_ORDER_SHEET_SHIPPING_ADDRESS_GROUP'
+                                                                        value='DEFAULT_ADDRESS'
+                                                                        checked
+                                                                    />
+                                                                {{else}}
+                                                                    <input
+                                                                        type='radio'
+                                                                        name='shippingGroup'
+                                                                        shopby-on:change='UPDATE_ORDER_SHEET_SHIPPING_ADDRESS_GROUP'
+                                                                        value='DEFAULT_ADDRESS'
+                                                                    />
+                                                                {{/ifEq}}
+                                                                <span class='form-check__label'>기본 배송지</span>
+                                                            </label>
+
+                                                            <label class='form-check form-check--md'>
+                                                                {{#ifEq selectedShippingGroup 'RECENT_ADDRESS'}}
+                                                                    <input
+                                                                        type='radio'
+                                                                        name='shippingGroup'
+                                                                        shopby-on:change='UPDATE_ORDER_SHEET_SHIPPING_ADDRESS_GROUP'
+                                                                        value='RECENT_ADDRESS'
+                                                                        checked
+                                                                    />
+                                                                {{else}}
+                                                                    <input
+                                                                        type='radio'
+                                                                        name='shippingGroup'
+                                                                        shopby-on:change='UPDATE_ORDER_SHEET_SHIPPING_ADDRESS_GROUP'
+                                                                        value='RECENT_ADDRESS'
+                                                                    />
+                                                                {{/ifEq}}
+                                                                <span class='form-check__label'>최근 배송지</span>
+                                                            </label>
+
+                                                            <label class='form-check form-check--md'>
+                                                                {{#ifEq selectedShippingGroup 'NEW_ADDRESS'}}
+                                                                    <input
+                                                                        type='radio'
+                                                                        name='shippingGroup'
+                                                                        shopby-on:change='UPDATE_ORDER_SHEET_SHIPPING_ADDRESS_GROUP'
+                                                                        value='NEW_ADDRESS'
+                                                                        checked
+                                                                    />
+                                                                {{else}}
+                                                                    <input
+                                                                        type='radio'
+                                                                        name='shippingGroup'
+                                                                        shopby-on:change='UPDATE_ORDER_SHEET_SHIPPING_ADDRESS_GROUP'
+                                                                        value='NEW_ADDRESS'
+                                                                    />
+                                                                {{/ifEq}}
+                                                                <span class='form-check__label'>신규 배송지</span>
+                                                            </label>
+
+                                                            <button
+                                                                type='button'
+                                                                class='btn btn--line-dark btn--sm order-sheet__shipping-address-btn'
+                                                                shopby-action='CLICK_OPEN_SHIPPING_ADDRESS_FORM'
+                                                            >배송지 관리</button>
+                                                        </div>
+                                                    {{/if}}
+                                                    <div class='order-sheet__item'>
+                                                        <label class='order-sheet__item-subject'>
+                                                            배송지 이름
+                                                        </label>
+                                                        <span class='input-field input-field--md'>
+                                                            <input
+                                                                slot='shippingInfo.addressName'
+                                                                type='text'
+                                                                maxlength='50'
+                                                                value='{{shippingInfo.addressName}}'
+                                                                shopby-on:change='UPDATE_ORDER_SHEET_SHIPPING_INFO'
+                                                                shopby-on:input='INPUT_SHIPPING_INFO'
+                                                            />
+                                                        </span>
+
+                                                    </div>
+                                                    <div class='order-sheet__item'>
+                                                        <label class='order-sheet__item-subject'>
+                                                            <span class='dot dot--r-must'>받으시는 분</span>
+                                                        </label>
+                                                        <span class='input-field input-field--md'>
+                                                            <input
+                                                                slot='shippingInfo.receiverName'
+                                                                type='text'
+                                                                maxlength='20'
+                                                                shopby-valid='NO_COMMON_SPECIAL'
+                                                                value='{{shippingInfo.receiverName}}'
+                                                                shopby-on:change='UPDATE_ORDER_SHEET_SHIPPING_INFO'
+                                                                shopby-on:input='INPUT_SHIPPING_INFO'
+                                                            />
+                                                        </span>
+                                                    </div>
+
+                                                    <div class='order-sheet__item'>
+                                                        <label class='order-sheet__item-subject'>
+                                                            <span class='dot dot--r-must'>주소</span>
+                                                        </label>
+                                                        <div class='order-sheet__address-form'>
+                                                            <p class='order-sheet__address-form__zip-code'>
+                                                                <span class='input-field input-field--md'>
+                                                                    <input
+                                                                        slot='shippingInfo.receiverZipCd'
+                                                                        type='text'
+                                                                        readonly
+                                                                        value='{{shippingInfo.receiverZipCd}}'
+                                                                        shopby-valid='NUMBER'
+                                                                    />
+                                                                </span>
+                                                                <button
+                                                                    type='button'
+                                                                    class='btn btn--line-dark btn--sm order-sheet__find-zip-code-btn'
+                                                                    shopby-focus-field='zipCode'
+                                                                    shopby-action='SEARCH_ZIP_CODE'
+                                                                >
+                                                                    우편번호 찾기
+                                                                </button>
+                                                            </p>
+                                                            <span class='input-field input-field--md is-disabled'>
+                                                                <input
+                                                                    slot='shippingInfo.receiverAddress'
+                                                                    type='text'
+                                                                    readonly
+                                                                    value='{{shippingInfo.receiverAddress}}'
+                                                                    disabled
+                                                                />
+                                                            </span>
+                                                            <span class='input-field input-field--md'>
+                                                                <input
+                                                                    slot='shippingInfo.receiverDetailAddress'
+                                                                    type='text'
+                                                                    maxlength='100'
+                                                                    value='{{shippingInfo.receiverDetailAddress}}'
+                                                                    shopby-on:change='UPDATE_ORDER_SHEET_SHIPPING_INFO'
+                                                                    shopby-on:input='INPUT_SHIPPING_INFO'
+                                                                />
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class='order-sheet__item'>
+                                                        <label class='order-sheet__item-subject'>
+                                                            <span class='dot dot--r-must'>휴대폰 번호</span>
+                                                        </label>
+                                                        <div class='phone-number-input'>
+                                                            <span class='input-field input-field--md'>
+                                                                <input
+                                                                    slot='shippingInfo.receiverContact1'
+                                                                    type='text'
+                                                                    maxlength='12'
+                                                                    shopby-valid='NUMBER'
+                                                                    placeholder='휴대폰 번호 - 없이 입력'
+                                                                    value='{{shippingInfo.receiverContact1}}'
+                                                                    shopby-on:change='UPDATE_ORDER_SHEET_SHIPPING_INFO'
+                                                                />
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class='order-sheet__item'>
+                                                        <label class='order-sheet__item-subject'>
+                                                            전화 번호
+                                                        </label>
+                                                        <div class='phone-number-input'>
+                                                            <span class='input-field input-field--md'>
+                                                                <input
+                                                                    slot='shippingInfo.receiverContact2'
+                                                                    type='text'
+                                                                    maxlength='12'
+                                                                    shopby-valid='NUMBER'
+                                                                    placeholder='전화 번호 - 없이 입력'
+                                                                    value='{{shippingInfo.receiverContact2}}'
+                                                                    shopby-on:change='UPDATE_ORDER_SHEET_SHIPPING_INFO'
+                                                                />
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class='order-sheet__item'>
+                                                        <label class='order-sheet__item-subject'>
+                                                            배송 메모
+                                                        </label>
+                                                        <span class='input-field input-field--md'>
+                                                            <input
+                                                                slot='deliveryMemo'
+                                                                type='text'
+                                                                maxlength='500'
+                                                                value='{{deliveryMemo}}'
+                                                                shopby-on:change='UPDATE_ORDER_SHEET_SHIPPING_INFO'
+                                                            />
+                                                        </span>
+                                                    </div>
+
+                                                    <!-- 해외 배송지 일 경우 -->
+                                                    <div slot='hasInternationalShippingProduct'>
+                                                        {{#if hasInternationalShippingProduct}}
+                                                            <div class='order-sheet__item'>
+                                                                <label class='order-sheet__item-subject'>
+                                                                    <span class='dot dot--r-must'>개인통관고유부호</span>
+                                                                </label>
+                                                                <span class='input-field input-field--md order-sheet__custom-id-issuance-input-field'>
+                                                                    <input
+                                                                        slot='shippingInfo.customsIdNumber'
+                                                                        type='text'
+                                                                        maxlength='13'
+                                                                        value='{{shippingInfo.customsIdNumber}}'
+                                                                        shopby-valid='ENGLISH_NUMBER'
+                                                                        placeholder='P로 시작하는 13자리'
+                                                                        shopby-on:change='UPDATE_ORDER_SHEET_SHIPPING_INFO'
+                                                                    />
+                                                                </span>
+                                                                <a
+                                                                    href='https://unipass.customs.go.kr/csp/persIndex.do'
+                                                                    target='_blank'
+                                                                    rel='noopener noreferrer'
+                                                                    class='btn btn--line-dark btn--sm order-sheet__custom-id-issuance'
+                                                                >개인통관고유부호 발급</a>
+                                                            </div>
+                                                        {{/if}}
+                                                    </div>
+                                                </div>
+                                            </details>
+                                        </section>
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </script>
+                    </shipping-address-info>
+
+                    <!-- 혜택 적용 -->
+                    <promotion-info>
+                        <script type="text/x-handlebars-template">
+                            <details class='accordion accordion__with-border-bottom' open>
+                                <summary class='accordion__title'>
+                                    혜택 적용
+                                </summary>
+                                <div class='accordion__content-wrapper' slot='isSignedIn'>
+                                  {{#ifEq isSignedIn true}}
+                                      <div class='order-sheet__promotion-items'>
+                                          <div class='order-sheet__promotion-row'>
+                                              <label class='order-sheet__item-subject'>쿠폰할인</label>
+
+                                              <div class='order-sheet__item order-sheet__promotion-input'>
+                                                  <span class='input-field input-field--md'>
+                                                      <input
+                                                          slot='allCouponAmt'
+                                                          type='text'
+                                                          placeholder=''
+                                                          value='{{convertToKoreanCurrency allCouponAmt}}'
+                                                          readonly
+                                                      />
+                                                  </span>
+
+                                                  <button type='button' class='btn btn--line-dark btn--sm order-sheet__coupon-modal-btn' shopby-action='CLICK_OPEN_APPLY_COUPON_MODAL'>
+                                                      쿠폰 사용
+                                                  </button>
+                                              </div>
+
+                                              <div class='order-sheet__promotion-additional-info'>
+                                                  <p>
+                                                      상품 할인 :
+                                                      <strong class='font-montserrat' slot='productCouponCount'>{{productCouponCount}}</strong>장
+                                                  </p>
+                                                  <p>
+                                                      장바구니 할인 :
+                                                      <strong class='font-montserrat' slot='cartCouponCount'>{{cartCouponCount}}</strong>장
+                                                  </p>
+                                              </div>
+                                          </div>
+
+                                          <div class='order-sheet__promotion-row'>
+
+                                              <label class='order-sheet__item-subject'>
+                                                  적립금
+                                              </label>
+                                              <div slot='paymentInfo' class='order-sheet__item order-sheet__promotion-input'>
+                                                  {{#ifLe paymentInfo.accumulationAmt 0}}
+                                                      <span class='input-field input-field--md is-disabled'>
+                                                          <input type='text' value='0' disabled />
+                                                      </span>
+                                                  {{else}}
+                                                      <span class='input-field input-field--md'>
+                                                          <input
+                                                              slot='accumulationInputValue'
+                                                              type='text'
+                                                              placeholder=''
+                                                              value='{{convertToKoreanCurrency accumulationInputValue}}'
+                                                              shopby-valid='NUMBER'
+                                                              shopby-action='CHANGE_INPUT_ACCUMULATION'
+                                                          />
+                                                      </span>
+                                                  {{/ifLe}}
+
+                                                  <button type='button' class='btn btn--line-dark btn--sm order-sheet__use-accumulation-btn {{#ifLe paymentInfo.accumulationAmt 0}}disabled{{/ifLe}}' shopby-action='USE_ACCUMULATION_AMT'>
+                                                      모두 사용
+                                                  </button>
+                                              </div>
+
+                                              <div class='order-sheet__promotion-additional-info'>
+                                                  <p>
+                                                      보유 적립금 :
+                                                      <strong class='font-montserrat' slot='paymentInfo'>{{convertToKoreanCurrency
+                                                              paymentInfo.accumulationAmt
+                                                          }}</strong>원
+                                                  </p>
+                                                  <p>
+                                                      사용가능한 적립금 :
+                                                      <strong class='font-montserrat' slot='paymentInfo'>{{convertToKoreanCurrency
+                                                              paymentInfo.availableMaxAccumulationAmt
+                                                          }}</strong>원
+                                                  </p>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  {{else}}
+                                      <div class="order-sheet__promotion-section-login">
+                                          <p>
+                                              비회원으로 주문하실 경우 할인 쿠폰 사용이 불가능하며,
+                                              <strong>적립금 적립 및 혜택을 이용하실 수 없습니다.</strong>
+                                          </p>
+                                          <a class='btn btn--fill-dark btn--xl order-sheet__go-login' href='/pages/sign-in/sign-in.html'>회원 로그인</a>
+                                      </div>
+                                  {{/ifEq}}
+                              </div>
+                            </details>
+                        </script>
+                    </promotion-info>
+
+                    <!-- 결제 수단 선택 -->
+                    <pay-method-selector device-type="PC">
+                        <script type="text/x-handlebars-template">
+                            <details class="accordion accordion__with-border-bottom" open>
+                                <summary class="accordion__title">결제수단 선택
+                                  <div class="order-sheet__pay-method-desc-wrapper" slot="payMethods">
+                                    {{#if payMethods.notExistPayMethods}}
+                                    <p class="order-sheet__pay-method-desc">결제 가능한 수단이 존재하지 않습니다.</p>
+                                    {{/if}}
+
+                                    {{#if payMethods.isEscrow}}
+                                    <!-- 에스크로 결제 수단 1개 이상 포함일 때 노출 -->
+                                    <p class="order-sheet__pay-method-desc">고객님은 안전 거래를 위해 현금으로 결제시 저희 쇼핑몰에서 가입한 구매 안전(에스크로) 서비스를 이용하실 수 있습니다.</p>
+                                    {{/if}}
+                                </div>
+
+                                </summary>
+                                <div class='accordion__content-wrapper'>
+                                  <div class="order-sheet__pay-method-wrapper" slot="payMethods">
+                                    <div class="order-sheet__pay-method-btns">
+                                    {{#if payMethods.hasMyPayPayment}}
+                                    <button
+                                    type="button"
+                                    class="my-pay-method-btn {{#if payMethods.myPayInfoAppSetting.useLogo}}logo{{else}}label{{/if}} {{#if myPayMode.visibleMyPayPaymentForm}}checked{{/if}}"
+                                    shopby-pg-type="MY_PAY"
+                                    style="{{payMethods.myPayInfoAppSetting.buttonStyle}}"
+                                    shopby-on:click="CLICK_PAY_METHOD_BTN"
+                                    shopby-action="CLICK_MY_PAY_BTN"
+                                    >
+                                    {{#ifEq payMethods.myPayInfoAppSetting.useLogo false}}
+                                      <span>{{payMethods.myPayInfoAppSetting.payName}}</span>
+                                    {{/ifEq}}
+                                </button>
+
+                                    {{/if}}
+
+                                    {{#each payMethods.payMethodsToBeExposed}}
+
+                                      <!-- 라벨이 필요하지 않는 결제 버튼일 때 -->
+                                      {{#if isUnnecessaryLabel}}
+                                      <button
+                                          class="pay-method-btn pay-method-btn--centered {{#if selected}}pay-method-btn--checked{{/if}}"
+                                          shopby-on:click="CLICK_PAY_METHOD_BTN"
+                                          shopby-pay-type="{{payType}}"
+                                          shopby-pg-type="{{pgType}}"
+                                      >
+                                          <span class="ico ico--{{iconName}}{{#if selected}}-white{{/if}} pay-method-btn__icon"></span>
+                                      </button>
+
+                                      <!-- 라벨이 필요한 결제 버튼일 때 -->
+                                      {{else}}
+                                      <button
+                                          class="pay-method-btn {{#if selected}}pay-method-btn--checked{{/if}}"
+                                          shopby-on:click="CLICK_PAY_METHOD_BTN"
+                                          shopby-pay-type="{{payType}}"
+                                          shopby-pg-type="{{pgType}}"
+                                      >
+                                          <span class="pay-method-btn__label">{{label}}</span>
+                                          <span class="ico ico--{{iconName}}{{#if selected}}-white{{else}}-black{{/if}} pay-method-btn__icon"></span>
+                                      </button>
+                                      {{/if}} {{/each}}
+                                    </div>
+                                  </div>
+
+                                  <!-- 선택한 결제 수단이 "마이 페이"일 때 -->
+                                <div slot="myPayMode">
+                                  {{#if myPayMode.visibleMyPayPaymentForm}}
+                                  <div class="order-sheet__my-pay-register-form">
+                                    <div class="order-sheet__my-pay-register-form-top">
+                                      <p class="order-sheet__my-pay-title-wrap">
+                                        {{#ifGt myPayMode.myPayPaymentInfos.length 0}}
+                                        <span class="order-sheet__my-pay-title">{{payMethods.myPayInfoAppSetting.payName}} 결제수단 선택</span>
+                                        {{else}}
+                                        <span class="order-sheet__my-pay-title">결제수단 등록</span>
+                                        {{/ifGt}}
+                                        <span class="order-sheet__my-pay-title-desc">등록할 결제수단을 선택해 주세요.</span>
+                                      </p>
+
+                                      <button type="button" class="btn btn--line-gray btn--sm" shopby-action="CLICK_MY_PAY_SETTING">설정</button>
+                                    </div>
+
+                                    <!-- 등록된 결제수단이 있을 때 -->
+                                    {{#ifGt myPayMode.myPayPaymentInfos.length 0}}
+
+                                    <div>
+                                      <ul class="my-pay-payments">
+                                        {{#each myPayMode.myPayPaymentInfos}}
+                                        <li class="my-pay-payment-item {{#if isSelected}}my-pay-payment-item--selected{{/if}}" shopby-on:click="CLICK_ACCOUNT_OR_CART_ON_MY_PAY" shopby-pay-token="{{payToken}}" shopby-index="{{@index}}">
+                                            <div class="my-pay-payment-item__top">
+                                                <span class="my-pay-payment-item__card-name">{{cardName}}</span>
+
+                                                <button class="my-pay-payment-item__bookmark-btn" shopby-action="CLICK_BOOKMARK_ON_MY_PAY" >
+                                                  {{#if isSelected}}
+                                                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="21" viewBox="0 0 22 21" fill="{{#if main}}#ffffff{{else}}none{{/if}}">
+                                                    <path d="M10.2827 2.45332C10.5131 1.98638 10.6284 1.75291 10.7848 1.67831C10.9209 1.61341 11.0791 1.61341 11.2152 1.67831C11.3717 1.75291 11.4869 1.98638 11.7174 2.45332L13.9041 6.88328C13.9721 7.02113 14.0061 7.09006 14.0558 7.14358C14.0999 7.19096 14.1527 7.22935 14.2113 7.25662C14.2776 7.28742 14.3536 7.29854 14.5057 7.32077L19.397 8.03571C19.9121 8.11099 20.1696 8.14863 20.2888 8.27444C20.3925 8.38389 20.4412 8.5343 20.4215 8.68377C20.3988 8.85558 20.2124 9.03718 19.8395 9.40038L16.3014 12.8464C16.1912 12.9538 16.136 13.0076 16.1004 13.0715C16.0689 13.128 16.0487 13.1902 16.0409 13.2545C16.0321 13.3271 16.0451 13.403 16.0711 13.5547L16.906 18.4221C16.994 18.9355 17.038 19.1922 16.9553 19.3445C16.8833 19.477 16.7554 19.57 16.6071 19.5975C16.4366 19.6291 16.2061 19.5078 15.7451 19.2654L11.3724 16.9658C11.2361 16.8942 11.168 16.8584 11.0962 16.8443C11.0327 16.8318 10.9673 16.8318 10.9038 16.8443C10.832 16.8584 10.7639 16.8942 10.6277 16.9658L6.25492 19.2654C5.79392 19.5078 5.56341 19.6291 5.39297 19.5975C5.24468 19.57 5.11672 19.477 5.04474 19.3445C4.962 19.1922 5.00603 18.9355 5.09407 18.4221L5.92889 13.5547C5.95491 13.403 5.96793 13.3271 5.95912 13.2545C5.95132 13.1902 5.93111 13.128 5.89961 13.0715C5.86402 13.0076 5.80888 12.9538 5.69859 12.8464L2.16056 9.40038C1.78766 9.03718 1.60121 8.85558 1.57853 8.68377C1.55879 8.5343 1.60755 8.38389 1.71125 8.27444C1.83044 8.14863 2.08797 8.11099 2.60304 8.03571L7.49431 7.32077C7.64642 7.29854 7.72248 7.28742 7.78872 7.25662C7.84736 7.22935 7.90016 7.19096 7.94419 7.14358C7.99391 7.09006 8.02793 7.02113 8.09597 6.88328L10.2827 2.45332Z"
+                                                    stroke="{{#if main}}#ffffff{{else}}#ffffff{{/if}}"
+                                                    stroke-width="2"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                  </svg>
+                                                  {{else}}
+                                                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="21" viewBox="0 0 22 21" fill="{{#if main}}#504eb3{{else}}none{{/if}}">
+                                                    <path d="M10.2827 2.45332C10.5131 1.98638 10.6284 1.75291 10.7848 1.67831C10.9209 1.61341 11.0791 1.61341 11.2152 1.67831C11.3717 1.75291 11.4869 1.98638 11.7174 2.45332L13.9041 6.88328C13.9721 7.02113 14.0061 7.09006 14.0558 7.14358C14.0999 7.19096 14.1527 7.22935 14.2113 7.25662C14.2776 7.28742 14.3536 7.29854 14.5057 7.32077L19.397 8.03571C19.9121 8.11099 20.1696 8.14863 20.2888 8.27444C20.3925 8.38389 20.4412 8.5343 20.4215 8.68377C20.3988 8.85558 20.2124 9.03718 19.8395 9.40038L16.3014 12.8464C16.1912 12.9538 16.136 13.0076 16.1004 13.0715C16.0689 13.128 16.0487 13.1902 16.0409 13.2545C16.0321 13.3271 16.0451 13.403 16.0711 13.5547L16.906 18.4221C16.994 18.9355 17.038 19.1922 16.9553 19.3445C16.8833 19.477 16.7554 19.57 16.6071 19.5975C16.4366 19.6291 16.2061 19.5078 15.7451 19.2654L11.3724 16.9658C11.2361 16.8942 11.168 16.8584 11.0962 16.8443C11.0327 16.8318 10.9673 16.8318 10.9038 16.8443C10.832 16.8584 10.7639 16.8942 10.6277 16.9658L6.25492 19.2654C5.79392 19.5078 5.56341 19.6291 5.39297 19.5975C5.24468 19.57 5.11672 19.477 5.04474 19.3445C4.962 19.1922 5.00603 18.9355 5.09407 18.4221L5.92889 13.5547C5.95491 13.403 5.96793 13.3271 5.95912 13.2545C5.95132 13.1902 5.93111 13.128 5.89961 13.0715C5.86402 13.0076 5.80888 12.9538 5.69859 12.8464L2.16056 9.40038C1.78766 9.03718 1.60121 8.85558 1.57853 8.68377C1.55879 8.5343 1.60755 8.38389 1.71125 8.27444C1.83044 8.14863 2.08797 8.11099 2.60304 8.03571L7.49431 7.32077C7.64642 7.29854 7.72248 7.28742 7.78872 7.25662C7.84736 7.22935 7.90016 7.19096 7.94419 7.14358C7.99391 7.09006 8.02793 7.02113 8.09597 6.88328L10.2827 2.45332Z"
+                                                    stroke="{{#if main}}#504eb3{{else}}#a3a3a3{{/if}}"
+                                                    stroke-width="2"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                  </svg>
+                                                  {{/if}}
+                                                </button>
+                                            </div>
+
+                                            <div class="my-pay-payment-item__additional-info">
+                                              <p class="font-montserrat my-pay-payment-item__bank-card-no">{{bankCardNo}}</p>
+
+                                              {{#if isVisibleQuotaSelectBox}}
+                                                <span class="mini-select mini-select--sm my-pay-payment-item__quota-select-wrap {{#if isSelected}}mini-select-white{{/if}}">
+                                                  <select shopby-on:change='CHANGE_SELECT_MY_PAY_QUOTA'>
+                                                    {{#each quotaOptions}}
+                                                        <option value='{{value}}'>
+                                                            {{label}}
+                                                        </option>
+                                                    {{/each}}
+                                                  </select>
+                                              </span>
+                                              {{/if}}
+                                            </div>
+                                        </li>
+                                      {{/each}}
+                                        <li class="my-pay-payment-item-register-wrap">
+                                          <span class='aurora__formula-symbol'>+</span>
+                                          <span class="my-pay-payment-item-register-wrap__title">결제수단 등록</span>
+                                          <div class="my-pay-payment-item__register-btns">
+                                            <button type="button" class="btn btn--line-gray btn--sm my-pay-payment-item__register-btn" shopby-action="CLICK_MY_PAY_REGISTER_CARD">카드 등록</button>
+                                            <button type="button" class="btn btn--line-gray btn--sm my-pay-payment-item__register-btn" shopby-action="CLICK_MY_PAY_REGISTER_ACCOUNT">계좌 등록</button>
+                                          </div>
+                                        </li>
+                                      </ul>
+                                    </div>
+
+                                    {{else}}
+                                    <!-- 등록된 결제수단이 없을 때 -->
+                                    <div class="order-sheet__my-pay-register-form">
+                                      <div class="order-sheet__my-pay-btn-wrap">
+                                        <button type="button" class="btn btn--line-gray btn--md my-pay-payment-item__register-btn" shopby-action="CLICK_MY_PAY_REGISTER_CARD">신용/체크 카드 등록</button>
+                                        <button type="button" class="btn btn--line-gray btn--md my-pay-payment-item__register-btn" shopby-action="CLICK_MY_PAY_REGISTER_ACCOUNT">계좌 등록</button>
+                                      </div>
+
+                                      <p class="order-sheet__my-pay-desc">결제수단은 최대 8개까지 등록 가능합니다.</p>
+                                    </div>
+                                    {{/ifGt}}
+                                  </div>
+
+                                  {{/if}}
+                                </div>
+
+                                  <!-- 선택한 결제 수단이 "무통장 입금"일 때 -->
+                                  <div slot="needsDepositBankForm">
+                                      {{#if needsDepositBankForm}}
+                                      <div class="order-sheet__account-input-wrap">
+                                          <div class="order-sheet__item">
+                                              <label class="order-sheet__item-subject">입금자명</label>
+                                              <span class="input-field input-field--md">
+                                                  <input
+                                                      type="text"
+                                                      placeholder="입금하시는 분의 성함을 입력해주세요."
+                                                      maxlength="10"
+                                                      value="{{remitter}}"
+                                                      shopby-valid="NO_SPECIAL"
+                                                      shopby-on:change="CHANGE_INPUT_ORDER_SHEET_REMITTER_NAME"
+                                                  />
+                                              </span>
+                                          </div>
+                                          <div class="order-sheet__item">
+                                              <label class="order-sheet__item-subject">계좌번호</label>
+                                              <span class="select select--md" slot="mallAccountSelectBoxOptions">
+                                                  <select shopby-on:change='CHANGE_SELECT_ORDER_SHEET_ACCOUNT'>
+                                                    {{#each mallAccountSelectBoxOptions}}
+                                                        <option value='{{value}}'>
+                                                            {{label}}
+                                                        </option>
+                                                    {{/each}}
+                                                  </select>
+                                              </span>
+                                          </div>
+                                      </div>
+                                      {{/if}}
+                                  </div>
+
+                            </div>
+                            </details>
+                        </script>
+                    </pay-method-selector>
+
+                    <!-- 결제 정보-->
+                    <payment-info>
+                        <script type="text/x-handlebars-template">
+                            <section class='order-sheet__payment'>
+                                <div class='price-tag'>
+                                    <dl class='order-sheet__payment-info'>
+                                        <div class='order-sheet__payment-info-row'>
+                                            <dt>
+                                                상품금액 합계
+                                            </dt>
+                                            <dd class='order-sheet__price-wrap'>
+                                                <strong class='font-montserrat order-sheet__price' slot='paymentInfo'>
+                                                    {{convertToKoreanCurrency paymentInfo.totalStandardAmt}}
+                                                </strong>원
+
+                                            </dd>
+                                        </div>
+                                        <span class='aurora__formula-symbol'>-</span>
+                                        <div class='order-sheet__payment-info-row'>
+                                            <dt>
+                                                할인금액 합계
+                                            </dt>
+                                            <dd class='order-sheet__price-wrap'>
+                                                <strong class='font-montserrat order-sheet__price' slot='paymentInfo'>
+                                                    {{convertToKoreanCurrency paymentInfo.totalDiscountAmt}}
+                                                </strong>원
+
+                                            </dd>
+                                        </div>
+                                        <span class='aurora__formula-symbol'>-</span>
+                                        <div class='order-sheet__payment-info-row'>
+                                            <dt>
+                                                적립금 사용 금액 합계
+                                            </dt>
+                                            <dd class='order-sheet__price-wrap'>
+
+                                                <strong class='font-montserrat order-sheet__price' slot='paymentInfo'>
+                                                    {{convertToKoreanCurrency paymentInfo.usedAccumulationAmt}}
+                                                </strong>원
+                                            </dd>
+                                        </div>
+                                        <span class='aurora__formula-symbol'>+</span>
+                                        <div class='order-sheet__payment-info-row'>
+                                            <dt>
+                                                배송비 합계
+                                            </dt>
+                                            <dd class='order-sheet__price-wrap'>
+
+                                                <strong class='font-montserrat order-sheet__price' slot='paymentInfo'>
+                                                    {{convertToKoreanCurrency paymentInfo.totalDeliveryAmt}}
+                                                </strong>원
+                                            </dd>
+                                        </div>
+                                        <span class='aurora__formula-symbol'>=</span>
+                                        <div class='order-sheet__payment-info-row'>
+                                            <dt class='total-price'>
+                                                총 결제금액
+                                            </dt>
+                                            <dd class='order-sheet__price-wrap'>
+                                                <strong class='font-montserrat order-sheet__price order-sheet__total-price' slot='paymentInfo'>
+                                                    {{convertToKoreanCurrency paymentInfo.paymentAmt}}
+                                                </strong>원
+                                            </dd>
+                                        </div>
+
+                                        <div class='order-sheet__total-accumulation font-montserrat'>
+                                            예상적립
+                                            <strong>{{convertToKoreanCurrency paymentInfo.totalAccumulation}}</strong>M
+                                        </div>
+
+                                    </dl>
+                                </div>
+                            </section>
+                        </script>
+                    </payment-info>
+
+                    <!-- 약관 -->
+                    <order-sheet-terms>
+                        <script type="text/x-handlebars-template">
+                            <div>
+                                <ul class='order-sheet__terms' slot='orderSheetTerms'>
+                                    {{#each orderSheetTerms}}
+                                        <li class='order-sheet__term-checker'>
+                                            <label class='form-check form-check--md'>
+                                                <input type='checkbox' shopby-on:change='CHANGE_CHECK_ORDER_SHEET_TERM' shopby-term-id='{{termId}}' />
+                                                <span class='form-check__label term-checker-label'> {{getMandatoryLabel required}} {{termsName}}</span>
+                                            </label>
+
+                                            {{#if contents}}
+                                                <button type='button' class='btn' shopby-action='SHOW_TERM_DETAIL' shopby-term-id='{{termId}}'>보기</button>
+                                            {{/if}}
+                                        </li>
+                                    {{/each}}
+                                </ul>
+                            </div>
+                        </script>
+                    </order-sheet-terms>
+
+                    <button type="button" class="btn btn--fill-point btn--xl order-sheet__pay-btn" shopby-action="CLICK_PAY_BTN">결제 하기</button>
+                </div>
+            </div>
+        </main>
+
+        <!-- 쿠폰 모달 -->
+        <layer-modal-area type="title" name="apply-coupon" src="@modals/apply-coupon.html" title="쿠폰 조회 및 적용"></layer-modal-area>
+
+        <!-- 배송지 목록 모달 -->
+        <layer-modal-area type="title" name="shipping-addresses" src="@modals/shipping-address-list.html" title="배송지 관리"></layer-modal-area>
+
+        <!-- 주소찾기 모달 -->
+        <layer-modal-area type="title" name="page-zip-code" src="@modals/zip-code.html" title="주소찾기"></layer-modal-area>
+
+        <!-- 약관 보기 모달 -->
+        <layer-modal-area type="custom" name="term-detail" src="@modals/terms-detail.html"></layer-modal-area>
+
+        <!-- 마이 페이 설정 모달 -->
+        <layer-modal-area type="title" name="my-pay-setting" src="@modals/my-pay-setting.html" title="결제수단 설정"></layer-modal-area>
+
+        <!-- 결제 진행중 모달 -->
+        <layer-modal-area type="title" name="payment-progress" src="@modals/payment-progress.html" title="결제 진행중"></layer-modal-area>
+
+        <!-- PG 진행중 모달 -->
+        <layer-modal-area type="title" name="pg-progress" src="@modals/pg-progress.html" title="결제 진행중"></layer-modal-area>
+
+        <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+        <template shopby-partials="@partials/modal.html"></template>
+
+        <!-- 퀵메뉴 (최상단 이동 + 최근 본 상품) -->
+        <template shopby-partials="@partials/quick-menu.html"></template>
+        <!-- 최근 본 상품(오프캔버스) -->
+        <template shopby-partials="@partials/recent-product.html"></template>
+        <!-- 하단 레이아웃 -->
+        <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js" shopby-has-page-script="TRUE"></template>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="order-sheet-form.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/libs/naver-marketing-config.js" shopby-use-page-script></script>
+    </body>
+</html>

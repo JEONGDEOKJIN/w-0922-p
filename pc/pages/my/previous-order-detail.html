@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="/shopby-skin-pc.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/my/previous-order-detail.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-pc.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+
+    <body>
+        <!-- 디자인팝업 -->
+        <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+        <!-- 상단 레이아웃 -->
+        <template class="shopby-header" shopby-partials="@partials/common-header.html" shopby-partials-js="@partials/common-header.js"></template>
+        <main class="l-my-page previous-order-detail" shopby-helper-key="previous-order-detail">
+            <section class="page-content-top">
+                <ol class="page-content-top__path page-content-top__location">
+                    <li><a href="/">HOME</a></li>
+                    &gt;
+                    <li><a href="/pages/my/my-page.html">마이페이지</a></li>
+                    &gt;
+                    <li>이전주문/배송 상세</li>
+                </ol>
+            </section>
+            <div class="my-page-box">
+                <template class="l-my-page-menu" shopby-partials="@partials/my-menu.html" shopby-menu-title="이전 주문목록"></template>
+
+                <div class="right-box">
+                    <div class="right-box__container">
+                        <details class="accordion" open>
+                            <summary class="accordion__title right-box__head">
+                                <span class="right-box__title">이전주문/배송 상세</span>
+                            </summary>
+
+                            <!-- 상품 영역 -->
+                            <product-information order-no:query="orderNo">
+                                <script type="text/x-handlebars-template">
+                                    <section>
+                                        <div class='right-box__table' slot="isLoading">
+                                            <table class='l-table'>
+                                                <colgroup>
+                                                    <!-- 주문일자(주문번호) -->
+                                                    <col width='14%' />
+
+                                                    <!-- 상품 정보 -->
+                                                    <col />
+
+                                                    <!-- 수량 -->
+                                                    <col width='10%' />
+
+                                                    <!-- 상품합계 -->
+                                                    <col width='10%' />
+
+                                                    <!-- 주문금액 -->
+                                                    <col width='10%' />
+
+                                                    <!-- 진행상태 -->
+                                                    <col width='12%' />
+                                                </colgroup>
+
+                                                <thead>
+                                                    <tr>
+                                                        <th>주문일자(주문번호)</th>
+                                                        <th>상품정보</th>
+                                                        <th>수량</th>
+                                                        <th>상품합계</th>
+                                                        <th>주문금액</th>
+                                                        <th>진행상태</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody slot="products">
+                                                    {{#each products}}
+                                                        <tr>
+                                                            {{#if @first}}
+                                                                <td rowspan="{{../products.length}}">
+                                                                    <span class='order-date font-montserrat bold'>{{formatUseByDate ../orderYmdt}}</span>
+                                                                    <span class='order-number font-montserrat'>{{../orderNo}}</span>
+                                                                </td>
+                                                            {{/if}}
+
+                                                            <!-- 상품정보 -->
+                                                            <td>
+                                                                <span class='product-name'>{{{productName}}}</span>
+                                                            </td>
+                                                            <!-- 상품정보 -->
+
+                                                            <!-- 수량 -->
+                                                            <td>
+                                                                <span><em class='font-montserrat'>{{convertToKoreanCurrency orderCnt}}</em></span>
+                                                            </td>
+                                                            <!-- 수량 -->
+
+                                                            <!-- 상품금액 -->
+                                                            <td>
+                                                                <span class='currency'><em class='font-montserrat'>{{convertToKoreanCurrency salePrice}}</em>원</span>
+                                                            </td>
+                                                            <!-- 상품금액 -->
+
+                                                            <!-- 주문금액 -->
+                                                            {{#if @first}}
+                                                            <td rowspan="{{../products.length}}">
+                                                                <span class='currency'><em class='font-montserrat'>{{convertToKoreanCurrency purchasePrice}}</em>원</span>
+                                                            </td>
+                                                            {{/if}}
+                                                            <!-- 주문금액 -->
+
+                                                            <!-- 진행상태 -->
+                                                            <td><span class='order-status'>{{orderStatusLabel orderStatusType}}</span></td>
+                                                            <!-- 진행상태 -->
+                                                        </tr>
+                                                    {{/each}}
+                                                    {{#if isLoading}}
+                                                    <tr>
+                                                        <td colspan="6">
+                                                            <div class="loader loader--lg">
+                                                                <span class="spinner"></span>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    {{/if}}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </section>
+                                </script>
+                            </product-information>
+                            <!-- 상품 영역 -->
+                        </details>
+
+                        <!-- 주문자 정보 -->
+                        <orderer-information>
+                            <script type="text/x-handlebars-template">
+                                <section>
+                                    <details class='accordion' open>
+                                        <summary class='accordion__title right-box__head'>
+                                            <span class='right-box__title'>주문자 정보</span>
+                                        </summary>
+
+                                        <dl slot='orderer'>
+                                            {{#with orderer}}
+                                                <dt>주문자명</dt>
+                                                <dd>{{ordererName}}</dd>
+                                                <dt>이메일 주소</dt>
+                                                <dd><span class='font-montserrat'>{{safeString ordererEmail true}}</span></dd>
+                                                <dt>휴대폰 번호</dt>
+                                                <dd><span class='font-montserrat'>{{safeString ordererMobileNumber true}}</span></dd>
+                                                <dt>전화번호</dt>
+                                                <dd><span class='font-montserrat'>{{safeString ordererPhoneNumber true}}</span></dd>
+                                                <dt>주문 메모</dt>
+                                                <dd>{{safeString orderMemo true}}</dd>
+                                            {{/with}}
+                                        </dl>
+                                    </details>
+                                </section>
+                            </script>
+                        </orderer-information>
+                        <!-- 주문자 정보 -->
+
+                        <!-- 배송지 정보 -->
+                        <shipping-information>
+                            <script type="text/x-handlebars-template">
+                                <section>
+                                    <details class='accordion' open>
+                                        <summary class='accordion__title right-box__head'>
+                                            <span class='right-box__title'>배송지 정보</span>
+                                        </summary>
+
+                                        {{#each receiver}}
+                                            <dl>
+                                                <dt>받으시는 분</dt>
+                                                <dd>{{safeString receiverName true}}</dd>
+                                                <dt>주소</dt>
+                                                <dd class='font-montserrat'>
+                                                    {{#empty receiverZipCd receiverAddress receiverDetailAddress}}
+                                                        -
+                                                    {{else}}
+                                                        {{#if receiverZipCd}}<span
+                                                                class='font-montserrat'
+                                                            >({{receiverZipCd}})</span>&nbsp;{{/if}}{{receiverAddress}}&nbsp;{{receiverDetailAddress}}
+                                                    {{/empty}}
+                                                </dd>
+                                                <dt>휴대폰 번호</dt>
+                                                <dd><span class='font-montserrat'>{{safeString receiverMobileNumber true}}</span></dd>
+                                                <dt>전화번호</dt>
+                                                <dd><span class='font-montserrat'>{{safeString receiverPhoneNumber true}}</span></dd>
+                                                <dt>배송 메모</dt>
+                                                <dd>{{safeString deliveryMemo true}}</dd>
+                                            </dl>
+                                        {{/each}}
+                                    </details>
+                                </section>
+                            </script>
+                        </shipping-information>
+                        <!-- 배송지 정보 -->
+
+                        <!-- 결제 정보 -->
+                        <payment-information>
+                            <script type="text/x-handlebars-template">
+                                <section>
+                                    <details class='accordion' open>
+                                        <summary class='accordion__title right-box__head'>
+                                            <span class='right-box__title'>결제 정보</span>
+                                        </summary>
+
+                                        <dl>
+                                            <dt>결제 수단</dt>
+                                            <dd>{{safeString paymentMethod.payTypeLabel true}}</dd>
+                                            <dt>상품금액 합계</dt>
+                                            <dd>
+                                                <span class='currency'><em class='font-montserrat bold'>{{convertToKoreanCurrency
+                                                            payment.standardAmt
+                                                        }}</em>원</span>
+                                            </dd>
+                                            <dt>배송비 합계</dt>
+                                            <dd>
+                                                <span class='currency'><em class='font-montserrat bold'>+&nbsp;&nbsp;{{convertToKoreanCurrency
+                                                            payment.deliveryAmt
+                                                        }}</em>원</span>
+                                            </dd>
+                                            <dt>할인금액 합계</dt>
+                                            <dd>
+                                                <span class='currency'><em class='font-montserrat bold'>-&nbsp;&nbsp;{{convertToKoreanCurrency
+                                                            payment.discountAmt
+                                                        }}</em>원</span>
+                                            </dd>
+                                            <dt>적립금 사용</dt>
+                                            <dd>
+                                                <span class='currency'><em class='font-montserrat bold'>-&nbsp;&nbsp;{{convertToKoreanCurrency
+                                                            payment.subPayAmt
+                                                        }}</em>원</span>
+                                            </dd>
+                                            <dt class='final-price'>최종 결제 금액</dt>
+                                            <dd class='final-price'>
+                                                <span class='currency'><em class='font-montserrat bold highlight'>{{convertToKoreanCurrency
+                                                            payment.payAmt
+                                                        }}</em>원</span>
+                                            </dd>
+                                        </dl>
+                                    </details>
+                                </section>
+                            </script>
+                        </payment-information>
+                        <!-- 결제 정보 -->
+
+                        <!-- 환불정보 -->
+                        <claim-information>
+                            <script type="text/x-handlebars-template">
+                                <section>
+                                    <div slot='refund'>
+                                        {{#with refund}}
+                                            <details class='accordion' open>
+                                                <summary class='accordion__title right-box__head'>
+                                                    <span class='right-box__title'>환불정보</span>
+                                                </summary>
+
+                                                <dl slot='refund'>
+                                                    <dt>환불 금액</dt>
+                                                    <dd>
+                                                        <span class='currency'><em class='font-montserrat'>{{convertToKoreanCurrency refundAmt}}</em>원</span>
+                                                    </dd>
+                                                    <dt>환불 수단</dt>
+                                                    <dd>
+                                                        <span>{{refundTypeLabel}}
+                                                            {{#with
+                                                                refundBankAccount
+                                                            }}-&nbsp;{{bank}}&nbsp;/&nbsp;{{account}}&nbsp;/&nbsp;{{depositorName}}{{/with}}</span>
+                                                    </dd>
+                                                </dl>
+                                            </details>
+                                        {{/with}}
+                                    </div>
+                                </section>
+                            </script>
+                        </claim-information>
+                        <!-- 환불정보 -->
+
+                        <div class="go-back-link">
+                            <button class="btn btn--fill-dark btn--md" shopby-action="GO_BACK">목록보기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 퀵메뉴 (최상단 이동 + 최근 본 상품) -->
+        <template shopby-partials="@partials/quick-menu.html"></template>
+        <!-- 최근 본 상품(오프캔버스) -->
+        <template shopby-partials="@partials/recent-product.html"></template>
+
+        <!-- 하단 레이아웃 -->
+        <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js"></template>
+
+        <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+        <template shopby-partials="@partials/modal.html"></template>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/pages/my/previous-order-detail.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/libs/naver-marketing-config.js"></script>
+    </body>
+</html>

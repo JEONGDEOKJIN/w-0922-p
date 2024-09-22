@@ -1,0 +1,98 @@
+@charset "UTF-8";
+/*  게시글 상세 페이지 스타일 파일입니다. */
+.reply-list {
+  border-top: 2px solid var(--color-base-black);
+}
+.reply-list__item {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--gray200);
+}
+.reply-list__item a {
+  text-decoration: none;
+  color: var(--color-base-black);
+}
+.reply-list__item + .reply-list__item {
+  border-top: 1px solid var(--default-color);
+}
+.reply-list__item-link {
+  text-decoration: none;
+  color: black;
+}
+.reply-list__item-top {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-direction: row;
+  height: 20px;
+  vertical-align: middle;
+  gap: 4px;
+}
+.reply-list__item-title {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.reply-list__item-bottom {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  color: var(--gray-color);
+}
+.reply-list__register-name {
+  font-size: 12px;
+  font-weight: 500;
+}
+.reply-list__register-ymdt {
+  display: inline-flex;
+  align-items: center;
+  font-size: 12px;
+}
+.reply-list__register-ymdt::before {
+  content: "|";
+  margin-right: 4px;
+  font-size: 10px;
+  color: var(--gray300);
+}
+.reply-list__view-count {
+  color: var(--gray500);
+  font-size: 12px;
+}
+.reply-list__paper-clip {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  filter: brightness(0.5);
+  flex: none;
+}
+.reply-list__lock {
+  display: inline-block;
+  flex: none;
+  transform: translate(0, -1px);
+}
+.reply-list__badge {
+  display: inline-flex;
+  padding: 2px;
+  flex: none;
+  background-color: var(--gray-color);
+}
+.reply-list__badge--new::before {
+  content: "N";
+  color: white;
+  font-size: 10px;
+}
+.reply-list__badge--hot::before {
+  content: "HOT";
+  color: white;
+  font-size: 10px;
+}
+
+.reply-section-title {
+  padding-bottom: 20px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.reply-section-table {
+  border-top: 2px solid var(--color-base-black);
+  margin-bottom: 20px;
+}

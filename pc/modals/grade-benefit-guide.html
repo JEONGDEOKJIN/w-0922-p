@@ -1,0 +1,113 @@
+<div shopby-layer-modal-helper-key="grade-benefit-guide">
+    <grade-benefit>
+        <script type="text/x-handlebars-template">
+            <div>
+                <section class='my-grade' slot='profileGrade'>
+                    <p class='bold my-grade__title'>
+                        나의 등급혜택
+                    </p>
+                    <dl class='my-grade__member-grade'>
+                        <dt>
+                            회원등급
+                        </dt>
+                        <dd>
+                            {{profileGrade.label}}
+                        </dd>
+                    </dl>
+                    <dl class='my-grade__member-coupon'>
+                        <dt>
+                            등급 쿠폰 혜택
+                        </dt>
+                        <dd>
+                            {{#if profileGrade.coupons.length}}
+                                <ul>
+                                    {{#each profileGrade.coupons}}
+                                        <li>
+                                            {{couponName}}
+                                            /
+                                            {{#ifEq discountType 'AMOUNT'}}
+                                                {{convertToKoreanCurrency discountAmount}}원
+                                            {{else}}
+                                                {{discountPercent}}%
+                                            {{/ifEq}}
+                                        </li>
+                                    {{/each}}
+                                </ul>
+                            {{/if}}
+                        </dd>
+                    </dl>
+                    <dl class='my-grade__accumulation'>
+                        <dt>
+                            등급 적립금 혜택
+                        </dt>
+                        <dd>
+                            <ul>
+                                <li>
+                                    구매 금액의
+                                    {{#if profileGrade.reserveBenefit.canUse}}
+                                        {{profileGrade.reserveBenefit.reserveRate}}
+                                    {{else}}
+                                        0
+                                    {{/if}}
+                                    %
+                                </li>
+                                <li>
+                                    등급 적립금
+                                    {{#if profileGrade.reserveAutoSupplying.canUse}}
+                                        {{convertToKoreanCurrency profileGrade.reserveAutoSupplying.amount}}
+                                    {{else}}
+                                        0
+                                    {{/if}}
+                                    원
+                                </li>
+                            </ul>
+                        </dd>
+                    </dl>
+                </section>
+
+                <section class='my-grade' slot='mallGrades'>
+                    <div>
+                        <div class="my-grade__top">
+                            <p class='bold my-grade__title'>
+                                전체 등급 혜택
+                            </p>
+
+                            <span class='ico ico--chevron-down-24 {{#if isOpenAllGrades}}open{{/if}}' shopby-on:click="OPEN_ALL_GRADES_BENEFIT"></span>
+                        </div>
+
+                        {{#if isOpenAllGrades}}
+                            <div class='my-grade__content'>
+                                {{#each mallGrades}}
+                                    <dl class='my-grade__member-grade'>
+                                        <dt>{{label}}</dt>
+                                        <dd>
+                                            {{#each coupons}}
+                                                -
+                                                {{couponName}}
+                                                /
+                                                {{#ifEq discountType 'AMOUNT'}}{{convertToKoreanCurrency discountAmount}}원{{else}}{{discountPercent}}%{{/ifEq}}
+                                                쿠폰
+                                                <br />
+                                            {{/each}}
+                                            {{#if reserveAutoSupplying.used}}
+                                                - 등급 적립금
+                                                {{convertToKoreanCurrency reserveAutoSupplying.amount}}원
+                                                <br />
+                                            {{/if}}
+                                            {{#if reserveBenefit.used}}
+                                                - 구매 금액의
+                                                {{reserveBenefit.reserveRate}}%
+                                                <br />
+                                            {{/if}}
+                                        </dd>
+                                    </dl>
+                                {{/each}}
+                            </div>
+                        {{/if}}
+                    </div>
+                </section>
+            </div>
+        </script>
+    </grade-benefit>
+    <script src="/modals/grade-benefit-guide.js"></script>
+</div>

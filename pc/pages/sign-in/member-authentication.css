@@ -1,0 +1,71 @@
+@charset "UTF-8";
+/*  회원인증 페이지 스타일 파일입니다. */
+.member-authentication {
+  width: 384px;
+  margin: 0px auto;
+}
+.member-authentication .l-title {
+  justify-content: center;
+  margin: 68px 0 40px;
+}
+.member-authentication__description {
+  text-align: center;
+}
+.member-authentication__description p {
+  font-size: 16px;
+  font-weight: 700;
+}
+.member-authentication__description span {
+  color: var(--gray500);
+}
+.member-authentication__field-title {
+  display: inline-block;
+  margin-bottom: 10px;
+}
+.member-authentication__item {
+  margin-top: 10px;
+}
+.member-authentication__item button {
+  margin-top: 10px;
+}
+.member-authentication__item button.btn {
+  width: 100%;
+  margin-top: 6px;
+  font-weight: 400;
+}
+.member-authentication__item .select {
+  margin-top: 6px;
+}
+.member-authentication__item .phone-number-input + .btn--default,
+.member-authentication__item .input-field + .btn--default {
+  margin-top: 6px;
+}
+.member-authentication__certification-field {
+  position: relative;
+}
+.member-authentication__certification-field .timer {
+  position: absolute;
+  top: 49px;
+  right: 14px;
+  font-size: 12px;
+  color: var(--gray500);
+}
+.member-authentication__certification-field .timer span {
+  font-family: "Montserrat";
+}
+.member-authentication__callout {
+  margin: 30px 0;
+  padding: 10px 0;
+  text-align: center;
+  background-color: var(--gray100);
+}
+.member-authentication__callout p {
+  font-family: "Montserrat";
+}
+.member-authentication .description {
+  font-size: 12px;
+  margin-top: 5px;
+}
+.member-authentication .description.invalid-alert {
+  color: var(--color-error);
+}

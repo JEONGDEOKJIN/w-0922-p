@@ -1,0 +1,230 @@
+@charset "UTF-8";
+/*  장바구니 페이지 스타일 파일입니다. */
+.cart__option-loading-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-base-black);
+  opacity: 0.3;
+  user-select: none;
+}
+.cart__option-loading-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.cart-list {
+  font-size: 14px;
+}
+.cart-list td + td {
+  padding-inline-start: 12px !important;
+}
+.cart-list .l-table {
+  border-top: 2px solid var(--color-base-black);
+}
+.cart-list .counter__input input {
+  padding: 0;
+}
+.cart-list .alert::before {
+  margin-inline-end: 0;
+  transform: translateY(4px);
+}
+.cart-list .currency {
+  display: block;
+  line-height: 18px;
+  font-family: "Montserrat";
+}
+.cart-list .currency em {
+  font-style: unset;
+  font-family: "Montserrat";
+}
+.cart-list .origin-price {
+  font-family: "Montserrat";
+  font-size: 14px;
+  color: var(--gray500);
+}
+.cart-list .origin-price s {
+  font-family: "Montserrat";
+}
+.cart-list__product-option-info {
+  display: flex;
+  justify-content: none;
+  align-items: center;
+  flex-direction: row;
+  gap: 12px;
+}
+.cart-list .option-info {
+  padding-inline-end: 6px;
+  font-size: 14px;
+}
+.cart-list .option-info__media {
+  width: 120px;
+  height: auto;
+}
+.cart-list .option-info__media .btn {
+  margin-block-start: 8px;
+}
+.cart-list .option-info__img {
+  width: 120px;
+  height: 120px;
+  display: inline-block;
+}
+.cart-list .option-info__option {
+  flex: 2;
+}
+.cart-list .option-info__brand-name, .cart-list .option-info__product-name, .cart-list .option-info__option-label {
+  display: block;
+  text-align: left;
+}
+.cart-list .option-info__product-name {
+  font-weight: 700;
+}
+.cart-list .option-info__option-label, .cart-list .option-info__brand-name {
+  padding-block: 6px;
+  color: var(--gray600);
+}
+.cart-list__delivery-group {
+  padding: 20px 0.8571428571rem !important;
+  background-color: var(--gray100);
+  text-align: left !important;
+  font-size: 16px;
+  font-weight: 500;
+}
+.cart-list__delivery-group .form-check__label {
+  padding-inline-start: 12px;
+}
+.cart-list__benefit .currency {
+  display: inline-block;
+  line-height: 24px;
+}
+.cart-list__benefit > span {
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  width: 100%;
+}
+.cart-list__shipping-info-label {
+  color: var(--gray500);
+}
+.cart-list__delete-btn {
+  margin-block: 20px;
+}
+.cart-list__price-tag {
+  line-height: 20px;
+  text-align: center;
+  background-color: var(--gray100);
+  border-radius: 12px;
+}
+.cart-list__price-tag .currency {
+  display: inline-block;
+  color: var(--gray500);
+}
+.cart-list__price-tag .currency em {
+  font-size: 18px;
+  padding-inline: 6px 4px;
+}
+.cart-list__price-tag .currency em:not(.highlight) {
+  color: var(--color-base-black);
+}
+.cart-list__price-tag .final-price {
+  font-weight: 700;
+  color: var(--color-base-black);
+}
+.cart-list__price-tag .benefit {
+  margin-inline-start: 4px;
+  font-size: 14px;
+}
+.cart-list__price-tag .benefit em {
+  font-size: 14px;
+}
+.cart-list__price-tag .price-tag {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  margin-block: 20px 60px;
+  padding: 20px;
+  background-color: var(--gray100);
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--gray500);
+}
+.cart-list__price-tag .price-tag__details {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+.cart-list__price-tag .price-tag__details dt,
+.cart-list__price-tag .price-tag__details dd {
+  line-height: 18px;
+}
+.cart-list__price-tag .price-tag__details dd {
+  text-align: end;
+}
+.cart-list__price-tag .price-tag .ico-formula {
+  display: inline-block;
+  margin-inline: 12px;
+}
+.cart-list__price-tag .price-tag .ico-formula--plus {
+  background-size: 364px 335px;
+  background-position: -214px -204px;
+  width: 20.5px;
+  height: 20px;
+}
+.cart-list__price-tag .price-tag .ico-formula--minus {
+  background-size: 364px 335px;
+  background-position: -182px -256px;
+  width: 20.5px;
+  height: 20.5px;
+}
+.cart-list__price-tag .price-tag .ico-formula--equal {
+  background-size: 364px 335px;
+  background-position: -340px -104px;
+  width: 20.5px;
+  height: 20px;
+}
+.cart-list__price-tag .price-tag .price {
+  text-align: end;
+  align-items: center;
+  font-size: 12px;
+}
+.cart-list__price-tag .price-tag .price em {
+  font-size: 16px;
+  color: var(--color-base-black);
+}
+.cart-list__price-tag .price-tag .total-price {
+  color: var(--color-base-black);
+}
+.cart-list__price-tag .price-tag .benefit {
+  display: block;
+  text-align: center;
+  font-family: "Montserrat";
+  font-size: 12px;
+}
+.cart-list .cart-option {
+  display: flex;
+  justify-content: center;
+  align-items: unset;
+  flex-direction: column;
+  gap: 8px;
+}
+.cart-list .cart-option .btn {
+  font-size: 12px;
+  width: 80px;
+  margin-inline-start: auto;
+}
+.cart-list__btn-group {
+  width: 500px;
+  height: auto;
+  margin-inline: auto;
+}
+.cart-list__naver-pay-btn {
+  text-align: center;
+}

@@ -1,0 +1,204 @@
+<div shopby-layer-modal-helper-key="product-review-detail">
+    <board-reviews-detail>
+        <script type="text/x-handlebars-template">
+                <div>
+                    <div slot='reviewDetail'>
+                    {{#ifEq reviewConfig.expandedReviewConfig.photoReviewDisplayType 'FIRST_TYPE'}}
+                    <div class='board-reviews-detail-first-type'>
+                        <div class='board-reviews-detail__images' slot="firstTypeActiveImg">
+                            {{img activeImg 360 360 '' 'board-reviews-detail__active-image'}}
+                            <ul class='article-form article-form__attachments board-reviews-detail__attachments' slot='imagesList'>
+                                {{#each review.fileUrls}}
+                                    <li class='article-form__attachment board-reviews-detail__attachment {{#ifEq ../activeImg this}}active{{/ifEq}}' shopby-image-url='{{this}}' shopby-on:click="CLICK_ATTACH_IMAGE">
+                                        {{img this 80 80}}
+                                    </li>
+                                {{/each}}
+                            </ul>
+
+                            <button class='prev' shopby-on:click='PREV_BOARD_REVIEW'><span class='ico ico--chevron-down-24'></span></button>
+                            <button class='next' shopby-on:click='NEXT_BOARD_REVIEW'><span class='ico ico--chevron-down-24'></span></button>
+                        </div>
+
+                        <div class='board-reviews-detail__top'>
+                            <div class="board-reviews-detail__rate-box">
+                                <div class="star">
+                                    {{#each review.starSet}}
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20" class="crema_product_reviews_score_star_wrapper__star">
+                                        <linearGradient id="gradient-star">
+                                            <stop class="gradient__star-secondary" offset="73%" />
+                                            <stop class="gradient__star" offset="73%" />
+                                        </linearGradient>
+                                        <defs>
+                                            <path id="star-full" d="M9.53834 1.60996C9.70914 1.19932 10.2909 1.19932 10.4617 1.60996L12.5278 6.57744C12.5998 6.75056 12.7626 6.86885 12.9495 6.88383L18.3123 7.31376C18.7556 7.3493 18.9354 7.90256 18.5976 8.19189L14.5117 11.6919C14.3693 11.8139 14.3071 12.0053 14.3506 12.1876L15.5989 17.4208C15.7021 17.8534 15.2315 18.1954 14.8519 17.9635L10.2606 15.1592C10.1006 15.0615 9.89938 15.0615 9.73937 15.1592L5.14806 17.9635C4.76851 18.1954 4.29788 17.8534 4.40108 17.4208L5.64939 12.1876C5.69289 12.0053 5.6307 11.8139 5.48831 11.6919L1.40241 8.19189C1.06464 7.90256 1.24441 7.3493 1.68773 7.31376L7.05054 6.88383C7.23744 6.86885 7.40024 6.75056 7.47225 6.57744L9.53834 1.60996Z" />
+                                            <path id="star-half" fill="url(#gradient-star)" d="M9.53834 1.60996C9.70914 1.19932 10.2909 1.19932 10.4617 1.60996L12.5278 6.57744C12.5998 6.75056 12.7626 6.86885 12.9495 6.88383L18.3123 7.31376C18.7556 7.3493 18.9354 7.90256 18.5976 8.19189L14.5117 11.6919C14.3693 11.8139 14.3071 12.0053 14.3506 12.1876L15.5989 17.4208C15.7021 17.8534 15.2315 18.1954 14.8519 17.9635L10.2606 15.1592C10.1006 15.0615 9.89938 15.0615 9.73937 15.1592L5.14806 17.9635C4.76851 18.1954 4.29788 17.8534 4.40108 17.4208L5.64939 12.1876C5.69289 12.0053 5.6307 11.8139 5.48831 11.6919L1.40241 8.19189C1.06464 7.90256 1.24441 7.3493 1.68773 7.31376L7.05054 6.88383C7.23744 6.86885 7.40024 6.75056 7.47225 6.57744L9.53834 1.60996Z" />
+                                        </defs>
+                                        <path id="star-empty" d="M9.53834 1.60996C9.70914 1.19932 10.2909 1.19932 10.4617 1.60996L12.5278 6.57744C12.5998 6.75056 12.7626 6.86885 12.9495 6.88383L18.3123 7.31376C18.7556 7.3493 18.9354 7.90256 18.5976 8.19189L14.5117 11.6919C14.3693 11.8139 14.3071 12.0053 14.3506 12.1876L15.5989 17.4208C15.7021 17.8534 15.2315 18.1954 14.8519 17.9635L10.2606 15.1592C10.1006 15.0615 9.89938 15.0615 9.73937 15.1592L5.14806 17.9635C4.76851 18.1954 4.29788 17.8534 4.40108 17.4208L5.64939 12.1876C5.69289 12.0053 5.6307 11.8139 5.48831 11.6919L1.40241 8.19189C1.06464 7.90256 1.24441 7.3493 1.68773 7.31376L7.05054 6.88383C7.23744 6.86885 7.40024 6.75056 7.47225 6.57744L9.53834 1.60996Z" fill="#EAECF0" />
+                                        <use xlink:href="#star-{{.}}"></use>
+                                    </svg>
+                                    {{/each}}
+                                </div>
+                                <button
+                                class='btn btn--line-dark btn--xs'
+                                shopby-action="VIEW_PHOTO_REVIEWS"
+                                shopby-product-no="{{review.productNo}}"
+                                shopby-review-no="{{review.reviewNo}}"
+                                shopby-product-total-count="{{review.productTotalCount}}"
+                            >
+                                전체보기
+                            </button>
+                            </div>
+
+                            <div class='board-reviews-detail__bottom'>
+                                <div class='board-reviews-detail__write-info'>
+                                    <span class='board-reviews-detail__writer'>{{review.registerName}}</span>
+                                    <span class='font-montserrat board-reviews-detail__date'>{{formatUseByDate review.registerYmdt}}</span>
+                                </div>
+                                {{#if review.orderedOption}}
+                                    <div class='board-reviews-detail__option'>
+                                        <span class='board-reviews-detail__option-name'>{{review.orderedOption.optionName}}</span>
+                                        :
+                                        <span class='board-reviews-detail__option-value'>{{review.orderedOption.optionValue}}</span>
+                                    </div>
+                                {{/if}}
+
+                                <div class='board-reviews-detail__content'>
+                                    {{{convertContentLineBreak review.content}}}
+                                </div>
+
+                                <div class='board-reviews-detail__recommend'>
+                                    {{#if reviewConfig.expandedReviewConfig.useReviewRecommend}}
+                                    <button class='recommend__cnt' shopby-on:click="TOGGLE_REVIEW_RECOMMEND" shopby-action="RECOMMEND" shopby-review-no="{{review.reviewNo}}">
+                                        <span class='ico ico--thumbs-up-16'></span>
+                                    </button>
+                                    <span>추천해요</span><span class='bold highlight'>{{convertToKoreanCurrency review.recommendCnt}}</span>
+                                    {{/if}}
+
+                                    {{#if comments.contents}}
+                                    <div class="board-reviews-detail__review-comments">
+                                        <span>댓글</span><span class="bold highlight">{{convertToKoreanCurrency comments.contents.length}}</span>
+                                        <span class='ico ico--chevron-down-24 {{#if isViewComments}}open{{/if}}' shopby-on:click='VIEW_COMMENTS' slot="firstTypeIsViewComments"></span>
+                                    </div>
+                                    {{/if}}
+                                </div>
+
+                                <ul class='review-comment-list' slot='firstTypeIsViewComments'>
+                                    {{#if isViewComments}}
+                                        {{#each comments.contents}}
+                                        <li>
+                                            <div class='review-comments__write-info'>
+                                                <span class="review-comments__writer">관리자</span>
+                                                <span class='font-montserrat review-comments__date'>{{formatUseByDate registerYmdt}}</span>
+                                            </div>
+                                            <div class='font-montserrat review-comments__content'>
+                                                {{content}}
+                                            </div>
+                                        </li>
+                                        {{/each}}
+                                    {{/if}}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{else}}
+                    <div class='board-reviews-detail-second-type'>
+                        <div class='board-reviews-detail__top'>
+                            <div class="star">
+                                {{#each review.starSet}}
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20" class="crema_product_reviews_score_star_wrapper__star">
+                                    <linearGradient id="gradient-star">
+                                        <stop class="gradient__star-secondary" offset="73%" />
+                                        <stop class="gradient__star" offset="73%" />
+                                    </linearGradient>
+                                    <defs>
+                                        <path id="star-full" d="M9.53834 1.60996C9.70914 1.19932 10.2909 1.19932 10.4617 1.60996L12.5278 6.57744C12.5998 6.75056 12.7626 6.86885 12.9495 6.88383L18.3123 7.31376C18.7556 7.3493 18.9354 7.90256 18.5976 8.19189L14.5117 11.6919C14.3693 11.8139 14.3071 12.0053 14.3506 12.1876L15.5989 17.4208C15.7021 17.8534 15.2315 18.1954 14.8519 17.9635L10.2606 15.1592C10.1006 15.0615 9.89938 15.0615 9.73937 15.1592L5.14806 17.9635C4.76851 18.1954 4.29788 17.8534 4.40108 17.4208L5.64939 12.1876C5.69289 12.0053 5.6307 11.8139 5.48831 11.6919L1.40241 8.19189C1.06464 7.90256 1.24441 7.3493 1.68773 7.31376L7.05054 6.88383C7.23744 6.86885 7.40024 6.75056 7.47225 6.57744L9.53834 1.60996Z" />
+                                        <path id="star-half" fill="url(#gradient-star)" d="M9.53834 1.60996C9.70914 1.19932 10.2909 1.19932 10.4617 1.60996L12.5278 6.57744C12.5998 6.75056 12.7626 6.86885 12.9495 6.88383L18.3123 7.31376C18.7556 7.3493 18.9354 7.90256 18.5976 8.19189L14.5117 11.6919C14.3693 11.8139 14.3071 12.0053 14.3506 12.1876L15.5989 17.4208C15.7021 17.8534 15.2315 18.1954 14.8519 17.9635L10.2606 15.1592C10.1006 15.0615 9.89938 15.0615 9.73937 15.1592L5.14806 17.9635C4.76851 18.1954 4.29788 17.8534 4.40108 17.4208L5.64939 12.1876C5.69289 12.0053 5.6307 11.8139 5.48831 11.6919L1.40241 8.19189C1.06464 7.90256 1.24441 7.3493 1.68773 7.31376L7.05054 6.88383C7.23744 6.86885 7.40024 6.75056 7.47225 6.57744L9.53834 1.60996Z" />
+                                    </defs>
+                                    <path id="star-empty" d="M9.53834 1.60996C9.70914 1.19932 10.2909 1.19932 10.4617 1.60996L12.5278 6.57744C12.5998 6.75056 12.7626 6.86885 12.9495 6.88383L18.3123 7.31376C18.7556 7.3493 18.9354 7.90256 18.5976 8.19189L14.5117 11.6919C14.3693 11.8139 14.3071 12.0053 14.3506 12.1876L15.5989 17.4208C15.7021 17.8534 15.2315 18.1954 14.8519 17.9635L10.2606 15.1592C10.1006 15.0615 9.89938 15.0615 9.73937 15.1592L5.14806 17.9635C4.76851 18.1954 4.29788 17.8534 4.40108 17.4208L5.64939 12.1876C5.69289 12.0053 5.6307 11.8139 5.48831 11.6919L1.40241 8.19189C1.06464 7.90256 1.24441 7.3493 1.68773 7.31376L7.05054 6.88383C7.23744 6.86885 7.40024 6.75056 7.47225 6.57744L9.53834 1.60996Z" fill="#EAECF0" />
+                                    <use xlink:href="#star-{{.}}"></use>
+                                </svg>
+                                {{/each}}
+                            </div>
+                            <button class='btn btn--line-dark btn--xs'
+                            shopby-action="VIEW_PHOTO_REVIEWS"
+                            shopby-product-no="{{review.productNo}}"
+                            shopby-review-no="{{review.reviewNo}}">전체보기</button>
+                        </div>
+
+                        <div class='board-reviews-detail__images-box' slot="secondTypeActiveImg">
+                            <div class='board-reviews-detail__images'>
+                                {{img activeImg}}
+                                <button class='prev' shopby-on:click='PREV_BOARD_REVIEW'><span class='ico ico--chevron-down-24'></span></button>
+                                <button class='next' shopby-on:click='NEXT_BOARD_REVIEW'><span class='ico ico--chevron-down-24'></span></button>
+                            </div>
+                            <ul class='article-form article-form__attachments board-reviews-detail__attachments' slot='imagesList'>
+                                {{#each review.fileUrls}}
+                                    <li class='article-form__attachment board-reviews-detail__attachment {{#ifEq ../activeImg this}}active{{/ifEq}}' shopby-image-url='{{this}}' shopby-on:click="CLICK_ATTACH_IMAGE">
+                                        {{img this 80 80}}
+                                    </li>
+                                {{/each}}
+                            </ul>
+                        </div>
+                        <div class='board-reviews-detail__bottom'>
+                            <div class='board-reviews-detail__write-info'>
+                                <div class='board-reviews-detail__option'>
+                                    {{#if review.orderedOption}}
+                                            <span class='board-reviews-detail__option-name'>{{review.orderedOption.optionName}}</span>
+                                            :
+                                            <span class='board-reviews-detail__option-value'>{{review.orderedOption.optionValue}}</span>
+                                    {{/if}}
+                                </div>
+                                <div>
+                                    <span class='board-reviews-detail__writer'>{{review.registerName}}</span>
+                                    <span class='board-reviews-detail__date'>{{formatUseByDate review.registerYmdt}}</span>
+                                </div>
+                            </div>
+
+                            <div class='board-reviews-detail__content'>
+                                {{{convertContentLineBreak review.content}}}
+                            </div>
+
+                            <div class='board-reviews-detail__recommend'>
+                                {{#if reviewConfig.expandedReviewConfig.useReviewRecommend}}
+                                    <button class='recommend__cnt' shopby-on:click="TOGGLE_REVIEW_RECOMMEND" shopby-action="RECOMMEND" shopby-review-no="{{review.reviewNo}}">
+                                        <span class='ico ico--thumbs-up-16'></span>
+                                    </button>
+                                    <span>추천해요</span><span class='font-montserrat bold highlight'>{{convertToKoreanCurrency review.recommendCnt}}</span>
+                                {{/if}}
+
+                                {{#if comments.contents}}
+                                <div class="board-reviews-detail__review-comments">
+                                    <span>댓글</span> <span class="font-montserrat bold highlight">{{convertToKoreanCurrency comments.contents.length}}</span>
+                                    <span class='ico ico--chevron-down-24 {{#if isViewComments}}open{{/if}}' shopby-on:click='VIEW_COMMENTS' slot="secondTypeIsViewComments"></span>
+                                </div>
+                                {{/if}}
+                            </div>
+
+                            {{#if comments.contents}}
+                            <ul class='review-comment-list' slot='secondTypeIsViewComments'>
+                                {{#if isViewComments}}
+                                    {{#each comments.contents}}
+                                        <li>
+                                            <div class='review-comments__write-info'>
+                                                <span class="font-noto review-comments__writer">
+                                                    관리자
+                                                </span>
+                                                <span class='font-montserrat review-comments__date'>{{formatUseByDate registerYmdt}}</span>
+                                            </div>
+                                            <div class='font-montserrat review-comments__content'>
+                                                {{{content}}}
+                                            </div>
+                                        </li>
+                                    {{/each}}
+                                {{/if}}
+                            </ul>
+                            {{/if}}
+                        </div>
+                    </div>
+                    {{/ifEq}}
+                </div>
+            </div>
+        </script>
+    </board-reviews-detail>
+</div>
+<script src="/modals/product-review-detail.js"></script>

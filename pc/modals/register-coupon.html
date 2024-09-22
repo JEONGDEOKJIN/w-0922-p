@@ -1,0 +1,41 @@
+<div shopby-layer-modal-helper-key="coupon-register-form">
+  <div class="my-page-coupon-registration">
+    <div class="my-page-coupon-registration-div">
+      <div class="my-page-coupon-registration__title">
+        발급 받으신 쿠폰 인증번호를<br />아래에 입력해주세요.
+      </div>
+
+      <register-coupon-form>
+        <span class="input-field input-field--sm">
+          <input
+            type="text"
+            type="text"
+            placeholder="쿠폰 번호를 입력하세요."
+            value="{{code}}"
+            shopby-on:input="UPDATE_COUPON_NO"
+          />
+        </span>
+      </register-coupon-form>
+    </div>
+
+    <register-coupon-form-btns>
+      <div class="my-page-coupon-registration__buttons">
+        <button
+          type="button"
+          class="btn btn--line-gray btn--md"
+          shopby-action="CANCEL"
+        >
+          취소
+        </button>
+        <button
+          type="button"
+          class="btn btn--line-gray btn--md"
+          shopby-action="SUBMIT"
+        >
+          등록
+        </button>
+      </div>
+    </register-coupon-form-btns>
+  </div>
+</div>
+<script src="/modals/register-coupon.js"></script>

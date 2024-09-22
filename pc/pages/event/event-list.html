@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="/shopby-skin-pc.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/event/event-list.css" />
+
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+
+        <!-- 스킨 스크립트 -->
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-pc.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+    <body>
+        <!-- 디자인팝업 -->
+        <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+        <!-- 상단 레이아웃 -->
+        <template class="shopby-header" shopby-partials="@partials/common-header.html" shopby-partials-js="@partials/common-header.js"></template>
+
+        <main class="l-page event-list">
+            <section class="page-content-top">
+                <ol class="page-content-top__path page-content-top__location">
+                    <li><a href="/">HOME</a></li>
+                    &gt;
+                    <li>기획전</li>
+                </ol>
+            </section>
+            <div class="event-list__content" shopby-helper-key="event-list-helper-key">
+                <section>
+                    <div class="l-title l-title__align-end">기획전</div>
+                </section>
+
+                <!-- 기획전 정렬 -->
+                <event-list-total-count current-tab="REGISTER_DATE">
+                    <script type="text/x-handlebars-template">
+                        <section>
+                            <div>
+                                <div class='event-list__top'>
+                                    <p class='total-count'>
+                                        총&nbsp;<em class='highlight bold' slot='totalCount'>{{totalCount}}</em>건
+                                    </p>
+
+                                    <ul class='sort-list' slot='currentTab' shopby-action="HANDLE_SORT_TYPE_CLICK">
+                                        <li class="sort-item {{#ifEq currentTab 'REGISTER_DATE'}}active{{/ifEq}}" shopby-tab="REGISTER_DATE">최신순</li>
+                                        <li class="sort-item {{#ifEq currentTab 'END_DATE'}}active{{/ifEq}}" shopby-tab="END_DATE">마감순</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+                    </script>
+                </event-list-total-count>
+                <!-- 기획전 정렬 -->
+
+                <!-- 기획전 목록 -->
+                <event-list default-page-size="20" page-size:query="pageSize" page-number:query="pageNumber" order-by:query="orderBy">
+                    <script type="text/x-handlebars-template">
+                        <section>
+                            <div slot='contents'>
+                                {{#if totalCount}}
+                                    <ul class='event-list__content-box'>
+                                        {{#each contents}}
+                                            <li class='event-list__item'>
+                                                <a
+                                                    class='event-list__content'
+                                                    shopby-action='GO_EVENT_DETAIL'
+                                                    shopby-url='{{url}}'
+                                                    shopby-progress-status='{{progressStatus}}'
+                                                    shopby-event-no='{{eventNo}}'
+                                                    shopby-event-label='{{label}}'
+                                                    shopby-event-id='{{id}}'
+                                                    shopby-link
+                                                >
+                                                    <section>
+                                                        <!-- 이벤트 이미지 영역 -->
+                                                        <div class='event-list__img'>
+                                                            <!-- 이벤트 상태 뱃지 -->
+                                                            {{#ifEq progressStatus 'ING'}}
+                                                            <span class='event-list__badge event-list__badge--ing'> 진행중 </span>
+                                                            {{/ifEq}}
+                                                            {{#ifEq progressStatus 'END'}}
+                                                            <span class='event-list__badge event-list__badge--end'> 종료 </span>
+                                                            {{/ifEq}}
+                                                            {{#ifEq progressStatus 'READY'}}
+                                                            <span class='event-list__badge event-list__badge--ready'> 준비중 </span>
+                                                            {{/ifEq}}
+
+
+                                                            <!-- 이벤트 상태 뱃지 -->
+
+                                                            <!-- 이벤트 대표 이미지 -->
+                                                            <span class='event-list__main-img'>
+                                                                {{#if pcImageUrl}} {{img pcImageUrl 500 250 '' ''}} {{/if}}
+                                                            </span>
+                                                            <!-- 이벤트 대표 이미지 -->
+                                                        </div>
+                                                        <!-- 이벤트 이미지 영역 -->
+
+                                                        <!-- 이벤트 정보 영역 -->
+                                                        <div class='event-list__info'>
+                                                            <!-- 이벤트명 -->
+                                                            <p class='event-list__title'>{{{label}}}</p>
+                                                            <!-- 이벤트명 -->
+
+                                                            <!-- 이벤트 전시기간 -->
+                                                            <p class='event-list__period'>
+                                                                <!-- 전시기간 D-Day 뱃지 -->
+                                                                {{#ifNe dDay null}}
+                                                                    <span class='event-list__badge event-list__badge--d-day font-montserrat'>
+                                                                        D-{{#ifEq dDay 0}}DAY{{else}}{{convertToKoreanCurrency dDay}}{{/ifEq}}
+                                                                    </span>
+                                                                {{/ifNe}}
+                                                                <!-- 전시기간 D-Day 뱃지 -->
+
+                                                                <!-- 전시 일정 -->
+                                                                <span class='event-list__date'>
+                                                                    {{#ifEq displayPeriodType 'REGULAR'}}
+                                                                        <span class='event-list__badge event-list__badge--d-day'> 상시 </span>
+                                                                    {{/ifEq}}
+                                                                    <span class="font-montserrat">
+                                                                        {{formatUseByDate startYmdt}}
+                                                                        ~
+                                                                        {{#ifEq displayPeriodType 'PERIOD'}} {{formatUseByDate endYmdt}} {{/ifEq}}
+                                                                        {{#ifEq displayPeriodType 'REGULAR'}}종료시까지{{/ifEq}}
+                                                                    </span>
+                                                                </span>
+                                                                <!-- 전시 일정 -->
+                                                            </p>
+                                                            <!-- 이벤트 전시기간 -->
+                                                        </div>
+                                                        <!-- 이벤트 정보 영역 -->
+                                                    </section>
+                                                </a>
+                                            </li>
+                                        {{/each}}
+                                    </ul>
+
+                                    <!-- 페이지네이션 -->
+                                    <div class='pagination' slot='pagination'>
+                                        <a href="?{{pagination.firstPage}}">
+                                            <button class='sprite-image pagination__btn pagination__btn--double-lt'>
+                                            </button>
+                                        </a>
+                                        <a href="?{{pagination.prevPage}}">
+                                            <button class='sprite-image pagination__btn pagination__btn--lt'>
+                                            </button>
+                                        </a>
+                                        {{#each pagination.pages}}
+                                            <a class='pagination__link {{#if isCurrentPage}}is-current{{/if}}' href='?{{param}}'>{{page}}</a>
+                                        {{/each}}
+                                        <a href="?{{pagination.nextPage}}">
+                                            <button class='sprite-image pagination__btn pagination__btn--rt'>
+                                            </button>
+                                        </a>
+                                        <a href="?{{pagination.lastPage}}">
+                                            <button class='sprite-image pagination__btn pagination__btn--double-rt'>
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <!-- 페이지네이션 -->
+
+                                {{else}}
+                                    <div slot="isLoading">
+                                        {{#if isLoading}}
+                                        <div class="skeleton-grid skeleton-grid__column--2">
+                                            {{#repeat 4}}
+                                            <div class="thumb-item skeleton skeleton--gallery">
+                                                <div class="skeleton__media"></div>
+                                                <div class="skeleton__line"></div>
+                                                <div class="skeleton__line"></div>
+                                            </div>
+                                            {{/repeat}}
+                                        </div>
+                                        {{else}}
+                                        <div class='notice notice--full'>
+                                            <span class='sprite-image notice--warning'></span>
+                                            <em>
+                                                기획전이 없습니다.
+                                            </em>
+                                        </div>
+                                        {{/if}}
+                                    </div>
+                                {{/if}}
+                            </div>
+                        </section>
+                    </script>
+                </event-list>
+                <!-- 기획전 목록 -->
+            </div>
+        </main>
+
+        <!-- 퀵메뉴 (최상단 이동 + 최근 본 상품) -->
+        <template shopby-partials="@partials/quick-menu.html"></template>
+        <!-- 최근 본 상품(오프캔버스) -->
+        <template shopby-partials="@partials/recent-product.html"></template>
+        <!-- 하단 레이아웃 -->
+        <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js"></template>
+
+        <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+        <template shopby-partials="@partials/modal.html"></template>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/pages/event/event-list.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/libs/naver-marketing-config.js"></script>
+    </body>
+</html>

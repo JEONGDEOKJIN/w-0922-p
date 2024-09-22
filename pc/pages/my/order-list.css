@@ -1,0 +1,22 @@
+@charset "UTF-8";
+/*  주문목록 페이지 스타일 파일입니다. */
+.order-list em {
+  font-style: normal;
+}
+.order-list__order-no {
+  font-size: 14px;
+}
+.order-list .product-option-info {
+  padding-left: 14px;
+}
+.order-list .currency {
+  font-size: 14px;
+  vertical-align: baseline;
+}
+.order-list .notice.empty-list {
+  padding: 40px 0;
+  border-bottom: 1px solid var(--gray200);
+}
+.order-list .next-action-btns {
+  padding-left: 8px;
+}

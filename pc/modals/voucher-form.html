@@ -1,0 +1,51 @@
+<form
+  class="address-form__content"
+  shopby-layer-modal-helper-key="voucher-form"
+>
+  <!-- 연락처 -->
+  <my-shipping-address-contact-information>
+    <script type="text/x-handlebars-template">
+      <fieldset class="address-form__fieldset">
+
+        <label class="address-form__field-label">
+          발급 받으신 상품권 핀번호를 입력해 주세요.
+        </label>
+        <span class="input-field input-field--md">
+          <input
+            type="text"
+            class="font-montserrat"
+            placeholder="쿠폰번호를 입력해주세요"
+            slot="voucherNumber"
+            shopby-focus-field="voucherNumber"
+            value="{{voucherNumber}}"
+            shopby-max="9"
+            maxlength="9"
+          />
+          <!-- 상품권 발행 번호 : 영어3개(대소문자)숫자6자리 -->
+        </span>
+      </fieldset>
+    </script>
+  </my-shipping-address-contact-information>
+  <!-- 연락처 -->
+
+  <my-shipping-address-form-btns>
+    <script type="text/x-handlebars-template">
+      <div class="btn-group">
+        <button type="button" class="btn btn--line-dark" shopby-action="CANCEL">
+          취소
+        </button>
+
+        <button
+          type="submit"
+          class="btn btn--fill-point"
+          shopby-action="SUBMIT"
+        >
+          등록
+        </button>
+
+      </div>
+    </script>
+  </my-shipping-address-form-btns>
+</form>
+
+<script src="/modals/voucher-form.js"></script>

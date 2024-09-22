@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="referrer" content="same-origin" />
+
+        <!-- 메타정보 -->
+        <template shopby-partials="@partials/common-meta.html" shopby-partials-js="@partials/common-meta.js"></template>
+
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="/shopby-skin-pc.css" />
+        <link rel="stylesheet" href="/custom-common.css" />
+        <link rel="stylesheet" href="/pages/my/shipping-list.css" />
+
+        <!-- 스킨 스크립트 -->
+        <script shopby-wcs-log type="text/javascript" src="https://wcs.naver.net/wcslog.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/lib/lodash_4_17_21.min.js"></script>
+        <script src="/libs/error.js"></script>
+        <script src="https://shopby-skin.cdn-nhncommerce.com/1.2.14/shopby-skin.js" crossorigin="anonymous"></script>
+        <script src="/libs/api-initialize-pc.js"></script>
+        <script src="/libs/custom-common.js"></script>
+    </head>
+
+    <body>
+        <!-- 디자인팝업 -->
+        <template shopby-partials="@partials/design-popup.html" shopby-partials-js="@partials/design-popup.js"></template>
+        <!-- 상단 레이아웃 -->
+        <template class="shopby-header" shopby-partials="@partials/common-header.html" shopby-partials-js="@partials/common-header.js"></template>
+
+        <main class="l-my-page shipping-list">
+            <section class="page-content-top">
+                <ol class="page-content-top__path page-content-top__location">
+                    <li><a href="/">HOME</a></li>
+                    &gt;
+                    <li><a href="/pages/my/my-page.html">마이페이지</a></li>
+                    &gt;
+                    <li>배송지 관리</li>
+                </ol>
+            </section>
+
+            <div class="my-page-box" shopby-helper-key="profile-shipping-address">
+                <template class="l-my-page-menu" shopby-partials="@partials/my-menu.html" shopby-menu-title="배송지 관리"></template>
+
+                <div class="right-box">
+                    <div class="right-box__container">
+                        <!-- 타이틀 영역 -->
+                        <p class="right-box__head">
+                            <span class="font-noto right-box__title">배송지 관리</span>
+                        </p>
+                        <!-- 타이틀 영역 -->
+
+                        <!-- 총 수량 및 배송지 등록 -->
+                        <my-shipping-address-total-count>
+                            <script type="text/x-handlebars-template">
+                                <section>
+                                    <div class='l-title l-title__align-end right-box__no-end-line'>
+                                        <span class='total-count total-count--md'>총&nbsp;<em class='highlight font-montserrat'>{{totalCount}}</em>건</span>
+                                        <button
+                                            type='button'
+                                            class='btn btn--fill-point btn--sm'
+                                            shopby-action='REGISTER_SHIPPING_ADDRESS'
+                                            shopby-total-count='{{totalCount}}'
+                                        >배송지 등록</button>
+                                    </div>
+                                </section>
+                            </script>
+                        </my-shipping-address-total-count>
+                        <!-- 총 수량 및 배송지 등록 -->
+
+                        <!-- 테이블 영역 -->
+                        <my-shipping-address-list default-page-size="20" page-size:query="pageSize" page-number:query="pageNumber">
+                            <script type="text/x-handlebars-template">
+                                <div>
+                                    <div class="right-box__table" slot="contents">
+                                        <table class='l-table'>
+                                            <colgroup>
+                                                <!-- 배송지 이름 -->
+                                                <col width='16%' />
+                                                <!-- 받는 사람 -->
+                                                <col width='12%' />
+                                                <!-- 주소 -->
+                                                <col />
+                                                <!-- 연락처 -->
+                                                <col width='16%' />
+                                                <!-- 관리 -->
+                                                <col width='6%' />
+                                            </colgroup>
+
+                                            <thead>
+                                                <tr>
+                                                    <th>배송지 이름</th>
+                                                    <th>받는 사람</th>
+                                                    <th>주소</th>
+                                                    <th>연락처</th>
+                                                    <th>관리</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                    {{#each contents}}
+                                                    <tr class="address"
+                                                        shopby-address-no='{{addressNo}}'
+                                                        shopby-default-yn='{{defaultYn}}'
+                                                        shopby-address-name='{{addressName}}' >
+                                                        <!-- 배송지 이름 -->
+                                                        <td>
+                                                            <span>{{safeString addressName true}}</span>
+                                                            {{#ifEq defaultYn 'Y'}}<br /><span class='badge badge--line-point address__badge'>기본배송지</span>{{/ifEq}}</span>
+                                                        </td>
+                                                        <!-- 배송지 이름 -->
+
+                                                        <!-- 받는 사람 -->
+                                                        <td>{{safeString receiverName true}}</td>
+                                                        <!-- 받는 사람 -->
+
+                                                        <!-- 주소 -->
+                                                        <td>(<span class="font-montserrat">{{receiverZipCd}}</span>) {{receiverAddress}} {{receiverDetailAddress}}</td>
+                                                        <!-- 주소 -->
+
+                                                        <!-- 연락처 -->
+                                                        <td class="font-montserrat">
+                                                            {{safeString receiverContact1 true}}
+                                                            {{#if receiverContact2}}<br />{{receiverContact2}}{{/if}}
+                                                        </td>
+                                                        <!-- 연락처 -->
+
+                                                        <!-- 관리 -->
+                                                        <td class='btn-group btn-group--block-column btn-group--sm'>
+                                                            <button class='btn btn--line-gray btn--xs' shopby-action='MODIFY_SHIPPING_ADDRESS' shopby-total-count="{{../totalCount}}">수정</button>
+                                                            <button class='btn btn--line-gray btn--xs' shopby-action='DELETE_SHIPPING_ADDRESS'>삭제</button>
+                                                        </td>
+                                                        <!-- 관리 -->
+                                                    </tr>
+                                                    {{/each}}
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div slot="totalCount">
+                                        {{#ifEq totalCount 0}}
+                                            {{#if isLoading}}
+                                            <div class="loader loader--lg loader--full">
+                                                <span class="spinner"></span>
+                                            </div>
+                                            {{else}}
+                                            <div class='notice notice-full'>
+                                                <span class='sprite-image notice--warning'>
+                                                </span>
+                                                <em>등록된 배송지가 없습니다.</em>
+                                            </div>
+                                            {{/if}}
+                                        {{/ifEq}}
+                                    </div>
+
+                                    <!-- 페이지네이션 -->
+                                    {{#if contents}}
+                                    <div class="pagination" slot="pagination">
+                                        <a href="?{{pagination.firstPage}}">
+                                            <button class="sprite-image pagination__btn pagination__btn--double-lt">
+                                            </button>
+                                        </a>
+                                        <a href="?{{pagination.prevPage}}">
+                                            <button class="sprite-image pagination__btn pagination__btn--lt">
+                                            </button>
+                                        </a>
+                                        {{#each pagination.pages}}
+                                        <a class="pagination__link {{#if isCurrentPage}}is-current{{/if}}" href="?{{param}}">{{page}}</a>
+                                        {{/each}}
+                                        <a href="?{{pagination.nextPage}}">
+                                            <button class="sprite-image pagination__btn pagination__btn--rt">
+                                            </button>
+                                        </a>
+                                        <a href="?{{pagination.lastPage}}">
+                                            <button class="sprite-image pagination__btn pagination__btn--double-rt">
+                                            </button>
+                                        </a>
+                                    </div>
+                                    {{/if}}
+                                    <!-- 페이지네이션 -->
+                                </div>
+                            </script>
+                        </my-shipping-address-list>
+                        <!-- 테이블 영역 -->
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 퀵메뉴 (최상단 이동 + 최근 본 상품) -->
+        <template shopby-partials="@partials/quick-menu.html"></template>
+        <!-- 최근 본 상품(오프캔버스) -->
+        <template shopby-partials="@partials/recent-product.html"></template>
+
+        <!-- 하단 레이아웃 -->
+        <template shopby-partials="@partials/common-footer.html" shopby-partials-js="@partials/common-footer.js"></template>
+
+        <!-- 레이어 모달  (알럿, 컴펌 사용 시 필요)-->
+        <template shopby-partials="@partials/modal.html"></template>
+
+        <!-- 배송지 등록/수정 모달 -->
+        <layer-modal-area type="title" name="shipping-address-form" src="@modals/shipping-address-form.html"></layer-modal-area>
+
+        <script src="/libs/external-service-config.js"></script>
+        <script src="/pages/my/shipping-list.js"></script>
+        <script src="/libs/intro.js"></script>
+        <script src="/libs/naver-marketing-config.js"></script>
+    </body>
+</html>

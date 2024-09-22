@@ -1,0 +1,111 @@
+<div shopby-layer-modal-helper-key="coupon-download">
+    <coupon-download-information>
+        <div class="coupon-download-wrap">
+            <div class="coupon-download-content" slot="downloadableCoupons">
+                {{#if downloadableCoupons}}
+                <div class="coupon-download__description">
+                    다운로드 가능한 총 <em class="font-montserrat">{{length downloadableCoupons}}</em>개의 쿠폰이 있습니다.
+                </div>
+
+                <div class="coupon-download__coupons">
+                    {{#each downloadableCoupons}}
+                    <div class="coupon-download__coupon">
+                        <div class="coupon-download__info-area">
+                            <div class="coupon-download__coupon-name">{{couponName}}</div>
+
+                            <div class="coupon-download__discount-information">
+                                <span><span class="coupon-download__discount-amount font-montserrat">{{amount}}</span>{{unit}} {{couponTypeLabel}} 할인</span>
+                            </div>
+
+                            <div class="coupon-download__discount-description">
+                                {{#ifGt maxAmount 0}}
+                                <span
+                                    >(<span class="coupon-download__discount-amount font-montserrat">최대 {{#convertToKoreanCurrency maxAmount}}</span
+                                    >{{/convertToKoreanCurrency}}원 할인)</span
+                                >
+                                {{/ifGt}} {{#ifGt limitSalePrice 0}}
+                                <span
+                                    >(<span class="coupon-download__discount-amount font-montserrat"
+                                        >{{#convertToKoreanCurrency limitSalePrice}}{{/convertToKoreanCurrency}}</span
+                                    >원 이상 구매 시 사용가능)</span
+                                >
+                                {{/ifGt}}
+                            </div>
+                        </div>
+                        <div class="coupon-download__btn-area">
+                            <div>
+                                <button
+                                    class="btn btn--line-dark btn--xs {{#if modifier}}disabled{{/if}}"
+                                    shopby-coupon-no="{{couponNo}}"
+                                    shopby-disabled="{{disabled}}"
+                                    shopby-action="DOWNLOAD_COUPON_BTN"
+                                >
+                                    {{#if modifier}}발급완료{{else}}쿠폰받기{{/if}}<span
+                                        class="ico ico--download-black-12"
+                                        shopby-action="DOWNLOAD_COUPON_BTN"
+                                    ></span>
+                                </button>
+                            </div>
+
+                            <div class="coupon-guide-container">
+                                <div class="coupon-download__coupon-info-btn">
+                                    <u shopby-action="TOGGLE_COUPON_GUIDE" shopby-coupon-no="{{couponNo}}">쿠폰 안내</u>
+                                    <div class="tooltip coupon-guide" shopby-element="coupon-guide-tooltip-{{couponNo}}">
+                                        <div class="tooltip__header">
+                                            <span class="tooltip__title">쿠폰 이용 안내</span>
+                                            <span class="tooltip__close-btn">
+                                                <span class="ico ico--x-black-24" shopby-coupon-no="{{couponNo}}" shopby-action="TOGGLE_COUPON_GUIDE"></span>
+                                            </span>
+                                        </div>
+
+                                        <div class="tooltip__content">
+                                            <div class="discount-price-information">
+                                                <ul class="discount-price-information__description">
+                                                    {{#with useConstraint}}
+                                                    <!-- 사용 종료일이 있는 경우 -->
+                                                    {{#if useEndYmdt}}
+                                                    <li slot="useEndYmdt">사용기간: {{useEndYmdt}}까지 사용가능</li>
+                                                    {{/if}}
+
+                                                    <!-- 발급일 기준일 경우 -->
+                                                    {{#ifGt useDays -1}}
+                                                    <li slot="useDays">
+                                                        <!-- 월말까지 -->
+                                                        {{#ifEq useDays 31}}사용기간: 말일까지 사용가능{{/ifEq}}
+
+                                                        <!-- 발급일 기준 -->
+                                                        {{#ifNe useDays 31}}사용기간: 발급일 +{{useDays}}까지 사용가능{{/ifNe}}
+                                                    </li>
+                                                    {{/ifGt}}
+                                                    <li slot="platforms">
+                                                        사용 플랫폼: {{#each usablePlatformTypes}}{{#ifNe @index 0}},&nbsp;{{/ifNe}}{{#ifEq this
+                                                        'PC'}}PC{{/ifEq}}{{#ifEq this 'MOBILE_WEB'}}모바일 웹{{/ifEq}}{{#ifEq this 'MOBILE_APP'}}모바일
+                                                        앱{{/ifEq}}{{/each}}
+                                                    </li>
+                                                    {{/with}}
+                                                </ul>
+                                                <div class="guide__sub-description">본 이벤트는 예고 없이 변경되거나, 조기 종료 될 수 있습니다.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+                {{else}}
+                <div class="notice">
+                    <span class="sprite-image notice--warning"></span>
+                    <em>등록된 쿠폰이 없습니다.</em>
+                </div>
+                {{/if}}
+            </div>
+            <div class="coupon-download__btn-wrap">
+                <button class="btn btn--line-dark btn--lg" shopby-on:click="CLOSE_TITLE_MODAL">취소</button>
+                <button class="btn btn--fill-point btn--lg" shopby-action="DOWNLOAD_COUPONS_BTN">쿠폰 한번에 받기</button>
+            </div>
+        </div>
+    </coupon-download-information>
+</div>
+<script src="/modals/coupon-download.js"></script>

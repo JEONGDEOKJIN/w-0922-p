@@ -1,0 +1,27 @@
+<shopby-instagram>
+    <script type="text/x-handlebars-template">
+        <div slot="feed">
+            {{#if feed}}
+                <div class='instagram-feed__heading'>
+                    <em>@ {{username}}</em>
+                </div>
+
+                <article class='instagram-feed__contents'>
+                    {{#each feed}}
+                    <figure class='instagram-feed__media'>
+                        <img src='{{#if thumbnail_url}}{{thumbnail_url}}{{else}}{{media_url}}{{/if}}' alt='' loading='lazy' />
+                    </figure>
+                    {{/each}}
+                </article>
+            {{/if}}
+
+            {{#unless isLoaded}}
+                <article class='instagram-feed__contents'>
+                  {{#repeat 6}}
+                    <div class='instagram-feed__media-skeleton'></div>
+                  {{/repeat}}
+                </article>
+            {{/unless}}
+        </div>
+    </script>
+</shopby-instagram>
